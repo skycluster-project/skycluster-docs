@@ -1,0 +1,25 @@
+_build/doctrees
+_build/html/.doctrees
+
+# Sphinx configuration files
+*.pickle
+*.log
+*.doctrees
+*.inv
+*.rst.txt
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# MacOS system files
+.DS_Store
+
+# Python files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Virtual environment
+venv/
+.env/
