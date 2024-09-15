@@ -1,37 +1,29 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
     branches:
-      - master
-
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout the repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Deploy to GitHub Pages
       run: |
         # Check out the gh-pages branch
-        git clone --branch=gh-pages https://github.com/${{ github.repository }} gh-pages
+        git clone --branch=gh-pages git@github.com/${{ github.repository }} gh-pages
         cd gh-pages
-
         # Clear the gh-pages branch
         rm -rf *
-
         # Copy the contents from the _build/html folder to the gh-pages branch
         cp -r ../_build/html/* .
-
         # Configure git
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-
         # Commit and push the changes
         git add .
         git commit -m "Deploy updated site content"
         git push
-
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
