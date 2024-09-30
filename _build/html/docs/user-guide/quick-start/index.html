@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; SkyCluster v1alpha1 documentation</title>
+    <title>Quick Start &#8212; SkyCluster v1alpha1 documentation</title>
   
   
   
@@ -42,12 +42,11 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/installation/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/quick-start/index';</script>
     <link rel="icon" href="../../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Provider Installation" href="providers.html" />
-    <link rel="prev" title="Getting Started" href="../index.html" />
+    <link rel="prev" title="SkyCluster Configuration" href="../installation/skycluster-configs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -302,12 +301,12 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="providers.html">Provider Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/providers.html">Provider Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/skycluster-configs.html">SkyCluster Configuration</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../quick-start/index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -350,7 +349,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting Started</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Installation</li>
+    <li class="breadcrumb-item active" aria-current="page">Quick Start</li>
   </ul>
 </nav>
 </div>
@@ -367,55 +366,85 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
+  <section id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p><strong>Install skycluster-manager</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>download<span class="w"> </span>the<span class="w"> </span>latest<span class="w"> </span>release<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>package
+<p><strong>Application Definition</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster-manager.skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyApp</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyapp1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">appConfig</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">locationConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">providerType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">edge</span><span class="w"> </span><span class="c1"># near-the-edge, cloud</span>
+<span class="w">        </span><span class="c1"># providerName: # aws, azure, gcp, ...</span>
+<span class="w">        </span><span class="c1"># region: # us-west, us-east, ...</span>
+<span class="w">      </span><span class="nt">virtualServiceConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtualServiceName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyk8scluster</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c1</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">locationConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">providerType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+<span class="w">      </span><span class="nt">virtualServiceConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtualServiceName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyk8scluster</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c2</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">locationConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">providerType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+<span class="w">      </span><span class="nt">virtualServiceConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtualServiceName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyk8scluster</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c3</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">locationConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">providerType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+<span class="w">      </span><span class="nt">virtualServiceConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtualServiceName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyk8scluster</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c4</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">locationConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">providerType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">near-the-edge</span>
+<span class="w">      </span><span class="nt">virtualServiceConstraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtualServiceName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyk8scluster</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c5</span>
+<span class="w">  </span><span class="nt">appName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyapp1</span>
 </pre></div>
 </div>
-<p><strong>Install Management Kubernetes Cluster</strong>:</p>
-<p>A management Kubernetes cluster is
-required to run the <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> and act as the point of
-contact for submitting your application. You can create a local
-management Kubernetes cluster using <code class="docutils literal notranslate"><span class="pre">kind</span></code> with the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kind<span class="w"> </span>create<span class="w"> </span>cluster
+<p><strong>Application Dataflow</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster-manager.skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataflowAttribute</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyapp1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">appName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyapp1</span>
+<span class="w">  </span><span class="nt">connections</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">destinations</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">latency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">900ms</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c3</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">latency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">900ms</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c2</span>
+<span class="w">    </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c1</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">destinations</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">latency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">909ms</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c4</span>
+<span class="w">    </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c2</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">destinations</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">latency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">900ms</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c5</span>
+<span class="w">    </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c3</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">destinations</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">latency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">900ms</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c5</span>
+<span class="w">    </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">c4</span>
 </pre></div>
 </div>
-<p><strong>Install Crossplane</strong>:</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> relies on
-<a class="reference external" href="https://github.com/crossplane/crossplane">Crossplane</a>
-for managing external cloud resources.
-Crossplane is a Kubernetes extension that allows
-Kubernetes to manage external cloud resources via standard Kubernetes
-APIs. To install Crossplane, use the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>crossplane-stable<span class="w"> </span>https://charts.crossplane.io/stable
-helm<span class="w"> </span>repo<span class="w"> </span>update
-
-helm<span class="w"> </span>install<span class="w"> </span>crossplane<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--namespace<span class="w"> </span>crossplane-system<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--create-namespace<span class="w"> </span>crossplane-stable/crossplane<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--version<span class="w"> </span><span class="m">1</span>.16.0
-</pre></div>
-</div>
-<p>Once Crossplane is installed, follow the instructions
-<a class="reference external" href="providers.html">here</a> to install all the required
-providers, or simply run the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager
-sudo<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>./config/installation/crossplane-setup.yaml
-</pre></div>
-</div>
-<p><strong>Providers Authentication Configuration</strong>:</p>
-<p>Cloud or hybrid providers require authentication to be used by the
-<code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code>. You will need to create a user with sufficient
-permissions and provide the necessary access credentials. Follow the
-instructions <a class="reference external" href="./docs/crossplane-config.md">here</a>
-to configure authentication for <code class="docutils literal notranslate"><span class="pre">AWS</span></code>, <code class="docutils literal notranslate"><span class="pre">GCP</span></code>, and <code class="docutils literal notranslate"><span class="pre">Azure</span></code>.</p>
-<p>### Setting up Regions and Locations
-To enable <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> to deploy services across different
-providers you need to setup each regions within each prvoider
-that you configured in the previouse step.</p>
 </section>
 
 
@@ -429,22 +458,13 @@ that you configured in the previouse step.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="../installation/skycluster-configs.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Getting Started</p>
+        <p class="prev-next-title">SkyCluster Configuration</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="providers.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Provider Installation</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
