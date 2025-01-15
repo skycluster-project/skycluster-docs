@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  skycluster:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-01-15T18:16:07.890488764Z"
+    description: SkyCluster Manager Helm Chart
+    digest: 2deb0f9f517c71b91e97d4cf0345221348970052411d4a4ab9513ce1c9e7bf6d
+    name: skycluster
+    type: application
+    urls:
+    - skycluster-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-01-15T18:16:07.889344925Z"
