@@ -1,0 +1,29 @@
+.toggle .header {
+  display: block;
+  cursor: pointer;
+  clear: both;
+}
+
+.toggle .header::before {
+  content: " ▶ Show";
+  font-weight: bold;
+}
+
+.toggle .header.open::before {
+  content: " ▼ Hide";
+  font-weight: bold;
+}
+
+.toggle .header p {
+  display: inline;
+}
+
+.toggle .content {
+  display: none;
+}
+
+.toggle.container {
+  border-left: 5px solid #d7bfa7;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
