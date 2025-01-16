@@ -369,11 +369,13 @@ environmental variables and run the configuration script:</p>
 <span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>abcd....xwyz<span class="w"> </span><span class="c1"># replace with your Key</span>
 </pre></div>
 </div>
-<p>Execute the script shown below. For simplicity, you can alternatively run the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager
-./config/provider-configs/aws-setup.sh
+<p>Clone the <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> github repository and navigate to the <code class="docutils literal notranslate"><span class="pre">config/providers</span></code> directory.
+Then execute the script <code class="docutils literal notranslate"><span class="pre">aws-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
+./aws-setup.sh
 </pre></div>
 </div>
+<p><strong>Alternatively</strong> you can just copy the script below and run it:</p>
 <div class="toggle docutils container">
 <div class="header docutils container">
 <p><strong>aws-setup.sh</strong></p>
@@ -430,11 +432,12 @@ Then:</p>
 <span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_ID</span><span class="o">=</span>my-gcp-project-id
 </pre></div>
 </div>
-<p>Execute the script shown below. For simplicity, you can alternatively run the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager
-./config/provider-configs/gcp-setup.sh
+<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">gcp-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
+./gcp-setup.sh
 </pre></div>
 </div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
 <div class="toggle docutils container">
 <div class="header docutils container">
 <p><strong>gcp-setup.sh</strong></p>
@@ -486,13 +489,16 @@ az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>cr
 <span class="w">  </span>--scopes<span class="w"> </span>/subscriptions/<span class="si">${</span><span class="nv">SUBS_ID</span><span class="si">}</span><span class="w"> </span>&gt;<span class="w"> </span>azure_config.json
 </pre></div>
 </div>
-<p>Download the <code class="docutils literal notranslate"><span class="pre">azure_config.json</span></code> file and export the path as an environmental variable:
-For simplicity, you can run the following command or alternatively execute the script shown below.</p>
+<p>Download the <code class="docutils literal notranslate"><span class="pre">azure_config.json</span></code> file and export the path as an environmental variable:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_CONFIG_PATH</span><span class="o">=</span>/home/ubuntu/azure_config.json
-<span class="nb">cd</span><span class="w"> </span>skycluster-manager
-./config/provider-configs/azure-setup.sh
 </pre></div>
 </div>
+<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">azure-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
+./azure-setup.sh
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
 <div class="toggle docutils container">
 <div class="header docutils container">
 <p><strong>azure-setup.sh</strong></p>
@@ -544,11 +550,12 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
 </pre></div>
 </div>
-<p>Execute the script shown below. For simplicity, you can alternatively run the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager
-./config/provider-configs/openstack-setup.sh
+<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">openstack-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
+./openstack-setup.sh
 </pre></div>
 </div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
 <div class="toggle docutils container">
 <div class="header docutils container">
 <p><strong>openstack-setup.sh</strong></p>
@@ -566,19 +573,19 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
 <span class="s">kind: ProviderConfig</span>
 <span class="s">metadata:</span>
-<span class="s">  name: provider-cfg-os</span>
+<span class="s">  name: provider-cfg-os-${REGION}</span>
 <span class="s">spec:</span>
 <span class="s">  credentials:</span>
 <span class="s">    source: Secret</span>
 <span class="s">    secretRef:</span>
-<span class="s">      name: secret-os</span>
+<span class="s">      name: secret-os-${REGION}</span>
 <span class="s">      namespace: crossplane-system</span>
 <span class="s">      key: configs</span>
 <span class="s">---</span>
 <span class="s">apiVersion: v1</span>
 <span class="s">kind: Secret</span>
 <span class="s">metadata:</span>
-<span class="s">  name: secret-os</span>
+<span class="s">  name: secret-os-${REGION}</span>
 <span class="s">  namespace: crossplane-system</span>
 <span class="s">type: Opaque</span>
 <span class="s">stringData:</span>
@@ -596,6 +603,7 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 </pre></div>
 </div>
 </div>
+<p>Repeat the steps for each additional openstack provider you want to configure.</p>
 </section>
 </section>
 

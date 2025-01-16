@@ -22,12 +22,15 @@ environmental variables and run the configuration script:
   export AWS_SECRET_ACCESS_KEY=abcd....xwyz # replace with your Key
 
 
-Execute the script shown below. For simplicity, you can alternatively run the following command:
+Clone the ``skycluster-manager`` github repository and navigate to the ``config/providers`` directory.
+Then execute the script ``aws-setup.sh``:
 
 .. code-block:: sh
 
-  cd skycluster-manager
-  ./config/provider-configs/aws-setup.sh
+  cd skycluster-manager/config/providers
+  ./aws-setup.sh
+
+**Alternatively** you can just copy the script below and run it:
 
 .. container:: toggle
 
@@ -90,13 +93,14 @@ Then:
   export GCP_SVC_ACC_PATH=/home/ubuntu/my-gcp-svc-acc.json
   export PROJECT_ID=my-gcp-project-id
 
-Execute the script shown below. For simplicity, you can alternatively run the following command:
+Then navigate to the ``providers`` folder and execute the script ``gcp-setup.sh``:
 
 .. code-block:: sh
 
-  cd skycluster-manager
-  ./config/provider-configs/gcp-setup.sh 
+  cd skycluster-manager/config/providers
+  ./gcp-setup.sh 
 
+**Alternatively**, you can run the following script:
 
 .. container:: toggle
 
@@ -155,13 +159,19 @@ to create the service principal:
     --scopes /subscriptions/${SUBS_ID} > azure_config.json
   
 Download the ``azure_config.json`` file and export the path as an environmental variable:
-For simplicity, you can run the following command or alternatively execute the script shown below.
 
 .. code-block:: sh
 
   export AZURE_CONFIG_PATH=/home/ubuntu/azure_config.json
-  cd skycluster-manager
-  ./config/provider-configs/azure-setup.sh 
+
+Then navigate to the ``providers`` folder and execute the script ``azure-setup.sh``:
+
+.. code-block:: sh
+
+  cd skycluster-manager/config/providers
+  ./azure-setup.sh 
+
+**Alternatively**, you can run the following script:
 
 .. container:: toggle
 
@@ -218,12 +228,14 @@ If you have on-premises infrastructure managed by Openstack you can follow the s
   export USER_DOMAIN_NAME="Default"
   export PROJECT_DOMAIN_NAME="Default"
 
-Execute the script shown below. For simplicity, you can alternatively run the following command:
+Then navigate to the ``providers`` folder and execute the script ``openstack-setup.sh``:
 
 .. code-block:: sh
 
-  cd skycluster-manager
-  ./config/provider-configs/openstack-setup.sh 
+  cd skycluster-manager/config/providers
+  ./openstack-setup.sh 
+
+**Alternatively**, you can run the following script:
 
 .. container:: toggle
 
@@ -246,19 +258,19 @@ Execute the script shown below. For simplicity, you can alternatively run the fo
     apiVersion: openstack.crossplane.io/v1beta1
     kind: ProviderConfig
     metadata:
-      name: provider-cfg-os
+      name: provider-cfg-os-${REGION}
     spec:
       credentials:
         source: Secret
         secretRef:
-          name: secret-os
+          name: secret-os-${REGION}
           namespace: crossplane-system
           key: configs
     ---
     apiVersion: v1
     kind: Secret
     metadata:
-      name: secret-os
+      name: secret-os-${REGION}
       namespace: crossplane-system
     type: Opaque
     stringData:
@@ -274,3 +286,4 @@ Execute the script shown below. For simplicity, you can alternatively run the fo
         }
     EOF
     
+Repeat the steps for each additional openstack provider you want to configure.

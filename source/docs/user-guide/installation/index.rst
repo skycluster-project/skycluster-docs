@@ -53,139 +53,43 @@ APIs. To install Crossplane, use the following commands:
       --create-namespace crossplane-stable/crossplane \
       --version 1.18.0
 
+You need to ensure the CrossPlane is installed and is running: ``k get pods -ncrossplane-system | grep crossplane`` before proceeding to the next step. 
+
+**Install SkyCluster**: 
 
 SkyCluster Manager supports AWS, GCP and Azure as well as on-premises infrastructure powered by OpenStack.
-You can install all the providers or only the ones you need. To install all recommended providers, first 
-ensure the CrossPlane is installed and is running: ``k get pods -ncrossplane-system | grep crossplane``, 
-then run the following commands:
+You can install all the providers or only the ones you need. Create a settings file 
+``settings.yaml`` with the following content and set ``enabled`` to ``false`` for the providers you don't want to be installed:
+
+.. code-block:: yaml
+
+  providers:
+    public:
+      aws: 
+        enabled: true
+      gcp: 
+        enabled: true
+      azure: 
+        enabled: true
+      azure-network: 
+        enabled: true
+    private:  
+      openstack: 
+        enabled: true
+
+Then run the following command to install the skycluster using ``helm``:
 
 .. code-block:: sh
 
-   cd skycluster-manager
-   sudo kubectl apply -f ./config/installation/setup-providers.yaml
+  helm repo add skycluster https://skycluster.io/charts
+  helm repo update
 
-.. container:: toggle
+  helm install skycluster skycluster/skycluster -f settings.yaml
 
-  .. container:: header
-
-   **setup-providers.yaml**
-
-  .. code-block:: yaml
-   
-   apiVersion: pkg.crossplane.io/v1
-   kind: Provider
-   metadata:
-     name: provider-aws-ec2
-   spec:
-     package: xpkg.upbound.io/upbound/provider-aws-ec2:v1.19.0
-   ---
-   apiVersion: pkg.crossplane.io/v1
-   kind: Provider
-   metadata:
-     name: provider-gcp-compute
-   spec:
-     package: xpkg.upbound.io/upbound/provider-gcp-compute:v1.11.2
-   ---
-   apiVersion: pkg.crossplane.io/v1
-   kind: Provider
-   metadata:
-     name: provider-azure-compute
-   spec:
-     package: xpkg.upbound.io/upbound/provider-azure-compute:v1.11.0
-   ---
-   apiVersion: pkg.crossplane.io/v1
-   kind: Provider
-   metadata:
-     name: provider-azure-network
-   spec:
-     package: xpkg.upbound.io/upbound/provider-azure-network:v1.11.0
-   ---
-   apiVersion: pkg.crossplane.io/v1
-   kind: Provider
-   metadata:
-     name: provider-openstack
-   spec:
-     package: xpkg.upbound.io/crossplane-contrib/provider-openstack:v0.4.0
-   ---
-
-
-Additionally, there are certain packages that are required for the SkyCluster Manager internal operations. 
-Install them by running the following command:
-
-.. code-block:: sh
-
-   cd skycluster-manager
-   sudo kubectl apply -f ./config/installation/setup-dependencies.yaml
-
-.. container:: toggle
-
-  .. container:: header
-
-   **setup-dependencies.yaml**
-
-  .. code-block:: yaml
-
-   apiVersion: pkg.crossplane.io/v1
-   kind: Provider
-   metadata:
-     name: provider-ssh
-   spec:
-     package: docker.io/etesami/provider-ssh:latest
-   ---
-   apiVersion: pkg.crossplane.io/v1beta1
-   kind: Function
-   metadata:
-     name: function-go-templating
-   spec:
-     package: xpkg.upbound.io/crossplane-contrib/function-go-templating:v0.9.0
-   ---
-   apiVersion: pkg.crossplane.io/v1beta1
-   kind: Function
-   metadata:
-     name: function-extra-resources
-   spec:
-     package: xpkg.upbound.io/crossplane-contrib/function-extra-resources:v0.0.3
-   ---
-   apiVersion: pkg.crossplane.io/v1beta1
-   kind: Function
-   metadata:
-     name: function-auto-ready
-   spec: 
-     package: xpkg.upbound.io/crossplane-contrib/function-auto-ready:v0.4.0
-   ---
-   apiVersion: pkg.crossplane.io/v1beta1
-   kind: Function
-   metadata:
-     name: function-patch-and-transform
-   spec:
-     package: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v0.8.0
-   ---
-   apiVersion: pkg.crossplane.io/v1
-   kind: Provider
-   metadata:
-     name: provider-kubernetes
-   spec:
-     package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.15.1
-     runtimeConfigRef:
-       apiVersion: pkg.crossplane.io/v1beta1
-       kind: DeploymentRuntimeConfig
-       name: provider-kubernetes
-   ---
-   apiVersion: pkg.crossplane.io/v1beta1
-   kind: DeploymentRuntimeConfig
-   metadata:
-     name: provider-kubernetes
-   spec:
-     serviceAccountTemplate:
-       metadata:
-         name: provider-kubernetes
-   ---
-
-Depending your internet connection this step may take a little while to complete. 
+This step may take few mintues to be completed depending on your internet connection.
+You need to wait for all the providers to become available and healthy before proceeding to the next step.
 Check the status of the providers by running ``kubectl get providers``. 
-Once you see the fields ``Installed=True`` and ``Status=False`` 
-you can proceed to the next step. The providers' health status can take a few minutes
-to update to ``True``.
+and wait till you see the fields ``Installed=True`` and ``HEALTHY=True`` for all the providers. 
 
 **Providers' Configuration**:
 
@@ -194,14 +98,6 @@ to enable using hyperscalers such as AWS and GCP.
 Please follow the instructions 
 in `provider configuration <providers-configs.html>`_ page to apply required 
 configurations.
-
-
-
-**Install skycluster-manager**:
-
-.. code-block:: sh
-
-   # download the latest release as a package
 
 
 **Setting up Regions and Locations**:
