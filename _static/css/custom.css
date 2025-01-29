@@ -1,0 +1,51 @@
+.toggle .header {
+  display: block;
+  cursor: pointer;
+  clear: both;
+}
+
+.toggle .header::before {
+  content: " ▶ Show";
+  font-weight: bold;
+}
+
+.toggle .header.open::before {
+  content: " ▼ Hide";
+  font-weight: bold;
+}
+
+.toggle .header p {
+  display: inline;
+}
+
+.toggle .content {
+  display: none;
+}
+
+.toggle.container {
+  border-left: 5px solid #d7bfa7;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+.bd-sidebar-primary {
+  width: 20%;
+}
+
+.highlight span.linenos {
+  border-right: 1px solid gray;
+  margin-right: 15px;
+  padding-left: 0;
+}
+
+html[data-theme="light"] .highlight .c1 {
+  color: #008323;
+}
+
+html[data-theme="dark"] .highlight .l {
+  color: #f8b3b0;
+}
+
+html[data-theme="dark"] .highlight .c1 {
+  color: #a2954b;
+}

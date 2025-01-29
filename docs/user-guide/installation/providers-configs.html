@@ -1,0 +1,811 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Providers Configuration &#8212; SkyCluster v1alpha1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=57cc2a3a" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=d0b176e6"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/installation/providers-configs';</script>
+    <link rel="icon" href="../../../_static/skycluster-favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="SkyCluster Configuration" href="skycluster-configs.html" />
+    <link rel="prev" title="Installation" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="v1alpha1" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/skycluster-favicon.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/skycluster-favicon.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">SkyCluster</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references/index.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Quick Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/etesami/skycluster" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references/index.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Quick Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/etesami/skycluster" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../quick-start/index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting Started</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Installation</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Providers Configuration</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="providers-configuration">
+<h1>Providers Configuration<a class="headerlink" href="#providers-configuration" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>Providers such as <code class="docutils literal notranslate"><span class="pre">AWS</span></code> require authentication to manage
+external resources. For each provider integrated
+into the SkyCluster Manager, a separate configuration must be created.</p>
+<section id="aws-configuration">
+<h2>AWS Configuration<a class="headerlink" href="#aws-configuration" title="Link to this heading">#</a></h2>
+<p>In the AWS Console, navigate to Identity and Access Management (IAM)
+and create a new user. Ensure the user has the following
+permission policy: <code class="docutils literal notranslate"><span class="pre">AmazonEC2FullAceess</span></code>.
+Next, in the Security Credentials section, generate an access key.
+After obtaining the <code class="docutils literal notranslate"><span class="pre">Access</span> <span class="pre">Key</span> <span class="pre">ID</span></code> and <code class="docutils literal notranslate"><span class="pre">Secret</span> <span class="pre">Access</span> <span class="pre">Key</span></code>, export them as
+environmental variables and run the configuration script:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>abcd....xwyz<span class="w"> </span><span class="c1"># replace with your ID</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>abcd....xwyz<span class="w"> </span><span class="c1"># replace with your Key</span>
+</pre></div>
+</div>
+<p>Clone the <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> github repository and navigate to the <code class="docutils literal notranslate"><span class="pre">config/providers</span></code> directory.
+Then execute the script <code class="docutils literal notranslate"><span class="pre">aws-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/aws-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong> you can just copy the script below and run it:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>aws-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># If env variables are not set, exit</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AWS_ACCESS_KEY_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY must be set.&quot;</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># Create the content of the credentials in a variable</span>
+<span class="nv">creds_content</span><span class="o">=</span><span class="s2">&quot;[default]</span>
+<span class="s2">aws_access_key_id = </span><span class="nv">$AWS_ACCESS_KEY_ID</span>
+<span class="s2">aws_secret_access_key = </span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span>
+
+<span class="c1"># Echo the content and pipe it to base64 for encoding</span>
+<span class="nv">creds_enc</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$creds_content</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: aws.upbound.io/v1beta1</span>
+<span class="s">kind: ProviderConfig</span>
+<span class="s">metadata:</span>
+<span class="s">  name: provider-cfg-aws</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="s">spec:</span>
+<span class="s">  credentials:</span>
+<span class="s">    source: Secret</span>
+<span class="s">    secretRef:</span>
+<span class="s">      name: secret-aws</span>
+<span class="s">      namespace: crossplane-system</span>
+<span class="s">      key: creds</span>
+<span class="s">---</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Secret</span>
+<span class="s">metadata:</span>
+<span class="s">  name: secret-aws</span>
+<span class="s">  namespace: crossplane-system</span>
+<span class="s">type: Opaque</span>
+<span class="s">data:</span>
+<span class="s">  creds: $creds_enc</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="gcp-configuration">
+<h2>GCP Configuration<a class="headerlink" href="#gcp-configuration" title="Link to this heading">#</a></h2>
+<p>Create a new project in Google Cloud, then add a service account.
+Generate a service account key file in JSON format and download the file.
+Then:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use absolute path to the service account key file</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GCP_SVC_ACC_PATH</span><span class="o">=</span>/home/ubuntu/my-gcp-svc-acc.json
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_ID</span><span class="o">=</span>my-gcp-project-id
+</pre></div>
+</div>
+<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">gcp-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/gcp-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>gcp-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PROJECT_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GCP_SVC_ACC_PATH and PROJECT_ID must be set.&quot;</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># if file does not exist, exit</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GCP_SVC_ACC_PATH File does not exist. Ensure the file exists and use the absolute path.&quot;</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>secret-gcp<span class="w"> </span>-n<span class="w"> </span>skycluster<span class="w"> </span>--from-file<span class="o">=</span><span class="nv">configs</span><span class="o">=</span><span class="si">${</span><span class="nv">GCP_SVC_ACC_PATH</span><span class="si">}</span>
+
+<span class="c1"># Apply the provider configuration</span>
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: gcp.upbound.io/v1beta1</span>
+<span class="s">kind: ProviderConfig</span>
+<span class="s">metadata:</span>
+<span class="s">  name: provider-cfg-gcp</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="s">spec:</span>
+<span class="s">  projectID: ${PROJECT_ID}</span>
+<span class="s">  credentials:</span>
+<span class="s">    source: Secret</span>
+<span class="s">    secretRef:</span>
+<span class="s">      namespace: skycluster</span>
+<span class="s">      name: secret-gcp</span>
+<span class="s">      key: configs</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="azure-configuration">
+<h2>Azure Configuration<a class="headerlink" href="#azure-configuration" title="Link to this heading">#</a></h2>
+<p>Create a subscription and note your Subscription ID.
+Next you will need to create a service principal and authentication file.
+The easiest way to do this is through the <code class="docutils literal notranslate"><span class="pre">CloudShell</span></code> in the Azure portal.
+Open the Azure portal and then run the following command in the CloudShell
+to create the service principal:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">SUBS_ID</span><span class="o">=</span>&lt;subsc-id&gt;
+az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>create-for-rbac<span class="w"> </span>--name<span class="w"> </span>skycluster-setup<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span>Owner<span class="w"> </span>--sdk-auth<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scopes<span class="w"> </span>/subscriptions/<span class="si">${</span><span class="nv">SUBS_ID</span><span class="si">}</span><span class="w"> </span>&gt;<span class="w"> </span>azure_config.json
+</pre></div>
+</div>
+<p>Download the <code class="docutils literal notranslate"><span class="pre">azure_config.json</span></code> file and export the path as an environmental variable:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_CONFIG_PATH</span><span class="o">=</span>/home/ubuntu/azure_config.json
+</pre></div>
+</div>
+<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">azure-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/azure-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>azure-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Azure config file not found at </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="nv">cont_enc</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: azure.upbound.io/v1beta1</span>
+<span class="s">metadata:</span>
+<span class="s">  name: provider-cfg-azure</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="s">kind: ProviderConfig</span>
+<span class="s">spec:</span>
+<span class="s">  credentials:</span>
+<span class="s">    source: Secret</span>
+<span class="s">    secretRef:</span>
+<span class="s">      namespace: crossplane-system</span>
+<span class="s">      name: secret-azure</span>
+<span class="s">      key: configs</span>
+<span class="s">---</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Secret</span>
+<span class="s">metadata:</span>
+<span class="s">  name: secret-azure</span>
+<span class="s">  namespace: skycluster</span>
+<span class="s">type: Opaque</span>
+<span class="s">data:</span>
+<span class="s">  configs: $cont_enc</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="openstack-configuration">
+<h2>Openstack Configuration<a class="headerlink" href="#openstack-configuration" title="Link to this heading">#</a></h2>
+<p>If you have on-premises infrastructure managed by Openstack you can follow the steps below:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AUTH_URL</span><span class="o">=</span><span class="s2">&quot;url&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USERNAME</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&quot;pass&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TENANT_NAME</span><span class="o">=</span><span class="s2">&quot;project-name&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;region&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USER_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+</pre></div>
+</div>
+<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">openstack-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
+./openstack-setup.sh
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>openstack-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Check if any of these variables are not set, if so exist</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$AUTH_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USERNAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PASSWORD</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$TENANT_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-z<span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USER_DOMAIN_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PROJECT_DOMAIN_NAME</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;One or more required variables are not set.&quot;</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
+<span class="s">kind: ProviderConfig</span>
+<span class="s">metadata:</span>
+<span class="s">  name: provider-cfg-os-${REGION}</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="s">spec:</span>
+<span class="s">  credentials:</span>
+<span class="s">    source: Secret</span>
+<span class="s">    secretRef:</span>
+<span class="s">      name: secret-os-${REGION}</span>
+<span class="s">      namespace: crossplane-system</span>
+<span class="s">      key: configs</span>
+<span class="s">---</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Secret</span>
+<span class="s">metadata:</span>
+<span class="s">  name: secret-os-${REGION}</span>
+<span class="s">  namespace: crossplane-system</span>
+<span class="s">type: Opaque</span>
+<span class="s">stringData:</span>
+<span class="s">  configs: |</span>
+<span class="s">    {</span>
+<span class="s">      &quot;auth_url&quot;: $AUTH_URL,</span>
+<span class="s">      &quot;user_name&quot;: $USERNAME,</span>
+<span class="s">      &quot;password&quot;: $PASSWORD,</span>
+<span class="s">      &quot;tenant_name&quot;: $TENANT_NAME,</span>
+<span class="s">      &quot;region&quot;: $REGION,</span>
+<span class="s">      &quot;user_domain_name&quot;: $USER_DOMAIN_NAME,</span>
+<span class="s">      &quot;project_domain_name&quot;: $PROJECT_DOMAIN_NAME</span>
+<span class="s">    }</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<p>Repeat the steps for each additional openstack provider you want to configure.</p>
+<section id="savi-testbed-configuration">
+<h3>SAVI Testbed Configuration<a class="headerlink" href="#savi-testbed-configuration" title="Link to this heading">#</a></h3>
+<p>We offer computing resources for academic research through the SAVI Testbed,
+a distributed computing infrastructure built on the OpenStack framework.
+To request access, please contact us. Once granted access,
+use your <code class="docutils literal notranslate"><span class="pre">USERNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">PASSWORD</span></code> and
+follow the steps below to configure the SAVI Testbed provider.
+You can choose from the following available regions: <code class="docutils literal notranslate"><span class="pre">SCINET</span></code>, <code class="docutils literal notranslate"><span class="pre">VAUGHAN</span></code>, <code class="docutils literal notranslate"><span class="pre">BAHEN</span></code>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AUTH_URL</span><span class="o">=</span><span class="s2">&quot;http://iamv3.savitestbed.ca:5000/v3&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USERNAME</span><span class="o">=</span><span class="s2">&quot;USERNAME&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&quot;PASSWORD&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TENANT_NAME</span><span class="o">=</span><span class="s2">&quot;skycluster&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;SCINET|VAUGHAN|BAHEN&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USER_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+</pre></div>
+</div>
+<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">openstack-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/openstack-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>openstack-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Check if any of these variables are not set, if so exist</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$AUTH_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USERNAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PASSWORD</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$TENANT_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-z<span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USER_DOMAIN_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PROJECT_DOMAIN_NAME</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;One or more required variables are not set.&quot;</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
+<span class="s">kind: ProviderConfig</span>
+<span class="s">metadata:</span>
+<span class="s">  name: provider-cfg-os-${REGION}</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="s">spec:</span>
+<span class="s">  credentials:</span>
+<span class="s">    source: Secret</span>
+<span class="s">    secretRef:</span>
+<span class="s">      name: secret-os-${REGION}</span>
+<span class="s">      namespace: skycluster</span>
+<span class="s">      key: configs</span>
+<span class="s">---</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Secret</span>
+<span class="s">metadata:</span>
+<span class="s">  name: secret-os-${REGION}</span>
+<span class="s">  namespace: skycluster</span>
+<span class="s">type: Opaque</span>
+<span class="s">stringData:</span>
+<span class="s">  configs: |</span>
+<span class="s">    {</span>
+<span class="s">      &quot;auth_url&quot;: $AUTH_URL,</span>
+<span class="s">      &quot;user_name&quot;: $USERNAME,</span>
+<span class="s">      &quot;password&quot;: $PASSWORD,</span>
+<span class="s">      &quot;tenant_name&quot;: $TENANT_NAME,</span>
+<span class="s">      &quot;region&quot;: $REGION,</span>
+<span class="s">      &quot;user_domain_name&quot;: $USER_DOMAIN_NAME,</span>
+<span class="s">      &quot;project_domain_name&quot;: $PROJECT_DOMAIN_NAME</span>
+<span class="s">    }</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<p>Repeat the steps for each additional regions you want to configure.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="skycluster-configs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SkyCluster Configuration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aws-configuration">AWS Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gcp-configuration">GCP Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#azure-configuration">Azure Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openstack-configuration">Openstack Configuration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#savi-testbed-configuration">SAVI Testbed Configuration</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle:not(.open) > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+  </body>
+</html>
