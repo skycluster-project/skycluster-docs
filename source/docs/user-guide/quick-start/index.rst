@@ -2,12 +2,12 @@ Quick Start
 ############
 
 .. toctree::
-  :maxdepth: 3
-  :caption: Quick Start
   :hidden:
   
 
 **Application Definition**:
+
+A couple of hello world examples.
 
 .. code-block:: yaml
 

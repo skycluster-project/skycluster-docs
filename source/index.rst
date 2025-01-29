@@ -38,6 +38,8 @@ Read the ``SkyCluster`` documentation to learn more about the project and how to
   :includehidden:
 
   docs/user-guide/index
+  docs/use-cases/index
+  docs/references/index
 
   
 .. 
