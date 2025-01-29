@@ -22,7 +22,7 @@ And then run the following command to generate the secret:
 
 .. code-block:: sh
 
-  curl -s http://localhost:8000/configs/skysecret-cfg.sh | bash
+  curl -s https://skycluster.io/configs/skysecret-cfg.sh | bash
 
 **Alternatively**, you can create a secret using a YAML file below:
 
