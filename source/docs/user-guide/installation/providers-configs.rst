@@ -31,7 +31,7 @@ Then execute the script ``aws-setup.sh``:
 
 .. code-block:: sh
 
-  curl -s http://localhost:8000/configs/aws-cfg.sh | bash
+  curl -s https://skycluster.io/configs/aws-cfg.sh | bash
 
 **Alternatively** you can just copy the script below and run it:
 
@@ -102,7 +102,7 @@ Then navigate to the ``providers`` folder and execute the script ``gcp-setup.sh`
 
 .. code-block:: sh
 
-  curl -s http://localhost:8000/configs/gcp-cfg.sh | bash
+  curl -s https://skycluster.io/configs/gcp-cfg.sh | bash
 
 **Alternatively**, you can run the following script:
 
@@ -174,7 +174,7 @@ Then navigate to the ``providers`` folder and execute the script ``azure-setup.s
 
 .. code-block:: sh
 
-  curl -s http://localhost:8000/configs/azure-cfg.sh | bash
+  curl -s https://skycluster.io/configs/azure-cfg.sh | bash
 
 **Alternatively**, you can run the following script:
 
@@ -321,7 +321,7 @@ Then navigate to the ``providers`` folder and execute the script ``openstack-set
 
 .. code-block:: sh
 
-  curl -s http://localhost:8000/configs/openstack-cfg.sh | bash
+  curl -s https://skycluster.io/configs/openstack-cfg.sh | bash
 
 **Alternatively**, you can run the following script:
 
