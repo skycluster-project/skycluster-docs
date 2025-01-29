@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=57cc2a3a" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -45,6 +46,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/installation/skycluster-configs';</script>
     <link rel="icon" href="../../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -143,6 +145,20 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references/index.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -202,6 +218,10 @@
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -231,6 +251,20 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references/index.html">
+    References
   </a>
 </li>
 
@@ -280,8 +314,12 @@
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="providers-configs.html">Providers Configuration</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">SkyCluster Configuration</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="providers-configs.html">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../quick-start/index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
@@ -352,10 +390,43 @@
                   
   <section id="skycluster-configuration">
 <h1>SkyCluster Configuration<a class="headerlink" href="#skycluster-configuration" title="Link to this heading">#</a></h1>
-<p><strong>Clone the repository:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/etesami/skycluster-manager
+<div class="toctree-wrapper compound">
+</div>
+<section id="skycluster-secret">
+<h2>SkyCluster Secret<a class="headerlink" href="#skycluster-secret" title="Link to this heading">#</a></h2>
+<p>You need to create a secret containing a public key and a private key for the skycluster
+to authenticate itself with its components.
+The secret should be created in the <code class="docutils literal notranslate"><span class="pre">skycluster</span></code> namespace.</p>
+<p>First export your public and private keys (adjust the paths to your keys):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PUBLIC_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>~/.ssh/id_rsa.pub<span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PRIVATE_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
 </pre></div>
 </div>
+<p>And then run the following command to generate the secret:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8000/configs/skysecret-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can create a secret using a YAML file below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>skysecret-example.yaml</strong></p>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">public-private-key</span>
+<span class="linenos"> 6</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="linenos"> 7</span><span class="nt">stringData</span><span class="p">:</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="no">{</span>
+<span class="linenos">10</span><span class="w">      </span><span class="no">&quot;public_key&quot;: &quot;ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1&quot;,</span>
+<span class="linenos">11</span><span class="w">      </span><span class="no">&quot;privateKey&quot;: &quot;LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K&quot;,</span>
+<span class="linenos">12</span><span class="w">    </span><span class="no">}</span>
+</pre></div>
+</div>
+</div>
+</section>
 </section>
 
 
@@ -393,6 +464,24 @@
             
             
               
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-secret">SkyCluster Secret</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
             
           </div>
           <footer class="bd-footer-content">
@@ -409,7 +498,7 @@
 
  <script type="text/javascript">
     $(document).ready(function() {
-        $(".toggle > *").hide();
+        $(".toggle:not(.open) > *").hide();
         $(".toggle .header").show();
         $(".toggle .header").click(function() {
             $(this).parent().children().not(".header").toggle(400);

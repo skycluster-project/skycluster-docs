@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=bc121a80" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=57cc2a3a" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -145,6 +145,20 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references/index.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -204,6 +218,10 @@
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -233,6 +251,20 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references/index.html">
+    References
   </a>
 </li>
 
@@ -282,8 +314,12 @@
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Providers Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../quick-start/index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
@@ -354,6 +390,8 @@
                   
   <section id="providers-configuration">
 <h1>Providers Configuration<a class="headerlink" href="#providers-configuration" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+</div>
 <p>Providers such as <code class="docutils literal notranslate"><span class="pre">AWS</span></code> require authentication to manage
 external resources. For each provider integrated
 into the SkyCluster Manager, a separate configuration must be created.</p>
@@ -371,8 +409,7 @@ environmental variables and run the configuration script:</p>
 </div>
 <p>Clone the <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> github repository and navigate to the <code class="docutils literal notranslate"><span class="pre">config/providers</span></code> directory.
 Then execute the script <code class="docutils literal notranslate"><span class="pre">aws-setup.sh</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
-./aws-setup.sh
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8000/configs/aws-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
 <p><strong>Alternatively</strong> you can just copy the script below and run it:</p>
@@ -401,6 +438,8 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <span class="s">kind: ProviderConfig</span>
 <span class="s">metadata:</span>
 <span class="s">  name: provider-cfg-aws</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
 <span class="s">spec:</span>
 <span class="s">  credentials:</span>
 <span class="s">    source: Secret</span>
@@ -433,8 +472,7 @@ Then:</p>
 </pre></div>
 </div>
 <p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">gcp-setup.sh</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
-./gcp-setup.sh
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8000/configs/gcp-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
 <p><strong>Alternatively</strong>, you can run the following script:</p>
@@ -455,7 +493,7 @@ Then:</p>
 <span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
 <span class="k">fi</span>
 
-kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>secret-gcp<span class="w"> </span>-n<span class="w"> </span>crossplane-system<span class="w"> </span>--from-file<span class="o">=</span><span class="nv">creds</span><span class="o">=</span><span class="si">${</span><span class="nv">GCP_SVC_ACC_PATH</span><span class="si">}</span>
+kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>secret-gcp<span class="w"> </span>-n<span class="w"> </span>skycluster<span class="w"> </span>--from-file<span class="o">=</span><span class="nv">configs</span><span class="o">=</span><span class="si">${</span><span class="nv">GCP_SVC_ACC_PATH</span><span class="si">}</span>
 
 <span class="c1"># Apply the provider configuration</span>
 cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
@@ -463,14 +501,16 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <span class="s">kind: ProviderConfig</span>
 <span class="s">metadata:</span>
 <span class="s">  name: provider-cfg-gcp</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
 <span class="s">spec:</span>
 <span class="s">  projectID: ${PROJECT_ID}</span>
 <span class="s">  credentials:</span>
 <span class="s">    source: Secret</span>
 <span class="s">    secretRef:</span>
-<span class="s">      namespace: crossplane-system</span>
+<span class="s">      namespace: skycluster</span>
 <span class="s">      name: secret-gcp</span>
-<span class="s">      key: creds</span>
+<span class="s">      key: configs</span>
 <span class="s">EOF</span>
 </pre></div>
 </div>
@@ -485,7 +525,7 @@ Open the Azure portal and then run the following command in the CloudShell
 to create the service principal:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">SUBS_ID</span><span class="o">=</span>&lt;subsc-id&gt;
 az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>create-for-rbac<span class="w"> </span>--name<span class="w"> </span>skycluster-setup<span class="w">  </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="w"> </span>Owner<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span>Owner<span class="w"> </span>--sdk-auth<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--scopes<span class="w"> </span>/subscriptions/<span class="si">${</span><span class="nv">SUBS_ID</span><span class="si">}</span><span class="w"> </span>&gt;<span class="w"> </span>azure_config.json
 </pre></div>
 </div>
@@ -494,8 +534,7 @@ az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>cr
 </pre></div>
 </div>
 <p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">azure-setup.sh</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
-./azure-setup.sh
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8000/configs/azure-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
 <p><strong>Alternatively</strong>, you can run the following script:</p>
@@ -510,12 +549,14 @@ az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>cr
 <span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
 <span class="k">fi</span>
 
-<span class="nv">cont_enc</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="nv">cont_enc</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
 
 cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
 <span class="s">apiVersion: azure.upbound.io/v1beta1</span>
 <span class="s">metadata:</span>
 <span class="s">  name: provider-cfg-azure</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
 <span class="s">kind: ProviderConfig</span>
 <span class="s">spec:</span>
 <span class="s">  credentials:</span>
@@ -523,16 +564,16 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <span class="s">    secretRef:</span>
 <span class="s">      namespace: crossplane-system</span>
 <span class="s">      name: secret-azure</span>
-<span class="s">      key: creds</span>
+<span class="s">      key: configs</span>
 <span class="s">---</span>
 <span class="s">apiVersion: v1</span>
 <span class="s">kind: Secret</span>
 <span class="s">metadata:</span>
 <span class="s">  name: secret-azure</span>
-<span class="s">  namespace: crossplane-system</span>
+<span class="s">  namespace: skycluster</span>
 <span class="s">type: Opaque</span>
 <span class="s">data:</span>
-<span class="s">  creds: $cont_enc</span>
+<span class="s">  configs: $cont_enc</span>
 <span class="s">EOF</span>
 </pre></div>
 </div>
@@ -574,6 +615,8 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <span class="s">kind: ProviderConfig</span>
 <span class="s">metadata:</span>
 <span class="s">  name: provider-cfg-os-${REGION}</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
 <span class="s">spec:</span>
 <span class="s">  credentials:</span>
 <span class="s">    source: Secret</span>
@@ -604,6 +647,79 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 </div>
 </div>
 <p>Repeat the steps for each additional openstack provider you want to configure.</p>
+<section id="savi-testbed-configuration">
+<h3>SAVI Testbed Configuration<a class="headerlink" href="#savi-testbed-configuration" title="Link to this heading">#</a></h3>
+<p>We offer computing resources for academic research through the SAVI Testbed,
+a distributed computing infrastructure built on the OpenStack framework.
+To request access, please contact us. Once granted access,
+use your <code class="docutils literal notranslate"><span class="pre">USERNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">PASSWORD</span></code> and
+follow the steps below to configure the SAVI Testbed provider.
+You can choose from the following available regions: <code class="docutils literal notranslate"><span class="pre">SCINET</span></code>, <code class="docutils literal notranslate"><span class="pre">VAUGHAN</span></code>, <code class="docutils literal notranslate"><span class="pre">BAHEN</span></code>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AUTH_URL</span><span class="o">=</span><span class="s2">&quot;http://iamv3.savitestbed.ca:5000/v3&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USERNAME</span><span class="o">=</span><span class="s2">&quot;USERNAME&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&quot;PASSWORD&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TENANT_NAME</span><span class="o">=</span><span class="s2">&quot;skycluster&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;SCINET|VAUGHAN|BAHEN&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USER_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+</pre></div>
+</div>
+<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">openstack-setup.sh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8000/configs/openstack-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>openstack-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Check if any of these variables are not set, if so exist</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$AUTH_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USERNAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PASSWORD</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$TENANT_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-z<span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USER_DOMAIN_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PROJECT_DOMAIN_NAME</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;One or more required variables are not set.&quot;</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
+<span class="s">kind: ProviderConfig</span>
+<span class="s">metadata:</span>
+<span class="s">  name: provider-cfg-os-${REGION}</span>
+<span class="s">  labels:</span>
+<span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="s">spec:</span>
+<span class="s">  credentials:</span>
+<span class="s">    source: Secret</span>
+<span class="s">    secretRef:</span>
+<span class="s">      name: secret-os-${REGION}</span>
+<span class="s">      namespace: skycluster</span>
+<span class="s">      key: configs</span>
+<span class="s">---</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Secret</span>
+<span class="s">metadata:</span>
+<span class="s">  name: secret-os-${REGION}</span>
+<span class="s">  namespace: skycluster</span>
+<span class="s">type: Opaque</span>
+<span class="s">stringData:</span>
+<span class="s">  configs: |</span>
+<span class="s">    {</span>
+<span class="s">      &quot;auth_url&quot;: $AUTH_URL,</span>
+<span class="s">      &quot;user_name&quot;: $USERNAME,</span>
+<span class="s">      &quot;password&quot;: $PASSWORD,</span>
+<span class="s">      &quot;tenant_name&quot;: $TENANT_NAME,</span>
+<span class="s">      &quot;region&quot;: $REGION,</span>
+<span class="s">      &quot;user_domain_name&quot;: $USER_DOMAIN_NAME,</span>
+<span class="s">      &quot;project_domain_name&quot;: $PROJECT_DOMAIN_NAME</span>
+<span class="s">    }</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<p>Repeat the steps for each additional regions you want to configure.</p>
+</section>
 </section>
 </section>
 
@@ -642,6 +758,30 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
             
             
               
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aws-configuration">AWS Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gcp-configuration">GCP Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#azure-configuration">Azure Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openstack-configuration">Openstack Configuration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#savi-testbed-configuration">SAVI Testbed Configuration</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
             
           </div>
           <footer class="bd-footer-content">
@@ -658,7 +798,7 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 
  <script type="text/javascript">
     $(document).ready(function() {
-        $(".toggle > *").hide();
+        $(".toggle:not(.open) > *").hide();
         $(".toggle .header").show();
         $(".toggle .header").click(function() {
             $(this).parent().children().not(".header").toggle(400);

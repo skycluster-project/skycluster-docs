@@ -8,6 +8,7 @@ Installation
   skycluster-configs
 
 .. _CROSSPLANE: https://crossplane.io
+.. _DOCKER_POST_INSTALL: https://docs.docker.com/engine/install/linux-postinstall
 
 **Pre-requisites**:
 
@@ -18,8 +19,10 @@ Installation
 - `kind <https://kind.sigs.k8s.io>`_
 - `CrossPlane <CROSSPLANE_>`_
 
-
 We utilize `kind <https://kind.sigs.k8s.io>`_ to create a local cluster to install and test SkyCluster Manager.
+Please ensure you can use ``kubectl`` without sudo before proceeding (refer to the 
+`docker post-installation guide <DOCKER_POST_INSTALL_>`_).
+
 
 
 **Create a Local Management Kubernetes Cluster**: 

@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=bc121a80" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=57cc2a3a" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -145,6 +145,20 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references/index.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -236,6 +250,20 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references/index.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -282,8 +310,12 @@
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="providers-configs.html">Providers Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="providers-configs.html">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../quick-start/index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
@@ -359,9 +391,11 @@
 <li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a></p></li>
 <li><p><a class="reference external" href="https://helm.sh">helm</a></p></li>
 <li><p><a class="reference external" href="https://kind.sigs.k8s.io">kind</a></p></li>
-<li><p><a class="reference external" href="https://crossplane.io/">Crossplane</a></p></li>
+<li><p><a class="reference external" href="https://crossplane.io">CrossPlane</a></p></li>
 </ul>
-<p>We utilize <a class="reference external" href="https://kind.sigs.k8s.io">kind</a> to create a local cluster to install and test SkyCluster Manager.</p>
+<p>We utilize <a class="reference external" href="https://kind.sigs.k8s.io">kind</a> to create a local cluster to install and test SkyCluster Manager.
+Please ensure you can use <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> without sudo before proceeding (refer to the
+<a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall">docker post-installation guide</a>).</p>
 <p><strong>Create a Local Management Kubernetes Cluster</strong>:</p>
 <p>A management Kubernetes cluster is
 required to run the <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> and act as the point of
@@ -372,8 +406,7 @@ management Kubernetes cluster using <code class="docutils literal notranslate"><
 </div>
 <p><strong>Install Crossplane</strong>:</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> relies on
-<a class="reference external" href="https://github.com/crossplane/crossplane">Crossplane</a>
-for managing external cloud resources.
+Crossplane for managing external cloud resources.
 Crossplane is a Kubernetes extension that allows
 Kubernetes to manage external cloud resources via standard Kubernetes
 APIs. To install Crossplane, use the following commands:</p>
@@ -480,7 +513,7 @@ that you configured in the previouse step.</p>
 
  <script type="text/javascript">
     $(document).ready(function() {
-        $(".toggle > *").hide();
+        $(".toggle:not(.open) > *").hide();
         $(".toggle .header").show();
         $(".toggle .header").click(function() {
             $(this).parent().children().not(".header").toggle(400);
