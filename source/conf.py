@@ -38,7 +38,7 @@ html_logo = '_static/imgs/skycluster-favicon.png'
 # html_theme = 'alabaster'
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
-html_extra_path = ['CNAME']
+html_extra_path = ['CNAME', 'skycluster']
 
 # Add this to include Table of Contents in each page
 html_sidebars = {

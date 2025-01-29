@@ -9,11 +9,26 @@ SkyCluster Secret
 
 You need to create a secret containing a public key and a private key for the skycluster
 to authenticate itself with its components.
-The secret should be created in the same namespace as the skycluster. 
+The secret should be created in the ``skycluster`` namespace.
 
-.. container:: toggle open
+First export your public and private keys (adjust the paths to your keys):
 
-  .. container:: header open
+.. code-block:: sh
+
+  export PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
+  export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64 -w0)
+
+And then run the following command to generate the secret:
+
+.. code-block:: sh
+
+  curl -s http://localhost:8000/configs/skysecret-cfg.sh | bash
+
+**Alternatively**, you can create a secret using a YAML file below:
+
+.. container:: toggle 
+
+  .. container:: header 
 
     **skysecret-example.yaml**
 

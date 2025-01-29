@@ -31,8 +31,7 @@ Then execute the script ``aws-setup.sh``:
 
 .. code-block:: sh
 
-  cd skycluster-manager/config/providers
-  ./aws-setup.sh
+  curl -s http://localhost:8000/configs/aws-cfg.sh | bash
 
 **Alternatively** you can just copy the script below and run it:
 
@@ -103,8 +102,7 @@ Then navigate to the ``providers`` folder and execute the script ``gcp-setup.sh`
 
 .. code-block:: sh
 
-  cd skycluster-manager/config/providers
-  ./gcp-setup.sh 
+  curl -s http://localhost:8000/configs/gcp-cfg.sh | bash
 
 **Alternatively**, you can run the following script:
 
@@ -129,7 +127,7 @@ Then navigate to the ``providers`` folder and execute the script ``gcp-setup.sh`
       exit 1
     fi
 
-    kubectl create secret generic secret-gcp -n crossplane-system --from-file=creds=${GCP_SVC_ACC_PATH}
+    kubectl create secret generic secret-gcp -n skycluster --from-file=configs=${GCP_SVC_ACC_PATH}
 
     # Apply the provider configuration
     cat <<EOF | kubectl apply -f -
@@ -144,9 +142,9 @@ Then navigate to the ``providers`` folder and execute the script ``gcp-setup.sh`
       credentials:
         source: Secret
         secretRef:
-          namespace: crossplane-system
+          namespace: skycluster
           name: secret-gcp
-          key: creds
+          key: configs
     EOF
 
 
@@ -176,8 +174,7 @@ Then navigate to the ``providers`` folder and execute the script ``azure-setup.s
 
 .. code-block:: sh
 
-  cd skycluster-manager/config/providers
-  ./azure-setup.sh 
+  curl -s http://localhost:8000/configs/azure-cfg.sh | bash
 
 **Alternatively**, you can run the following script:
 
@@ -190,14 +187,14 @@ Then navigate to the ``providers`` folder and execute the script ``azure-setup.s
   .. code-block:: sh
   
     #!/bin/bash
-    
+
     if [[ ! -f $AZURE_CONFIG_PATH ]]; then
       echo "Azure config file not found at $AZURE_CONFIG_PATH"
       exit 1
     fi
-    
+
     cont_enc=$(cat $AZURE_CONFIG_PATH | base64 -w0)
-    
+
     cat <<EOF | kubectl apply -f -
     apiVersion: azure.upbound.io/v1beta1
     metadata:
@@ -211,16 +208,16 @@ Then navigate to the ``providers`` folder and execute the script ``azure-setup.s
         secretRef:
           namespace: crossplane-system
           name: secret-azure
-          key: creds
+          key: configs
     ---
     apiVersion: v1
     kind: Secret
     metadata:
       name: secret-azure
-      namespace: crossplane-system
+      namespace: skycluster
     type: Opaque
     data:
-      creds: $cont_enc
+      configs: $cont_enc
     EOF
 
 Openstack Configuration
@@ -324,8 +321,7 @@ Then navigate to the ``providers`` folder and execute the script ``openstack-set
 
 .. code-block:: sh
 
-  cd skycluster-manager/config/providers
-  ./openstack-setup.sh 
+  curl -s http://localhost:8000/configs/openstack-cfg.sh | bash
 
 **Alternatively**, you can run the following script:
 
@@ -345,7 +341,7 @@ Then navigate to the ``providers`` folder and execute the script ``openstack-set
       echo "One or more required variables are not set."
       exit 1
     fi
-    
+
     cat <<EOF | kubectl apply -f -
     apiVersion: openstack.crossplane.io/v1beta1
     kind: ProviderConfig
@@ -358,14 +354,14 @@ Then navigate to the ``providers`` folder and execute the script ``openstack-set
         source: Secret
         secretRef:
           name: secret-os-${REGION}
-          namespace: crossplane-system
+          namespace: skycluster
           key: configs
     ---
     apiVersion: v1
     kind: Secret
     metadata:
       name: secret-os-${REGION}
-      namespace: crossplane-system
+      namespace: skycluster
     type: Opaque
     stringData:
       configs: |

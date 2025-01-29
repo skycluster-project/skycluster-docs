@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=bc121a80" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=57cc2a3a" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -144,6 +144,20 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="docs/use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="docs/references/index.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -203,6 +217,10 @@
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -234,6 +252,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="docs/user-guide/index.html">
     Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="docs/use-cases/index.html">
+    Use Cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="docs/references/index.html">
+    References
   </a>
 </li>
 
@@ -338,6 +370,28 @@ environment, specifically tailored for a given application.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="docs/use-cases/index.html">Use Cases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/use-cases/use-case-1.html">Use Case 1</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docs/references/index.html">References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/references/objects.html">Primary Objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyk8s-object">SkyK8S Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyvm-object">SkyVM Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlay-object">SkyOverlay Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlaygateway-object">SkyOverlayGateway Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlayclient-object">SkyOverlayClient Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyprovider-object">SkyProvider Object</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="docs/references/configs.html">Configurations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/configs.html#provider-configmaps">Provider ConfigMaps</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -369,6 +423,24 @@ environment, specifically tailored for a given application.</p>
             
             
               
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-skycluster">What is SkyCluster?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
             
           </div>
           <footer class="bd-footer-content">
@@ -385,7 +457,7 @@ environment, specifically tailored for a given application.</p>
 
  <script type="text/javascript">
     $(document).ready(function() {
-        $(".toggle > *").hide();
+        $(".toggle:not(.open) > *").hide();
         $(".toggle .header").show();
         $(".toggle .header").click(function() {
             $(this).parent().children().not(".header").toggle(400);
