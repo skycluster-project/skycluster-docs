@@ -2,13 +2,12 @@ Installation
 ############
 
 .. toctree::
-  :maxdepth: 3
-  :caption: Getting Started
   :hidden:
   
   providers-configs
   skycluster-configs
 
+.. _CROSSPLANE: https://crossplane.io
 
 **Pre-requisites**:
 
@@ -17,7 +16,8 @@ Installation
 - `kubectl <https://kubernetes.io/docs/tasks/tools/install-kubectl/>`_
 - `helm <https://helm.sh>`_
 - `kind <https://kind.sigs.k8s.io>`_
-- `Crossplane <https://crossplane.io/>`_
+- `CrossPlane <CROSSPLANE_>`_
+
 
 We utilize `kind <https://kind.sigs.k8s.io>`_ to create a local cluster to install and test SkyCluster Manager.
 
@@ -37,8 +37,7 @@ management Kubernetes cluster using ``kind`` with the following command:
 **Install Crossplane**: 
 
 The ``skycluster-manager`` relies on 
-`Crossplane <https://github.com/crossplane/crossplane>`_
-for managing external cloud resources.
+Crossplane for managing external cloud resources.
 Crossplane is a Kubernetes extension that allows 
 Kubernetes to manage external cloud resources via standard Kubernetes 
 APIs. To install Crossplane, use the following commands:

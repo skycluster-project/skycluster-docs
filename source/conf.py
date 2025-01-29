@@ -48,7 +48,8 @@ html_sidebars = {
 # Add title customization using html_theme_options
 html_theme_options = {
     # This will affect how the titles are rendered
-    "secondary_sidebar_items": [],
+    "secondary_sidebar_items": ["page-toc"],
+    "show_toc_level": 3,
     "show_nav_level": 4,
     "logo": {
         "text": "SkyCluster",

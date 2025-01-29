@@ -20,3 +20,4 @@ WORKDIR /skycluster
 RUN pip3 install --no-cache-dir sphinx sphinx-autobuild pydata-sphinx-theme sphinx-copybutton sphinx-reredirects
 
 RUN echo 'alias server="sphinx-autobuild source _build/html --host 0.0.0.0"' >> ~/.bashrc
+RUN echo 'alias build-all="sphinx-build source _build/html -E"' >> ~/.bashrc

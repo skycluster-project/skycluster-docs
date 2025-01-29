@@ -1,6 +1,10 @@
 Providers Configuration
 #######################
 
+.. toctree::
+  :hidden:
+
+
 Providers such as ``AWS`` require authentication to manage 
 external resources. For each provider integrated 
 into the SkyCluster Manager, a separate configuration must be created.
@@ -61,6 +65,8 @@ Then execute the script ``aws-setup.sh``:
     kind: ProviderConfig
     metadata:
       name: provider-cfg-aws
+      labels:
+        skycluster.io/managed-by: skycluster
     spec:
       credentials:
         source: Secret
@@ -131,6 +137,8 @@ Then navigate to the ``providers`` folder and execute the script ``gcp-setup.sh`
     kind: ProviderConfig
     metadata:
       name: provider-cfg-gcp
+      labels:
+        skycluster.io/managed-by: skycluster
     spec:
       projectID: ${PROJECT_ID}
       credentials:
@@ -155,7 +163,7 @@ to create the service principal:
 
   export SUBS_ID=<subsc-id>
   az ad sp create-for-rbac --name skycluster-setup  \
-    --role Owner \
+    --role Owner --sdk-auth \
     --scopes /subscriptions/${SUBS_ID} > azure_config.json
   
 Download the ``azure_config.json`` file and export the path as an environmental variable:
@@ -188,12 +196,14 @@ Then navigate to the ``providers`` folder and execute the script ``azure-setup.s
       exit 1
     fi
     
-    cont_enc=$(echo $AZURE_CONFIG_PATH | base64 -w0)
+    cont_enc=$(cat $AZURE_CONFIG_PATH | base64 -w0)
     
     cat <<EOF | kubectl apply -f -
     apiVersion: azure.upbound.io/v1beta1
     metadata:
       name: provider-cfg-azure
+      labels:
+        skycluster.io/managed-by: skycluster
     kind: ProviderConfig
     spec:
       credentials:
@@ -259,6 +269,8 @@ Then navigate to the ``providers`` folder and execute the script ``openstack-set
     kind: ProviderConfig
     metadata:
       name: provider-cfg-os-${REGION}
+      labels:
+        skycluster.io/managed-by: skycluster
     spec:
       credentials:
         source: Secret
@@ -287,3 +299,85 @@ Then navigate to the ``providers`` folder and execute the script ``openstack-set
     EOF
     
 Repeat the steps for each additional openstack provider you want to configure.
+
+SAVI Testbed Configuration
+-----------------------
+
+We offer computing resources for academic research through the SAVI Testbed, 
+a distributed computing infrastructure built on the OpenStack framework.
+To request access, please contact us. Once granted access, 
+use your ``USERNAME`` and ``PASSWORD`` and
+follow the steps below to configure the SAVI Testbed provider.
+You can choose from the following available regions: ``SCINET``, ``VAUGHAN``, ``BAHEN``.
+
+.. code-block:: sh
+
+  export AUTH_URL="http://iamv3.savitestbed.ca:5000/v3"
+  export USERNAME="USERNAME"
+  export PASSWORD="PASSWORD"
+  export TENANT_NAME="skycluster"
+  export REGION="SCINET|VAUGHAN|BAHEN"
+  export USER_DOMAIN_NAME="Default"
+  export PROJECT_DOMAIN_NAME="Default"
+
+Then navigate to the ``providers`` folder and execute the script ``openstack-setup.sh``:
+
+.. code-block:: sh
+
+  cd skycluster-manager/config/providers
+  ./openstack-setup.sh 
+
+**Alternatively**, you can run the following script:
+
+.. container:: toggle
+
+  .. container:: header
+
+    **openstack-setup.sh**
+
+  .. code-block:: sh
+
+    #!/bin/bash
+
+    # Check if any of these variables are not set, if so exist
+    if [[ -z $AUTH_URL || -z $USERNAME || -z $PASSWORD || -z $TENANT_NAME || \
+      -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME ]]; then
+      echo "One or more required variables are not set."
+      exit 1
+    fi
+    
+    cat <<EOF | kubectl apply -f -
+    apiVersion: openstack.crossplane.io/v1beta1
+    kind: ProviderConfig
+    metadata:
+      name: provider-cfg-os-${REGION}
+      labels:
+        skycluster.io/managed-by: skycluster
+    spec:
+      credentials:
+        source: Secret
+        secretRef:
+          name: secret-os-${REGION}
+          namespace: crossplane-system
+          key: configs
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: secret-os-${REGION}
+      namespace: crossplane-system
+    type: Opaque
+    stringData:
+      configs: |
+        {
+          "auth_url": $AUTH_URL,
+          "user_name": $USERNAME,
+          "password": $PASSWORD,
+          "tenant_name": $TENANT_NAME,
+          "region": $REGION,
+          "user_domain_name": $USER_DOMAIN_NAME,
+          "project_domain_name": $PROJECT_DOMAIN_NAME
+        }
+    EOF
+    
+Repeat the steps for each additional regions you want to configure.

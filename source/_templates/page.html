@@ -3,7 +3,7 @@
 {% block footer %}
  <script type="text/javascript">
     $(document).ready(function() {
-        $(".toggle > *").hide();
+        $(".toggle:not(.open) > *").hide();
         $(".toggle .header").show();
         $(".toggle .header").click(function() {
             $(this).parent().children().not(".header").toggle(400);
