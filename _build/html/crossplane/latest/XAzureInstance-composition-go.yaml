@@ -1,0 +1,220 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata: 
+  name: xazureinstance-composition
+spec:
+  compositeTypeRef: 
+    apiVersion: xrds.skycluster.io/v1alpha1
+    kind: XAzureInstance
+  writeConnectionSecretsToNamespace: skycluster-manager
+  mode: Pipeline
+  pipeline:
+    - step: pull-extra-resources
+      functionRef:
+        name: function-extra-resources
+      input:
+        apiVersion: extra-resources.fn.crossplane.io/v1beta1
+        kind: Input
+        spec:
+          extraResources:
+            - kind: XProviderSetup
+              into: XProviderSetup
+              apiVersion: xrds.skycluster.io/v1alpha1
+              type: Selector
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value 
+                    value: skycluster
+                  - key: skycluster.io/app-name
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: metadata.labels["skycluster.io/app-name"]
+                  - key: skycluster.io/environment
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: metadata.labels["skycluster.io/environment"]
+                  - key: skycluster.io/provider-name
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: metadata.labels["skycluster.io/provider-name"]
+                  - key: skycluster.io/provider-region
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: metadata.labels["skycluster.io/provider-region"]
+            - kind: ConfigMap
+              into: ConfigMaps
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 100
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/provider-name
+                    type: Value
+                    value: azure
+            - kind: Subnet
+              into: SubnetRes
+              apiVersion: network.azure.upbound.io/v1beta2
+              type: Selector # or Reference
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/environment
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: metadata.labels["skycluster.io/environment"]
+                  - key: skycluster.io/app-name
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: metadata.labels["skycluster.io/app-name"]
+                  - key: skycluster.io/provider-name
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: spec.provider.name
+                  - key: skycluster.io/provider-region
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: spec.provider.region
+                  - key: skycluster.io/provider-zone
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: spec.provider.zone
+                  - key: skycluster.io/subnet-type
+                    type: Value
+                    value: agents
+            - kind: Secret
+              into: Secret
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/type
+                    type: Value
+                    value: ssh-key
+    - step: create-an-instance
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- $ProviderName := .observed.composite.resource.spec.provider.name }}
+            {{- $ProviderRegion := .observed.composite.resource.spec.provider.region }}
+            {{- $ProviderZone := .observed.composite.resource.spec.provider.zone }}
+            {{- $Observed := .observed.composite.resource }} 
+            {{- $ObservedResources := .observed.resources }}
+            {{- $ProviderSpec := $Observed.spec.forProvider }}
+            {{- $IfId := dig "resources" "net-if" "resource" "status" "atProvider" "id" "" .observed }}
+            
+            {{- $ExtraResources := dig "apiextensions.crossplane.io/extra-resources" "" .context }}
+            {{- $ProviderSetup := index $ExtraResources.XProviderSetup 0 }}
+            {{- $SSHPublicKeyDefault := trim (b64dec (dig "data" "public_key" "" (index (index $ExtraResources "Secret") 0))) }}
+            {{- $Subnet := index (dig "SubnetRes" "" $ExtraResources) 0 }}
+            {{- $Configs := dig "ConfigMaps" "" $ExtraResources }}
+
+            {{- $CMs := dict -}}
+            {{- range $res := $Configs }}
+              {{- $region := or (dig "skycluster.io/provider-region" "" $res.metadata.labels) "global" }}
+              {{- $zone :=  or (dig "skycluster.io/provider-zone" "" $res.metadata.labels) "default" }}
+              {{- if not (hasKey $CMs $region) }}
+                {{- $r := dict -}}
+                {{- $_ := set $CMs $region $r }}
+              {{- end }}
+              {{- if not (hasKey (index $CMs $region) $zone) }}
+                {{- $_ := set (index $CMs $region) $zone $res.data }}
+              {{- end }}
+            {{- end}}
+
+            {{- $ConfigDefault := index (index $CMs $ProviderRegion) "default" }}
+            {{- $DefaultZone := dig "default-zone" "" $ConfigDefault }}
+            {{- $ProviderZone := or (dig "spec" "provider" "zone" "" $Observed) $DefaultZone }}
+            {{- $Config := index (index $CMs $ProviderRegion) $ProviderZone }}
+
+            apiVersion: network.azure.upbound.io/v1beta1
+            kind: NetworkInterface
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "net-if" }}
+              labels:
+                skycluster.io/managed-by: skycluster
+                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                skycluster.io/provider-name: {{ $ProviderName }}
+                skycluster.io/provider-region: {{ $ProviderRegion }}
+                skycluster.io/provider-zone: {{ $ProviderZone }}
+            spec:
+              forProvider:
+                location: {{ $ProviderRegion }}
+                ipConfiguration:
+                  - subnetId: {{ $Subnet.status.atProvider.id }}
+                    privateIpAddressAllocation: Dynamic
+                    name: {{ printf "%s-%s" $Observed.metadata.name "if" }}
+                resourceGroupName: {{ printf "skycluster-%s" $ProviderRegion }}
+              providerConfigRef:
+                name: provider-cfg-azure
+            ---
+            apiVersion: compute.azure.upbound.io/v1beta2
+            kind: LinuxVirtualMachine
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "instance" }}
+              labels:
+                skycluster.io/managed-by: skycluster
+                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                skycluster.io/provider-name: {{ $ProviderName }}
+                skycluster.io/provider-region: {{ $ProviderRegion }}
+                skycluster.io/provider-zone: {{ $ProviderZone }}
+            spec:
+              forProvider:
+                location: {{ $ProviderRegion }}
+                {{- if not (empty $ProviderSpec.cloudInit) }}
+                userData: {{ $ProviderSpec.cloudInit | b64enc }}
+                {{- end }}
+                sourceImageReference: 
+                  offer: {{ dig (printf "image-%s-offer" $ProviderSpec.imageName) "" $Config }}
+                  publisher: {{ dig (printf "image-%s-publisher" $ProviderSpec.imageName) "" $Config }}
+                  sku: {{ dig (printf "image-%s-sku" $ProviderSpec.imageName) "" $Config }}
+                  version: {{ dig (printf "image-%s-version" $ProviderSpec.imageName) "" $Config }}
+                size: {{ $ProviderSpec.flavorName }}
+                osDisk: 
+                  caching: None
+                  storageAccountType: Standard_LRS
+                adminUsername: ubuntu
+                {{- if not (empty $ProviderSpec.sshKey) }}
+                adminSshKey: 
+                  - publicKey: {{ $ProviderSpec.sshKey }}
+                    username: ubuntu
+                {{- else }}
+                adminSshKey: 
+                  - publicKey: {{ $SSHPublicKeyDefault }}
+                    username: ubuntu
+                {{- end }}
+                networkInterfaceIds:
+                  - {{ $IfId }}
+                resourceGroupName: {{ printf "skycluster-%s" $ProviderRegion }}
+              providerConfigRef:
+                name: provider-cfg-azure
+    - step: patch-and-transform
+      functionRef:
+        name: function-patch-and-transform
+      input:
+        apiVersion: pt.fn.crossplane.io/v1beta1
+        kind: Resources
+        resources:
+          - name: instance
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.privateIpAddress"
+                toFieldPath: "status.atProvider.network.privateIpAddress"
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready

@@ -25,9 +25,7 @@ environmental variables and run the configuration script:
   export AWS_ACCESS_KEY_ID=abcd....xwyz # replace with your ID
   export AWS_SECRET_ACCESS_KEY=abcd....xwyz # replace with your Key
 
-
-Clone the ``skycluster-manager`` github repository and navigate to the ``config/providers`` directory.
-Then execute the script ``aws-setup.sh``:
+Then execute the command below to configure the AWS provider:
 
 .. code-block:: sh
 
@@ -98,7 +96,7 @@ Then:
   export GCP_SVC_ACC_PATH=/home/ubuntu/my-gcp-svc-acc.json
   export PROJECT_ID=my-gcp-project-id
 
-Then navigate to the ``providers`` folder and execute the script ``gcp-setup.sh``:
+Then execute the command below to configure the GCP provider:
 
 .. code-block:: sh
 
@@ -170,7 +168,7 @@ Download the ``azure_config.json`` file and export the path as an environmental 
 
   export AZURE_CONFIG_PATH=/home/ubuntu/azure_config.json
 
-Then navigate to the ``providers`` folder and execute the script ``azure-setup.sh``:
+Then execute the command below to configure the Azure provider:
 
 .. code-block:: sh
 
@@ -235,12 +233,11 @@ If you have on-premises infrastructure managed by Openstack you can follow the s
   export USER_DOMAIN_NAME="Default"
   export PROJECT_DOMAIN_NAME="Default"
 
-Then navigate to the ``providers`` folder and execute the script ``openstack-setup.sh``:
+Then execute the command below to configure your Openstack provider:
 
 .. code-block:: sh
 
-  cd skycluster-manager/config/providers
-  ./openstack-setup.sh 
+  curl -s https://skycluster.io/configs/openstack-cfg.sh | bash
 
 **Alternatively**, you can run the following script:
 
@@ -298,7 +295,7 @@ Then navigate to the ``providers`` folder and execute the script ``openstack-set
 Repeat the steps for each additional openstack provider you want to configure.
 
 SAVI Testbed Configuration
------------------------
+--------------------------
 
 We offer computing resources for academic research through the SAVI Testbed, 
 a distributed computing infrastructure built on the OpenStack framework.
@@ -317,63 +314,11 @@ You can choose from the following available regions: ``SCINET``, ``VAUGHAN``, ``
   export USER_DOMAIN_NAME="Default"
   export PROJECT_DOMAIN_NAME="Default"
 
-Then navigate to the ``providers`` folder and execute the script ``openstack-setup.sh``:
+Then execute the command below to configure the provider:
 
 .. code-block:: sh
 
   curl -s https://skycluster.io/configs/openstack-cfg.sh | bash
 
-**Alternatively**, you can run the following script:
 
-.. container:: toggle
-
-  .. container:: header
-
-    **openstack-setup.sh**
-
-  .. code-block:: sh
-
-    #!/bin/bash
-
-    # Check if any of these variables are not set, if so exist
-    if [[ -z $AUTH_URL || -z $USERNAME || -z $PASSWORD || -z $TENANT_NAME || \
-      -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME ]]; then
-      echo "One or more required variables are not set."
-      exit 1
-    fi
-
-    cat <<EOF | kubectl apply -f -
-    apiVersion: openstack.crossplane.io/v1beta1
-    kind: ProviderConfig
-    metadata:
-      name: provider-cfg-os-${REGION}
-      labels:
-        skycluster.io/managed-by: skycluster
-    spec:
-      credentials:
-        source: Secret
-        secretRef:
-          name: secret-os-${REGION}
-          namespace: skycluster
-          key: configs
-    ---
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: secret-os-${REGION}
-      namespace: skycluster
-    type: Opaque
-    stringData:
-      configs: |
-        {
-          "auth_url": $AUTH_URL,
-          "user_name": $USERNAME,
-          "password": $PASSWORD,
-          "tenant_name": $TENANT_NAME,
-          "region": $REGION,
-          "user_domain_name": $USER_DOMAIN_NAME,
-          "project_domain_name": $PROJECT_DOMAIN_NAME
-        }
-    EOF
-    
 Repeat the steps for each additional regions you want to configure.

@@ -1,0 +1,63 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata: 
+  name: xskyvms.xrds.skycluster.io
+spec:
+  group: xrds.skycluster.io
+  names:
+    kind: XSkyVM
+    plural: xskyvms
+  claimNames:
+    kind: SkyVM
+    plural: skyvms
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              forProvider:
+                type: object
+                properties:
+                  flavor:
+                    type: string
+                  image:
+                    type: string
+                  userData:
+                    type: string
+                  cloudInit:
+                    type: string
+                  sshKeyPub:
+                    type: string
+              provider:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  region:
+                    type: string
+                  zone:
+                    type: string
+          status:
+            type: object
+            properties:
+              atProvider:
+                type: object
+                properties:
+                  providerConfig:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                  network:
+                    type: object
+                    properties:
+                      privateIpAddress:
+                        type: string
+                      publicIpAddress:
+                        type: string

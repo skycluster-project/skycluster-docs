@@ -86,12 +86,15 @@ Then run the following command to install the skycluster using ``helm``:
   helm repo add skycluster https://skycluster.io/charts
   helm repo update
 
-  helm install skycluster skycluster/skycluster -f settings.yaml
+  helm install skycluster skycluster/skycluster \
+    --set install=true -f settings.yaml
 
-This step may take few mintues to be completed depending on your internet connection.
-You need to wait for all the providers to become available and healthy before proceeding to the next step.
-Check the status of the providers by running ``kubectl get providers``. 
-and wait till you see the fields ``Installed=True`` and ``HEALTHY=True`` for all the providers. 
+.. warning::
+
+  This step may take few mintues to be completed depending on your internet connection.
+  You need to wait for all the providers to become available and healthy before proceeding to the next step.
+  Check the status of the providers by running ``kubectl get providers``. 
+  and wait till you see the fields ``Installed=True`` and ``HEALTHY=True`` for all the providers. 
 
 **Providers' Configuration**:
 

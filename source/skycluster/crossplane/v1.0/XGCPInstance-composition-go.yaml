@@ -1,0 +1,111 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata: 
+  name: xgcpinstance-composition
+spec:
+  compositeTypeRef: 
+    apiVersion: xrds.skycluster.io/v1alpha1
+    kind: XGCPInstance
+  writeConnectionSecretsToNamespace: skycluster-manager
+  mode: Pipeline
+  pipeline:
+    - step: pull-extra-resources
+      functionRef:
+        name: function-extra-resources
+      input:
+        apiVersion: extra-resources.fn.crossplane.io/v1beta1
+        kind: Input
+        spec:
+          extraResources:
+            - kind: Secret
+              into: Secret
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/type
+                    type: Value
+                    value: ssh-key
+    - step: create-an-instance
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- $ProviderName := .observed.composite.resource.spec.provider.name }}
+            {{- $ProviderRegion := .observed.composite.resource.spec.provider.region }}
+            {{- $ProviderZone := .observed.composite.resource.spec.provider.zone }}
+            {{- $Observed := .observed.composite.resource }} 
+            {{- $ObservedResources := .observed.resources }}
+            {{- $ProviderSpec := $Observed.spec.forProvider }}
+            {{- $ExtraResources := dig "apiextensions.crossplane.io/extra-resources" "" .context }}
+            {{- $SSHPublicKeyDefault := printf "ubuntu:%s" (trim (b64dec (dig "data" "public_key" "" (index (index $ExtraResources "Secret") 0)))) }}
+
+            apiVersion: compute.gcp.upbound.io/v1beta2
+            kind: Instance
+            metadata:
+              labels:
+                skycluster.io/managed-by: skycluster
+                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                skycluster.io/provider-name: {{ $ProviderName }}
+                skycluster.io/provider-region: {{ $ProviderRegion }}
+                skycluster.io/provider-zone: {{ $ProviderZone }}
+              annotations: 
+                {{ setResourceNameAnnotation "instance" }}
+            spec:
+              forProvider:
+                zone: {{ printf "%s-%s" $ProviderRegion $ProviderZone }}
+                machineType: {{ $ProviderSpec.flavorName }}
+                bootDisk: 
+                  initializeParams:
+                    image: {{ $ProviderSpec.imageName }}
+                networkInterface:
+                  - subnetworkSelector:
+                      matchLabels:
+                        skycluster.io/managed-by: skycluster
+                        skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                        skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                        skycluster.io/provider-name: {{ $ProviderName }}
+                        skycluster.io/provider-region: {{ $ProviderRegion }}
+                        skycluster.io/provider-zone: {{ $ProviderZone }}
+                  {{- if not (empty $ProviderSpec.publicIpAddress) }}
+                    accessConfig:
+                      - natIp: {{ $ProviderSpec.publicIpAddress }}
+                  {{- end }}
+                metadataStartupScript: "" # to be filled
+                metadata: 
+                  {{- if not (empty $ProviderSpec.sshKey) }}
+                  ssh-keys: {{ printf "ubuntu:%s" $ProviderSpec.sshKey }}
+                  {{- else }}
+                  ssh-keys: {{ $SSHPublicKeyDefault }}
+                  {{- end }}
+                  {{- if not (empty $ProviderSpec.cloudInit) }}
+                  user-data: |
+                    {{- nindent 8 $ProviderSpec.cloudInit }}
+                  {{- end }}
+              providerConfigRef:
+                name: provider-cfg-gcp
+    - step: patch-and-transform
+      functionRef:
+        name: function-patch-and-transform
+      input:
+        apiVersion: pt.fn.crossplane.io/v1beta1
+        kind: Resources
+        resources:
+          - name: instance
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.networkInterface[0].networkIp"
+                toFieldPath: "status.atProvider.network.privateIpAddress"
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready

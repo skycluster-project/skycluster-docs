@@ -1,0 +1,111 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xskyprovider-composition
+spec:
+  compositeTypeRef:
+    apiVersion: xrds.skycluster.io/v1alpha1
+    kind: XSkyProvider
+  mode: Pipeline
+  pipeline:
+    - step: setup
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- $Observed := .observed.composite.resource }} 
+            {{- $ProviderName := $Observed.spec.providerRef.providerName }}
+            {{- $ProviderRegion := $Observed.spec.providerRef.providerRegion }}
+            {{- $ProviderZone := $Observed.spec.providerRef.providerZone }}
+            {{- $ProviderSpec := $Observed.spec.forProvider }}
+            {{ $ObjectName := printf "%s" $Observed.metadata.name }} 
+
+
+            {{- if eq $ProviderName "savi" }}
+            apiVersion: xrds.skycluster.io/v1alpha1
+            kind: XSAVIProvider
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "setup" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec: 
+              forProvider:
+                ipCidrRange: {{ $ProviderSpec.ipCidrRange }}
+              providerRef:
+                providerName: savi
+                providerRegion: {{ $ProviderRegion }}
+                providerZone: default
+            {{- else if eq $ProviderName "gcp" }}
+            apiVersion: xrds.skycluster.io/v1alpha1
+            kind: XGCPProvider
+            metadata: 
+              annotations: 
+                {{ setResourceNameAnnotation "setup" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec: 
+              forProvider: 
+                ipCidrRange: {{ $ProviderSpec.ipCidrRange }}
+              providerRef: 
+                providerName: gcp
+                providerRegion: {{ $ProviderRegion }}
+                providerZone: {{ $ProviderZone }}
+            {{- else if eq $ProviderName "aws" }}
+            apiVersion: xrds.skycluster.io/v1alpha1
+            kind: XAWSProvider
+            metadata: 
+              annotations: 
+                {{ setResourceNameAnnotation "setup" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec: 
+              forProvider: 
+                ipCidrRange: {{ $ProviderSpec.ipCidrRange }}
+              providerRef:
+                providerName: aws
+                providerRegion: {{ $ProviderRegion }}
+                providerZone: {{ $ProviderZone }}
+            {{- else if eq $ProviderName "azure" }}
+            apiVersion: xrds.skycluster.io/v1alpha1
+            kind: XAzureProvider
+            metadata: 
+              annotations: 
+                {{ setResourceNameAnnotation "setup" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec: 
+              forProvider: 
+                ipCidrRange: {{ $ProviderSpec.ipCidrRange }}
+              providerRef: 
+                providerName: azure
+                providerRegion: {{ $ProviderRegion }}
+                providerZone: {{ printf "\"%s\"" $ProviderZone }}
+            {{- end }}
+    # - step: patch-and-transform
+    #   functionRef:
+    #     name: function-patch-and-transform
+    #   input:
+    #     apiVersion: pt.fn.crossplane.io/v1beta1
+    #     kind: Resources
+    #     resources:
+    #       - name: setup
+    #         patches:
+    #           - type: ToCompositeFieldPath
+    #             fromFieldPath: status.network.privateIpAddress
+    #             toFieldPath: status.network.privateIpAddress
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready

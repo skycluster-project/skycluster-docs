@@ -427,6 +427,186 @@ The secret should be created in the <code class="docutils literal notranslate"><
 </div>
 </div>
 </section>
+<section id="skycluster-post-installation-configuration">
+<h2>SkyCluster Post-installation Configuration<a class="headerlink" href="#skycluster-post-installation-configuration" title="Link to this heading">#</a></h2>
+<p>After installing SkyCluster, you need to configure the providers you want to use.
+This includes setting up OpenStack providers and setting the latencies between registered regions and zones.</p>
+<section id="skycluster-openstack-provider-configuration">
+<h3>SkyCluster OpenStack Provider Configuration<a class="headerlink" href="#skycluster-openstack-provider-configuration" title="Link to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This step is only required if you are using OpenStack and have enalbed it
+during the installation of SkyCluster.</p>
+</div>
+<p>For each OpenStack provider, you need to create a YAML file containing the
+essential mapping information for the provider. Use the YAML template below
+and provide the appropriate values for each field:</p>
+<div class="toggle open docutils container">
+<div class="header open docutils container">
+<p><strong>os-provider-setting.yaml</strong></p>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">providerMappings</span><span class="p">:</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="nt">openstack</span><span class="p">:</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="nt">regions</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="nt">subnetCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A.B.C.D/Y</span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="linenos">10</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">11</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true|false</span>
+<span class="linenos">12</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud|nte|edge</span>
+<span class="linenos">13</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
+<span class="linenos">14</span><span class="w">              </span><span class="nt">flavor-small</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">15</span><span class="w">              </span><span class="nt">flavor-medium</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">16</span><span class="w">              </span><span class="nt">flavor-large</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">17</span><span class="w">              </span><span class="nt">flavor-xlarge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">18</span><span class="w">              </span><span class="nt">flavor-x.8G</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">19</span><span class="w">              </span><span class="nt">flavor-x.16G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">20</span><span class="w">              </span><span class="nt">flavor-x.32G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">21</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
+<span class="linenos">22</span><span class="w">          </span><span class="nt">image-ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">23</span><span class="w">          </span><span class="nt">image-ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos">24</span><span class="w">          </span><span class="nt">image-ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>We use the following settings for the SAVI testbed.</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>os-provider-setting.yaml</strong></p>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">providerMappings</span><span class="p">:</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="nt">openstack</span><span class="p">:</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="nt">regions</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scient</span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scinet</span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scinet</span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="nt">subnetCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.30.10.0/24</span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="linenos">10</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Toronto</span>
+<span class="linenos">11</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">12</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+<span class="linenos">13</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
+<span class="linenos">14</span><span class="w">              </span><span class="nt">flavor-small</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;n1.small&quot;</span>
+<span class="linenos">15</span><span class="w">              </span><span class="nt">flavor-medium</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;o1.medium&quot;</span>
+<span class="linenos">16</span><span class="w">              </span><span class="nt">flavor-large</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;p1.medium&quot;</span>
+<span class="linenos">17</span><span class="w">              </span><span class="nt">flavor-xlarge</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;p3.large&quot;</span>
+<span class="linenos">18</span><span class="w">              </span><span class="nt">flavor-x.8G</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;n1.medium&quot;</span>
+<span class="linenos">19</span><span class="w">              </span><span class="nt">flavor-x.16G</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;o1.medium&quot;</span>
+<span class="linenos">20</span><span class="w">              </span><span class="nt">flavor-x.32G</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;p1.medium&quot;</span>
+<span class="linenos">21</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
+<span class="linenos">22</span><span class="w">          </span><span class="nt">image-ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-22-04-Jammy&quot;</span>
+<span class="linenos">23</span><span class="w">          </span><span class="nt">image-ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-20-04-focal&quot;</span>
+<span class="linenos">24</span><span class="w">          </span><span class="nt">image-ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-18-04-bionic&quot;</span>
+<span class="linenos">25</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vaughan</span>
+<span class="linenos">26</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vaughan</span>
+<span class="linenos">27</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vaughan</span>
+<span class="linenos">28</span><span class="w">        </span><span class="nt">subnetCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.29.10.0/24</span>
+<span class="linenos">29</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
+<span class="linenos">30</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="linenos">31</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Toronto</span>
+<span class="linenos">32</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">33</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+<span class="linenos">34</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
+<span class="linenos">35</span><span class="w">              </span><span class="nt">flavor-small</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;n1.small&quot;</span>
+<span class="linenos">36</span><span class="w">              </span><span class="nt">flavor-medium</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;o1.medium&quot;</span>
+<span class="linenos">37</span><span class="w">              </span><span class="nt">flavor-large</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;p1.medium&quot;</span>
+<span class="linenos">38</span><span class="w">              </span><span class="nt">flavor-xlarge</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;p1.medium&quot;</span>
+<span class="linenos">39</span><span class="w">              </span><span class="nt">flavor-x.8G</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;n1.medium&quot;</span>
+<span class="linenos">40</span><span class="w">              </span><span class="nt">flavor-x.16G</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;o1.medium&quot;</span>
+<span class="linenos">41</span><span class="w">              </span><span class="nt">flavor-x.32G</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;p1.medium&quot;</span>
+<span class="linenos">42</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
+<span class="linenos">43</span><span class="w">          </span><span class="nt">image-ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-22-04-Jammy&quot;</span>
+<span class="linenos">44</span><span class="w">          </span><span class="nt">image-ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-20-04-focal&quot;</span>
+<span class="linenos">45</span><span class="w">          </span><span class="nt">image-ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-18-04-bionic&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>After creating the YAML file above, run the following command to configure the OpenStack provider:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>install<span class="w"> </span>skycluster<span class="w"> </span>skycluster/skycluster<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="nv">postInstall</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>-f<span class="w"> </span>os-provider-setting.yaml
+</pre></div>
+</div>
+</section>
+<section id="latency-configuration">
+<h3>Latency Configuration<a class="headerlink" href="#latency-configuration" title="Link to this heading">#</a></h3>
+<p>Currently, SkyCluster automatically configures the latencies between regions and zones.
+The calculated latencies depends on the type and location of the provider.
+Table below summarizes how the latencies is calculated between different regions and zones based on our experiments and measurements from AWS. We will introduce automatic latency measurement in future releases.</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>Latency Calculations</strong></p>
+</div>
+<p>Same Continents:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Source</p></th>
+<th class="head"><p>Destination</p></th>
+<th class="head"><p>Latency</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cloud</p></td>
+<td><p>Cloud</p></td>
+<td><p>100ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cloud</p></td>
+<td><p>NTE</p></td>
+<td><p>25ms</p></td>
+</tr>
+<tr class="row-even"><td><p>NTE</p></td>
+<td><p>Edge</p></td>
+<td><p>15ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>Edge</p></td>
+<td><p>Edge</p></td>
+<td><p>6ms</p></td>
+</tr>
+<tr class="row-even"><td><p>NTE</p></td>
+<td><p>NTE</p></td>
+<td><p>10ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>NTE</p></td>
+<td><p>Edge</p></td>
+<td><p>8ms</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Different Continents, traffic between different continents is routed through the Cloud region.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Source</p></th>
+<th class="head"><p>Destination</p></th>
+<th class="head"><p>Latency</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cloud</p></td>
+<td><p>Cloud</p></td>
+<td><p>200ms</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="crossplane-configuration">
+<h3>Crossplane Configuration<a class="headerlink" href="#crossplane-configuration" title="Link to this heading">#</a></h3>
+<p>SkyCluster utilizes Crossplane to manage the cloud resources.
+We create a series of composition and XRDs and use them to build our
+abstraction system on top of them. To install all required compositions
+and XRDs, run the following command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>http://skycluster.io:8000/crossplane/lists.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>url<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
 
@@ -477,6 +657,12 @@ The secret should be created in the <code class="docutils literal notranslate"><
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-secret">SkyCluster Secret</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-post-installation-configuration">SkyCluster Post-installation Configuration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-openstack-provider-configuration">SkyCluster OpenStack Provider Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latency-configuration">Latency Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#crossplane-configuration">Crossplane Configuration</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
