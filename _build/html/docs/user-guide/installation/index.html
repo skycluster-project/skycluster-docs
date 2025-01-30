@@ -443,13 +443,17 @@ You can install all the providers or only the ones you need. Create a settings f
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>skycluster<span class="w"> </span>https://skycluster.io/charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
-helm<span class="w"> </span>install<span class="w"> </span>skycluster<span class="w"> </span>skycluster/skycluster<span class="w"> </span>-f<span class="w"> </span>settings.yaml
+helm<span class="w"> </span>install<span class="w"> </span>skycluster<span class="w"> </span>skycluster/skycluster<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="nv">install</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>-f<span class="w"> </span>settings.yaml
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p>This step may take few mintues to be completed depending on your internet connection.
 You need to wait for all the providers to become available and healthy before proceeding to the next step.
 Check the status of the providers by running <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">providers</span></code>.
 and wait till you see the fields <code class="docutils literal notranslate"><span class="pre">Installed=True</span></code> and <code class="docutils literal notranslate"><span class="pre">HEALTHY=True</span></code> for all the providers.</p>
+</div>
 <p><strong>Providers’ Configuration</strong>:</p>
 <p>Once all providers are installed, you need to provide form of authentication
 to enable using hyperscalers such as AWS and GCP.

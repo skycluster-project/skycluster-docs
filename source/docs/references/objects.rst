@@ -154,7 +154,7 @@ receive a provider reference so that it will be placed in the specified location
 
 
 SkyOverlay Object
-===============
+=================
 
 ``SkyOverlay`` is an overlay vpn solution that enables point to point 
 communication and routing between virtual services across multiple providers.
@@ -183,7 +183,7 @@ communication and routing between virtual services across multiple providers.
         - name: eu-central1-cloud-95843
 
 SkyOverlayGateway Object
-===============
+=========================
 
 .. container:: toggle open
 
@@ -210,7 +210,7 @@ SkyOverlayGateway Object
         - name: eu-central1-cloud-95843
 
 SkyOverlayClient Object
-===============
+=======================
 
 .. container:: toggle open
 
@@ -238,7 +238,7 @@ SkyOverlayClient Object
 
 
 SkyProvider Object
-===============
+==================
 
 ``SkyProvider`` is an object that represents a cloud provider.
 By creating a SkyProvider object, the minimum setup and configuration
