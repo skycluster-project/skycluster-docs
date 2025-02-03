@@ -40,11 +40,14 @@ And then run the following command to generate the secret:
     metadata:
       namespace: skycluster
       name: public-private-key
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/secret-type: keypair
     type: Opaque
     stringData:
       config: |
         {
-          "public_key": "ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1",
+          "publicKey": "ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1",
           "privateKey": "LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K",
         }
 

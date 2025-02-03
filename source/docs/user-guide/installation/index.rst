@@ -6,6 +6,7 @@ Installation
   
   providers-configs
   skycluster-configs
+  overlay-server-config
 
 .. _CROSSPLANE: https://crossplane.io
 .. _DOCKER_POST_INSTALL: https://docs.docker.com/engine/install/linux-postinstall

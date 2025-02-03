@@ -51,7 +51,7 @@
     <link rel="icon" href="../../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Quick Start" href="../quick-start/index.html" />
+    <link rel="next" title="Overlay Server Configuration" href="overlay-server-config.html" />
     <link rel="prev" title="Providers Configuration" href="providers-configs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -320,6 +320,9 @@
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="overlay-server-config.html">Overlay Server Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../quick-start/index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
@@ -416,13 +419,16 @@ The secret should be created in the <code class="docutils literal notranslate"><
 <span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
 <span class="linenos"> 4</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
 <span class="linenos"> 5</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">public-private-key</span>
-<span class="linenos"> 6</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-<span class="linenos"> 7</span><span class="nt">stringData</span><span class="p">:</span>
-<span class="linenos"> 8</span><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="linenos"> 9</span><span class="w">    </span><span class="no">{</span>
-<span class="linenos">10</span><span class="w">      </span><span class="no">&quot;public_key&quot;: &quot;ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1&quot;,</span>
-<span class="linenos">11</span><span class="w">      </span><span class="no">&quot;privateKey&quot;: &quot;LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K&quot;,</span>
-<span class="linenos">12</span><span class="w">    </span><span class="no">}</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="nt">skycluster.io/secret-type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">keypair</span>
+<span class="linenos"> 9</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="linenos">10</span><span class="nt">stringData</span><span class="p">:</span>
+<span class="linenos">11</span><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="linenos">12</span><span class="w">    </span><span class="no">{</span>
+<span class="linenos">13</span><span class="w">      </span><span class="no">&quot;publicKey&quot;: &quot;ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1&quot;,</span>
+<span class="linenos">14</span><span class="w">      </span><span class="no">&quot;privateKey&quot;: &quot;LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K&quot;,</span>
+<span class="linenos">15</span><span class="w">    </span><span class="no">}</span>
 </pre></div>
 </div>
 </div>
@@ -629,11 +635,11 @@ and XRDs, run the following command:</p>
       </div>
     </a>
     <a class="right-next"
-       href="../quick-start/index.html"
+       href="overlay-server-config.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Quick Start</p>
+        <p class="prev-next-title">Overlay Server Configuration</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -27,26 +27,12 @@ spec:
                   - key: skycluster.io/managed-by
                     type: Value 
                     value: skycluster
-            # - kind: ConfigMap
-            #   into: ScriptConfigMap
-            #   apiVersion: v1
-            #   type: Selector # or Reference
-            #   selector:
-            #     maxMatch: 1
-            #     minMatch: 1
-            #     matchLabels:
-            #       - key: skycluster.io/managed-by
-            #         type: Value # it could be FromCompositeFieldPath
-            #         value: skycluster
-            #       - key: skycluster.io/script-type
-            #         type: Value
-            #         value: cloud-init
             - kind: ConfigMap
-              into: ConfigMaps
+              into: ConfigMapRegion
               apiVersion: v1
               type: Selector # or Reference
               selector:
-                maxMatch: 100
+                maxMatch: 1
                 minMatch: 1
                 matchLabels:
                   - key: skycluster.io/managed-by
@@ -55,20 +41,32 @@ spec:
                   - key: skycluster.io/provider-name
                     type: Value
                     value: aws
-            # - kind: Secret
-            #   into: Secret
-            #   apiVersion: v1
-            #   type: Selector # or Reference
-            #   selector:
-            #     maxMatch: 1
-            #     minMatch: 1
-            #     matchLabels:
-            #       - key: skycluster.io/managed-by
-            #         type: Value # it could be FromCompositeFieldPath
-            #         value: skycluster
-            #       - key: skycluster.io/type
-            #         type: Value
-            #         value: ssh-key
+                  - key: skycluster.io/provider-region
+                    type: FromCompositeFieldPath
+                    value: spec.providerRef.providerRegion
+                  - key: skycluster.io/provider-zone
+                    type: FromCompositeFieldPath
+                    value: spec.providerRef.providerZone
+            - kind: ConfigMap
+              into: ConfigMapZone
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/provider-name
+                    type: Value
+                    value: aws
+                  - key: skycluster.io/provider-region
+                    type: FromCompositeFieldPath
+                    value: spec.providerRef.providerRegion
+                  - key: skycluster.io/provider-region
+                    type: Value
+                    value: default
     - step: setup
       functionRef:
         name: function-go-templating
@@ -84,36 +82,12 @@ spec:
             {{- $ProviderZone := $Observed.spec.providerRef.providerZone }}
             {{- $ProviderSpec := $Observed.spec.forProvider }}
             {{- $ObjectName := printf "%s" $Observed.metadata.name }} 
-            {{- $KeypairId := dig "resources" "keypair" "resource" "status" "atProvider" "id" "" .observed }}
-            {{- $NetworkInterfaceId := dig "resources" "instance" "resource" "status" "atProvider" "primaryNetworkInterfaceId" "" .observed }}
-            {{- $SubnetCidr := dig "resources" "subnet-private" "resource" "status" "atProvider" "cidrBlock" "" .observed }}
             
             {{- $ExtraResources := dig "apiextensions.crossplane.io/extra-resources" "" .context }}
             {{- $ProviderConfig := index (dig "ProviderConfig" "" $ExtraResources) 0 }}
-            {{- $Configs := dig "ConfigMaps" "" $ExtraResources }}
-
-            {{- $CMs := dict -}}
-            {{- range $res := $Configs }}
-              {{- $region := or (dig "skycluster.io/provider-region" "" $res.metadata.labels) "global" }}
-              {{- $zone :=  or (dig "skycluster.io/provider-zone" "" $res.metadata.labels) "default" }}
-              {{- if not (hasKey $CMs $region) }}
-                {{- $r := dict -}}
-                {{- $_ := set $CMs $region $r }}
-              {{- end }}
-              {{- if not (hasKey (index $CMs $region) $zone) }}
-                {{- $_ := set (index $CMs $region) $zone $res.data }}
-              {{- end }}
-            {{- end}}
-
-            {{- $ConfigDefault := index (index $CMs $ProviderRegion) "default" }}
-            {{- $DefaultZone := dig "default-zone" "" $ConfigDefault }}
-            {{- $ProviderZoneFromCompositeResource := dig "spec" "providerRef" "providerZone" "" $Observed }}
-            {{- if eq $ProviderZoneFromCompositeResource "default" }}
-              {{- $ProviderZoneFromCompositeResource = "" }}
-            {{- end }}
-            {{- $ProviderZone := or ($ProviderZoneFromCompositeResource) $DefaultZone }}
-            {{- $Config := index (index $CMs $ProviderRegion) $ProviderZone }}
-
+            {{- $ConfigRegion := index (dig "ConfigMapRegion" "" $ExtraResources) 0 }}
+            {{- $ConfigZone := index (dig "ConfigMapZone" "" $ExtraResources) 0 }}
+            
             apiVersion: ec2.aws.upbound.io/v1beta1
             kind: VPC
             metadata:

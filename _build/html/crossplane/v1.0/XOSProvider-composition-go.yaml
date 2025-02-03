@@ -30,6 +30,20 @@ spec:
             #       - key: skycluster.io/script-type
             #         type: Value
             #         value: cloud-init
+            - kind: ProviderConfig
+              into: ProviderConfig
+              apiVersion: openstack.crossplane.io/v1beta1
+              type: Selector
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value 
+                    value: skycluster
+                  - key: skycluster.io/provider-region
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: spec.provider.region
             - kind: ConfigMap
               into: ConfigMaps
               apiVersion: v1
@@ -86,7 +100,10 @@ spec:
             {{- $InstanceIp := dig "resources" "instance" "resource" "status" "atProvider" "accessIpV4" "" .observed }}
 
             {{- $ExtraResources := dig "apiextensions.crossplane.io/extra-resources" "" .context }}
+            {{- $ProviderConfig := index (dig "ProviderConfig" "" $ExtraResources) 0 }}
             {{- $Configs := dig "ConfigMaps" "" $ExtraResources }}
+
+            {{- $managedPolicy := dig "skycluster.io/management-policy" "" $Observed.metadata.annotations }}
 
             {{- $CMs := dict -}}
             {{- range $res := $Configs }}
@@ -106,29 +123,46 @@ spec:
             {{- $ProviderZone := or (dig "spec" "provider" "zone" "" $Observed) $DefaultZone }}
             {{- $Config := index (index $CMs $ProviderRegion) $ProviderZone }}
 
+            apiVersion: identity.openstack.crossplane.io/v1alpha1 
+            kind: ProjectV3
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "project" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider: 
+                description: "SkyCluster Setup"
+                domainId: "default"
+                name: {{ $ObjectName }}
+                region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
             apiVersion: networking.openstack.crossplane.io/v1alpha1 
             kind: NetworkV2
             metadata:
               annotations: 
                 {{ setResourceNameAnnotation "networkv2" }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
             spec:
               forProvider: 
                 name: {{ $ObjectName }}
                 region: {{ upper $ProviderRegion }}
                 external: false
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else if eq $ProviderRegion "vaughan" }}
-                name: provider-cfg-os-vaughan
-                {{- end }}
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: networking.openstack.crossplane.io/v1alpha1 
             kind: SubnetV2
@@ -140,12 +174,9 @@ spec:
                 crossplane.io/paused: "false"
                 {{- end }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
                 skycluster.io/public-subnet: "false"
             spec:
               forProvider: 
@@ -156,18 +187,14 @@ spec:
                 dnsNameservers: [8.8.8.8]
                 networkIdSelector:
                   matchLabels:
-                    skycluster.io/managed-by: skycluster
-                    skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                    skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                    skycluster.io/provider-name: {{ $ProviderName }}
-                    skycluster.io/provider-region: {{ $ProviderRegion }}
-                    skycluster.io/provider-zone: {{ $ProviderZone }}
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else if eq $ProviderRegion "vaughan" }}
-                name: provider-cfg-os-vaughan
-                {{- end }}
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: compute.openstack.crossplane.io/v1alpha1 
             kind: SecgroupV2
@@ -175,12 +202,9 @@ spec:
               annotations: 
                 {{ setResourceNameAnnotation "secgrp" }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
             spec:
               forProvider: 
                 name: {{ $ObjectName }}
@@ -203,23 +227,19 @@ spec:
                   ipProtocol: icmp
                   fromPort: -1
                   toPort: -1
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else }}
-                name: provider-cfg-os-vaughan
-                {{- end }}  
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: networking.openstack.crossplane.io/v1alpha1 
             kind: RouterV2
             metadata:
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
               annotations:
                 {{ setResourceNameAnnotation "routerv2" }}
                 {{- if eq $ProviderRegion "scinet" }}
@@ -230,13 +250,11 @@ spec:
             spec:
               forProvider: 
                 name: {{ $ObjectName }}
+              {{- if eq $managedPolicy "observed" }}
               managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else }}
-                name: provider-cfg-os-vaughan
-                {{- end }} 
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: networking.openstack.crossplane.io/v1alpha1
             kind: RouterInterfaceV2
@@ -248,36 +266,26 @@ spec:
                 crossplane.io/paused: "false"
                 {{- end }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
             spec: 
               forProvider:
                 routerIdSelector: 
                   matchLabels:
-                    skycluster.io/managed-by: skycluster
-                    skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                    skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                    skycluster.io/provider-name: {{ $ProviderName }}
-                    skycluster.io/provider-region: {{ $ProviderRegion }}
-                    skycluster.io/provider-zone: {{ $ProviderZone }}
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
                 subnetIdSelector: 
                   matchLabels:
-                    skycluster.io/managed-by: skycluster
-                    skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                    skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                    skycluster.io/provider-name: {{ $ProviderName }}
-                    skycluster.io/provider-region: {{ $ProviderRegion }}
-                    skycluster.io/provider-zone: {{ $ProviderZone }}
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else }}
-                name: provider-cfg-os-vaughan
-                {{- end }} 
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: compute.openstack.crossplane.io/v1alpha1 
             kind: KeypairV2
@@ -285,23 +293,19 @@ spec:
               annotations: 
                 gotemplating.fn.crossplane.io/composition-resource-name: {{ printf "%s-%s" $ObjectName "keypair" }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
             spec:
               forProvider: 
                 name: {{ $ObjectName }}
                 publicKey: {{ $ProviderSpec.publicKey }}
                 region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else }}
-                name: provider-cfg-os-vaughan
-                {{- end }}
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: networking.openstack.crossplane.io/v1alpha1 
             kind: PortV2
@@ -313,23 +317,19 @@ spec:
                 crossplane.io/paused: "false"
                 {{- end }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
             spec:
               forProvider:
                 networkId: {{ $NetworkId }}
                 portSecurityEnabled: false
                 region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else }}
-                name: provider-cfg-os-vaughan
-                {{- end }}
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: compute.openstack.crossplane.io/v1alpha1 
             kind: InstanceV2
@@ -342,12 +342,9 @@ spec:
                 crossplane.io/paused: "false"
                 {{- end }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
             spec:
               forProvider:
                 name: {{ $ObjectName }}
@@ -355,22 +352,16 @@ spec:
                 imageName: {{ dig (printf "image-%s" $ProviderSpec.gateway.image) "Ubuntu-22-04-Jammy" $Config  }}
                 keyPairSelector:
                   matchLabels:
-                    skycluster.io/managed-by: skycluster
-                    skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                    skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                    skycluster.io/provider-name: {{ $ProviderName }}
-                    skycluster.io/provider-region: {{ $ProviderRegion }}
-                    skycluster.io/provider-zone: {{ $ProviderZone }}
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
                 network:
                 - port: {{ $PortId }}
                 securityGroupsSelector:
                   matchLabels: 
-                    skycluster.io/managed-by: skycluster
-                    skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                    skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                    skycluster.io/provider-name: {{ $ProviderName }}
-                    skycluster.io/provider-region: {{ $ProviderRegion }}
-                    skycluster.io/provider-zone: {{ $ProviderZone }}
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
                 userData: |
                   {{- $SCRIPT := dig "data" "cloud-init" "" $ScriptCloudinit -}}
                   {{- $SCRIPT := $SCRIPT | replace "__OVERLAY_HOSTURL__" $ProviderSpec.vpnServer.host -}}
@@ -380,8 +371,11 @@ spec:
                   {{- $SCRIPT := $SCRIPT | replace "__SUBNETCIDR__" $ProviderSpec.ipCidrRange }}
                   {{- $SCRIPT := $SCRIPT | replace "__INTF_NAME__" "ens3" }}
                   {{- nindent 6 $SCRIPT }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                name: {{- if eq $ProviderRegion "scinet" }} "provider-cfg-os-scinet" {{- else }} "provider-cfg-os-vaughan" {{- end }}
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: networking.openstack.crossplane.io/v1alpha1 
             kind: FloatingipV2
@@ -389,22 +383,18 @@ spec:
               annotations: 
                 {{ setResourceNameAnnotation "public-ip" }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
             spec:
               forProvider:
                 pool: "ext-net"
                 region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else }}
-                name: provider-cfg-os-vaughan
-                {{- end }}
+                name: {{ $ProviderConfig.metadata.name }}
             ---
             apiVersion: networking.openstack.crossplane.io/v1alpha1 
             kind: FloatingipAssociateV2
@@ -416,24 +406,20 @@ spec:
                 crossplane.io/paused: "false"
                 {{- end }}
               labels:
-                skycluster.io/managed-by: skycluster
-                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
-                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
-                skycluster.io/provider-name: {{ $ProviderName }}
-                skycluster.io/provider-region: {{ $ProviderRegion }}
-                skycluster.io/provider-zone: {{ $ProviderZone }}
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
             spec:
               forProvider:
                 fixedIp: {{ $InstanceIp }}
                 floatingIp: {{ $FloatingIp }}
                 portId: {{ $PortId }}
                 region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
               providerConfigRef:
-                {{- if eq $ProviderRegion "scinet" }}
-                name: provider-cfg-os-scinet
-                {{- else }}
-                name: provider-cfg-os-vaughan
-                {{- end }}
+                name: {{ $ProviderConfig.metadata.name }}
     - step: patch-and-transform
       functionRef:
         name: function-patch-and-transform
