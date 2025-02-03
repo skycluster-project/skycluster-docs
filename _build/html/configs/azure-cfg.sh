@@ -18,7 +18,7 @@ spec:
   credentials:
     source: Secret
     secretRef:
-      namespace: crossplane-system
+      namespace: skycluster
       name: secret-azure
       key: configs
 ---
