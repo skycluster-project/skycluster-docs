@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; SkyCluster v1alpha1 documentation</title>
+    <title>Overlay Server Configuration &#8212; SkyCluster v1alpha1 documentation</title>
   
   
   
@@ -47,12 +47,12 @@
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/installation/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/installation/overlay-server-config';</script>
     <link rel="icon" href="../../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Providers Configuration" href="providers-configs.html" />
-    <link rel="prev" title="Getting Started" href="../index.html" />
+    <link rel="next" title="Quick Start" href="../quick-start/index.html" />
+    <link rel="prev" title="SkyCluster Configuration" href="skycluster-configs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="v1alpha1" />
@@ -309,14 +309,14 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="providers-configs.html">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="overlay-server-config.html">Overlay Server Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Overlay Server Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -367,7 +367,10 @@
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting Started</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Installation</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Installation</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Overlay Server Configuration</span></li>
   </ul>
 </nav>
 </div>
@@ -384,89 +387,64 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
+  <section id="overlay-server-configuration">
+<h1>Overlay Server Configuration<a class="headerlink" href="#overlay-server-configuration" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p><strong>Pre-requisites</strong>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">SkyCluster</span> <span class="pre">Manager</span></code> depends on the following tools:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a></p></li>
-<li><p><a class="reference external" href="https://helm.sh">helm</a></p></li>
-<li><p><a class="reference external" href="https://kind.sigs.k8s.io">kind</a></p></li>
-<li><p><a class="reference external" href="https://crossplane.io">CrossPlane</a></p></li>
-</ul>
-<p>We utilize <a class="reference external" href="https://kind.sigs.k8s.io">kind</a> to create a local cluster to install and test SkyCluster Manager.
-Please ensure you can use <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> without sudo before proceeding (refer to the
-<a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall">docker post-installation guide</a>).</p>
-<p><strong>Create a Local Management Kubernetes Cluster</strong>:</p>
-<p>A management Kubernetes cluster is
-required to run the <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> and act as the point of
-contact for submitting your application. You can create a local
-management Kubernetes cluster using <code class="docutils literal notranslate"><span class="pre">kind</span></code> with the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kind<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>skycluster
-</pre></div>
-</div>
-<p><strong>Install Crossplane</strong>:</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> relies on
-Crossplane for managing external cloud resources.
-Crossplane is a Kubernetes extension that allows
-Kubernetes to manage external cloud resources via standard Kubernetes
-APIs. To install Crossplane, use the following commands:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>crossplane-stable<span class="w"> </span>https://charts.crossplane.io/stable
-helm<span class="w"> </span>repo<span class="w"> </span>update
+<p>In order to enable communication between services and resources
+across different providers, we utilize an overlay solution powered
+by <a class="reference external" href="https://tailscale.com">Tailscale</a>. In order to enable overlay functionality, you need to
+setup a control server. Since tailscale controller is a prioprietary
+service, we use <a class="reference external" href="https://github.com/juanfont/headscale">Headscale</a>, as an open source, self-hosted implementation of the
+tailscale control server. Please follow the instructions below to setup
+your headscale server and configure your skycluster to use it.</p>
+<p>You can create a <code class="docutils literal notranslate"><span class="pre">SkyVM</span></code> instance within your desired provider and install
+headscale on it. Below is an example of YAML file you would need to create an
+instance:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xrds.skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyVM</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyvm-overlay-server</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skytest</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">assignPublicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">use1-az1</span>
 
-helm<span class="w"> </span>install<span class="w"> </span>crossplane<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--namespace<span class="w"> </span>crossplane-system<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--create-namespace<span class="w"> </span>crossplane-stable/crossplane<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--version<span class="w"> </span><span class="m">1</span>.18.0
+<span class="w">    </span><span class="c1"># You need to open inbound tcp ports &quot;443 80 22 8080&quot;</span>
+<span class="w">    </span><span class="c1"># and inbound udp ports &quot;3478 41641&quot;</span>
 </pre></div>
 </div>
-<p>You need to ensure the CrossPlane is installed and is running: <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-ncrossplane-system</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">crossplane</span></code> before proceeding to the next step.</p>
-<p><strong>Install SkyCluster</strong>:</p>
-<p>SkyCluster Manager supports AWS, GCP and Azure as well as on-premises infrastructure powered by OpenStack.
-You can install all the providers or only the ones you need. Create a settings file
-<code class="docutils literal notranslate"><span class="pre">settings.yaml</span></code> with the following content and set <code class="docutils literal notranslate"><span class="pre">enabled</span></code> to <code class="docutils literal notranslate"><span class="pre">false</span></code> for the providers you don’t want to be installed:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">providers</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">public</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">aws</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">gcp</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">azure</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">azure-network</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">private</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">openstack</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</pre></div>
-</div>
-<p>Then run the following command to install the skycluster using <code class="docutils literal notranslate"><span class="pre">helm</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>skycluster<span class="w"> </span>https://skycluster.io/charts
-helm<span class="w"> </span>repo<span class="w"> </span>update
+<p>Once you have the VM running and ready, connect to it and then install headscale:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">HEADSCALE_VERSION</span><span class="o">=</span><span class="s2">&quot;0.24.2&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HEADSCALE_ARCH</span><span class="o">=</span><span class="s2">&quot;amd64&quot;</span>
 
-helm<span class="w"> </span>install<span class="w"> </span>skycluster<span class="w"> </span>skycluster/skycluster<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span><span class="nv">install</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>-f<span class="w"> </span>settings.yaml
+<span class="c1"># ensure you have sudo access, then</span>
+curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/headscale-install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+
+<span class="c1"># sudo systemctl enable --now headscale</span>
+<span class="c1"># sudo systemctl status headscale</span>
 </pre></div>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This step may take few mintues to be completed depending on your internet connection.
-You need to wait for all the providers to become available and healthy before proceeding to the next step.
-Check the status of the providers by running <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">providers</span></code>.
-and wait till you see the fields <code class="docutils literal notranslate"><span class="pre">Installed=True</span></code> and <code class="docutils literal notranslate"><span class="pre">HEALTHY=True</span></code> for all the providers.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PUBLIC_IP</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>ifconfig.io<span class="k">)</span>
+curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/headscale-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
 </div>
-<p><strong>Providers’ Configuration</strong>:</p>
-<p>Once all providers are installed, you need to provide form of authentication
-to enable using hyperscalers such as AWS and GCP.
-Please follow the instructions
-in <a class="reference external" href="providers-configs.html">provider configuration</a> page to apply required
-configurations.</p>
-<p><strong>Setting up Regions and Locations</strong>:</p>
-<p>To enable <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> to deploy services across different
-providers you need to setup each regions within each prvoider
-that you configured in the previouse step.</p>
+<p>Once ready run the service by:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>headscale<span class="w"> </span>serve
+</pre></div>
+</div>
+<p>SkyCluster creates clients and will join them to the headscale server automatically.
+You can check the status of the clients by running:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>headscale<span class="w"> </span>status
+sudo<span class="w"> </span>headscale<span class="w"> </span>nodes<span class="w"> </span>list
+</pre></div>
+</div>
 </section>
 
 
@@ -480,20 +458,20 @@ that you configured in the previouse step.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="skycluster-configs.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Getting Started</p>
+        <p class="prev-next-title">SkyCluster Configuration</p>
       </div>
     </a>
     <a class="right-next"
-       href="providers-configs.html"
+       href="../quick-start/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Providers Configuration</p>
+        <p class="prev-next-title">Quick Start</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
