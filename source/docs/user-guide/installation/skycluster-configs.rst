@@ -48,7 +48,7 @@ And then run the following command to generate the secret:
       config: |
         {
           "publicKey": "ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1",
-          "privateKey": "LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K",
+          "privateKey": "LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K"
         }
 
 
@@ -81,27 +81,30 @@ and provide the appropriate values for each field:
     providerMappings:
       openstack:
         regions:
-          - name: <TO_BE_REPLACED>
-            region: <TO_BE_REPLACED>
-            regionAlias: <TO_BE_REPLACED>
-            subnetCidr: A.B.C.D/Y
+          - name: SCINET # Name of the region
+            region: SCINET # Name of the region
+            regionAlias: SCINET # Alias of the region
+            subnetCidr: 10.30.10.0/24
+            gatewayIp: 10.30.10.1
             zones:
-              - name: main
-                locationName: <TO_BE_REPLACED>
-                defaultZone: true|false
-                type: cloud|nte|edge
+              # There should be at least one zone specified as default
+              # for each region
+              - name: default
+                locationName: Toronto
+                defaultZone: true
+                type: cloud # Type of the zone (cloud, nte, edge)
                 flavors: 
-                  flavor-small:  <TO_BE_REPLACED>
-                  flavor-medium: <TO_BE_REPLACED>
-                  flavor-large:  <TO_BE_REPLACED>
-                  flavor-xlarge: <TO_BE_REPLACED>
-                  flavor-x.8G:   <TO_BE_REPLACED>
-                  flavor-x.16G:  <TO_BE_REPLACED>
-                  flavor-x.32G:  <TO_BE_REPLACED>
+                  small:  n1.small
+                  medium: o1.medium
+                  large:  p1.medium
+                  xlarge: p3.large
+                  x.8G:   n1.medium
+                  x.16G:  o1.medium
+                  x.32G:  p1.medium"
             images: 
-              image-ubuntu-22.04: <TO_BE_REPLACED>
-              image-ubuntu-20.04: <TO_BE_REPLACED>
-              image-ubuntu-18.04: <TO_BE_REPLACED>
+              ubuntu-22.04: Ubuntu-22-04-Jammy
+              ubuntu-20.04: Ubuntu-20-04-focal
+              ubuntu-18.04: Ubuntu-18-04-bionic
 
 We use the following settings for the SAVI testbed.
 
@@ -117,48 +120,50 @@ We use the following settings for the SAVI testbed.
     providerMappings:
       openstack:
         regions:
-          - name: scient
-            region: scinet
-            regionAlias: scinet
+          - name: SCINET
+            region: SCINET
+            regionAlias: SCINET
             subnetCidr: 10.30.10.0/24
+            gatewayIp: 10.30.10.1
             zones:
-              - name: main
+              - name: default
                 locationName: Toronto
                 defaultZone: true
                 type: cloud
                 flavors: 
-                  flavor-small:  "n1.small"
-                  flavor-medium: "o1.medium"
-                  flavor-large:  "p1.medium"
-                  flavor-xlarge: "p3.large"
-                  flavor-x.8G:   "n1.medium"
-                  flavor-x.16G:  "o1.medium"
-                  flavor-x.32G:  "p1.medium" 
+                  small:  n1.small
+                  medium: o1.medium
+                  large:  p1.medium
+                  xlarge: p3.large
+                  x.8G:   n1.medium
+                  x.16G:  o1.medium
+                  x.32G:  p1.medium
             images: 
-              image-ubuntu-22.04: "Ubuntu-22-04-Jammy"
-              image-ubuntu-20.04: "Ubuntu-20-04-focal"
-              image-ubuntu-18.04: "Ubuntu-18-04-bionic"
-          - name: vaughan
-            region: vaughan
-            regionAlias: vaughan
+              ubuntu-22.04: Ubuntu-22-04-Jammy
+              ubuntu-20.04: Ubuntu-20-04-focal
+              ubuntu-18.04: Ubuntu-18-04-bionic
+          - name: VAUGHAN
+            region: VAUGHAN
+            regionAlias: VAUGHAN
             subnetCidr: 10.29.10.0/24
+            gatewayIp: 10.29.10.1
             zones:
-              - name: main
+              - name: default
                 locationName: Toronto
                 defaultZone: true
                 type: cloud
                 flavors: 
-                  flavor-small:  "n1.small"
-                  flavor-medium: "o1.medium"
-                  flavor-large:  "p1.medium"
-                  flavor-xlarge: "p1.medium"
-                  flavor-x.8G:   "n1.medium"
-                  flavor-x.16G:  "o1.medium"
-                  flavor-x.32G:  "p1.medium"  
+                  small:  n1.small
+                  medium: o1.medium
+                  large:  p1.medium
+                  xlarge: p1.medium
+                  x.8G:   n1.medium
+                  x.16G:  o1.medium
+                  x.32G:  p1.medium
             images: 
-              image-ubuntu-22.04: "Ubuntu-22-04-Jammy"
-              image-ubuntu-20.04: "Ubuntu-20-04-focal"
-              image-ubuntu-18.04: "Ubuntu-18-04-bionic"
+              ubuntu-22.04: Ubuntu-22-04-Jammy
+              ubuntu-20.04: Ubuntu-20-04-focal
+              ubuntu-18.04: Ubuntu-18-04-bionic
 
 
 After creating the YAML file above, run the following command to configure the OpenStack provider:

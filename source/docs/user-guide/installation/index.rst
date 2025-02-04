@@ -65,6 +65,7 @@ You can install all the providers or only the ones you need. Create a settings f
 ``settings.yaml`` with the following content and set ``enabled`` to ``false`` for the providers you don't want to be installed:
 
 .. code-block:: yaml
+  :linenos:
 
   providers:
     public:
