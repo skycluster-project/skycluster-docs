@@ -40,6 +40,7 @@ Then execute the command below to configure the AWS provider:
     **aws-setup.sh**
 
   .. code-block:: sh
+    :linenos:
 
     #!/bin/bash
 
@@ -111,6 +112,7 @@ Then execute the command below to configure the GCP provider:
     **gcp-setup.sh**
 
   .. code-block:: sh
+    :linenos:
 
     #!/bin/bash
 
@@ -183,6 +185,7 @@ Then execute the command below to configure the Azure provider:
     **azure-setup.sh**
 
   .. code-block:: sh
+    :linenos:
   
     #!/bin/bash
 
@@ -248,6 +251,7 @@ Then execute the command below to configure your Openstack provider:
     **openstack-setup.sh**
 
   .. code-block:: sh
+    :linenos:
 
     #!/bin/bash
 
