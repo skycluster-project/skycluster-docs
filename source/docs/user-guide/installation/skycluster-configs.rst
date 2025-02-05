@@ -81,18 +81,23 @@ and provide the appropriate values for each field:
     providerMappings:
       openstack:
         regions:
-          - name: SCINET # Name of the region
-            region: SCINET # Name of the region
-            regionAlias: SCINET # Alias of the region
-            subnetCidr: 10.30.10.0/24
-            gatewayIp: 10.30.10.1
+          - name:  # Name of the region
+            region: # Name of the region
+            regionAlias: # Alias of the region
+            subnetCidr: x.y.z.0/24
+            gatewayIp: x.y.z.1
             zones:
               # There should be at least one zone specified as default
               # for each region
               - name: default
-                locationName: Toronto
+                locationName: 
+                # the default zone is identified by setting 
+                # the defaultZone to true
                 defaultZone: true
                 type: cloud # Type of the zone (cloud, nte, edge)
+                # flavors specifies the mapping between the flavor names
+                # and the actual machine types in the OpenStack provider
+                # within this <zone>. 
                 flavors: 
                   small:  n1.small
                   medium: o1.medium
@@ -100,7 +105,11 @@ and provide the appropriate values for each field:
                   xlarge: p3.large
                   x.8G:   n1.medium
                   x.16G:  o1.medium
-                  x.32G:  p1.medium"
+                  x.32G:  p1.medium
+            # iamges specifies the mapping between the image names
+            # and the actual image names in the OpenStack provider
+            # within this <region>. We assume images are available
+            # in all zones within the region.
             images: 
               ubuntu-22.04: Ubuntu-22-04-Jammy
               ubuntu-20.04: Ubuntu-20-04-focal
