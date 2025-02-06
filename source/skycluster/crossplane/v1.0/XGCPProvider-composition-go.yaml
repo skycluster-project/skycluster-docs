@@ -1,0 +1,315 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xgcpprovider-composition
+spec:
+  compositeTypeRef: 
+    apiVersion: xrds.skycluster.io/v1alpha1
+    kind: XGCPProvider
+  mode: Pipeline
+  pipeline:
+    - step: pull-extra-resources
+      functionRef:
+        name: function-extra-resources
+      input:
+        apiVersion: extra-resources.fn.crossplane.io/v1beta1
+        kind: Input
+        spec:
+          extraResources:
+            - kind: ProviderConfig
+              into: ProviderConfig
+              apiVersion: gcp.upbound.io/v1beta1
+              type: Selector
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value 
+                    value: skycluster
+            # - kind: ConfigMap
+            #   into: ScriptConfigMap
+            #   apiVersion: v1
+            #   type: Selector # or Reference
+            #   selector:
+            #     maxMatch: 1
+            #     minMatch: 1
+            #     matchLabels:
+            #       - key: skycluster.io/managed-by
+            #         type: Value # it could be FromCompositeFieldPath
+            #         value: skycluster
+            #       - key: skycluster.io/script-type
+            #         type: Value
+            #         value: cloud-init
+            - kind: ConfigMap
+              into: ConfigMaps
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 100
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/provider-name
+                    type: Value
+                    value: gcp
+            # - kind: Secret
+            #   into: Secret
+            #   apiVersion: v1
+            #   type: Selector # or Reference
+            #   selector:
+            #     maxMatch: 1
+            #     minMatch: 1
+            #     matchLabels:
+            #       - key: skycluster.io/managed-by
+            #         type: Value # it could be FromCompositeFieldPath
+            #         value: skycluster
+            #       - key: skycluster.io/type
+            #         type: Value
+            #         value: ssh-key
+    - step: setup
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- $Observed := .observed.composite.resource }} 
+            {{- $ProviderName := $Observed.spec.providerRef.providerName }}
+            {{- $ProviderRegion := $Observed.spec.providerRef.providerRegion }}
+            {{- $ProviderZone := $Observed.spec.providerRef.providerZone }}
+            {{- $ProviderSpec := $Observed.spec.forProvider }}
+            {{- $ObjectName := printf "%s" $Observed.metadata.name }} 
+
+            {{- $PublicIp := dig "resources" "public-ip" "resource" "status" "atProvider" "address" "" .observed }}
+            {{- $NetworkIf := dig "resources" "instance" "resource" "status" "atProvider" "networkInterface" list .observed }}
+            
+            {{- $ExtraResources := dig "apiextensions.crossplane.io/extra-resources" "" .context }}
+            {{- $ProviderConfig := index (dig "ProviderConfig" "" $ExtraResources) 0 }}
+            
+            {{- $Configs := dig "ConfigMaps" "" $ExtraResources }}
+
+            {{- $CMs := dict -}}
+            {{- range $res := $Configs }}
+              {{- $region := or (dig "skycluster.io/provider-region" "" $res.metadata.labels) "global" }}
+              {{- $zone :=  or (dig "skycluster.io/provider-zone" "" $res.metadata.labels) "default" }}
+              {{- if not (hasKey $CMs $region) }}
+                {{- $r := dict -}}
+                {{- $_ := set $CMs $region $r }}
+              {{- end }}
+              {{- if not (hasKey (index $CMs $region) $zone) }}
+                {{- $_ := set (index $CMs $region) $zone $res.data }}
+              {{- end }}
+            {{- end}}
+
+            {{- $ConfigDefault := index (index $CMs $ProviderRegion) "default" }}
+            {{- $DefaultZone := dig "default-zone" "" $ConfigDefault }}
+            {{- $ProviderZoneFromCompositeResource := dig "spec" "providerRef" "providerZone" "" $Observed }}
+            {{- if eq $ProviderZoneFromCompositeResource "default" }}
+              {{- $ProviderZoneFromCompositeResource = "" }}
+            {{- end }}
+            {{- $ProviderZone := or ($ProviderZoneFromCompositeResource) $DefaultZone }}
+            {{- $Config := index (index $CMs $ProviderRegion) $ProviderZone }}
+
+            apiVersion: compute.gcp.upbound.io/v1beta1
+            kind: Network
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "network" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                autoCreateSubnetworks: false
+                mtu: 1460
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: compute.gcp.upbound.io/v1beta1
+            kind: Subnetwork
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "subnet" }}
+              labels:
+                skycluster.io/public-subnet: "false"
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                networkSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                region: {{ $ProviderRegion }}
+                {{- $parts := splitList "/" $ProviderSpec.ipCidrRange -}}
+                {{- $ip := index $parts 0 -}}
+                {{- $mask := index $parts 1 | int -}}
+                {{- $octets := splitList "." $ip -}}
+                {{- $first := index $octets 0 -}}
+                {{- $second := index $octets 1 -}}
+                {{- $third := index $octets 2 -}}
+                {{- $fourth := index $octets 3 -}}
+                {{- $subnetIpCidr := "" -}}
+                {{- if eq $mask 24 }}
+                  {{- $subnetIpCidr = printf "%s.%s.%s.0/24" $first $second $third }}
+                {{- else if eq $mask 16 }}
+                  {{- $subnetIpCidr = printf "%s.%s.0.0/16" $first $second }}
+                {{- else if eq $mask 8 }}
+                  {{- $subnetIpCidr = printf "%s.0.0.0/8" $first }}
+                {{- end }}
+                ipCidrRange: {{ $subnetIpCidr }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: compute.gcp.upbound.io/v1beta1
+            kind: Router
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "router" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                networkSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                region: {{ $ProviderRegion }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: compute.gcp.upbound.io/v1beta1
+            kind: RouterNAT
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "router-nat" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                region: {{ $ProviderRegion }}
+                routerSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                natIpAllocateOption: AUTO_ONLY
+                sourceSubnetworkIpRangesToNat: ALL_SUBNETWORKS_ALL_IP_RANGES
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: compute.gcp.upbound.io/v1beta1
+            kind: Address
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "public-ip" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                region: {{ $ProviderRegion }}
+                addressType: EXTERNAL
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            # apiVersion: compute.gcp.upbound.io/v1beta1
+            # kind: Route
+            # metadata:
+            #   annotations: 
+            #     {{ setResourceNameAnnotation "custom-route" }}
+            #   labels:
+            #     skycluster.io/managed-by: skycluster
+            #     skycluster.io/project-id: {{ index $Observed.metadata.labels "skycluster.io/project-id" }}
+            #     skycluster.io/provider-name: {{ $ProviderName }}
+            #     skycluster.io/provider-region: {{ $ProviderRegion }}
+            #     skycluster.io/provider-zone: {{ $ProviderZone }}
+            #     skycluster.io/provider-data: {{ printf "%s-%s-%s" $ProviderName $ProviderRegion $ProviderZone }}
+            # spec:
+            #   forProvider:
+            #     {{- if gt (len $NetworkIf) 0 }}
+            #     {{- $PrivateIp := index (index $NetworkIf 0) "networkIp" }}
+            #     nextHopIp: {{ $PrivateIp }}
+            #     {{- end }}
+            #     networkSelector:
+            #       matchLabels:
+            #         skycluster.io/managed-by: skycluster
+            #         skycluster.io/project-id: {{ index $Observed.metadata.labels "skycluster.io/project-id" }}
+            #         skycluster.io/provider-name: {{ $ProviderName }}
+            #         skycluster.io/provider-region: {{ $ProviderRegion }}
+            #         skycluster.io/provider-zone: {{ $ProviderZone }}
+            #     destRange: 10.16.0.0/12
+            #   providerConfigRef:
+            #     name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: compute.gcp.upbound.io/v1beta2
+            kind: Firewall
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "firewall" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                allow:
+                  {{- if hasKey $ProviderSpec.secgroup "tcpPorts" }}
+                  - protocol: tcp
+                    ports: 
+                      {{- range $i, $ports := $ProviderSpec.secgroup.tcpPorts }}
+                      {{- range $j := until (( add (sub $ports.toPort $ports.fromPort) 1 ) | int )  }}
+                      - {{ printf "\"%s\"" ( (add $ports.fromPort $j) | toString ) }}
+                      {{- end }}
+                      {{- end }}
+                  {{- end }}
+                  {{- if hasKey $ProviderSpec.secgroup "udpPorts" }}
+                  - protocol: udp
+                    ports: 
+                      {{- range $i, $ports := $ProviderSpec.secgroup.udpPorts }}
+                      {{- range $j := until (( add (sub $ports.toPort $ports.fromPort) 1) | int ) }}
+                      - {{ printf "\"%s\"" ( (add $ports.fromPort $j) | toString ) }}
+                      {{- end }}
+                      {{- end }}
+                  {{- end }}
+                  - protocol: icmp
+                direction: INGRESS
+                networkSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                sourceRanges:
+                  - "0.0.0.0/0"
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+    # - step: patch-and-transform
+    #   functionRef:
+    #     name: function-patch-and-transform
+    #   input:
+    #     apiVersion: pt.fn.crossplane.io/v1beta1
+    #     kind: Resources
+    #     resources:
+    #       - name: setup
+    #         patches:
+    #           - type: ToCompositeFieldPath
+    #             fromFieldPath: status.atProvider.networkInterface[0].networkIp
+    #             toFieldPath: status.network.privateIpAddress
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready

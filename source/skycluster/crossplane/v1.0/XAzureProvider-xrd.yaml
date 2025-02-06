@@ -1,0 +1,46 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata: 
+  name: xazureproviders.xrds.skycluster.io
+spec:
+  group: xrds.skycluster.io
+  names:
+    kind: XAzureProvider
+    plural: xazureproviders
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              providerRef:
+                type: object
+                properties:
+                  providerName:
+                    type: string
+                  providerRegion:
+                    type: string
+                  providerZone:
+                    type: string
+              forProvider:
+                type: object
+                properties:
+                  ipCidrRange:
+                    type: string
+          status:
+            type: object
+            properties:
+              networkId:
+                type: string
+              subnetId:
+                type: string
+              network:
+                type: object
+                properties:
+                  privateIpAddress:
+                    type: string

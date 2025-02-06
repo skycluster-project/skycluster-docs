@@ -49,3 +49,21 @@ html[data-theme="dark"] .highlight .l {
 html[data-theme="dark"] .highlight .c1 {
   color: #a2954b;
 }
+
+.blockbox.gray-sidebar {
+  padding-left: 0.5rem !important;
+  border-left: 5px solid #aca9a8;
+}
+
+.blockbox.orange-sidebar {
+  padding-left: 0.5rem !important;
+  border-left: 5px solid #de9f8b;
+}
+
+.blockbox .header p {
+  margin-bottom: 0.25rem;
+}
+
+.blockbox .highlight-sh {
+  margin-top: 0;
+}

@@ -12,11 +12,14 @@ kind: Secret
 metadata:
   namespace: skycluster
   name: public-private-key
+  labels:
+    skycluster.io/managed-by: skycluster
+    skycluster.io/secret-type: keypair
 type: Opaque
 stringData:
   config: |
     {
-      "publicKey": $PUBLIC_KEY,
-      "privateKey": $PRIVATE_KEY,
+      "publicKey": "$PUBLIC_KEY",
+      "privateKey": "$PRIVATE_KEY"
     }
 EOF
