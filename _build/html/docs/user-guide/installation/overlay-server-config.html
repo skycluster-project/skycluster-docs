@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=57cc2a3a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=bc219c3d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -64,6 +64,17 @@
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
@@ -401,50 +412,161 @@ your headscale server and configure your skycluster to use it.</p>
 <p>You can create a <code class="docutils literal notranslate"><span class="pre">SkyVM</span></code> instance within your desired provider and install
 headscale on it. Below is an example of YAML file you would need to create an
 instance:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xrds.skycluster.io/v1alpha1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyVM</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyvm-overlay-server</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skytest</span>
-<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">assignPublicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
-<span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
-<span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">use1-az1</span>
-
-<span class="w">    </span><span class="c1"># You need to open inbound tcp ports &quot;443 80 22 8080&quot;</span>
-<span class="w">    </span><span class="c1"># and inbound udp ports &quot;3478 41641&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xrds.skycluster.io/v1alpha1</span>
+<span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyVM</span>
+<span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skyvm-overlay-server</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skytest</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
+<span class="linenos"> 8</span><span class="nt">spec</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">    </span><span class="nt">assignPublicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="linenos">11</span><span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="linenos">12</span><span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="linenos">13</span><span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="linenos">14</span><span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">use1-az1</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="w">    </span><span class="c1"># You need to open inbound tcp ports &quot;443 80 22 8080&quot;</span>
+<span class="linenos">17</span><span class="w">    </span><span class="c1"># and inbound udp ports &quot;3478 41641&quot;</span>
 </pre></div>
 </div>
 <p>Once you have the VM running and ready, connect to it and then install headscale:</p>
+<div class="blockbox gray-sidebar docutils container">
+<div class="header docutils container">
+<p><strong>Within your overlay server:</strong></p>
+</div>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">HEADSCALE_VERSION</span><span class="o">=</span><span class="s2">&quot;0.24.2&quot;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">HEADSCALE_ARCH</span><span class="o">=</span><span class="s2">&quot;amd64&quot;</span>
 
 <span class="c1"># ensure you have sudo access, then</span>
 curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/headscale-install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-
-<span class="c1"># sudo systemctl enable --now headscale</span>
-<span class="c1"># sudo systemctl status headscale</span>
 </pre></div>
+</div>
+</div>
+<p><strong>Alternatively</strong> you can manuallly install headscale using the script below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>headscale-install.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span><span class="c1"># If env variables are not set, exit</span>
+<span class="linenos"> 3</span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEADSCALE_VERSION</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEADSCALE_ARCH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;HEADSCALE_VERSION and HEADSCALE_ARCH must be set.&quot;</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 6</span><span class="k">fi</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span>wget<span class="w"> </span>--output-document<span class="o">=</span>/tmp/headscale.deb<span class="w"> </span><span class="se">\</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="s2">&quot;https://github.com/juanfont/headscale/releases/download/v</span><span class="si">${</span><span class="nv">HEADSCALE_VERSION</span><span class="si">}</span><span class="s2">/headscale_</span><span class="si">${</span><span class="nv">HEADSCALE_VERSION</span><span class="si">}</span><span class="s2">_linux_</span><span class="si">${</span><span class="nv">HEADSCALE_ARCH</span><span class="si">}</span><span class="s2">.deb&quot;</span>
+<span class="linenos">10</span>sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>/tmp/headscale.deb
+</pre></div>
+</div>
+</div>
+<p>After successful installation, you need to configure headscale. Try script below
+to generate a configuration file, tls certificates and then start the headscale server:</p>
+<div class="blockbox gray-sidebar docutils container">
+<div class="header docutils container">
+<p><strong>Within your overlay server:</strong></p>
 </div>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PUBLIC_IP</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>ifconfig.io<span class="k">)</span>
 curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/headscale-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
-<p>Once ready run the service by:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>headscale<span class="w"> </span>serve
+</div>
+<p>Once done you should see a generated token along with
+a <code class="docutils literal notranslate"><span class="pre">ca_certificate.crt</span></code>. You will need to use the certificate and token to configure
+SkyCluster to allow providers to join the overlay network.</p>
+<p>Copy the <code class="docutils literal notranslate"><span class="pre">ca_certificate.crt</span></code> file to your SkyCluster environment where you have access to <code class="docutils literal notranslate"><span class="pre">kubectl</span></code>, then
+export the following environment variables:</p>
+<div class="blockbox orange-sidebar docutils container">
+<div class="header docutils container">
+<p><strong>Within your SkyCluster environment:</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is the public IP of you overlay server</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HOST</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PUBLIC_IP_OVERLAY</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PORT</span><span class="o">=</span><span class="s2">&quot;8080&quot;</span>
+
+<span class="c1"># You get the token from the previous step</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;1bdff6711a9a49e...d6bd9b7c7dac4e&quot;</span>
+
+<span class="c1"># CA_CERTIFICATE should be the path to the ca_certificate.crt file</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CA_CERTIFICATE</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span>/ca_certificate.crt
 </pre></div>
 </div>
-<p>SkyCluster creates clients and will join them to the headscale server automatically.
-You can check the status of the clients by running:</p>
+</div>
+<p>and then run the following command to create a secret containing this information:</p>
+<div class="blockbox orange-sidebar docutils container">
+<div class="header docutils container">
+<p><strong>Within your SkyCluster environment:</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/overlay-server-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+</div>
+<p><strong>Alternatively</strong> you can just copy the script below and run it:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>overlay-server-cfg.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOST</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PORT</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$CA_CERTIFICATE</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;HOST, TOKEN, PORT and CA_CERTIFICATE must be set.&quot;</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 6</span><span class="k">fi</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos"> 9</span><span class="s">apiVersion: v1</span>
+<span class="linenos">10</span><span class="s">kind: Secret</span>
+<span class="linenos">11</span><span class="s">metadata:</span>
+<span class="linenos">12</span><span class="s">  namespace: skycluster</span>
+<span class="linenos">13</span><span class="s">  name: overlay-server-cfg</span>
+<span class="linenos">14</span><span class="s">  labels:</span>
+<span class="linenos">15</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">16</span><span class="s">    skycluster.io/secret-type: overlay-server</span>
+<span class="linenos">17</span><span class="s">type: Opaque</span>
+<span class="linenos">18</span><span class="s">stringData:</span>
+<span class="linenos">19</span><span class="s">  config: |</span>
+<span class="linenos">20</span><span class="s">    {</span>
+<span class="linenos">21</span><span class="s">      &quot;host&quot;: &quot;https://$HOST&quot;,</span>
+<span class="linenos">22</span><span class="s">      &quot;port&quot;: &quot;$PORT&quot;,</span>
+<span class="linenos">23</span><span class="s">      &quot;token&quot;: &quot;$TOKEN&quot;,</span>
+<span class="linenos">24</span><span class="s">      &quot;ca_cert&quot;: &quot;$(cat $CA_CERTIFICATE | base64 -w0)&quot;</span>
+<span class="linenos">25</span><span class="s">    }</span>
+<span class="linenos">26</span><span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<p>You also need to join your SkyCluster to the overlay network:</p>
+<div class="blockbox orange-sidebar docutils container">
+<div class="header docutils container">
+<p><strong>Within your SkyCluster environment:</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># First ensure the ca_certificate is installed</span>
+sudo<span class="w"> </span>cp<span class="w"> </span><span class="si">${</span><span class="nv">CA_CERTIFICATE</span><span class="si">}</span><span class="w"> </span>/usr/local/share/ca-certificates/
+<span class="c1"># Update CA certificates</span>
+sudo<span class="w"> </span>update-ca-certificates
+
+<span class="c1"># Then join the overlay network</span>
+<span class="c1"># First ensure tailscale is installed</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://tailscale.com/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+
+<span class="c1"># Then join the netwotk</span>
+sudo<span class="w"> </span>tailscale<span class="w"> </span>up<span class="w"> </span>--login-server<span class="o">=</span>https://<span class="si">${</span><span class="nv">HOST</span><span class="si">}</span>:<span class="si">${</span><span class="nv">PORT</span><span class="si">}</span><span class="w"> </span>--auth-key<span class="o">=</span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span>
+</pre></div>
+</div>
+</div>
+<p>You can always check the status of the clients by running the following commands on your overlay server:</p>
+<div class="blockbox gray-sidebar docutils container">
+<div class="header docutils container">
+<p><strong>Within your overlay server:</strong></p>
+</div>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>headscale<span class="w"> </span>status
 sudo<span class="w"> </span>headscale<span class="w"> </span>nodes<span class="w"> </span>list
 </pre></div>
 </div>
+</div>
+<p>SkyCluster creates clients and will join them to the headscale server automatically.</p>
 </section>
 
 

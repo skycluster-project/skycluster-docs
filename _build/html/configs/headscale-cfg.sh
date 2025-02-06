@@ -8,14 +8,16 @@ if [ -z "$PUBLIC_IP" ]; then
   exit 1
 fi
 
+CONFIG_DIR="/var/lib/headscale/"
+
 sudo tee /etc/headscale/config.yaml > /dev/null <<EOF
-server_url: http://${PUBLIC_IP}:8080
+server_url: https://${PUBLIC_IP}:8080
 listen_addr: 0.0.0.0:8080
 metrics_listen_addr: 127.0.0.1:9090
 grpc_listen_addr: 127.0.0.1:50443
 grpc_allow_insecure: false
 noise:
-  private_key_path: /var/lib/headscale/noise_private.key
+  private_key_path: ${CONFIG_DIR}/noise_private.key
 prefixes:
   v6: fd7a:115c:a1e0::/48
   v4: 100.64.0.0/10
@@ -29,7 +31,7 @@ derp:
     region_code: "headscale"
     region_name: "Headscale Embedded DERP"
     stun_listen_addr: "0.0.0.0:3478"
-    private_key_path: /var/lib/headscale/derp_server_private.key
+    private_key_path: ${CONFIG_DIR}/derp_server_private.key
     automatically_add_embedded_derp_region: true
     ipv4: 1.2.3.4
     ipv6: 2001:db8::1
@@ -38,13 +40,15 @@ ephemeral_node_inactivity_timeout: 30m
 database:
   type: sqlite
   sqlite:
-    path: /var/lib/headscale/db.sqlite
+    path: ${CONFIG_DIR}/db.sqlite
 log:
   format: text
   level: info
+tls_cert_path: ${CONFIG_DIR}/app_certificate.crt
+tls_key_path: ${CONFIG_DIR}/app_private_key.pem
 policy:
   mode: file
-  path: "/var/lib/headscale/acl.json"
+  path: "${CONFIG_DIR}/acl.json"
 dns:
   nameservers:
     global:
@@ -61,7 +65,7 @@ logtail:
 randomize_client_port: false
 EOF
 
-sudo tee /var/lib/headscale/acl.json > /dev/null <<EOF
+sudo tee ${CONFIG_DIR}/acl.json > /dev/null <<EOF
 {
   "acls": [
     // Allow all connections.
@@ -115,6 +119,32 @@ error_exit() {
     exit 1
 }
 
+
+# Generate application private key
+openssl genpkey -algorithm RSA -out ${CONFIG_DIR}/app_private_key.pem
+# Generate application public key
+openssl rsa -pubout -in ${CONFIG_DIR}/app_private_key.pem -out ${CONFIG_DIR}/app_public_key.pem
+# Generate application CSR
+openssl req -new -key ${CONFIG_DIR}/app_private_key.pem -out ${CONFIG_DIR}/app_csr.csr \
+  -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=app.example.com"
+
+# Generate CA private key
+openssl genpkey -algorithm RSA -out ${CONFIG_DIR}/ca_private_key.pem
+
+# Generate CA certificate
+openssl req -x509 -new -key ${CONFIG_DIR}/ca_private_key.pem -out ${CONFIG_DIR}/ca_certificate.crt \
+  -days 365 -subj "/C=US/ST=State/L=City/O=CAOrganization/OU=CAUnit/CN=ca.example.com"
+
+# Sign application certificate with CA
+openssl x509 -req -in ${CONFIG_DIR}/app_csr.csr \
+  -CA ${CONFIG_DIR}/ca_certificate.crt \
+  -CAkey ${CONFIG_DIR}/ca_private_key.pem \
+  -CAcreateserial -out ${CONFIG_DIR}/app_certificate.crt \
+  -days 365
+
+# Copy to the current location
+sudo cp ${CONFIG_DIR}/ca_certificate.crt .
+
 # Enable and start headscale service
 echo "Enabling and starting headscale service..."
 sudo systemctl enable --now headscale || error_exit "Failed to enable/start headscale service."
@@ -131,7 +161,7 @@ echo "Creating pre-authentication key for 'client-skycluster'..."
 sudo headscale pre create --expiration 365d --reusable --ephemeral -u client-skycluster || error_exit "Failed to create pre-auth key for 'client-skycluster'."
 
 # Retrieve pre-auth key
-KEY=$(sudo headscale pre list --user client-skycluster -o json | jq -r '.[0].key')
+KEY=$(sudo headscale pre list --user client-skycluster -o yaml)
 if [ -n "$KEY" ]; then
   echo
   echo "Pre-auth key: $KEY"

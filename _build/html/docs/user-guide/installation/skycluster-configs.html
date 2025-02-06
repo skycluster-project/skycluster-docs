@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=57cc2a3a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=bc219c3d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -64,6 +64,17 @@
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
@@ -427,7 +438,7 @@ The secret should be created in the <code class="docutils literal notranslate"><
 <span class="linenos">11</span><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="linenos">12</span><span class="w">    </span><span class="no">{</span>
 <span class="linenos">13</span><span class="w">      </span><span class="no">&quot;publicKey&quot;: &quot;ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1&quot;,</span>
-<span class="linenos">14</span><span class="w">      </span><span class="no">&quot;privateKey&quot;: &quot;LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K&quot;,</span>
+<span class="linenos">14</span><span class="w">      </span><span class="no">&quot;privateKey&quot;: &quot;LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K&quot;</span>
 <span class="linenos">15</span><span class="w">    </span><span class="no">}</span>
 </pre></div>
 </div>
@@ -454,27 +465,39 @@ and provide the appropriate values for each field:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">providerMappings</span><span class="p">:</span>
 <span class="linenos"> 2</span><span class="w">  </span><span class="nt">openstack</span><span class="p">:</span>
 <span class="linenos"> 3</span><span class="w">    </span><span class="nt">regions</span><span class="p">:</span>
-<span class="linenos"> 4</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos"> 5</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos"> 6</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos"> 7</span><span class="w">        </span><span class="nt">subnetCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A.B.C.D/Y</span>
-<span class="linenos"> 8</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
-<span class="linenos"> 9</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
-<span class="linenos">10</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">11</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true|false</span>
-<span class="linenos">12</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud|nte|edge</span>
-<span class="linenos">13</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
-<span class="linenos">14</span><span class="w">              </span><span class="nt">flavor-small</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">15</span><span class="w">              </span><span class="nt">flavor-medium</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">16</span><span class="w">              </span><span class="nt">flavor-large</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">17</span><span class="w">              </span><span class="nt">flavor-xlarge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">18</span><span class="w">              </span><span class="nt">flavor-x.8G</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">19</span><span class="w">              </span><span class="nt">flavor-x.16G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">20</span><span class="w">              </span><span class="nt">flavor-x.32G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">21</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
-<span class="linenos">22</span><span class="w">          </span><span class="nt">image-ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">23</span><span class="w">          </span><span class="nt">image-ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
-<span class="linenos">24</span><span class="w">          </span><span class="nt">image-ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TO_BE_REPLACED&gt;</span>
+<span class="linenos"> 4</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w">  </span><span class="c1"># Name of the region</span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="c1"># Name of the region</span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="c1"># Alias of the region</span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="nt">subnetCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x.y.z.0/24</span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="nt">gatewayIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x.y.z.1</span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">          </span><span class="c1"># There should be at least one zone specified as default</span>
+<span class="linenos">11</span><span class="w">          </span><span class="c1"># for each region</span>
+<span class="linenos">12</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="linenos">13</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span>
+<span class="linenos">14</span><span class="w">            </span><span class="c1"># the default zone is identified by setting</span>
+<span class="linenos">15</span><span class="w">            </span><span class="c1"># the defaultZone to true</span>
+<span class="linenos">16</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">17</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span><span class="w"> </span><span class="c1"># Type of the zone (cloud, nte, edge)</span>
+<span class="linenos">18</span><span class="w">            </span><span class="c1"># flavors specifies the mapping between the flavor names</span>
+<span class="linenos">19</span><span class="w">            </span><span class="c1"># and the actual machine types in the OpenStack provider</span>
+<span class="linenos">20</span><span class="w">            </span><span class="c1"># within this &lt;zone&gt;.</span>
+<span class="linenos">21</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
+<span class="linenos">22</span><span class="w">              </span><span class="nt">small</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">n1.small</span>
+<span class="linenos">23</span><span class="w">              </span><span class="nt">medium</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">o1.medium</span>
+<span class="linenos">24</span><span class="w">              </span><span class="nt">large</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">p1.medium</span>
+<span class="linenos">25</span><span class="w">              </span><span class="nt">xlarge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">p3.large</span>
+<span class="linenos">26</span><span class="w">              </span><span class="nt">x.8G</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">n1.medium</span>
+<span class="linenos">27</span><span class="w">              </span><span class="nt">x.16G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">o1.medium</span>
+<span class="linenos">28</span><span class="w">              </span><span class="nt">x.32G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">p1.medium</span>
+<span class="linenos">29</span><span class="w">        </span><span class="c1"># iamges specifies the mapping between the image names</span>
+<span class="linenos">30</span><span class="w">        </span><span class="c1"># and the actual image names in the OpenStack provider</span>
+<span class="linenos">31</span><span class="w">        </span><span class="c1"># within this &lt;region&gt;. We assume images are available</span>
+<span class="linenos">32</span><span class="w">        </span><span class="c1"># in all zones within the region.</span>
+<span class="linenos">33</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
+<span class="linenos">34</span><span class="w">          </span><span class="nt">ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-22-04-Jammy</span>
+<span class="linenos">35</span><span class="w">          </span><span class="nt">ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-20-04-focal</span>
+<span class="linenos">36</span><span class="w">          </span><span class="nt">ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-18-04-bionic</span>
 </pre></div>
 </div>
 </div>
@@ -486,48 +509,50 @@ and provide the appropriate values for each field:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">providerMappings</span><span class="p">:</span>
 <span class="linenos"> 2</span><span class="w">  </span><span class="nt">openstack</span><span class="p">:</span>
 <span class="linenos"> 3</span><span class="w">    </span><span class="nt">regions</span><span class="p">:</span>
-<span class="linenos"> 4</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scient</span>
-<span class="linenos"> 5</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scinet</span>
-<span class="linenos"> 6</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scinet</span>
+<span class="linenos"> 4</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCINET</span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCINET</span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCINET</span>
 <span class="linenos"> 7</span><span class="w">        </span><span class="nt">subnetCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.30.10.0/24</span>
-<span class="linenos"> 8</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
-<span class="linenos"> 9</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
-<span class="linenos">10</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Toronto</span>
-<span class="linenos">11</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="linenos">12</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
-<span class="linenos">13</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
-<span class="linenos">14</span><span class="w">              </span><span class="nt">flavor-small</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;n1.small&quot;</span>
-<span class="linenos">15</span><span class="w">              </span><span class="nt">flavor-medium</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;o1.medium&quot;</span>
-<span class="linenos">16</span><span class="w">              </span><span class="nt">flavor-large</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;p1.medium&quot;</span>
-<span class="linenos">17</span><span class="w">              </span><span class="nt">flavor-xlarge</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;p3.large&quot;</span>
-<span class="linenos">18</span><span class="w">              </span><span class="nt">flavor-x.8G</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;n1.medium&quot;</span>
-<span class="linenos">19</span><span class="w">              </span><span class="nt">flavor-x.16G</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;o1.medium&quot;</span>
-<span class="linenos">20</span><span class="w">              </span><span class="nt">flavor-x.32G</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;p1.medium&quot;</span>
-<span class="linenos">21</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
-<span class="linenos">22</span><span class="w">          </span><span class="nt">image-ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-22-04-Jammy&quot;</span>
-<span class="linenos">23</span><span class="w">          </span><span class="nt">image-ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-20-04-focal&quot;</span>
-<span class="linenos">24</span><span class="w">          </span><span class="nt">image-ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-18-04-bionic&quot;</span>
-<span class="linenos">25</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vaughan</span>
-<span class="linenos">26</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vaughan</span>
-<span class="linenos">27</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vaughan</span>
-<span class="linenos">28</span><span class="w">        </span><span class="nt">subnetCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.29.10.0/24</span>
-<span class="linenos">29</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
-<span class="linenos">30</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
-<span class="linenos">31</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Toronto</span>
-<span class="linenos">32</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="linenos">33</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
-<span class="linenos">34</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
-<span class="linenos">35</span><span class="w">              </span><span class="nt">flavor-small</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;n1.small&quot;</span>
-<span class="linenos">36</span><span class="w">              </span><span class="nt">flavor-medium</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;o1.medium&quot;</span>
-<span class="linenos">37</span><span class="w">              </span><span class="nt">flavor-large</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;p1.medium&quot;</span>
-<span class="linenos">38</span><span class="w">              </span><span class="nt">flavor-xlarge</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;p1.medium&quot;</span>
-<span class="linenos">39</span><span class="w">              </span><span class="nt">flavor-x.8G</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;n1.medium&quot;</span>
-<span class="linenos">40</span><span class="w">              </span><span class="nt">flavor-x.16G</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;o1.medium&quot;</span>
-<span class="linenos">41</span><span class="w">              </span><span class="nt">flavor-x.32G</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;p1.medium&quot;</span>
-<span class="linenos">42</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
-<span class="linenos">43</span><span class="w">          </span><span class="nt">image-ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-22-04-Jammy&quot;</span>
-<span class="linenos">44</span><span class="w">          </span><span class="nt">image-ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-20-04-focal&quot;</span>
-<span class="linenos">45</span><span class="w">          </span><span class="nt">image-ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu-18-04-bionic&quot;</span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="nt">gatewayIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.30.10.1</span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="linenos">11</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Toronto</span>
+<span class="linenos">12</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">13</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+<span class="linenos">14</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
+<span class="linenos">15</span><span class="w">              </span><span class="nt">small</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">n1.small</span>
+<span class="linenos">16</span><span class="w">              </span><span class="nt">medium</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">o1.medium</span>
+<span class="linenos">17</span><span class="w">              </span><span class="nt">large</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">p1.medium</span>
+<span class="linenos">18</span><span class="w">              </span><span class="nt">xlarge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">p3.large</span>
+<span class="linenos">19</span><span class="w">              </span><span class="nt">x.8G</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">n1.medium</span>
+<span class="linenos">20</span><span class="w">              </span><span class="nt">x.16G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">o1.medium</span>
+<span class="linenos">21</span><span class="w">              </span><span class="nt">x.32G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">p1.medium</span>
+<span class="linenos">22</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
+<span class="linenos">23</span><span class="w">          </span><span class="nt">ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-22-04-Jammy</span>
+<span class="linenos">24</span><span class="w">          </span><span class="nt">ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-20-04-focal</span>
+<span class="linenos">25</span><span class="w">          </span><span class="nt">ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-18-04-bionic</span>
+<span class="linenos">26</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VAUGHAN</span>
+<span class="linenos">27</span><span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VAUGHAN</span>
+<span class="linenos">28</span><span class="w">        </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VAUGHAN</span>
+<span class="linenos">29</span><span class="w">        </span><span class="nt">subnetCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.29.10.0/24</span>
+<span class="linenos">30</span><span class="w">        </span><span class="nt">gatewayIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.29.10.1</span>
+<span class="linenos">31</span><span class="w">        </span><span class="nt">zones</span><span class="p">:</span>
+<span class="linenos">32</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="linenos">33</span><span class="w">            </span><span class="nt">locationName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Toronto</span>
+<span class="linenos">34</span><span class="w">            </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">35</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+<span class="linenos">36</span><span class="w">            </span><span class="nt">flavors</span><span class="p">:</span>
+<span class="linenos">37</span><span class="w">              </span><span class="nt">small</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">n1.small</span>
+<span class="linenos">38</span><span class="w">              </span><span class="nt">medium</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">o1.medium</span>
+<span class="linenos">39</span><span class="w">              </span><span class="nt">large</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">p1.medium</span>
+<span class="linenos">40</span><span class="w">              </span><span class="nt">xlarge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">p1.medium</span>
+<span class="linenos">41</span><span class="w">              </span><span class="nt">x.8G</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">n1.medium</span>
+<span class="linenos">42</span><span class="w">              </span><span class="nt">x.16G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">o1.medium</span>
+<span class="linenos">43</span><span class="w">              </span><span class="nt">x.32G</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">p1.medium</span>
+<span class="linenos">44</span><span class="w">        </span><span class="nt">images</span><span class="p">:</span>
+<span class="linenos">45</span><span class="w">          </span><span class="nt">ubuntu-22.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-22-04-Jammy</span>
+<span class="linenos">46</span><span class="w">          </span><span class="nt">ubuntu-20.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-20-04-focal</span>
+<span class="linenos">47</span><span class="w">          </span><span class="nt">ubuntu-18.04</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ubuntu-18-04-bionic</span>
 </pre></div>
 </div>
 </div>

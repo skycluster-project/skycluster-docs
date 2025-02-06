@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=57cc2a3a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=bc219c3d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -63,6 +63,17 @@
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
@@ -378,6 +389,51 @@
 </div>
 <section id="configurations">
 <h1>Configurations<a class="headerlink" href="#configurations" title="Link to this heading">#</a></h1>
+<section id="skycluster-annotations">
+<h2>SkyCluster Annotations<a class="headerlink" href="#skycluster-annotations" title="Link to this heading">#</a></h2>
+<section id="global-annotations">
+<h3>Global Annotations<a class="headerlink" href="#global-annotations" title="Link to this heading">#</a></h3>
+<div class="toggle open docutils container">
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos"> 1</span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
+</span><span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># You can pause the reconciliation of the object and its</span>
+<span class="linenos"> 4</span><span class="c1"># offspring objects by setting this annotation to &quot;true&quot;</span>
+<span class="hll"><span class="linenos"> 5</span><span class="nt">skycluster.io/pause</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+</span><span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="c1"># Often there is a need to use existing external managed resources</span>
+<span class="linenos"> 8</span><span class="c1"># such as a public network, an existing router, etc.</span>
+<span class="linenos"> 9</span><span class="c1"># You can specify the external resource ID using the following labels</span>
+<span class="hll"><span class="linenos">10</span><span class="c1"># skycluster.io/ext-Kind-Group-Version: &lt;resource-name&gt;</span>
+</span><span class="linenos">11</span><span class="c1"># Due to the annotation key length limit, we only use the first word</span>
+<span class="linenos">12</span><span class="c1"># of the api group. Please check examples below:</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="c1"># Azure:</span>
+<span class="linenos">15</span><span class="c1"># For Azure, we may specify the resource group by:</span>
+<span class="linenos">16</span><span class="c1"># this prevents creating, modifying or deleting the resource group</span>
+<span class="linenos">17</span><span class="c1"># by SkyCluster. However, SkyCluster pull resource group information</span>
+<span class="linenos">18</span><span class="c1"># and use them when creating other resources.</span>
+<span class="linenos">19</span><span class="nt">skycluster.io/ext-ResourceGroup-azure-v1beta1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-manual</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="c1"># OpenStack:</span>
+<span class="linenos">22</span><span class="c1"># For OpenStack providers, SkyCluster does not support</span>
+<span class="linenos">23</span><span class="c1"># creating a public (external) network.</span>
+<span class="linenos">24</span><span class="c1"># The network should exist before creating the provider,</span>
+<span class="linenos">25</span><span class="c1"># hence you always need to specify the external subnet.</span>
+<span class="hll"><span class="linenos">26</span><span class="nt">skycluster.io/ext-os-public-subnet-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ext-net</span>
+</span><span class="linenos">27</span><span class="c1"># Other examples to specify other resources (openstack):</span>
+<span class="linenos">28</span><span class="c1"># Specify a project (tennat)</span>
+<span class="linenos">29</span><span class="nt">skycluster.io/ext-ProjectV3-identity-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;tenant-id&gt;</span>
+<span class="linenos">30</span><span class="c1"># Specify a network</span>
+<span class="linenos">31</span><span class="nt">skycluster.io/ext-NetworkV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;network-id&gt;</span>
+<span class="linenos">32</span><span class="c1"># Specify a subnet</span>
+<span class="linenos">33</span><span class="nt">skycluster.io/ext-SubnetV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;subnet-id&gt;</span>
+<span class="linenos">34</span><span class="c1"># Specify a router</span>
+<span class="linenos">35</span><span class="nt">skycluster.io/ext-RouterV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;router-id&gt;</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
 <section id="provider-configmaps">
 <h2>Provider ConfigMaps<a class="headerlink" href="#provider-configmaps" title="Link to this heading">#</a></h2>
 <div class="toggle open docutils container">
@@ -784,6 +840,10 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-annotations">SkyCluster Annotations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-annotations">Global Annotations</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#provider-configmaps">Provider ConfigMaps</a></li>
 </ul>
   </nav></div>
