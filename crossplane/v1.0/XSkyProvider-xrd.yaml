@@ -1,0 +1,77 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata: 
+  name: xskyproviders.xrds.skycluster.io
+spec:
+  group: xrds.skycluster.io
+  names:
+    kind: XSkyProvider
+    plural: xskyproviders
+  claimNames:
+    kind: SkyProvider
+    plural: skyproviders
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              dependsOn:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    kind:
+                      type: string
+                    group:
+                      type: string
+                    version:
+                      type: string
+              dependedBy:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    kind:
+                      type: string
+                    group:
+                      type: string
+                    version:
+                      type: string
+              providerRef:
+                type: object
+                properties:
+                  providerName:
+                    type: string
+                  providerRegion:
+                    type: string
+                  providerZone:
+                    type: string
+                  providerType:
+                    type: string
+              forProvider:
+                type: object
+                properties:
+                  ipCidrRange:
+                    type: string
+          status:
+            type: object
+            properties:
+              network:
+                type: object
+                properties:
+                  privateIpAddress:
+                    type: string

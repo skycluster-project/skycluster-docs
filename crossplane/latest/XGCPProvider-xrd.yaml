@@ -1,0 +1,85 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata: 
+  name: xgcpproviders.xrds.skycluster.io
+spec:
+  group: xrds.skycluster.io
+  names:
+    kind: XGCPProvider
+    plural: xgcpproviders
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              providerRef:
+                type: object
+                properties:
+                  providerName:
+                    type: string
+                  providerRegion:
+                    type: string
+                  providerZone:
+                    type: string
+              forProvider:
+                type: object
+                properties:
+                  gateway:
+                    type: object
+                    properties:
+                      flavor:
+                        type: string
+                      image:
+                        type: string
+                  vpnServer:
+                    type: object
+                    properties:
+                      host:
+                        type: string
+                      port:
+                        type: integer
+                      token:
+                        type: string
+                  ipCidrRange:
+                    type: string
+                  secgroup:
+                    type: object
+                    properties:
+                      description:
+                        type: string
+                      tcpPorts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            fromPort:
+                              type: integer
+                            toPort:
+                              type: integer
+                      udpPorts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            fromPort:
+                              type: integer
+                            toPort:
+                              type: integer
+          status:
+            type: object
+            properties:
+              network:
+                type: object
+                properties:
+                  privateIpAddress:
+                    type: string
+              networkId:
+                type: string
+              subnetId:
+                type: string

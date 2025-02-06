@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=57cc2a3a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=bc219c3d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -64,6 +64,17 @@
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
@@ -320,6 +331,9 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="overlay-server-config.html">Overlay Server Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../quick-start/index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
@@ -407,8 +421,7 @@ environmental variables and run the configuration script:</p>
 <span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>abcd....xwyz<span class="w"> </span><span class="c1"># replace with your Key</span>
 </pre></div>
 </div>
-<p>Clone the <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> github repository and navigate to the <code class="docutils literal notranslate"><span class="pre">config/providers</span></code> directory.
-Then execute the script <code class="docutils literal notranslate"><span class="pre">aws-setup.sh</span></code>:</p>
+<p>Then execute the command below to configure the AWS provider:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/aws-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
@@ -417,46 +430,46 @@ Then execute the script <code class="docutils literal notranslate"><span class="
 <div class="header docutils container">
 <p><strong>aws-setup.sh</strong></p>
 </div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="c1"># If env variables are not set, exit</span>
-<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AWS_ACCESS_KEY_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY must be set.&quot;</span>
-<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="k">fi</span>
-
-<span class="c1"># Create the content of the credentials in a variable</span>
-<span class="nv">creds_content</span><span class="o">=</span><span class="s2">&quot;[default]</span>
-<span class="s2">aws_access_key_id = </span><span class="nv">$AWS_ACCESS_KEY_ID</span>
-<span class="s2">aws_secret_access_key = </span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span>
-
-<span class="c1"># Echo the content and pipe it to base64 for encoding</span>
-<span class="nv">creds_enc</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$creds_content</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
-
-cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="s">apiVersion: aws.upbound.io/v1beta1</span>
-<span class="s">kind: ProviderConfig</span>
-<span class="s">metadata:</span>
-<span class="s">  name: provider-cfg-aws</span>
-<span class="s">  labels:</span>
-<span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="s">spec:</span>
-<span class="s">  credentials:</span>
-<span class="s">    source: Secret</span>
-<span class="s">    secretRef:</span>
-<span class="s">      name: secret-aws</span>
-<span class="s">      namespace: crossplane-system</span>
-<span class="s">      key: creds</span>
-<span class="s">---</span>
-<span class="s">apiVersion: v1</span>
-<span class="s">kind: Secret</span>
-<span class="s">metadata:</span>
-<span class="s">  name: secret-aws</span>
-<span class="s">  namespace: crossplane-system</span>
-<span class="s">type: Opaque</span>
-<span class="s">data:</span>
-<span class="s">  creds: $creds_enc</span>
-<span class="s">EOF</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># If env variables are not set, exit</span>
+<span class="linenos"> 4</span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AWS_ACCESS_KEY_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY must be set.&quot;</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 7</span><span class="k">fi</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># Create the content of the credentials in a variable</span>
+<span class="linenos">10</span><span class="nv">creds_content</span><span class="o">=</span><span class="s2">&quot;[default]</span>
+<span class="linenos">11</span><span class="s2">aws_access_key_id = </span><span class="nv">$AWS_ACCESS_KEY_ID</span>
+<span class="linenos">12</span><span class="s2">aws_secret_access_key = </span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="c1"># Echo the content and pipe it to base64 for encoding</span>
+<span class="linenos">15</span><span class="nv">creds_enc</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$creds_content</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">18</span><span class="s">apiVersion: aws.upbound.io/v1beta1</span>
+<span class="linenos">19</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">20</span><span class="s">metadata:</span>
+<span class="linenos">21</span><span class="s">  name: provider-cfg-aws</span>
+<span class="linenos">22</span><span class="s">  labels:</span>
+<span class="linenos">23</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">24</span><span class="s">spec:</span>
+<span class="linenos">25</span><span class="s">  credentials:</span>
+<span class="linenos">26</span><span class="s">    source: Secret</span>
+<span class="linenos">27</span><span class="s">    secretRef:</span>
+<span class="linenos">28</span><span class="s">      name: secret-aws</span>
+<span class="linenos">29</span><span class="s">      namespace: crossplane-system</span>
+<span class="linenos">30</span><span class="s">      key: creds</span>
+<span class="linenos">31</span><span class="s">---</span>
+<span class="linenos">32</span><span class="s">apiVersion: v1</span>
+<span class="linenos">33</span><span class="s">kind: Secret</span>
+<span class="linenos">34</span><span class="s">metadata:</span>
+<span class="linenos">35</span><span class="s">  name: secret-aws</span>
+<span class="linenos">36</span><span class="s">  namespace: crossplane-system</span>
+<span class="linenos">37</span><span class="s">type: Opaque</span>
+<span class="linenos">38</span><span class="s">data:</span>
+<span class="linenos">39</span><span class="s">  creds: $creds_enc</span>
+<span class="linenos">40</span><span class="s">EOF</span>
 </pre></div>
 </div>
 </div>
@@ -471,7 +484,7 @@ Then:</p>
 <span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_ID</span><span class="o">=</span>my-gcp-project-id
 </pre></div>
 </div>
-<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">gcp-setup.sh</span></code>:</p>
+<p>Then execute the command below to configure the GCP provider:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/gcp-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
@@ -480,38 +493,38 @@ Then:</p>
 <div class="header docutils container">
 <p><strong>gcp-setup.sh</strong></p>
 </div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PROJECT_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GCP_SVC_ACC_PATH and PROJECT_ID must be set.&quot;</span>
-<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="k">fi</span>
-
-<span class="c1"># if file does not exist, exit</span>
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GCP_SVC_ACC_PATH File does not exist. Ensure the file exists and use the absolute path.&quot;</span>
-<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="k">fi</span>
-
-kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>secret-gcp<span class="w"> </span>-n<span class="w"> </span>skycluster<span class="w"> </span>--from-file<span class="o">=</span><span class="nv">configs</span><span class="o">=</span><span class="si">${</span><span class="nv">GCP_SVC_ACC_PATH</span><span class="si">}</span>
-
-<span class="c1"># Apply the provider configuration</span>
-cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="s">apiVersion: gcp.upbound.io/v1beta1</span>
-<span class="s">kind: ProviderConfig</span>
-<span class="s">metadata:</span>
-<span class="s">  name: provider-cfg-gcp</span>
-<span class="s">  labels:</span>
-<span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="s">spec:</span>
-<span class="s">  projectID: ${PROJECT_ID}</span>
-<span class="s">  credentials:</span>
-<span class="s">    source: Secret</span>
-<span class="s">    secretRef:</span>
-<span class="s">      namespace: skycluster</span>
-<span class="s">      name: secret-gcp</span>
-<span class="s">      key: configs</span>
-<span class="s">EOF</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PROJECT_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GCP_SVC_ACC_PATH and PROJECT_ID must be set.&quot;</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 6</span><span class="k">fi</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1"># if file does not exist, exit</span>
+<span class="linenos"> 9</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos">10</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GCP_SVC_ACC_PATH File does not exist. Ensure the file exists and use the absolute path.&quot;</span>
+<span class="linenos">11</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos">12</span><span class="k">fi</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>secret-gcp<span class="w"> </span>-n<span class="w"> </span>skycluster<span class="w"> </span>--from-file<span class="o">=</span><span class="nv">configs</span><span class="o">=</span><span class="si">${</span><span class="nv">GCP_SVC_ACC_PATH</span><span class="si">}</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="c1"># Apply the provider configuration</span>
+<span class="linenos">17</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">18</span><span class="s">apiVersion: gcp.upbound.io/v1beta1</span>
+<span class="linenos">19</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">20</span><span class="s">metadata:</span>
+<span class="linenos">21</span><span class="s">  name: provider-cfg-gcp</span>
+<span class="linenos">22</span><span class="s">  labels:</span>
+<span class="linenos">23</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">24</span><span class="s">spec:</span>
+<span class="linenos">25</span><span class="s">  projectID: ${PROJECT_ID}</span>
+<span class="linenos">26</span><span class="s">  credentials:</span>
+<span class="linenos">27</span><span class="s">    source: Secret</span>
+<span class="linenos">28</span><span class="s">    secretRef:</span>
+<span class="linenos">29</span><span class="s">      namespace: skycluster</span>
+<span class="linenos">30</span><span class="s">      name: secret-gcp</span>
+<span class="linenos">31</span><span class="s">      key: configs</span>
+<span class="linenos">32</span><span class="s">EOF</span>
 </pre></div>
 </div>
 </div>
@@ -533,7 +546,7 @@ az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>cr
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_CONFIG_PATH</span><span class="o">=</span>/home/ubuntu/azure_config.json
 </pre></div>
 </div>
-<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">azure-setup.sh</span></code>:</p>
+<p>Then execute the command below to configure the Azure provider:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/azure-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
@@ -542,39 +555,39 @@ az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>cr
 <div class="header docutils container">
 <p><strong>azure-setup.sh</strong></p>
 </div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Azure config file not found at </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="s2">&quot;</span>
-<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="k">fi</span>
-
-<span class="nv">cont_enc</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
-
-cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="s">apiVersion: azure.upbound.io/v1beta1</span>
-<span class="s">metadata:</span>
-<span class="s">  name: provider-cfg-azure</span>
-<span class="s">  labels:</span>
-<span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="s">kind: ProviderConfig</span>
-<span class="s">spec:</span>
-<span class="s">  credentials:</span>
-<span class="s">    source: Secret</span>
-<span class="s">    secretRef:</span>
-<span class="s">      namespace: crossplane-system</span>
-<span class="s">      name: secret-azure</span>
-<span class="s">      key: configs</span>
-<span class="s">---</span>
-<span class="s">apiVersion: v1</span>
-<span class="s">kind: Secret</span>
-<span class="s">metadata:</span>
-<span class="s">  name: secret-azure</span>
-<span class="s">  namespace: skycluster</span>
-<span class="s">type: Opaque</span>
-<span class="s">data:</span>
-<span class="s">  configs: $cont_enc</span>
-<span class="s">EOF</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Azure config file not found at </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="s2">&quot;</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 6</span><span class="k">fi</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="nv">cont_enc</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">11</span><span class="s">apiVersion: azure.upbound.io/v1beta1</span>
+<span class="linenos">12</span><span class="s">metadata:</span>
+<span class="linenos">13</span><span class="s">  name: provider-cfg-azure</span>
+<span class="linenos">14</span><span class="s">  labels:</span>
+<span class="linenos">15</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">16</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">17</span><span class="s">spec:</span>
+<span class="linenos">18</span><span class="s">  credentials:</span>
+<span class="linenos">19</span><span class="s">    source: Secret</span>
+<span class="linenos">20</span><span class="s">    secretRef:</span>
+<span class="linenos">21</span><span class="s">      namespace: crossplane-system</span>
+<span class="linenos">22</span><span class="s">      name: secret-azure</span>
+<span class="linenos">23</span><span class="s">      key: configs</span>
+<span class="linenos">24</span><span class="s">---</span>
+<span class="linenos">25</span><span class="s">apiVersion: v1</span>
+<span class="linenos">26</span><span class="s">kind: Secret</span>
+<span class="linenos">27</span><span class="s">metadata:</span>
+<span class="linenos">28</span><span class="s">  name: secret-azure</span>
+<span class="linenos">29</span><span class="s">  namespace: skycluster</span>
+<span class="linenos">30</span><span class="s">type: Opaque</span>
+<span class="linenos">31</span><span class="s">data:</span>
+<span class="linenos">32</span><span class="s">  configs: $cont_enc</span>
+<span class="linenos">33</span><span class="s">EOF</span>
 </pre></div>
 </div>
 </div>
@@ -591,9 +604,8 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
 </pre></div>
 </div>
-<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">openstack-setup.sh</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>skycluster-manager/config/providers
-./openstack-setup.sh
+<p>Then execute the command below to configure your Openstack provider:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/openstack-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
 <p><strong>Alternatively</strong>, you can run the following script:</p>
@@ -601,48 +613,48 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <div class="header docutils container">
 <p><strong>openstack-setup.sh</strong></p>
 </div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="c1"># Check if any of these variables are not set, if so exist</span>
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$AUTH_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USERNAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PASSWORD</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$TENANT_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-z<span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USER_DOMAIN_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PROJECT_DOMAIN_NAME</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;One or more required variables are not set.&quot;</span>
-<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="k">fi</span>
-
-cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
-<span class="s">kind: ProviderConfig</span>
-<span class="s">metadata:</span>
-<span class="s">  name: provider-cfg-os-${REGION}</span>
-<span class="s">  labels:</span>
-<span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="s">spec:</span>
-<span class="s">  credentials:</span>
-<span class="s">    source: Secret</span>
-<span class="s">    secretRef:</span>
-<span class="s">      name: secret-os-${REGION}</span>
-<span class="s">      namespace: crossplane-system</span>
-<span class="s">      key: configs</span>
-<span class="s">---</span>
-<span class="s">apiVersion: v1</span>
-<span class="s">kind: Secret</span>
-<span class="s">metadata:</span>
-<span class="s">  name: secret-os-${REGION}</span>
-<span class="s">  namespace: crossplane-system</span>
-<span class="s">type: Opaque</span>
-<span class="s">stringData:</span>
-<span class="s">  configs: |</span>
-<span class="s">    {</span>
-<span class="s">      &quot;auth_url&quot;: $AUTH_URL,</span>
-<span class="s">      &quot;user_name&quot;: $USERNAME,</span>
-<span class="s">      &quot;password&quot;: $PASSWORD,</span>
-<span class="s">      &quot;tenant_name&quot;: $TENANT_NAME,</span>
-<span class="s">      &quot;region&quot;: $REGION,</span>
-<span class="s">      &quot;user_domain_name&quot;: $USER_DOMAIN_NAME,</span>
-<span class="s">      &quot;project_domain_name&quot;: $PROJECT_DOMAIN_NAME</span>
-<span class="s">    }</span>
-<span class="s">EOF</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># Check if any of these variables are not set, if so exist</span>
+<span class="linenos"> 4</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$AUTH_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USERNAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PASSWORD</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$TENANT_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="linenos"> 5</span><span class="w">  </span>-z<span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USER_DOMAIN_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PROJECT_DOMAIN_NAME</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;One or more required variables are not set.&quot;</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 8</span><span class="k">fi</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">11</span><span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
+<span class="linenos">12</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">13</span><span class="s">metadata:</span>
+<span class="linenos">14</span><span class="s">  name: provider-cfg-os-${REGION}</span>
+<span class="linenos">15</span><span class="s">  labels:</span>
+<span class="linenos">16</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">17</span><span class="s">spec:</span>
+<span class="linenos">18</span><span class="s">  credentials:</span>
+<span class="linenos">19</span><span class="s">    source: Secret</span>
+<span class="linenos">20</span><span class="s">    secretRef:</span>
+<span class="linenos">21</span><span class="s">      name: secret-os-${REGION}</span>
+<span class="linenos">22</span><span class="s">      namespace: crossplane-system</span>
+<span class="linenos">23</span><span class="s">      key: configs</span>
+<span class="linenos">24</span><span class="s">---</span>
+<span class="linenos">25</span><span class="s">apiVersion: v1</span>
+<span class="linenos">26</span><span class="s">kind: Secret</span>
+<span class="linenos">27</span><span class="s">metadata:</span>
+<span class="linenos">28</span><span class="s">  name: secret-os-${REGION}</span>
+<span class="linenos">29</span><span class="s">  namespace: crossplane-system</span>
+<span class="linenos">30</span><span class="s">type: Opaque</span>
+<span class="linenos">31</span><span class="s">stringData:</span>
+<span class="linenos">32</span><span class="s">  configs: |</span>
+<span class="linenos">33</span><span class="s">    {</span>
+<span class="linenos">34</span><span class="s">      &quot;auth_url&quot;: $AUTH_URL,</span>
+<span class="linenos">35</span><span class="s">      &quot;user_name&quot;: $USERNAME,</span>
+<span class="linenos">36</span><span class="s">      &quot;password&quot;: $PASSWORD,</span>
+<span class="linenos">37</span><span class="s">      &quot;tenant_name&quot;: $TENANT_NAME,</span>
+<span class="linenos">38</span><span class="s">      &quot;region&quot;: $REGION,</span>
+<span class="linenos">39</span><span class="s">      &quot;user_domain_name&quot;: $USER_DOMAIN_NAME,</span>
+<span class="linenos">40</span><span class="s">      &quot;project_domain_name&quot;: $PROJECT_DOMAIN_NAME</span>
+<span class="linenos">41</span><span class="s">    }</span>
+<span class="linenos">42</span><span class="s">EOF</span>
 </pre></div>
 </div>
 </div>
@@ -664,59 +676,9 @@ You can choose from the following available regions: <code class="docutils liter
 <span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
 </pre></div>
 </div>
-<p>Then navigate to the <code class="docutils literal notranslate"><span class="pre">providers</span></code> folder and execute the script <code class="docutils literal notranslate"><span class="pre">openstack-setup.sh</span></code>:</p>
+<p>Then execute the command below to configure the provider:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/openstack-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
-</div>
-<p><strong>Alternatively</strong>, you can run the following script:</p>
-<div class="toggle docutils container">
-<div class="header docutils container">
-<p><strong>openstack-setup.sh</strong></p>
-</div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="c1"># Check if any of these variables are not set, if so exist</span>
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$AUTH_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USERNAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PASSWORD</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$TENANT_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-z<span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USER_DOMAIN_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PROJECT_DOMAIN_NAME</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;One or more required variables are not set.&quot;</span>
-<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="k">fi</span>
-
-cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
-<span class="s">kind: ProviderConfig</span>
-<span class="s">metadata:</span>
-<span class="s">  name: provider-cfg-os-${REGION}</span>
-<span class="s">  labels:</span>
-<span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="s">spec:</span>
-<span class="s">  credentials:</span>
-<span class="s">    source: Secret</span>
-<span class="s">    secretRef:</span>
-<span class="s">      name: secret-os-${REGION}</span>
-<span class="s">      namespace: skycluster</span>
-<span class="s">      key: configs</span>
-<span class="s">---</span>
-<span class="s">apiVersion: v1</span>
-<span class="s">kind: Secret</span>
-<span class="s">metadata:</span>
-<span class="s">  name: secret-os-${REGION}</span>
-<span class="s">  namespace: skycluster</span>
-<span class="s">type: Opaque</span>
-<span class="s">stringData:</span>
-<span class="s">  configs: |</span>
-<span class="s">    {</span>
-<span class="s">      &quot;auth_url&quot;: $AUTH_URL,</span>
-<span class="s">      &quot;user_name&quot;: $USERNAME,</span>
-<span class="s">      &quot;password&quot;: $PASSWORD,</span>
-<span class="s">      &quot;tenant_name&quot;: $TENANT_NAME,</span>
-<span class="s">      &quot;region&quot;: $REGION,</span>
-<span class="s">      &quot;user_domain_name&quot;: $USER_DOMAIN_NAME,</span>
-<span class="s">      &quot;project_domain_name&quot;: $PROJECT_DOMAIN_NAME</span>
-<span class="s">    }</span>
-<span class="s">EOF</span>
-</pre></div>
-</div>
 </div>
 <p>Repeat the steps for each additional regions you want to configure.</p>
 </section>
