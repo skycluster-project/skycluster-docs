@@ -1,0 +1,37 @@
+apiVersion: xrds.skycluster.io/v1alpha1
+kind: xSkyVM
+metadata:
+  name: skycluster-xskyvm
+  labels:
+    skycluster.io/managed-by: skycluster
+    skycluster.io/environment: dev
+    skycluster.io/app-name: app1
+spec: 
+  forProvider:
+    flavor: small
+    image: ubuntu-22.04
+    # This is cloud init script
+    # This is used as userData in aws
+    cloudInit: ""
+    # The following will be ingored in savi and aws
+    # This is a script running on the instance when it is booted, applicable only in GCP
+    # and it is different from cloudInit
+    userData: ""
+    # sshKeyPub only works in GCP
+    sshKeyPub: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEGdP3tmn2XZ43QqkB92fp03WskHXS1hAnmqOuoYoKtn1LWSXcjbF6oMI/yQErWWi07DfqZm6ziQwKasOn8aVedkVLf0vIEiGGZZMzjh8sv/t+zcWmtFyW4Dcm2qiYXk5ckdzxoPXUpzsx6PwmGpOnV2YKBoX5p1ItyNN1+ltMbv5FCelJR3AWCIqq5LtfiHWZcj/77xyjIFsYA2ZREPN9UySZvJHdsMOHFXTZJq615qL2poG09sFdM2HSrKR7WX/duqm732gpScu0svPpwztQSQY01O4iyx/0X21v4FV5E3/NSM8EMVRfE4i7WfPEajN6PZHPKS/qejTMpgsKswJIO4FLUlDzOKUqvMPW+/sJ3VX5bejAbNdvvu0xz0qBZ5etzCjFxIE2pCP+GaSjfMef1RRd2Q1NEiPPIx3WDBdRN3aKmhfAYfQypJIMjDTMVW1slhhSB6MPibPxXSUm2HnAA+HfrwJXJ9dFLaBcGOyZdAMkYwwCh4dRSg8jnBz3Gic= ubuntu@esn-skycluster-1
+  provider:
+    name: aws
+    region: us-east-1
+    zone: use1-az1
+    # name: gcp
+    # region: us-east1
+    # zone: b
+    # name: savi
+    # region: scinet
+    # zone: default
+status:
+  atProvider:
+    network:
+      privateIpAddress: ""
+      publicIpAddress: ""

@@ -1,5 +1,18 @@
 {% extends "!page.html" %}
 
+{% block header %}
+    {{ super() }}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+{% endblock %}
+
 {% block footer %}
  <script type="text/javascript">
     $(document).ready(function() {

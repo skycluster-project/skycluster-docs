@@ -6,20 +6,26 @@ Installation
   
   providers-configs
   skycluster-configs
+  overlay-server-config
 
 .. _CROSSPLANE: https://crossplane.io
+.. _HELM: https://helm.sh/docs/intro/install
+.. _KIND: https://kind.sigs.k8s.io/docs/user/quick-start
+.. _TAILSCALE: https://tailscale.com/kb/1347/installation
 .. _DOCKER_POST_INSTALL: https://docs.docker.com/engine/install/linux-postinstall
 
 **Pre-requisites**:
 
 ``SkyCluster Manager`` depends on the following tools:
 
-- `kubectl <https://kubernetes.io/docs/tasks/tools/install-kubectl/>`_
-- `helm <https://helm.sh>`_
-- `kind <https://kind.sigs.k8s.io>`_
+- `Kubectl <https://kubernetes.io/docs/tasks/tools/install-kubectl/>`_
+- `Helm <HELM_>`_
+- `Kind <KIND_>`_
 - `CrossPlane <CROSSPLANE_>`_
+- `Tailscale <TAILSCALE_>`_
 
-We utilize `kind <https://kind.sigs.k8s.io>`_ to create a local cluster to install and test SkyCluster Manager.
+Please make sure you have installed all tools before proceeding.
+We utilize ``kind`` to create a local cluster to install and test SkyCluster Manager.
 Please ensure you can use ``kubectl`` without sudo before proceeding (refer to the 
 `docker post-installation guide <DOCKER_POST_INSTALL_>`_).
 
@@ -64,6 +70,7 @@ You can install all the providers or only the ones you need. Create a settings f
 ``settings.yaml`` with the following content and set ``enabled`` to ``false`` for the providers you don't want to be installed:
 
 .. code-block:: yaml
+  :linenos:
 
   providers:
     public:
@@ -86,12 +93,15 @@ Then run the following command to install the skycluster using ``helm``:
   helm repo add skycluster https://skycluster.io/charts
   helm repo update
 
-  helm install skycluster skycluster/skycluster -f settings.yaml
+  helm install skycluster skycluster/skycluster \
+    --set install=true -f settings.yaml
 
-This step may take few mintues to be completed depending on your internet connection.
-You need to wait for all the providers to become available and healthy before proceeding to the next step.
-Check the status of the providers by running ``kubectl get providers``. 
-and wait till you see the fields ``Installed=True`` and ``HEALTHY=True`` for all the providers. 
+.. warning::
+
+  This step may take few mintues to be completed depending on your internet connection.
+  You need to wait for all the providers to become available and healthy before proceeding to the next step.
+  Check the status of the providers by running ``kubectl get providers``. 
+  and wait till you see the fields ``Installed=True`` and ``HEALTHY=True`` for all the providers. 
 
 **Providers' Configuration**:
 

@@ -1,0 +1,101 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata: 
+  name: xosproviders.xrds.skycluster.io
+spec:
+  group: xrds.skycluster.io
+  names:
+    kind: XOSProvider
+    plural: xosproviders
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              forProvider:
+                type: object
+                properties:
+                  gateway:
+                    type: object
+                    properties:
+                      flavor:
+                        type: string
+                      image:
+                        type: string
+                  vpnServer:
+                    type: object
+                    properties:
+                      host:
+                        type: string
+                      port:
+                        type: integer
+                      token:
+                        type: string
+                  publicKey:
+                    type: string
+                  ipCidrRange:
+                    type: string
+                  secgroup:
+                    type: object
+                    properties:
+                      description:
+                        type: string
+                      tcpPorts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            fromPort:
+                              type: integer
+                            toPort:
+                              type: integer
+                      udpPorts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            fromPort:
+                              type: integer
+                            toPort:
+                              type: integer
+              provider:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  region:
+                    type: string
+                  zone:
+                    type: string
+          status:
+            type: object
+            properties:
+              vpnhead:
+                type: object
+                properties:
+                  PublicIpAddress:
+                    type: string
+              network:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  privateIpAddress:
+                    type: string
+              subnet:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  cidr:
+                    type: string
+                  gatewayIp:
+                    type: string
+                  networkId:
+                    type: string

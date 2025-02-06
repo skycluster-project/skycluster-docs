@@ -1,0 +1,461 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xosprovider-composition
+spec:
+  compositeTypeRef: 
+    apiVersion: xrds.skycluster.io/v1alpha1
+    kind: XOSProvider
+  mode: Pipeline
+  pipeline:
+    - step: pull-extra-resources
+      functionRef:
+        name: function-extra-resources
+      input:
+        apiVersion: extra-resources.fn.crossplane.io/v1beta1
+        kind: Input
+        spec:
+          extraResources:
+            # - kind: ConfigMap
+            #   into: ScriptConfigMap
+            #   apiVersion: v1
+            #   type: Selector # or Reference
+            #   selector:
+            #     maxMatch: 1
+            #     minMatch: 1
+            #     matchLabels:
+            #       - key: skycluster.io/managed-by
+            #         type: Value # it could be FromCompositeFieldPath
+            #         value: skycluster
+            #       - key: skycluster.io/script-type
+            #         type: Value
+            #         value: cloud-init
+            - kind: ProviderConfig
+              into: ProviderConfig
+              apiVersion: openstack.crossplane.io/v1beta1
+              type: Selector
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value 
+                    value: skycluster
+                  - key: skycluster.io/provider-region
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: spec.provider.region
+            - kind: ConfigMap
+              into: ConfigMaps
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 100
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/provider-name
+                    type: Value
+                    value: os
+                  - key: skycluster.io/provider-region
+                    type: FromCompositeFieldPath
+                    valueFromFieldPath: spec.provider.region
+            # - kind: Secret
+            #   into: Secret
+            #   apiVersion: v1
+            #   type: Selector # or Reference
+            #   selector:
+            #     maxMatch: 1
+            #     minMatch: 1
+            #     matchLabels:
+            #       - key: skycluster.io/managed-by
+            #         type: Value # it could be FromCompositeFieldPath
+            #         value: skycluster
+            #       - key: skycluster.io/type
+            #         type: Value
+            #         value: ssh-key
+    - step: setup
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- $Observed := .observed.composite.resource }} 
+            {{- $ProviderName := $Observed.spec.provider.name }}
+            {{- $ProviderRegion := $Observed.spec.provider.region }}
+            {{- $ProviderZone := $Observed.spec.provider.zone }}
+            {{- $ProviderSpec := $Observed.spec.forProvider }}
+            {{- $ObjectName := printf "%s" $Observed.metadata.name }} 
+            
+            {{- $FloatingIp := dig "resources" "public-ip" "resource" "status" "atProvider" "address" "" .observed }}
+            {{- $NetworkId := dig "resources" "networkv2" "resource" "status" "atProvider" "id" "" .observed }}
+            {{- $SubnetId := dig "resources" "subnetv2" "resource" "status" "atProvider" "id" "" .observed }}
+            {{- $RouterId := dig "resources" "routerv2" "resource" "status" "atProvider" "id" "" .observed }}
+            {{- $SubnetCidr := dig "resources" "subnetv2" "resource" "status" "atProvider" "cidr" "" .observed }}
+            {{- $PortId := dig "resources" "private-portv2" "resource" "status" "atProvider" "id" "" .observed }}
+            {{- $InstanceIp := dig "resources" "instance" "resource" "status" "atProvider" "accessIpV4" "" .observed }}
+
+            {{- $ExtraResources := dig "apiextensions.crossplane.io/extra-resources" "" .context }}
+            {{- $ProviderConfig := index (dig "ProviderConfig" "" $ExtraResources) 0 }}
+            {{- $Configs := dig "ConfigMaps" "" $ExtraResources }}
+
+            {{- $managedPolicy := dig "skycluster.io/management-policy" "" $Observed.metadata.annotations }}
+
+            {{- $CMs := dict -}}
+            {{- range $res := $Configs }}
+              {{- $region := or (dig "skycluster.io/provider-region" "" $res.metadata.labels) "global" }}
+              {{- $zone :=  or (dig "skycluster.io/provider-zone" "" $res.metadata.labels) "default" }}
+              {{- if not (hasKey $CMs $region) }}
+                {{- $r := dict -}}
+                {{- $_ := set $CMs $region $r }}
+              {{- end }}
+              {{- if not (hasKey (index $CMs $region) $zone) }}
+                {{- $_ := set (index $CMs $region) $zone $res.data }}
+              {{- end }}
+            {{- end}}
+
+            {{- $ConfigDefault := index (index $CMs $ProviderRegion) "default" }}
+            {{- $DefaultZone := dig "default-zone" "" $ConfigDefault }}
+            {{- $ProviderZone := or (dig "spec" "provider" "zone" "" $Observed) $DefaultZone }}
+            {{- $Config := index (index $CMs $ProviderRegion) $ProviderZone }}
+
+            apiVersion: identity.openstack.crossplane.io/v1alpha1 
+            kind: ProjectV3
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "project" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider: 
+                description: "SkyCluster Setup"
+                domainId: "default"
+                name: {{ $ObjectName }}
+                region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: networking.openstack.crossplane.io/v1alpha1 
+            kind: NetworkV2
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "networkv2" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider: 
+                name: {{ $ObjectName }}
+                region: {{ upper $ProviderRegion }}
+                external: false
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: networking.openstack.crossplane.io/v1alpha1 
+            kind: SubnetV2
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "subnetv2" }}
+                crossplane.io/paused: "true"
+                {{- if not (empty $NetworkId) }} 
+                crossplane.io/paused: "false"
+                {{- end }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+                skycluster.io/public-subnet: "false"
+            spec:
+              forProvider: 
+                name: {{ $ObjectName }}
+                cidr: {{ $ProviderSpec.ipCidrRange }}
+                gatewayIp: {{ printf "%s%s" (mustRegexFind "[0-9]*.[0-9]*.[0-9]*." $ProviderSpec.ipCidrRange ) "1" }}
+                region: {{ upper $ProviderRegion }}
+                dnsNameservers: [8.8.8.8]
+                networkIdSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: compute.openstack.crossplane.io/v1alpha1 
+            kind: SecgroupV2
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "secgrp" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider: 
+                name: {{ $ObjectName }}
+                description: {{ $ProviderSpec.secgroup.description }}
+                region: {{ $ProviderRegion | upper }}
+                rule:
+                {{- range $i, $ports := $ProviderSpec.secgroup.tcpPorts }}
+                - cidr: 0.0.0.0/0
+                  fromPort: {{ $ports.fromPort }}
+                  toPort: {{ $ports.toPort }}
+                  ipProtocol: tcp
+                {{- end }}
+                {{- range $i, $ports := $ProviderSpec.secgroup.udpPorts }}
+                - cidr: 0.0.0.0/0
+                  fromPort: {{ $ports.fromPort }}
+                  toPort: {{ $ports.toPort }}
+                  ipProtocol: udp
+                {{- end }}
+                - cidr: 0.0.0.0/0
+                  ipProtocol: icmp
+                  fromPort: -1
+                  toPort: -1
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: networking.openstack.crossplane.io/v1alpha1 
+            kind: RouterV2
+            metadata:
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+              annotations:
+                {{ setResourceNameAnnotation "routerv2" }}
+                {{- if eq $ProviderRegion "scinet" }}
+                crossplane.io/external-name: "0033d21d-56e2-4cde-9755-de6153167017"
+                {{- else if eq $ProviderRegion "vaughan" }}
+                crossplane.io/external-name: "712f6f07-374e-498a-99bd-e07a7a171cba"
+                {{- end }}
+            spec:
+              forProvider: 
+                name: {{ $ObjectName }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: networking.openstack.crossplane.io/v1alpha1
+            kind: RouterInterfaceV2
+            metadata:
+              annotations: 
+                gotemplating.fn.crossplane.io/composition-resource-name: {{ printf "%s-%s" $ObjectName "router-intf" }}
+                crossplane.io/paused: "true"
+                {{- if and (not (empty $RouterId)) (not (empty $SubnetId)) }}
+                crossplane.io/paused: "false"
+                {{- end }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec: 
+              forProvider:
+                routerIdSelector: 
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                subnetIdSelector: 
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: compute.openstack.crossplane.io/v1alpha1 
+            kind: KeypairV2
+            metadata:
+              annotations: 
+                gotemplating.fn.crossplane.io/composition-resource-name: {{ printf "%s-%s" $ObjectName "keypair" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider: 
+                name: {{ $ObjectName }}
+                publicKey: {{ $ProviderSpec.publicKey }}
+                region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: networking.openstack.crossplane.io/v1alpha1 
+            kind: PortV2
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "private-portv2" }}
+                crossplane.io/paused: "true"
+                {{- if and (not (empty $NetworkId)) (not (empty $SubnetId)) }}
+                crossplane.io/paused: "false"
+                {{- end }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                networkId: {{ $NetworkId }}
+                portSecurityEnabled: false
+                region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: compute.openstack.crossplane.io/v1alpha1 
+            kind: InstanceV2
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "instance" }}
+                crossplane.io/paused: "true"
+                # if x then y else x
+                {{- if and (not (empty $PortId)) (not (empty $FloatingIp )) }}
+                crossplane.io/paused: "false"
+                {{- end }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                name: {{ $ObjectName }}
+                flavorName: {{ dig (printf "flavor-%s" $ProviderSpec.gateway.flavor) "m1.small" $Config  }}
+                imageName: {{ dig (printf "image-%s" $ProviderSpec.gateway.image) "Ubuntu-22-04-Jammy" $Config  }}
+                keyPairSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                network:
+                - port: {{ $PortId }}
+                securityGroupsSelector:
+                  matchLabels: 
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                userData: |
+                  {{- $SCRIPT := dig "data" "cloud-init" "" $ScriptCloudinit -}}
+                  {{- $SCRIPT := $SCRIPT | replace "__OVERLAY_HOSTURL__" $ProviderSpec.vpnServer.host -}}
+                  {{- $SCRIPT := $SCRIPT | replace "__OVERLAY_PORT__" ($ProviderSpec.vpnServer.port | toString) -}}
+                  {{- $SCRIPT := $SCRIPT | replace "__OVERLAY_TOKEN__" $ProviderSpec.vpnServer.token -}}
+                  {{- $SCRIPT := $SCRIPT | replace "__OVERLAY_HOSTNAME__" $Observed.metadata.name -}}
+                  {{- $SCRIPT := $SCRIPT | replace "__SUBNETCIDR__" $ProviderSpec.ipCidrRange }}
+                  {{- $SCRIPT := $SCRIPT | replace "__INTF_NAME__" "ens3" }}
+                  {{- nindent 6 $SCRIPT }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: networking.openstack.crossplane.io/v1alpha1 
+            kind: FloatingipV2
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "public-ip" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                pool: "ext-net"
+                region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: networking.openstack.crossplane.io/v1alpha1 
+            kind: FloatingipAssociateV2
+            metadata:
+              annotations:
+                {{ setResourceNameAnnotation "public-ip-assoc" }}
+                crossplane.io/paused: "true"
+                {{- if and (not (empty $InstanceIp)) (and (not (empty $PortId)) (not (empty $FloatingIp ))) }}
+                crossplane.io/paused: "false"
+                {{- end }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                fixedIp: {{ $InstanceIp }}
+                floatingIp: {{ $FloatingIp }}
+                portId: {{ $PortId }}
+                region: {{ upper $ProviderRegion }}
+              {{- if eq $managedPolicy "observed" }}
+              managementPolicies: ["Observe"]
+              {{- end }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+    - step: patch-and-transform
+      functionRef:
+        name: function-patch-and-transform
+      input:
+        apiVersion: pt.fn.crossplane.io/v1beta1
+        kind: Resources
+        resources:
+          - name: public-ip-assoc
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.floatingIp"
+                toFieldPath: "status.vpnhead.PublicIpAddress"
+          - name: networkv2
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.id"
+                toFieldPath: "status.network.id"
+          - name: subnetv2
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.id"
+                toFieldPath: "status.subnet.id"
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.cidr"
+                toFieldPath: "status.subnet.cidr"
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.gatewayIp"
+                toFieldPath: "status.subnet.gatewayIp"
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.networkId"
+                toFieldPath: "status.subnet.networkId"
+          - name: private-portv2
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: status.atProvider.allFixedIps[0]
+                toFieldPath: status.network.privateIpAddress
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready
