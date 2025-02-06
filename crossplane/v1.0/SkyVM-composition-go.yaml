@@ -1,0 +1,274 @@
+# Use patches to have unique secret names
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xskyvm-composition
+spec:
+  compositeTypeRef: 
+    apiVersion: xrds.skycluster.io/v1alpha1
+    kind: XSkyVM
+  mode: Pipeline
+  pipeline:
+    - step: pull-extra-resources
+      functionRef:
+        name: function-extra-resources
+      input:
+        apiVersion: extra-resources.fn.crossplane.io/v1beta1
+        kind: Input
+        spec:
+          extraResources:
+            - kind: ConfigMap
+              into: ConfigMaps
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 100
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/config-type
+                    type: Value
+                    value: provider-vars
+            - kind: Secret
+              into: Secret
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 1
+                minMatch: 0
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value # it could be FromCompositeFieldPath
+                    value: skycluster
+                  - key: skycluster.io/type
+                    type: Value
+                    value: ssh-key
+    - step: create-an-instance
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- $ProviderName := .observed.composite.resource.spec.provider.name }}
+            {{- $ProviderRegion := .observed.composite.resource.spec.provider.region }}
+            {{- $ProviderZone := .observed.composite.resource.spec.provider.zone }}
+            {{- $Observed := .observed.composite.resource }} 
+            {{- $ProviderSpec := $Observed.spec.forProvider }}
+            {{- $SecretRemoteCmdName := dig "resources" "secret-remote-script" "resource" "metadata" "name" "" .observed }}
+            {{- $InstanceIP := dig "resources" "xskyvm" "resource" "status" "atProvider" "network" "privateIpAddress" "" .observed }}
+            
+            {{- $ExtraResources := index .context "apiextensions.crossplane.io/extra-resources" }}
+            {{- $SSHPublicKey := trim (b64dec (dig "data" "public_key" "" (index (index $ExtraResources "Secret") 0))) }}
+            {{- $SSHPrivateKey := dig "data" "private_key" "" (index (index $ExtraResources "Secret") 0) }}
+            {{- $ProviderConfigs := dig "ConfigMaps" "" $ExtraResources }}
+            
+            {{- $CMs := dict -}}
+            {{- range $res := $ProviderConfigs }}
+              {{- $provider := (dig "skycluster.io/provider-name" "" $res.metadata.labels) }}
+              {{- $region := (or (dig "skycluster.io/provider-region" "" $res.metadata.labels) "default") }}
+              {{- $zone :=  (or (dig "skycluster.io/provider-zone" "" $res.metadata.labels) "default") }}
+              {{- if not (empty $provider) }}
+                {{- if not (hasKey $CMs $provider) }}
+                  {{- $reg := dict -}}
+                  {{ $_ := set $CMs $provider $reg }}
+                {{- end }}
+                {{- if not (hasKey (index $CMs $provider) $region) }}
+                  {{- $z := dict -}}
+                  {{ $_ := set (index $CMs $provider) $region $z }}
+                {{- end }}
+                {{- if not (hasKey (index (index $CMs $provider) $region) $zone) }}
+                  {{- $_ := set (index (index $CMs $provider) $region) $zone $res.data }}
+                {{- end }}
+              {{- end }}
+            {{- end}}
+
+            {{- $ConfigDefault := index (index (index $CMs $ProviderName) $ProviderRegion) "default" }}
+            {{- $DefaultZone := dig "default-zone" "" $ConfigDefault }}
+            {{- $ProviderZoneFromCompositeResource := dig "spec" "provider" "zone" "" $Observed }}
+            {{- if eq $ProviderZoneFromCompositeResource "default" }}
+              {{- $ProviderZoneFromCompositeResource = "" }}
+            {{- end }}
+            {{- $ProviderZone := or ($ProviderZoneFromCompositeResource) $DefaultZone }}
+            {{- $Config := index (index (index $CMs $ProviderName) $ProviderRegion) $ProviderZone }}
+
+            {{- if eq $ProviderName "savi" }}
+            apiVersion: xrds.skycluster.io/v1alpha1
+            kind: XSAVIInstance
+            metadata:
+              labels:
+                skycluster.io/managed-by: skycluster
+                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                skycluster.io/provider-name: {{ $ProviderName }}
+                skycluster.io/provider-region: {{ $ProviderRegion }}
+                skycluster.io/provider-zone: {{ $ProviderZone }}
+              annotations: 
+                {{ setResourceNameAnnotation "xskyvm" }}
+            spec: 
+              forProvider:
+                flavorName: {{ index $Config (printf "flavor-%s" $ProviderSpec.flavor) }}
+                imageName: {{ index $Config (printf "%s-%s" "image" $ProviderSpec.image ) }}
+                cloudInit: |
+                  {{- nindent 6 $ProviderSpec.cloudInit }}
+              provider:
+                name: savi
+                region: {{ $ProviderRegion }}
+                zone: default
+            {{- else if eq $ProviderName "gcp" }}
+            apiVersion: xrds.skycluster.io/v1alpha1
+            kind: XGCPInstance
+            metadata: 
+              annotations: 
+                {{ setResourceNameAnnotation "xskyvm" }}
+              labels:
+                skycluster.io/managed-by: skycluster
+                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                skycluster.io/provider-name: {{ $ProviderName }}
+                skycluster.io/provider-region: {{ $ProviderRegion }}
+                skycluster.io/provider-zone: {{ $ProviderZone }}
+            spec: 
+              forProvider:
+                flavorName: {{ index $Config (printf "%s-%s" "flavor" $ProviderSpec.flavor) }}
+                imageName: {{ index $ConfigDefault (printf "%s-%s" "image" $ProviderSpec.image ) }}
+                userData: |
+                  {{- nindent 6 $ProviderSpec.userData }}
+                cloudInit: |
+                  {{- nindent 6 $ProviderSpec.cloudInit }}
+                sshKey: {{- if (empty $ProviderSpec.sshKeyPub) }} {{ $SSHPublicKey }} {{ else }} {{ $ProviderSpec.sshKeyPub }} {{- end }}
+              provider:
+                name: gcp
+                region: {{ $ProviderRegion }}
+                zone: {{ $ProviderZone }}
+            {{- else if eq $ProviderName "aws" }}
+            apiVersion: xrds.skycluster.io/v1alpha1
+            kind: XAWSInstance
+            metadata: 
+              annotations: 
+                {{ setResourceNameAnnotation "xskyvm" }}
+              labels:
+                skycluster.io/managed-by: skycluster
+                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                skycluster.io/provider-name: {{ $ProviderName }}
+                skycluster.io/provider-region: {{ $ProviderRegion }}
+                skycluster.io/provider-zone: {{ $ProviderZone }}
+            spec: 
+              forProvider:
+                flavorName: {{ index $Config (printf "%s-%s" "flavor" $ProviderSpec.flavor) }}
+                imageName: {{ index $ConfigDefault (printf "%s-%s" "image" $ProviderSpec.image ) }}
+                cloudInit: |
+                  {{- nindent 6 $ProviderSpec.cloudInit }}
+              provider:
+                name: aws
+                region: {{ $ProviderRegion }}
+                zone: {{ $ProviderZone }}
+            {{- else if eq $ProviderName "azure" }}
+            apiVersion: xrds.skycluster.io/v1alpha1
+            kind: XAzureInstance
+            metadata: 
+              annotations: 
+                {{ setResourceNameAnnotation "xskyvm" }}
+              labels:
+                skycluster.io/managed-by: skycluster
+                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                skycluster.io/provider-name: {{ $ProviderName }}
+                skycluster.io/provider-region: {{ $ProviderRegion }}
+                skycluster.io/provider-zone: {{ $ProviderZone }}
+            spec: 
+              forProvider:
+                flavorName: {{ index $Config (printf "%s-%s" "flavor" $ProviderSpec.flavor) }}
+                imageName: {{ $ProviderSpec.image }}
+                userData: |
+                  {{- nindent 6 $ProviderSpec.cloudInit }}
+                sshKey: {{- if (empty $ProviderSpec.sshKeyPub) }} {{ $SSHPublicKey }} {{ else }} {{ $ProviderSpec.sshKeyPub }} {{- end }}
+              provider:
+                name: azure
+                region: {{ $ProviderRegion }}
+                zone: {{ $ProviderZone }}
+            {{- end }}
+            ---
+            apiVersion: kubernetes.crossplane.io/v1alpha2
+            kind: Object
+            metadata:
+              annotations:
+                {{ setResourceNameAnnotation "secret-remote-script" }}
+            spec:
+              forProvider:
+                manifest:
+                  apiVersion: v1
+                  kind: Secret
+                  metadata:
+                    namespace: skycluster-manager
+                    labels:
+                      skycluster.io/managed-by: skycluster
+                      skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                      skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                      skycluster.io/provider-name: {{ $ProviderName }}
+                      skycluster.io/provider-region: {{ $ProviderRegion }}
+                      skycluster.io/provider-zone: {{ $ProviderZone }}
+                  type: Opaque
+                  stringData:
+                    config: |
+                      {
+                        "username": "ubuntu",
+                        "password": "Myubuntu12@@",
+                        "hostIP": "{{ $InstanceIP }}",
+                        "hostPort": "22",
+                        "privateKey": "{{ $SSHPrivateKey }}"
+                      }
+              providerConfigRef:
+                name: kubernetes-provider
+            ---
+            apiVersion: ssh.crossplane.io/v1alpha1
+            kind: ProviderConfig
+            metadata:
+              annotations:
+                {{ setResourceNameAnnotation "provider-cfg-remote-script" }}
+              labels:
+                skycluster.io/managed-by: skycluster
+                skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                skycluster.io/provider-name: {{ $ProviderName }}
+                skycluster.io/provider-region: {{ $ProviderRegion }}
+                skycluster.io/provider-zone: {{ $ProviderZone }}
+                skycluster.io/remote-host: {{ $InstanceIP }}
+            spec:
+              credentials:
+                source: Secret
+                secretRef:
+                  namespace: skycluster-manager
+                  name: {{ $SecretRemoteCmdName }}
+                  key: config
+    - step: patch-and-transform
+      functionRef:
+        name: function-patch-and-transform
+      input:
+        apiVersion: pt.fn.crossplane.io/v1beta1
+        kind: Resources
+        resources:
+          - name: xskyvm
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.network.privateIpAddress"
+                toFieldPath: "status.atProvider.network.privateIpAddress"
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.network.publicIpAddress"
+                toFieldPath: "status.atProvider.network.publicIpAddress"
+          - name: provider-cfg-remote-script
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: "metadata.name"
+                toFieldPath: "status.atProvider.providerConfig.name"
+            readinessChecks:
+              - type: NonEmpty
+                fieldPath: spec.credentials.secretRef.name
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready

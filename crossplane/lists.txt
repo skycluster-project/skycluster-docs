@@ -1,0 +1,8 @@
+http://skycluster.io:8000/crossplane/latest/XAWSProvider-xrd.yaml
+http://skycluster.io:8000/crossplane/latest/XAWSProvider-composition-go.yaml
+http://skycluster.io:8000/crossplane/latest/XAzureProvider-xrd.yaml
+http://skycluster.io:8000/crossplane/latest/XAzureProvider-composition-go.yaml
+http://skycluster.io:8000/crossplane/latest/XGCPProvider-xrd.yaml
+http://skycluster.io:8000/crossplane/latest/XGCPProvider-composition-go.yaml
+http://skycluster.io:8000/crossplane/latest/XSkyProvider-xrd.yaml
+http://skycluster.io:8000/crossplane/latest/XSkyProvider-composition.yaml
