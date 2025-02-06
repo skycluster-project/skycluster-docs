@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=57cc2a3a" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=bc219c3d" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -63,6 +63,17 @@
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
@@ -379,15 +390,16 @@ environment, specifically tailored for a given application.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/references/index.html">References</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/references/objects.html">Primary Objects</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyk8s-object">SkyK8S Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyprovider-object">SkyProvider Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyvm-object">SkyVM Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyk8s-object">SkyK8S Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlay-object">SkyOverlay Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlaygateway-object">SkyOverlayGateway Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlayclient-object">SkyOverlayClient Object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyprovider-object">SkyProvider Object</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="docs/references/configs.html">Configurations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/configs.html#skycluster-annotations">SkyCluster Annotations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/configs.html#provider-configmaps">Provider ConfigMaps</a></li>
 </ul>
 </li>

@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=57cc2a3a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=bc219c3d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -64,6 +64,17 @@
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
@@ -391,12 +402,14 @@
 <p><strong>Pre-requisites</strong>:</p>
 <p><code class="docutils literal notranslate"><span class="pre">SkyCluster</span> <span class="pre">Manager</span></code> depends on the following tools:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a></p></li>
-<li><p><a class="reference external" href="https://helm.sh">helm</a></p></li>
-<li><p><a class="reference external" href="https://kind.sigs.k8s.io">kind</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">Kubectl</a></p></li>
+<li><p><a class="reference external" href="https://helm.sh/docs/intro/install">Helm</a></p></li>
+<li><p><a class="reference external" href="https://kind.sigs.k8s.io/docs/user/quick-start">Kind</a></p></li>
 <li><p><a class="reference external" href="https://crossplane.io">CrossPlane</a></p></li>
+<li><p><a class="reference external" href="https://tailscale.com/kb/1347/installation">Tailscale</a></p></li>
 </ul>
-<p>We utilize <a class="reference external" href="https://kind.sigs.k8s.io">kind</a> to create a local cluster to install and test SkyCluster Manager.
+<p>Please make sure you have installed all tools before proceeding.
+We utilize <code class="docutils literal notranslate"><span class="pre">kind</span></code> to create a local cluster to install and test SkyCluster Manager.
 Please ensure you can use <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> without sudo before proceeding (refer to the
 <a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall">docker post-installation guide</a>).</p>
 <p><strong>Create a Local Management Kubernetes Cluster</strong>:</p>
@@ -427,19 +440,19 @@ helm<span class="w"> </span>install<span class="w"> </span>crossplane<span class
 <p>SkyCluster Manager supports AWS, GCP and Azure as well as on-premises infrastructure powered by OpenStack.
 You can install all the providers or only the ones you need. Create a settings file
 <code class="docutils literal notranslate"><span class="pre">settings.yaml</span></code> with the following content and set <code class="docutils literal notranslate"><span class="pre">enabled</span></code> to <code class="docutils literal notranslate"><span class="pre">false</span></code> for the providers you don’t want to be installed:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">providers</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">public</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">aws</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">gcp</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">azure</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">azure-network</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">private</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">openstack</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">providers</span><span class="p">:</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="nt">public</span><span class="p">:</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="nt">aws</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="nt">gcp</span><span class="p">:</span>
+<span class="linenos"> 6</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="nt">azure</span><span class="p">:</span>
+<span class="linenos"> 8</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="nt">azure-network</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">11</span><span class="w">  </span><span class="nt">private</span><span class="p">:</span>
+<span class="linenos">12</span><span class="w">    </span><span class="nt">openstack</span><span class="p">:</span>
+<span class="linenos">13</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 </div>
 <p>Then run the following command to install the skycluster using <code class="docutils literal notranslate"><span class="pre">helm</span></code>:</p>
