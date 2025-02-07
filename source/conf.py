@@ -24,7 +24,14 @@ extensions = [
     'sphinx.ext.imgconverter',
     'sphinx_copybutton',
     'sphinx_reredirects',
+    'sphinx_sitemap',
 ]
+
+# the current base URL of your documentation.
+html_baseurl = 'https://skycluster.io/'
+# defaul is {lang}{version}{link}, where {lang} and {version} get set by language and version
+sitemap_url_scheme = "{link}"
+
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']

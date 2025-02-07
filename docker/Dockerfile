@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /skycluster
 
 # Install Sphinx, sphinx-autobuild for live reload, and the PyData theme
-RUN pip3 install --no-cache-dir sphinx sphinx-autobuild pydata-sphinx-theme sphinx-copybutton sphinx-reredirects
+RUN pip3 install --no-cache-dir sphinx sphinx-autobuild pydata-sphinx-theme sphinx-copybutton sphinx-reredirects sphinx-sitemap
 
 RUN echo 'alias server="sphinx-autobuild source _build/html --host 0.0.0.0"' >> ~/.bashrc
 RUN echo 'alias build-all="sphinx-build source _build/html -E"' >> ~/.bashrc
