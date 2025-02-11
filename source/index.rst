@@ -6,6 +6,9 @@ SkyCluster
   :alt: SkyCluster Logo
   :align: center
 
+.. meta::
+  :description: SkyCluster enables deployment of containerized application across hybrid and multi-clouds environment.
+
 
 
 
