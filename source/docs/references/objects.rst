@@ -139,31 +139,41 @@ across any of the registered providers by specifying the ``providerRef`` object.
         skycluster.io/provider-region: <RegionName>
         skycluster.io/provider-zone: <ZoneName>
     spec: 
-      forProvider: {}
+      forProvider: 
         # Or you can specify the VM size and image:
-        # flavor: small/medium/large/xlarge
-        # image: ubuntu-22.04/ubuntu-20.04/ubuntu-18.04
+        flavor: small/medium/large/xlarge
+        image: ubuntu-22.04/ubuntu-20.04/ubuntu-18.04
         
-        # userData: |
-        #   #cloud-config
-        #   runcmd:
-        #     - echo "Hello, World!" > /tmp/hello.txt 
+        userData: |
+          #cloud-config
+          runcmd:
+            - echo "Hello, World!" > /tmp/hello.txt 
         
-        # publicIp: true
+        # If publicIp is set to true, a public IP is assigned to the VM
+        # For openstack provider, ensure the annotation
+        # "skycluster.io/ext-os-public-subnet-name" is set to the public subnet name
+        publicIp: true
+        
         # You can create a new keypair exclusively for this VM 
         # by providing the public key. If it is not provided,
         # the default skycluster keypair is used.
-        # publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD
+        publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD
         
-        # You can create a custom security group for this VM:
-        # secGroup:
-        #   description: "Allow SSH and HTTP"
-        #   tcpPorts:
-        #     - fromPort: 22
-        #       toPort: 22
-        #     - fromPort: 80
-        #       toPort: 80
-        #   udpPorts: []
+        # If set IP forwarding is enabled for the node depending on the provider type
+        # For openstack provider, setting a security group 
+        # makes IP forwarding impossible. Hence, the security group is not applied
+        # if IP forwarding is enabled.
+        iPForwarding: false
+
+        # You can create a custom security group for this VM
+        secGroup:
+          description: "Allow SSH and HTTP"
+          tcpPorts:
+            - fromPort: 22
+              toPort: 22
+            - fromPort: 80
+              toPort: 80
+          udpPorts: []
         
       providerRef:
         # Provider name can be any of the supported providers
