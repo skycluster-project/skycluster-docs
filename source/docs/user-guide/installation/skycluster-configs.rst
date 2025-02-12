@@ -206,8 +206,6 @@ Table below summarizes how the latencies is calculated between different regions
   +--------+-------------+---------+
   | Cloud  | NTE         | 25ms    |
   +--------+-------------+---------+
-  | NTE    | Edge        | 15ms    |
-  +--------+-------------+---------+
   | Edge   | Edge        | 6ms     |
   +--------+-------------+---------+
   | NTE    | NTE         | 10ms    |

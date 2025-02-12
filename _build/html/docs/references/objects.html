@@ -506,38 +506,48 @@ across any of the registered providers by specifying the <code class="docutils l
 <span class="linenos">10</span><span class="w">    </span><span class="nt">skycluster.io/provider-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;RegionName&gt;</span>
 <span class="linenos">11</span><span class="w">    </span><span class="nt">skycluster.io/provider-zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ZoneName&gt;</span>
 <span class="linenos">12</span><span class="nt">spec</span><span class="p">:</span>
-<span class="linenos">13</span><span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="linenos">13</span><span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span>
 <span class="linenos">14</span><span class="w">    </span><span class="c1"># Or you can specify the VM size and image:</span>
-<span class="linenos">15</span><span class="w">    </span><span class="c1"># flavor: small/medium/large/xlarge</span>
-<span class="linenos">16</span><span class="w">    </span><span class="c1"># image: ubuntu-22.04/ubuntu-20.04/ubuntu-18.04</span>
+<span class="linenos">15</span><span class="w">    </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">small/medium/large/xlarge</span>
+<span class="linenos">16</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04/ubuntu-20.04/ubuntu-18.04</span>
 <span class="linenos">17</span>
-<span class="linenos">18</span><span class="w">    </span><span class="c1"># userData: |</span>
-<span class="linenos">19</span><span class="w">    </span><span class="c1">#   #cloud-config</span>
-<span class="linenos">20</span><span class="w">    </span><span class="c1">#   runcmd:</span>
-<span class="linenos">21</span><span class="w">    </span><span class="c1">#     - echo &quot;Hello, World!&quot; &gt; /tmp/hello.txt</span>
+<span class="linenos">18</span><span class="w">    </span><span class="nt">userData</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="linenos">19</span><span class="w">      </span><span class="no">#cloud-config</span>
+<span class="linenos">20</span><span class="w">      </span><span class="no">runcmd:</span>
+<span class="linenos">21</span><span class="w">        </span><span class="no">- echo &quot;Hello, World!&quot; &gt; /tmp/hello.txt</span>
 <span class="linenos">22</span>
-<span class="linenos">23</span><span class="w">    </span><span class="c1"># publicIp: true</span>
-<span class="linenos">24</span><span class="w">    </span><span class="c1"># You can create a new keypair exclusively for this VM</span>
-<span class="linenos">25</span><span class="w">    </span><span class="c1"># by providing the public key. If it is not provided,</span>
-<span class="linenos">26</span><span class="w">    </span><span class="c1"># the default skycluster keypair is used.</span>
-<span class="linenos">27</span><span class="w">    </span><span class="c1"># publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD</span>
-<span class="linenos">28</span>
-<span class="linenos">29</span><span class="w">    </span><span class="c1"># You can create a custom security group for this VM:</span>
-<span class="linenos">30</span><span class="w">    </span><span class="c1"># secGroup:</span>
-<span class="linenos">31</span><span class="w">    </span><span class="c1">#   description: &quot;Allow SSH and HTTP&quot;</span>
-<span class="linenos">32</span><span class="w">    </span><span class="c1">#   tcpPorts:</span>
-<span class="linenos">33</span><span class="w">    </span><span class="c1">#     - fromPort: 22</span>
-<span class="linenos">34</span><span class="w">    </span><span class="c1">#       toPort: 22</span>
-<span class="linenos">35</span><span class="w">    </span><span class="c1">#     - fromPort: 80</span>
-<span class="linenos">36</span><span class="w">    </span><span class="c1">#       toPort: 80</span>
-<span class="linenos">37</span><span class="w">    </span><span class="c1">#   udpPorts: []</span>
+<span class="linenos">23</span><span class="w">    </span><span class="c1"># If publicIp is set to true, a public IP is assigned to the VM</span>
+<span class="linenos">24</span><span class="w">    </span><span class="c1"># For openstack provider, ensure the annotation</span>
+<span class="linenos">25</span><span class="w">    </span><span class="c1"># &quot;skycluster.io/ext-os-public-subnet-name&quot; is set to the public subnet name</span>
+<span class="linenos">26</span><span class="w">    </span><span class="nt">publicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="w">    </span><span class="c1"># You can create a new keypair exclusively for this VM</span>
+<span class="linenos">29</span><span class="w">    </span><span class="c1"># by providing the public key. If it is not provided,</span>
+<span class="linenos">30</span><span class="w">    </span><span class="c1"># the default skycluster keypair is used.</span>
+<span class="linenos">31</span><span class="w">    </span><span class="nt">publicKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w">    </span><span class="c1"># If set IP forwarding is enabled for the node depending on the provider type</span>
+<span class="linenos">34</span><span class="w">    </span><span class="c1"># For openstack provider, setting a security group</span>
+<span class="linenos">35</span><span class="w">    </span><span class="c1"># makes IP forwarding impossible. Hence, the security group is not applied</span>
+<span class="linenos">36</span><span class="w">    </span><span class="c1"># if IP forwarding is enabled.</span>
+<span class="linenos">37</span><span class="w">    </span><span class="nt">iPForwarding</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="linenos">38</span>
-<span class="linenos">39</span><span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
-<span class="linenos">40</span><span class="w">    </span><span class="c1"># Provider name can be any of the supported providers</span>
-<span class="linenos">41</span><span class="w">    </span><span class="c1"># Currently, we support aws, gcp, azure and os (openstack)</span>
-<span class="linenos">42</span><span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ProviderName&gt;</span>
-<span class="linenos">43</span><span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;RegionName&gt;</span>
-<span class="linenos">44</span><span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ZoneName&gt;</span>
+<span class="linenos">39</span><span class="w">    </span><span class="c1"># You can create a custom security group for this VM</span>
+<span class="linenos">40</span><span class="w">    </span><span class="nt">secGroup</span><span class="p">:</span>
+<span class="linenos">41</span><span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Allow</span><span class="nv"> </span><span class="s">SSH</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">HTTP&quot;</span>
+<span class="linenos">42</span><span class="w">      </span><span class="nt">tcpPorts</span><span class="p">:</span>
+<span class="linenos">43</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fromPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">22</span>
+<span class="linenos">44</span><span class="w">          </span><span class="nt">toPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">22</span>
+<span class="linenos">45</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fromPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="linenos">46</span><span class="w">          </span><span class="nt">toPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="linenos">47</span><span class="w">      </span><span class="nt">udpPorts</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="linenos">48</span>
+<span class="linenos">49</span><span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="linenos">50</span><span class="w">    </span><span class="c1"># Provider name can be any of the supported providers</span>
+<span class="linenos">51</span><span class="w">    </span><span class="c1"># Currently, we support aws, gcp, azure and os (openstack)</span>
+<span class="linenos">52</span><span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ProviderName&gt;</span>
+<span class="linenos">53</span><span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;RegionName&gt;</span>
+<span class="linenos">54</span><span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ZoneName&gt;</span>
 </pre></div>
 </div>
 </div>
