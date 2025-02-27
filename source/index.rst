@@ -36,6 +36,10 @@ The ``skycluster-manager`` operates within a management Kubernetes cluster. User
 
 Read the ``SkyCluster`` documentation to learn more about the project and how to use it.
 
+.. warning::
+
+  This is a Work In Progress (WIP). The documentation is not complete yet and the code base changes frequently.
+
 .. toctree::
   :maxdepth: 3
   :includehidden:
