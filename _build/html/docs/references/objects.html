@@ -327,6 +327,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Primary Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configs.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skycluster-cli.html">SkyCluster Cli</a></li>
 </ul>
 </div>
 </nav></div>
@@ -394,8 +395,14 @@
 <section id="skyprovider-object">
 <h2>SkyProvider Object<a class="headerlink" href="#skyprovider-object" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">SkyProvider</span></code> is an object that represents a cloud provider.
-By creating a SkyProvider object, the minimum setup and configuration
-required to deploy virtual services on the cloud provider is done.</p>
+By creating a SkyProvider object, a gateway node is created
+and acts as a reouter to connect this provider to the overlay network.
+During this setup, the security groups, keypairs and other required
+resources are created.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">gateway</span></code> object specifies the gateway node configuration.
+It is recommended to use a flavor that provides <strong>at least 4 vCPUs</strong> to provide
+enough computing power required for encrypting traffic when
+there is a high volume of traffic involved.</p>
 <div class="toggle open docutils container">
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xrds.skycluster.io/v1alpha1</span>
 <span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyProvider</span>
@@ -442,7 +449,7 @@ required to deploy virtual services on the cloud provider is done.</p>
 <span class="linenos">43</span><span class="w">    </span><span class="c1"># Currently, this is the only swttings we support</span>
 <span class="hll"><span class="linenos">44</span><span class="w">    </span><span class="nt">vpcCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.80.10.0/24</span>
 </span><span class="linenos">45</span><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
-<span class="linenos">46</span><span class="w">      </span><span class="c1"># flavor: small</span>
+<span class="linenos">46</span><span class="w">      </span><span class="c1"># flavor: large</span>
 <span class="linenos">47</span><span class="w">      </span><span class="c1"># If public key is not provided, a new keypair using SkyCluster keypair secret</span>
 <span class="linenos">48</span><span class="w">      </span><span class="c1"># will be created. This secert should be generated during the configuration of</span>
 <span class="linenos">49</span><span class="w">      </span><span class="c1"># the SkyCluster.</span>
@@ -506,40 +513,64 @@ across any of the registered providers by specifying the <code class="docutils l
 <span class="linenos">10</span><span class="w">    </span><span class="nt">skycluster.io/provider-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;RegionName&gt;</span>
 <span class="linenos">11</span><span class="w">    </span><span class="nt">skycluster.io/provider-zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ZoneName&gt;</span>
 <span class="linenos">12</span><span class="nt">spec</span><span class="p">:</span>
-<span class="linenos">13</span><span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="linenos">13</span><span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span>
 <span class="linenos">14</span><span class="w">    </span><span class="c1"># Or you can specify the VM size and image:</span>
-<span class="linenos">15</span><span class="w">    </span><span class="c1"># flavor: small/medium/large/xlarge</span>
-<span class="linenos">16</span><span class="w">    </span><span class="c1"># image: ubuntu-22.04/ubuntu-20.04/ubuntu-18.04</span>
+<span class="linenos">15</span><span class="w">    </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">small/medium/large/xlarge</span>
+<span class="linenos">16</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04/ubuntu-20.04/ubuntu-18.04</span>
 <span class="linenos">17</span>
-<span class="linenos">18</span><span class="w">    </span><span class="c1"># userData: |</span>
-<span class="linenos">19</span><span class="w">    </span><span class="c1">#   #cloud-config</span>
-<span class="linenos">20</span><span class="w">    </span><span class="c1">#   runcmd:</span>
-<span class="linenos">21</span><span class="w">    </span><span class="c1">#     - echo &quot;Hello, World!&quot; &gt; /tmp/hello.txt</span>
+<span class="linenos">18</span><span class="w">    </span><span class="nt">userData</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="linenos">19</span><span class="w">      </span><span class="no">#cloud-config</span>
+<span class="linenos">20</span><span class="w">      </span><span class="no">runcmd:</span>
+<span class="linenos">21</span><span class="w">        </span><span class="no">- echo &quot;Hello, World!&quot; &gt; /tmp/hello.txt</span>
 <span class="linenos">22</span>
-<span class="linenos">23</span><span class="w">    </span><span class="c1"># publicIp: true</span>
-<span class="linenos">24</span><span class="w">    </span><span class="c1"># You can create a new keypair exclusively for this VM</span>
-<span class="linenos">25</span><span class="w">    </span><span class="c1"># by providing the public key. If it is not provided,</span>
-<span class="linenos">26</span><span class="w">    </span><span class="c1"># the default skycluster keypair is used.</span>
-<span class="linenos">27</span><span class="w">    </span><span class="c1"># publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD</span>
-<span class="linenos">28</span>
-<span class="linenos">29</span><span class="w">    </span><span class="c1"># You can create a custom security group for this VM:</span>
-<span class="linenos">30</span><span class="w">    </span><span class="c1"># secGroup:</span>
-<span class="linenos">31</span><span class="w">    </span><span class="c1">#   description: &quot;Allow SSH and HTTP&quot;</span>
-<span class="linenos">32</span><span class="w">    </span><span class="c1">#   tcpPorts:</span>
-<span class="linenos">33</span><span class="w">    </span><span class="c1">#     - fromPort: 22</span>
-<span class="linenos">34</span><span class="w">    </span><span class="c1">#       toPort: 22</span>
-<span class="linenos">35</span><span class="w">    </span><span class="c1">#     - fromPort: 80</span>
-<span class="linenos">36</span><span class="w">    </span><span class="c1">#       toPort: 80</span>
-<span class="linenos">37</span><span class="w">    </span><span class="c1">#   udpPorts: []</span>
+<span class="linenos">23</span><span class="w">    </span><span class="c1"># If publicIp is set to true, a public IP is assigned to the VM</span>
+<span class="linenos">24</span><span class="w">    </span><span class="c1"># For openstack provider, ensure the annotation</span>
+<span class="linenos">25</span><span class="w">    </span><span class="c1"># &quot;skycluster.io/ext-os-public-subnet-name&quot; is set to the public subnet name</span>
+<span class="linenos">26</span><span class="w">    </span><span class="nt">publicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="w">    </span><span class="c1"># You can create a new keypair exclusively for this VM</span>
+<span class="linenos">29</span><span class="w">    </span><span class="c1"># by providing the public key. If it is not provided,</span>
+<span class="linenos">30</span><span class="w">    </span><span class="c1"># the default skycluster keypair is used.</span>
+<span class="linenos">31</span><span class="w">    </span><span class="nt">publicKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w">    </span><span class="c1"># If set IP forwarding is enabled for the node depending on the provider type</span>
+<span class="linenos">34</span><span class="w">    </span><span class="c1"># For openstack provider, setting a security group</span>
+<span class="linenos">35</span><span class="w">    </span><span class="c1"># makes IP forwarding impossible. Hence, the security group is not applied</span>
+<span class="linenos">36</span><span class="w">    </span><span class="c1"># if IP forwarding is enabled.</span>
+<span class="linenos">37</span><span class="w">    </span><span class="nt">iPForwarding</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="linenos">38</span>
-<span class="linenos">39</span><span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
-<span class="linenos">40</span><span class="w">    </span><span class="c1"># Provider name can be any of the supported providers</span>
-<span class="linenos">41</span><span class="w">    </span><span class="c1"># Currently, we support aws, gcp, azure and os (openstack)</span>
-<span class="linenos">42</span><span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ProviderName&gt;</span>
-<span class="linenos">43</span><span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;RegionName&gt;</span>
-<span class="linenos">44</span><span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ZoneName&gt;</span>
+<span class="linenos">39</span><span class="w">    </span><span class="c1"># You can create a custom security group for this VM</span>
+<span class="linenos">40</span><span class="w">    </span><span class="nt">secGroup</span><span class="p">:</span>
+<span class="linenos">41</span><span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Allow</span><span class="nv"> </span><span class="s">SSH</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">HTTP&quot;</span>
+<span class="linenos">42</span><span class="w">      </span><span class="nt">tcpPorts</span><span class="p">:</span>
+<span class="linenos">43</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fromPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">22</span>
+<span class="linenos">44</span><span class="w">          </span><span class="nt">toPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">22</span>
+<span class="linenos">45</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fromPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="linenos">46</span><span class="w">          </span><span class="nt">toPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="linenos">47</span><span class="w">      </span><span class="nt">udpPorts</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="linenos">48</span>
+<span class="linenos">49</span><span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="linenos">50</span><span class="w">    </span><span class="c1"># Provider name can be any of the supported providers</span>
+<span class="linenos">51</span><span class="w">    </span><span class="c1"># Currently, we support aws, gcp, azure and os (openstack)</span>
+<span class="linenos">52</span><span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ProviderName&gt;</span>
+<span class="linenos">53</span><span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;RegionName&gt;</span>
+<span class="linenos">54</span><span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ZoneName&gt;</span>
 </pre></div>
 </div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">flavor</span></code> specifies the type of VM to be created. The abstracted flavors are
+introduced in the helm charts during the installation SkyCluster.
+You can get a list of available flavors across providers by using <code class="docutils literal notranslate"><span class="pre">skycluster</span></code> cli tool:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Listed all available flavors across aws, azure and gcp</span>
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>flavor<span class="w"> </span>list<span class="w"> </span>--provider-name<span class="w"> </span>aws,gcp,azure
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">image</span></code> specifies the image to be used for the VM. Like flavors, the abstracted images are
+introduced in the helm charts during the installation SkyCluster.
+You can get a list of available images across providers by using <code class="docutils literal notranslate"><span class="pre">skycluster</span></code> cli tool:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Listed all available images across aws, azure and gcp</span>
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--provider-name<span class="w"> </span>aws,gcp,azure
+</pre></div>
 </div>
 <div class="toggle docutils container">
 <div class="header docutils container">
@@ -566,8 +597,8 @@ across any of the registered providers by specifying the <code class="docutils l
 </div>
 </div>
 </section>
-<section id="skyk8s-object">
-<h2>SkyK8S Object<a class="headerlink" href="#skyk8s-object" title="Link to this heading">#</a></h2>
+<section id="skyk8scluster-object">
+<h2>SkyK8SCluster Object<a class="headerlink" href="#skyk8scluster-object" title="Link to this heading">#</a></h2>
 <p>SkyK8S is a virtual Kubernetes cluster which can be deployed geographically distributed across
 multiple cloud providers. We optimize the deployment of node pools across multiple cloud providers.
 So you need to specify the data flow and location constraints for each node pool.
@@ -578,7 +609,7 @@ and location and quality constraints.</p>
 <p><strong>skyk8s-example.sh</strong></p>
 </div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
-<span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyK8S</span>
+<span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyK8SCluster</span>
 <span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
 <span class="linenos"> 4</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
 <span class="linenos"> 5</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
@@ -658,78 +689,6 @@ and location and quality constraints.</p>
 </div>
 </div>
 </section>
-<section id="skyoverlay-object">
-<h2>SkyOverlay Object<a class="headerlink" href="#skyoverlay-object" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">SkyOverlay</span></code> is an overlay vpn solution that enables point to point
-communication and routing between virtual services across multiple providers.</p>
-<div class="toggle open docutils container">
-<div class="header open docutils container">
-<p><strong>skyoverlay-example.sh</strong></p>
-</div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
-<span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyOverlay</span>
-<span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
-<span class="linenos"> 4</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
-<span class="linenos"> 5</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
-<span class="linenos"> 6</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-skyoverlay-1</span>
-<span class="linenos"> 7</span><span class="nt">spec</span><span class="p">:</span>
-<span class="linenos"> 8</span><span class="w">  </span><span class="nt">rendezvousAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100.24.214.22:9586</span>
-<span class="linenos"> 9</span><span class="w">  </span><span class="nt">rendezvousToken</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234567890</span>
-<span class="linenos">10</span><span class="w">  </span><span class="nt">providersRef</span><span class="p">:</span>
-<span class="linenos">11</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1-a-edge-12345</span>
-<span class="linenos">12</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east1-a-edge-34212</span>
-<span class="linenos">13</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eu-central1-cloud-95843</span>
-</pre></div>
-</div>
-</div>
-</section>
-<section id="skyoverlaygateway-object">
-<h2>SkyOverlayGateway Object<a class="headerlink" href="#skyoverlaygateway-object" title="Link to this heading">#</a></h2>
-<div class="toggle open docutils container">
-<div class="header open docutils container">
-<p><strong>skyoverlaygw-example.yaml</strong></p>
-</div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
-<span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyOverlayGateway</span>
-<span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
-<span class="linenos"> 4</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-skyoverlaygw-1</span>
-<span class="linenos"> 5</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
-<span class="linenos"> 6</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
-<span class="linenos"> 7</span><span class="w">    </span><span class="nt">skycluster.io/type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ssh-key</span>
-<span class="linenos"> 8</span><span class="nt">spec</span><span class="p">:</span>
-<span class="linenos"> 9</span><span class="w">  </span><span class="nt">rendezvousAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100.24.214.22:9586</span>
-<span class="linenos">10</span><span class="w">  </span><span class="nt">rendezvousToken</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234567890</span>
-<span class="linenos">11</span><span class="w">  </span><span class="nt">providersRef</span><span class="p">:</span>
-<span class="linenos">12</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1-a-edge-12345</span>
-<span class="linenos">13</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east1-a-edge-34212</span>
-<span class="linenos">14</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eu-central1-cloud-95843</span>
-</pre></div>
-</div>
-</div>
-</section>
-<section id="skyoverlayclient-object">
-<h2>SkyOverlayClient Object<a class="headerlink" href="#skyoverlayclient-object" title="Link to this heading">#</a></h2>
-<div class="toggle open docutils container">
-<div class="header open docutils container">
-<p><strong>skyoverlayclient-example.yaml</strong></p>
-</div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
-<span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyOverlayClient</span>
-<span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
-<span class="linenos"> 4</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
-<span class="linenos"> 5</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
-<span class="linenos"> 6</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-skyoverlayclient-1</span>
-<span class="linenos"> 7</span><span class="nt">spec</span><span class="p">:</span>
-<span class="linenos"> 8</span><span class="w">  </span><span class="nt">rendezvousAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100.24.214.22:9586</span>
-<span class="linenos"> 9</span><span class="w">  </span><span class="nt">rendezvousToken</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234567890</span>
-<span class="linenos">10</span><span class="w">  </span><span class="nt">providersRef</span><span class="p">:</span>
-<span class="linenos">11</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1-a-edge-12345</span>
-<span class="linenos">12</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east1-a-edge-34212</span>
-<span class="linenos">13</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eu-central1-cloud-95843</span>
-</pre></div>
-</div>
-</div>
-</section>
 </section>
 
 
@@ -781,10 +740,7 @@ communication and routing between virtual services across multiple providers.</p
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skyprovider-object">SkyProvider Object</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skyvm-object">SkyVM Object</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skyk8s-object">SkyK8S Object</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skyoverlay-object">SkyOverlay Object</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skyoverlaygateway-object">SkyOverlayGateway Object</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skyoverlayclient-object">SkyOverlayClient Object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skyk8scluster-object">SkyK8SCluster Object</a></li>
 </ul>
   </nav></div>
 

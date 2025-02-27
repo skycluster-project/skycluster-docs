@@ -14,7 +14,7 @@ Global Annotations
 
   .. code-block:: yaml
     :linenos:
-    :emphasize-lines: 1,5,10,26
+    :emphasize-lines: 1,5,10,27
 
     skycluster.io/managed-by: skycluster
     
@@ -40,7 +40,8 @@ Global Annotations
     # For OpenStack providers, SkyCluster does not support 
     # creating a public (external) network.
     # The network should exist before creating the provider, 
-    # hence you always need to specify the external subnet.
+    # hence you always need to specify the external subnet
+    # if you need to allocate an external (floating) IP.
     skycluster.io/ext-os-public-subnet-name: ext-net
     # Other examples to specify other resources (openstack):
     # Specify a project (tennat)

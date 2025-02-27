@@ -370,6 +370,10 @@ in a multi-cloud or hybrid-cloud Kubernetes
 environment, specifically tailored for a given application.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> operates within a management Kubernetes cluster. Users interact with this management cluster by submitting their application manifests, which include deployments, services, and config maps. The <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> then provisions a new multi-cloud or hybrid-cloud Kubernetes cluster and deploys the submitted application manifests into it.</p>
 <p>Read the <code class="docutils literal notranslate"><span class="pre">SkyCluster</span></code> documentation to learn more about the project and how to use it.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This is a Work In Progress (WIP). The documentation is not complete yet and the code base changes frequently.</p>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="docs/user-guide/index.html">Getting Started</a><ul>
@@ -394,15 +398,18 @@ environment, specifically tailored for a given application.</p>
 <li class="toctree-l2"><a class="reference internal" href="docs/references/objects.html">Primary Objects</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyprovider-object">SkyProvider Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyvm-object">SkyVM Object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyk8s-object">SkyK8S Object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlay-object">SkyOverlay Object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlaygateway-object">SkyOverlayGateway Object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyoverlayclient-object">SkyOverlayClient Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/objects.html#skyk8scluster-object">SkyK8SCluster Object</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="docs/references/configs.html">Configurations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/configs.html#skycluster-annotations">SkyCluster Annotations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="docs/references/configs.html#provider-configmaps">Provider ConfigMaps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="docs/references/skycluster-cli.html">SkyCluster Cli</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/skycluster-cli.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/skycluster-cli.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docs/references/skycluster-cli.html#available-commands">Available Commands</a></li>
 </ul>
 </li>
 </ul>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>References &#8212; SkyCluster</title>
+    <title>SkyCluster Cli &#8212; SkyCluster</title>
   
   
   
@@ -47,13 +47,12 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/references/index';</script>
-    <link rel="canonical" href="https://skycluster.io/docs/references/index.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/references/skycluster-cli';</script>
+    <link rel="canonical" href="https://skycluster.io/docs/references/skycluster-cli.html" />
     <link rel="icon" href="../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Primary Objects" href="objects.html" />
-    <link rel="prev" title="Use Case 1" href="../use-cases/use-case-1.html" />
+    <link rel="prev" title="Configurations" href="configs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="v1alpha1" />
@@ -166,7 +165,7 @@
 
 
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
+  <a class="nav-link nav-internal" href="index.html">
     References
   </a>
 </li>
@@ -230,6 +229,10 @@
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -271,7 +274,7 @@
 
 
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
+  <a class="nav-link nav-internal" href="index.html">
     References
   </a>
 </li>
@@ -320,10 +323,10 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Primary Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configs.html">Configurations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skycluster-cli.html">SkyCluster Cli</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">SkyCluster Cli</a></li>
 </ul>
 </div>
 </nav></div>
@@ -364,7 +367,10 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">References</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">References</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">SkyCluster Cli</span></li>
   </ul>
 </nav>
 </div>
@@ -381,30 +387,55 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="references">
-<h1>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Primary Objects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#skyprovider-object">SkyProvider Object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#skyvm-object">SkyVM Object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#skyk8scluster-object">SkyK8SCluster Object</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="configs.html">Configurations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="configs.html#skycluster-annotations">SkyCluster Annotations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configs.html#provider-configmaps">Provider ConfigMaps</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="skycluster-cli.html">SkyCluster Cli</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="skycluster-cli.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="skycluster-cli.html#configuration">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="skycluster-cli.html#available-commands">Available Commands</a></li>
-</ul>
-</li>
-</ul>
+  <div class="toctree-wrapper compound">
 </div>
+<section id="skycluster-cli">
+<h1>SkyCluster Cli<a class="headerlink" href="#skycluster-cli" title="Link to this heading">#</a></h1>
+<p>Using <code class="docutils literal notranslate"><span class="pre">skycluster-cli</span></code> tool you can call skycluster related APIs. Please see the <a class="reference external" href="https://github.com/etesami/skycluster-cli">SkyCluster Cli</a> repository.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>Download the latest pre-built binary from the <a class="reference external" href="https://github.com/etesami/skycluster-cli">releases page</a> and put it in your PATH.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
+<p>Create a configuration file in your home directory named <code class="docutils literal notranslate"><span class="pre">.skycluster</span></code>. The configuration file should look like this:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kubeconfig</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sky-manager</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/ubuntu/.kube/config</span>
+<span class="w">  </span><span class="nt">sky-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/tmp/k3s.yaml</span>
+<span class="nt">overlay</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">server_ip</span>
+<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+</pre></div>
+</div>
+</section>
+<section id="available-commands">
+<h2>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show help and usage message</span>
+skycluster<span class="w"> </span>--help
+
+<span class="c1"># List all gateway nodes</span>
+skycluster<span class="w"> </span>skyprovider<span class="w"> </span>list
+skycluster<span class="w"> </span>skyprovider<span class="w"> </span>delete<span class="w"> </span>--all
+skycluster<span class="w"> </span>skyprovider<span class="w"> </span>delete<span class="w"> </span>--provider-name<span class="w"> </span>aws
+
+<span class="c1"># List all skyvm instances across all providers</span>
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>list
+
+<span class="c1"># List all available flavors across all providers</span>
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>flavor<span class="w"> </span>list
+<span class="c1"># List all available flavors across gcp and aws provider</span>
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>flavor<span class="w"> </span>list<span class="w"> </span>--provider-name<span class="w"> </span>aws,gcp
+
+<span class="c1"># List all available images across all providers</span>
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>image<span class="w"> </span>list
+<span class="c1"># List all available images across gcp and aws provider</span>
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--provider-name<span class="w"> </span>aws,gcp
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>delete<span class="w"> </span>--all
+skycluster<span class="w"> </span>skyvm<span class="w"> </span>delete<span class="w"> </span>--provider-name<span class="w"> </span>aws
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -418,22 +449,13 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../use-cases/use-case-1.html"
+       href="configs.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Use Case 1</p>
+        <p class="prev-next-title">Configurations</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="objects.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Primary Objects</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -441,6 +463,26 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-commands">Available Commands</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

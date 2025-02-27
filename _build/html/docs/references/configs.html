@@ -52,6 +52,7 @@
     <link rel="icon" href="../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SkyCluster Cli" href="skycluster-cli.html" />
     <link rel="prev" title="Primary Objects" href="objects.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -326,6 +327,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Primary Objects</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skycluster-cli.html">SkyCluster Cli</a></li>
 </ul>
 </div>
 </nav></div>
@@ -419,17 +421,18 @@
 <span class="linenos">22</span><span class="c1"># For OpenStack providers, SkyCluster does not support</span>
 <span class="linenos">23</span><span class="c1"># creating a public (external) network.</span>
 <span class="linenos">24</span><span class="c1"># The network should exist before creating the provider,</span>
-<span class="linenos">25</span><span class="c1"># hence you always need to specify the external subnet.</span>
-<span class="hll"><span class="linenos">26</span><span class="nt">skycluster.io/ext-os-public-subnet-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ext-net</span>
-</span><span class="linenos">27</span><span class="c1"># Other examples to specify other resources (openstack):</span>
-<span class="linenos">28</span><span class="c1"># Specify a project (tennat)</span>
-<span class="linenos">29</span><span class="nt">skycluster.io/ext-ProjectV3-identity-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;tenant-id&gt;</span>
-<span class="linenos">30</span><span class="c1"># Specify a network</span>
-<span class="linenos">31</span><span class="nt">skycluster.io/ext-NetworkV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;network-id&gt;</span>
-<span class="linenos">32</span><span class="c1"># Specify a subnet</span>
-<span class="linenos">33</span><span class="nt">skycluster.io/ext-SubnetV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;subnet-id&gt;</span>
-<span class="linenos">34</span><span class="c1"># Specify a router</span>
-<span class="linenos">35</span><span class="nt">skycluster.io/ext-RouterV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;router-id&gt;</span>
+<span class="linenos">25</span><span class="c1"># hence you always need to specify the external subnet</span>
+<span class="linenos">26</span><span class="c1"># if you need to allocate an external (floating) IP.</span>
+<span class="hll"><span class="linenos">27</span><span class="nt">skycluster.io/ext-os-public-subnet-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ext-net</span>
+</span><span class="linenos">28</span><span class="c1"># Other examples to specify other resources (openstack):</span>
+<span class="linenos">29</span><span class="c1"># Specify a project (tennat)</span>
+<span class="linenos">30</span><span class="nt">skycluster.io/ext-ProjectV3-identity-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;tenant-id&gt;</span>
+<span class="linenos">31</span><span class="c1"># Specify a network</span>
+<span class="linenos">32</span><span class="nt">skycluster.io/ext-NetworkV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;network-id&gt;</span>
+<span class="linenos">33</span><span class="c1"># Specify a subnet</span>
+<span class="linenos">34</span><span class="nt">skycluster.io/ext-SubnetV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;subnet-id&gt;</span>
+<span class="linenos">35</span><span class="c1"># Specify a router</span>
+<span class="linenos">36</span><span class="nt">skycluster.io/ext-RouterV2-networking-v1alpha1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;router-id&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -821,6 +824,15 @@
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Primary Objects</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="skycluster-cli.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SkyCluster Cli</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
