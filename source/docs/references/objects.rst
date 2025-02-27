@@ -12,8 +12,15 @@ SkyProvider Object
 ==================
 
 ``SkyProvider`` is an object that represents a cloud provider.
-By creating a SkyProvider object, the minimum setup and configuration
-required to deploy virtual services on the cloud provider is done.
+By creating a SkyProvider object, a gateway node is created 
+and acts as a reouter to connect this provider to the overlay network.
+During this setup, the security groups, keypairs and other required 
+resources are created. 
+
+The ``gateway`` object specifies the gateway node configuration. 
+It is recommended to use a flavor that provides **at least 4 vCPUs** to provide 
+enough computing power required for encrypting traffic when
+there is a high volume of traffic involved.
 
 .. container:: toggle open
 
@@ -66,7 +73,7 @@ required to deploy virtual services on the cloud provider is done.
         # Currently, this is the only swttings we support
         vpcCidr: 10.80.10.0/24
         gateway: {}
-          # flavor: small
+          # flavor: large
           # If public key is not provided, a new keypair using SkyCluster keypair secret
           # will be created. This secert should be generated during the configuration of
           # the SkyCluster.
@@ -121,6 +128,7 @@ SkyVM Object
 ``SkyVM`` is a virtual machine that can be deployed  
 across any of the registered providers by specifying the ``providerRef`` object. 
 
+
 .. container:: toggle open
 
   .. code-block:: yaml
@@ -139,31 +147,41 @@ across any of the registered providers by specifying the ``providerRef`` object.
         skycluster.io/provider-region: <RegionName>
         skycluster.io/provider-zone: <ZoneName>
     spec: 
-      forProvider: {}
+      forProvider: 
         # Or you can specify the VM size and image:
-        # flavor: small/medium/large/xlarge
-        # image: ubuntu-22.04/ubuntu-20.04/ubuntu-18.04
+        flavor: small/medium/large/xlarge
+        image: ubuntu-22.04/ubuntu-20.04/ubuntu-18.04
         
-        # userData: |
-        #   #cloud-config
-        #   runcmd:
-        #     - echo "Hello, World!" > /tmp/hello.txt 
+        userData: |
+          #cloud-config
+          runcmd:
+            - echo "Hello, World!" > /tmp/hello.txt 
         
-        # publicIp: true
+        # If publicIp is set to true, a public IP is assigned to the VM
+        # For openstack provider, ensure the annotation
+        # "skycluster.io/ext-os-public-subnet-name" is set to the public subnet name
+        publicIp: true
+        
         # You can create a new keypair exclusively for this VM 
         # by providing the public key. If it is not provided,
         # the default skycluster keypair is used.
-        # publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD
+        publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD
         
-        # You can create a custom security group for this VM:
-        # secGroup:
-        #   description: "Allow SSH and HTTP"
-        #   tcpPorts:
-        #     - fromPort: 22
-        #       toPort: 22
-        #     - fromPort: 80
-        #       toPort: 80
-        #   udpPorts: []
+        # If set IP forwarding is enabled for the node depending on the provider type
+        # For openstack provider, setting a security group 
+        # makes IP forwarding impossible. Hence, the security group is not applied
+        # if IP forwarding is enabled.
+        iPForwarding: false
+
+        # You can create a custom security group for this VM
+        secGroup:
+          description: "Allow SSH and HTTP"
+          tcpPorts:
+            - fromPort: 22
+              toPort: 22
+            - fromPort: 80
+              toPort: 80
+          udpPorts: []
         
       providerRef:
         # Provider name can be any of the supported providers
@@ -171,6 +189,26 @@ across any of the registered providers by specifying the ``providerRef`` object.
         providerName: <ProviderName>
         providerRegion: <RegionName>
         providerZone: <ZoneName>
+
+
+``flavor`` specifies the type of VM to be created. The abstracted flavors are 
+introduced in the helm charts during the installation SkyCluster. 
+You can get a list of available flavors across providers by using ``skycluster`` cli tool:
+
+.. code-block:: sh
+
+  # Listed all available flavors across aws, azure and gcp
+  skycluster skyvm flavor list --provider-name aws,gcp,azure
+
+``image`` specifies the image to be used for the VM. Like flavors, the abstracted images are 
+introduced in the helm charts during the installation SkyCluster. 
+You can get a list of available images across providers by using ``skycluster`` cli tool:
+
+.. code-block:: sh
+
+  # Listed all available images across aws, azure and gcp
+  skycluster skyvm image list --provider-name aws,gcp,azure
+
 
 
 .. container:: toggle 
@@ -201,8 +239,8 @@ across any of the registered providers by specifying the ``providerRef`` object.
         providerZone: use1-az1
 
 
-SkyK8S Object
-===============
+SkyK8SCluster Object
+====================
 
 SkyK8S is a virtual Kubernetes cluster which can be deployed geographically distributed across
 multiple cloud providers. We optimize the deployment of node pools across multiple cloud providers.
@@ -221,7 +259,7 @@ and location and quality constraints.
     :linenos:
 
     apiVersion: skycluster.io/v1alpha1
-    kind: SkyK8S
+    kind: SkyK8SCluster
     metadata:
       labels:
         skycluster.io/managed-by: skycluster
@@ -298,88 +336,4 @@ and location and quality constraints.
               # Same as permitted, when multiple required fields are set,
               # the union of the fields is used    
 
-
-
-
-SkyOverlay Object
-=================
-
-``SkyOverlay`` is an overlay vpn solution that enables point to point 
-communication and routing between virtual services across multiple providers.
-
-.. container:: toggle open
-
-  .. container:: header open
-
-    **skyoverlay-example.sh**
-
-  .. code-block:: yaml
-    :linenos:
-
-    apiVersion: skycluster.io/v1alpha1
-    kind: SkyOverlay
-    metadata:
-      labels:
-        skycluster.io/managed-by: skycluster
-      name: my-skyoverlay-1
-    spec:
-      rendezvousAddress: 100.24.214.22:9586
-      rendezvousToken: 1234567890
-      providersRef:
-        - name: us-central1-a-edge-12345
-        - name: us-east1-a-edge-34212
-        - name: eu-central1-cloud-95843
-
-SkyOverlayGateway Object
-=========================
-
-.. container:: toggle open
-
-  .. container:: header open
-
-    **skyoverlaygw-example.yaml**
-
-  .. code-block:: yaml
-    :linenos:
-
-    apiVersion: skycluster.io/v1alpha1
-    kind: SkyOverlayGateway
-    metadata:
-      name: my-skyoverlaygw-1
-      labels:
-        skycluster.io/managed-by: skycluster
-        skycluster.io/type: ssh-key
-    spec:
-      rendezvousAddress: 100.24.214.22:9586
-      rendezvousToken: 1234567890
-      providersRef:
-        - name: us-central1-a-edge-12345
-        - name: us-east1-a-edge-34212
-        - name: eu-central1-cloud-95843
-
-SkyOverlayClient Object
-=======================
-
-.. container:: toggle open
-
-  .. container:: header open
-
-    **skyoverlayclient-example.yaml**
-
-  .. code-block:: yaml
-    :linenos:
-
-    apiVersion: skycluster.io/v1alpha1
-    kind: SkyOverlayClient
-    metadata:
-      labels:
-        skycluster.io/managed-by: skycluster
-      name: my-skyoverlayclient-1
-    spec:
-      rendezvousAddress: 100.24.214.22:9586
-      rendezvousToken: 1234567890
-      providersRef:
-        - name: us-central1-a-edge-12345
-        - name: us-east1-a-edge-34212
-        - name: eu-central1-cloud-95843
 
