@@ -52,6 +52,31 @@ And then run the following command to generate the secret:
         }
 
 
+SkyCluster Private Image Reposity
+==================================
+
+You can use your private registry when deploying Kubernetes clusters using SkyCluster.
+To do so, you need to create a secret containing the credentials for the private registry.
+The secret should be created in the ``skycluster`` namespace.
+
+First export your registry credentials, you need to first run ``sudo docker login <registry>`` to login to your private registry.
+Then use the credentials created in the ``~/.docker/config.json`` or ``/root/.docker/config.json`` file to create the secret:
+
+.. code-block:: sh
+
+  # in this example we use /root/.docker/config.json
+  kubectl create secret generic regcred  \
+    --from-file=.dockerconfigjson=/root/.docker/config.json \
+    --type=kubernetes.io/dockerconfigjson \
+    -n skycluster
+
+  # Make sure to label the secret
+  kubectl label secret regcred \
+    skycluster.io/secret-type=registry \
+    skycluster.io/managed-by=skycluster \
+    -n skycluster
+
+
 SkyCluster Post-installation Configuration
 ==========================================
 
