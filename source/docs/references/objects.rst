@@ -149,8 +149,8 @@ across any of the registered providers by specifying the ``providerRef`` object.
     spec: 
       forProvider: 
         # Or you can specify the VM size and image:
-        flavor: small/medium/large/xlarge
-        image: ubuntu-22.04/ubuntu-20.04/ubuntu-18.04
+        flavor: 1vCPU-2GB # 2vCPU-2GB, 4vCPU-8GB, ...
+        image: ubuntu-22.04 # ubuntu-20.04, ubuntu-18.04
         
         userData: |
           #cloud-config
@@ -258,82 +258,54 @@ and location and quality constraints.
     :emphasize-lines: 14,18,23-26,59,60,70
     :linenos:
 
-    apiVersion: skycluster.io/v1alpha1
+    apiVersion: xrds.skycluster.io/v1alpha1
     kind: SkyK8SCluster
     metadata:
       labels:
         skycluster.io/managed-by: skycluster
       name: my-skyk8s-1
     spec:
-
-      # If multicluster is set to true, each node pool forms 
-      # a separate cluster. A multi-cluster k8s is formed by joining
-      # multiple clusters.
-      # If multicluster is set to false, a single cluster spans 
-      # across all nodes. Currently, only single cluster is supported.
-      enableMultiCluster: false
-      
-      # An array of configuration for each node pool can be specified
-      # All nodes in this pool share the same configuration
-      nodePools:
-        
-        # You can distinguish the controller node by setting controller 
-        # field to true. If no node pool is specified with controller 
-        # set to true, a controller node is created from the first node pool
-        - controller: true
-          machineType: n1-standard-2
-          diskSizeGb: 100
-          diskType: pd-ssd
+      forProvider:
+        # If you are using a private registry, you can specify the private registry
+        # We don't support private registry with secret yet.
+        privateRegistry: registry.skycluster.io
+        agents:
+        - name: agent-sci-1
+          flavor: 4vCPU-16GB
+          image: ubuntu-22.04
+          providerRef:
+            providerName: os
+            providerRegion: SCINET
+            providerZone: default
+        - name: agent-va-1
+          flavor: 4vCPU-16GB
+          image: ubuntu-22.04
+          providerRef:
+            providerName: os
+            providerRegion: VAUGHAN
+            providerZone: default
+        ctrl:
+          flavor: 8vCPU-32GB
+          image: ubuntu-22.04
+          providerRef:
+            providerName: os
+            providerRegion: SCINET
+            providerZone: default
           
-          # The controller cannot be preemptible and
-          # this option only applies to agent nodes.
-          # If an agent node is terminated, the skycluster tries to 
-          # recreate the node given the constraints and configurations.
-          # This option is not implemented yet.
-          preemptible: false
-          
-          # Auto scalling functionally enables scalling of the nodes in 
-          # this node pool. Not implemented yet.
-          autoscaling:
-            # The minimum and maximum number of nodes is used to ensure 
-            # The number of nodes in the pool is within the specified range
-            minCount: 3
-            maxCount: 5
-            metrics:
-              - type: Resource
-                resource:
-                  name: cpu
-                  targetAverageUtilization: 50
-              - type: Resource
-                resource:
-                  name: memory
-                  targetAverageUtilization: 50
-              # Custom metrics should be specified as part of services within
-              # the cluster using the post-setup application configuration
-              - type: Metric
-                metric:
-                  endpoint: /k8s-metrics
-                  target: 50
-
-          # For each node pool, you can specify the location constrains 
-          locationConstraints:
-            permitted:
-              - name: us-central1-a-edge
-                region: us-central1
-                regionAlias: us-central1
-                regionType: Edge
-                # When all fields are set, the intersection of the fields is used
-              - region: us-east
-                regionType: Edge
-              # When nmultiple permitted fields are set, 
-              # the union of the fields is used
-            required:
-              - name: us-central1-a-edge-12345
-                # Same as permitted, when multiple fields are set, 
-                # the intersection of them is used
-              - regionAlias: us-east1
-                regionType: Edge
-              # Same as permitted, when multiple required fields are set,
-              # the union of the fields is used    
+        # [Auto scalling functionally is not yet supported.]
+        # "autoscaling" enables scalling of the nodes in 
+        # this node pool. Not implemented yet.
+        autoscaling:
+          # The minimum and maximum number of nodes is used to ensure 
+          # The number of nodes in the pool is within the specified range
+          minCount: 3
+          maxCount: 5
+          metrics:
+            # Custom metrics should be specified as part of services within
+            # the cluster using the post-setup application configuration
+            - type: Metric
+              metric:
+                endpoint: my-svc/k8s-metrics
+                target: 50  
 
 
