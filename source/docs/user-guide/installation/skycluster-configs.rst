@@ -83,7 +83,84 @@ SkyCluster Post-installation Configuration
 After installing SkyCluster, you need to configure the providers you want to use.
 This includes setting up OpenStack providers and setting the latencies between registered regions and zones.  
 
-SkyCluster OpenStack Provider Configuration
+SkyCluster AWS Configuration
+-------------------------------------------
+
+.. note::
+  This step is only required if you are using AWS and have enalbed it 
+  during the installation of SkyCluster.
+
+You need to create a YAML file containing the essential mapping information for the provider.
+Below you can find an exmaple ``YAML`` file for the AWS provider configuration.
+
+.. container:: toggle open
+
+  .. container:: header open
+
+    **aws-provider-setting.yaml**
+
+  .. code-block:: yaml
+    :linenos:
+
+    providerMappings:
+      aws:
+        # global field is reserved for future use anf global settings       
+        global:
+        regions:
+          - name: aws_us-east-1_cloud_VI
+            region: us-east-1
+            continent: NorthAmerica
+            regionAlias: us-east
+            zones:
+              # We need to ensure for each region, there is one zone
+              # with defaultZone set to true
+              - name: use1-az1
+                locationName: Virginia
+                defaultZone: true
+                type: cloud
+                defaults:
+                  flavor: 2vCPU-4GB
+                  min-vCPU: 1vCPU-2GB
+                  max-vCPU: 8vCPU-32GB
+                  image: ubuntu-24.04
+                storage:
+                  - name: BlockStorage
+                    type: EBS
+                    min: 10GB
+                    step: 10GB
+                    price: 0.8
+                flavors: 
+                  - flavor: 1vCPU-2GB
+                    name: t2.small
+                    vcpus: 1
+                    ram: 2GB
+                    price: 0.032
+                  - flavor: 2vCPU-4GB
+                    name: t3.medium
+                    vcpus: 2
+                    ram: 4GB
+                    price: 0.0416
+                egressDataTransfer:
+                  - name: Internet
+                    # type refers to the destination type of the traffic.
+                    # possible options are "Internet" for egres traffic 
+                    # through Internet and "Provider" for direct traffic 
+                    # to another provider. 
+                    # Currently only "Internet" is supported
+                    type: Internet 
+                    price: 0.09
+            # images specifies the mapping between the image names
+            # and the actual image names in the OpenStack provider
+            # within this <region>. We assume images are available
+            # in all zones within the region.
+            images: 
+              ubuntu-24.04: ami-0980c117fa7ebaffd
+              ubuntu-22.04: ami-07543813a68cc4fe9
+              ubuntu-20.04: ami-0f81732f07ce19b1c
+
+
+
+SkyCluster OpenStack Configuration
 -------------------------------------------
 
 .. note::
@@ -109,36 +186,55 @@ and provide the appropriate values for each field:
           - name:  # Name of the region
             region: # Name of the region
             regionAlias: # Alias of the region
-            subnetCidr: x.y.z.0/24
-            gatewayIp: x.y.z.1
+            continent: NorthAmerica
             zones:
-              # There should be at least one zone specified as default
-              # for each region
-              - name: default
-                locationName: 
+              # There should be at least one zone specified as default for each region
+              - name: zone-1
+                locationName: Toronto
                 # the default zone is identified by setting 
                 # the defaultZone to true
                 defaultZone: true
-                type: cloud # Type of the zone (cloud, nte, edge)
+                type: cloud
+                defaults:
+                  flavor: p2.large
+                  image: ubuntu-22.04
+                  min-vCPU: 1vCPU-2GB
+                  max-vCPU: 12vCPU-32GB
+                egressDataTransfer:
+                  - name: Internet
+                    type: Internet 
+                    price: 0.02
+                storage:
+                  - name: BlockStorage
+                    type: EBS
+                    min: 10GB
+                    step: 10GB
+                    price: 0.8
                 # flavors specifies the mapping between the flavor names
                 # and the actual machine types in the OpenStack provider
                 # within this <zone>. 
-                flavors: 
-                  small:  n1.small
-                  medium: o1.medium
-                  large:  p1.medium
-                  xlarge: p3.large
-                  x.8G:   n1.medium
-                  x.16G:  o1.medium
-                  x.32G:  p1.medium
-            # iamges specifies the mapping between the image names
+                flavors:
+                    # name of the flavor in the provider
+                  - name: m1.small
+                    # flavor is the name of the flavor used in the SkyCluster
+                    flavor: 1vCPU-2GB
+                    vcpus: 1
+                    ram: 2GB
+                    price: 0.032
+                  - name: m1.medium
+                    flavor: 2vCPU-4GB
+                    vcpus: 2
+                    ram: 4GB
+                    price: 0.02
+            # images specifies the mapping between the image names
             # and the actual image names in the OpenStack provider
             # within this <region>. We assume images are available
             # in all zones within the region.
             images: 
-              ubuntu-22.04: Ubuntu-22-04-Jammy
-              ubuntu-20.04: Ubuntu-20-04-focal
-              ubuntu-18.04: Ubuntu-18-04-bionic
+              ubuntu-24.04: ubuntu-24.04
+              ubuntu-22.04: ubuntu-22.04
+              ubuntu-20.04: ubuntu-20.04
+              ubuntu-18.04: ubuntu-18.04
 
 We use the following settings for the SAVI testbed.
 
