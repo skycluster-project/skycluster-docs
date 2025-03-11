@@ -515,8 +515,8 @@ across any of the registered providers by specifying the <code class="docutils l
 <span class="linenos">12</span><span class="nt">spec</span><span class="p">:</span>
 <span class="linenos">13</span><span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span>
 <span class="linenos">14</span><span class="w">    </span><span class="c1"># Or you can specify the VM size and image:</span>
-<span class="linenos">15</span><span class="w">    </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">small/medium/large/xlarge</span>
-<span class="linenos">16</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04/ubuntu-20.04/ubuntu-18.04</span>
+<span class="linenos">15</span><span class="w">    </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1vCPU-2GB</span><span class="w"> </span><span class="c1"># 2vCPU-2GB, 4vCPU-8GB, ...</span>
+<span class="linenos">16</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span><span class="w"> </span><span class="c1"># ubuntu-20.04, ubuntu-18.04</span>
 <span class="linenos">17</span>
 <span class="linenos">18</span><span class="w">    </span><span class="nt">userData</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="linenos">19</span><span class="w">      </span><span class="no">#cloud-config</span>
@@ -608,83 +608,55 @@ and location and quality constraints.</p>
 <div class="header open docutils container">
 <p><strong>skyk8s-example.sh</strong></p>
 </div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xrds.skycluster.io/v1alpha1</span>
 <span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SkyK8SCluster</span>
 <span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
 <span class="linenos"> 4</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
 <span class="linenos"> 5</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
 <span class="linenos"> 6</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-skyk8s-1</span>
 <span class="linenos"> 7</span><span class="nt">spec</span><span class="p">:</span>
-<span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="w">  </span><span class="c1"># If multicluster is set to true, each node pool forms</span>
-<span class="linenos">10</span><span class="w">  </span><span class="c1"># a separate cluster. A multi-cluster k8s is formed by joining</span>
-<span class="linenos">11</span><span class="w">  </span><span class="c1"># multiple clusters.</span>
-<span class="linenos">12</span><span class="w">  </span><span class="c1"># If multicluster is set to false, a single cluster spans</span>
-<span class="linenos">13</span><span class="w">  </span><span class="c1"># across all nodes. Currently, only single cluster is supported.</span>
-<span class="hll"><span class="linenos">14</span><span class="w">  </span><span class="nt">enableMultiCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</span><span class="linenos">15</span>
-<span class="linenos">16</span><span class="w">  </span><span class="c1"># An array of configuration for each node pool can be specified</span>
-<span class="linenos">17</span><span class="w">  </span><span class="c1"># All nodes in this pool share the same configuration</span>
-<span class="hll"><span class="linenos">18</span><span class="w">  </span><span class="nt">nodePools</span><span class="p">:</span>
-</span><span class="linenos">19</span>
-<span class="linenos">20</span><span class="w">    </span><span class="c1"># You can distinguish the controller node by setting controller</span>
-<span class="linenos">21</span><span class="w">    </span><span class="c1"># field to true. If no node pool is specified with controller</span>
-<span class="linenos">22</span><span class="w">    </span><span class="c1"># set to true, a controller node is created from the first node pool</span>
-<span class="hll"><span class="linenos">23</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">controller</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span class="hll"><span class="linenos">24</span><span class="w">      </span><span class="nt">machineType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">n1-standard-2</span>
-</span><span class="hll"><span class="linenos">25</span><span class="w">      </span><span class="nt">diskSizeGb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
-</span><span class="hll"><span class="linenos">26</span><span class="w">      </span><span class="nt">diskType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pd-ssd</span>
-</span><span class="linenos">27</span>
-<span class="linenos">28</span><span class="w">      </span><span class="c1"># The controller cannot be preemptible and</span>
-<span class="linenos">29</span><span class="w">      </span><span class="c1"># this option only applies to agent nodes.</span>
-<span class="linenos">30</span><span class="w">      </span><span class="c1"># If an agent node is terminated, the skycluster tries to</span>
-<span class="linenos">31</span><span class="w">      </span><span class="c1"># recreate the node given the constraints and configurations.</span>
-<span class="linenos">32</span><span class="w">      </span><span class="c1"># This option is not implemented yet.</span>
-<span class="linenos">33</span><span class="w">      </span><span class="nt">preemptible</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="nt">forProvider</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="c1"># If you are using a private registry, you can specify the private registry</span>
+<span class="linenos">10</span><span class="w">    </span><span class="c1"># We don&#39;t support private registry with secret yet.</span>
+<span class="linenos">11</span><span class="w">    </span><span class="nt">privateRegistry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.skycluster.io</span>
+<span class="linenos">12</span><span class="w">    </span><span class="nt">agents</span><span class="p">:</span>
+<span class="linenos">13</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agent-sci-1</span>
+<span class="hll"><span class="linenos">14</span><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4vCPU-16GB</span>
+</span><span class="linenos">15</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+<span class="linenos">16</span><span class="w">      </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="linenos">17</span><span class="w">        </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os</span>
+<span class="hll"><span class="linenos">18</span><span class="w">        </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCINET</span>
+</span><span class="linenos">19</span><span class="w">        </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="linenos">20</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agent-va-1</span>
+<span class="linenos">21</span><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4vCPU-16GB</span>
+<span class="linenos">22</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+<span class="hll"><span class="linenos">23</span><span class="w">      </span><span class="nt">providerRef</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">24</span><span class="w">        </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os</span>
+</span><span class="hll"><span class="linenos">25</span><span class="w">        </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VAUGHAN</span>
+</span><span class="hll"><span class="linenos">26</span><span class="w">        </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+</span><span class="linenos">27</span><span class="w">    </span><span class="nt">ctrl</span><span class="p">:</span>
+<span class="linenos">28</span><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8vCPU-32GB</span>
+<span class="linenos">29</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+<span class="linenos">30</span><span class="w">      </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="linenos">31</span><span class="w">        </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os</span>
+<span class="linenos">32</span><span class="w">        </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCINET</span>
+<span class="linenos">33</span><span class="w">        </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
 <span class="linenos">34</span>
-<span class="linenos">35</span><span class="w">      </span><span class="c1"># Auto scalling functionally enables scalling of the nodes in</span>
-<span class="linenos">36</span><span class="w">      </span><span class="c1"># this node pool. Not implemented yet.</span>
-<span class="linenos">37</span><span class="w">      </span><span class="nt">autoscaling</span><span class="p">:</span>
-<span class="linenos">38</span><span class="w">        </span><span class="c1"># The minimum and maximum number of nodes is used to ensure</span>
-<span class="linenos">39</span><span class="w">        </span><span class="c1"># The number of nodes in the pool is within the specified range</span>
-<span class="linenos">40</span><span class="w">        </span><span class="nt">minCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-<span class="linenos">41</span><span class="w">        </span><span class="nt">maxCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
-<span class="linenos">42</span><span class="w">        </span><span class="nt">metrics</span><span class="p">:</span>
-<span class="linenos">43</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Resource</span>
-<span class="linenos">44</span><span class="w">            </span><span class="nt">resource</span><span class="p">:</span>
-<span class="linenos">45</span><span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cpu</span>
-<span class="linenos">46</span><span class="w">              </span><span class="nt">targetAverageUtilization</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
-<span class="linenos">47</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Resource</span>
-<span class="linenos">48</span><span class="w">            </span><span class="nt">resource</span><span class="p">:</span>
-<span class="linenos">49</span><span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">memory</span>
-<span class="linenos">50</span><span class="w">              </span><span class="nt">targetAverageUtilization</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
-<span class="linenos">51</span><span class="w">          </span><span class="c1"># Custom metrics should be specified as part of services within</span>
-<span class="linenos">52</span><span class="w">          </span><span class="c1"># the cluster using the post-setup application configuration</span>
-<span class="linenos">53</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Metric</span>
-<span class="linenos">54</span><span class="w">            </span><span class="nt">metric</span><span class="p">:</span>
-<span class="linenos">55</span><span class="w">              </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/k8s-metrics</span>
-<span class="linenos">56</span><span class="w">              </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
-<span class="linenos">57</span>
-<span class="linenos">58</span><span class="w">      </span><span class="c1"># For each node pool, you can specify the location constrains</span>
-<span class="hll"><span class="linenos">59</span><span class="w">      </span><span class="nt">locationConstraints</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">60</span><span class="w">        </span><span class="nt">permitted</span><span class="p">:</span>
-</span><span class="linenos">61</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1-a-edge</span>
-<span class="linenos">62</span><span class="w">            </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1</span>
-<span class="linenos">63</span><span class="w">            </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1</span>
-<span class="linenos">64</span><span class="w">            </span><span class="nt">regionType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Edge</span>
-<span class="linenos">65</span><span class="w">            </span><span class="c1"># When all fields are set, the intersection of the fields is used</span>
-<span class="linenos">66</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east</span>
-<span class="linenos">67</span><span class="w">            </span><span class="nt">regionType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Edge</span>
-<span class="linenos">68</span><span class="w">          </span><span class="c1"># When nmultiple permitted fields are set,</span>
-<span class="linenos">69</span><span class="w">          </span><span class="c1"># the union of the fields is used</span>
-<span class="hll"><span class="linenos">70</span><span class="w">        </span><span class="nt">required</span><span class="p">:</span>
-</span><span class="linenos">71</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1-a-edge-12345</span>
-<span class="linenos">72</span><span class="w">            </span><span class="c1"># Same as permitted, when multiple fields are set,</span>
-<span class="linenos">73</span><span class="w">            </span><span class="c1"># the intersection of them is used</span>
-<span class="linenos">74</span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">regionAlias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east1</span>
-<span class="linenos">75</span><span class="w">            </span><span class="nt">regionType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Edge</span>
-<span class="linenos">76</span><span class="w">          </span><span class="c1"># Same as permitted, when multiple required fields are set,</span>
-<span class="linenos">77</span><span class="w">          </span><span class="c1"># the union of the fields is used</span>
+<span class="linenos">35</span><span class="w">    </span><span class="c1"># [Auto scalling functionally is not yet supported.]</span>
+<span class="linenos">36</span><span class="w">    </span><span class="c1"># &quot;autoscaling&quot; enables scalling of the nodes in</span>
+<span class="linenos">37</span><span class="w">    </span><span class="c1"># this node pool. Not implemented yet.</span>
+<span class="linenos">38</span><span class="w">    </span><span class="nt">autoscaling</span><span class="p">:</span>
+<span class="linenos">39</span><span class="w">      </span><span class="c1"># The minimum and maximum number of nodes is used to ensure</span>
+<span class="linenos">40</span><span class="w">      </span><span class="c1"># The number of nodes in the pool is within the specified range</span>
+<span class="linenos">41</span><span class="w">      </span><span class="nt">minCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="linenos">42</span><span class="w">      </span><span class="nt">maxCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="linenos">43</span><span class="w">      </span><span class="nt">metrics</span><span class="p">:</span>
+<span class="linenos">44</span><span class="w">        </span><span class="c1"># Custom metrics should be specified as part of services within</span>
+<span class="linenos">45</span><span class="w">        </span><span class="c1"># the cluster using the post-setup application configuration</span>
+<span class="linenos">46</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Metric</span>
+<span class="linenos">47</span><span class="w">          </span><span class="nt">metric</span><span class="p">:</span>
+<span class="linenos">48</span><span class="w">            </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-svc/k8s-metrics</span>
+<span class="linenos">49</span><span class="w">            </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
 </pre></div>
 </div>
 </div>
