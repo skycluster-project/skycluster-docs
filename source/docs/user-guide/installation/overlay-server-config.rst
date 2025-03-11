@@ -119,7 +119,7 @@ export the following environment variables:
     export TOKEN="1bdff6711a9a49e...d6bd9b7c7dac4e"
 
     # CA_CERTIFICATE should be the path to the ca_certificate.crt file
-    export CA_CERTIFICATE=$(PWD)/ca_certificate.crt
+    export CA_CERTIFICATE=$(pwd)/ca_certificate.crt
 
 and then run the following command to create a secret containing this information:
 
