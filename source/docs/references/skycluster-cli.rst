@@ -54,3 +54,6 @@ Available Commands
     skycluster skyvm image list --provider-name aws,gcp
     skycluster skyvm delete --all
     skycluster skyvm delete --provider-name aws
+
+    # Print the overlay k8s kubeconfig
+    skycluster skyk8s config show
