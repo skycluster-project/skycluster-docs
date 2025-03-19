@@ -5,6 +5,12 @@ if [[ -z "$HOST" ]] || [[ -z "$TOKEN" ]] || [[ -z "$PORT" ]] || [[ -z $CA_CERTIF
   exit 1
 fi
 
+# Ensure $HOST does not start with http:// or https://
+if [[ $HOST =~ ^https?:// ]]; then
+  echo "Error: HOST should not start with http:// or https://"
+  exit 1
+fi
+
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret

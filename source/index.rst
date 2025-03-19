@@ -1,15 +1,13 @@
 SkyCluster 
 ##########
 
-.. image:: _static/imgs/skycluster-logo-v1.png
-  :scale: 15%
-  :alt: SkyCluster Logo
-  :align: center
+.. .. image:: _static/imgs/skycluster-logo-v1.png
+..   :scale: 15%
+..   :alt: SkyCluster Logo
+..   :align: center
 
 .. meta::
   :description: SkyCluster enables deployment of containerized application across hybrid and multi-clouds environment.
-
-
 
 
 What is SkyCluster?
@@ -24,6 +22,11 @@ capabilities to deploy applications across various hybrid
 and multi-cloud providers. 
 By doing so, it aims to reduce deployment costs while meeting 
 the application's performance and compliance requirements.
+
+.. image:: _static/imgs/skycluster-definition-min.png
+  :alt: SkyCluster Definition
+  :align: center
+  :width: 60%
 
 
 To this end, we introduce the ``skycluster-manager`` 
