@@ -16,7 +16,7 @@ metadata:
   name: provider-cfg-os-${REGION_LOWER}
   labels:
     skycluster.io/managed-by: skycluster
-    skycluster.io/provider-region: ${REGION}
+    skycluster.io/provider-region: ${REGION_LOWER}
 spec:
   credentials:
     source: Secret
