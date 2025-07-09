@@ -10,8 +10,9 @@ project = 'SkyCluster'
 copyright = '2024, Ehsan Etesami'
 author = 'Ehsan Etesami'
 
-version = 'v1alpha1'
-release = 'v1alpha1'
+language = 'en'
+version = '0.1.0'
+release = '0.1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -30,22 +31,22 @@ extensions = [
 # the current base URL of your documentation.
 html_baseurl = 'https://skycluster.io'
 # defaul is {lang}{version}{link}, where {lang} and {version} get set by language and version
-sitemap_url_scheme = "{link}"
+sitemap_url_scheme = "{lang}{version}{link}"
 sitemap_excludes = ['index.html', 'search.html', 'genindex.html']
 html_title = 'SkyCluster'
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-html_favicon = '_static/imgs/skycluster-favicon.png'
-html_logo = '_static/imgs/skycluster-favicon.png'
+html_favicon = 'en/latest/_static/imgs/skycluster-favicon.png'
+html_logo = 'en/latest/_static/imgs/skycluster-favicon.png'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 # html_theme = 'alabaster'
 html_theme = 'pydata_sphinx_theme'
-html_static_path = ['_static']
+html_static_path = ['en/latest/_static']
 html_extra_path = ['CNAME', 'skycluster']
 
 # Add this to include Table of Contents in each page
@@ -61,8 +62,8 @@ html_theme_options = {
     "show_nav_level": 4,
     "logo": {
         "text": "SkyCluster",
-        "image_light": "_static/imgs/skycluster-favicon.png",
-        "image_dark": "_static/imgs/skycluster-favicon.png",
+        "image_light": "en/latest/_static/imgs/skycluster-favicon.png",
+        "image_dark": "en/latest/_static/imgs/skycluster-favicon.png",
     },
     "icon_links_label": "Quick Links",
     "icon_links": [

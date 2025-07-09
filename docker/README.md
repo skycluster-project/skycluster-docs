@@ -5,13 +5,13 @@ Follow the steps below to create an environment for development:
 
 ```bash
 cd skycluster-docs/docker
-sudo docker build . -t skycluster-web:latest
+sudo docker build . -t skycluster-docs:latest
 ```
 
 2. Run a container using the built image:
 
 ```bash
-sudo docker run -ti --rm -v ./:/skycluster -p 8000:8000 skycluster-web:latest
+sudo docker run -ti --rm -v ./:/skycluster -p 8000:8000 skycluster-docs:latest
 ```
 
 3. Inside the container use the following command or `server` as an alias,
@@ -19,7 +19,7 @@ to automaticall watch source files and render html output:
 
 ```bash
 cd /skycluster # root directory
-sphinx-autobuild . _build/html --host 0.0.0.0
+sphinx-autobuild source/ _build/html --host 0.0.0.0
 ```
 
 
