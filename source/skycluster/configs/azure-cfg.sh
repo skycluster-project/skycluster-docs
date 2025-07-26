@@ -5,6 +5,11 @@ if [[ ! -f $AZURE_CONFIG_PATH ]]; then
   exit 1
 fi
 
+if [ -z "$NAMESPACE" ]; then
+  echo "NAMESPACE must be set."
+  exit 1
+fi
+
 cont_enc=$(cat $AZURE_CONFIG_PATH | base64 -w0)
 
 cat <<EOF | kubectl apply -f -
@@ -18,7 +23,7 @@ spec:
   credentials:
     source: Secret
     secretRef:
-      namespace: skycluster
+      namespace: ${NAMESPACE}
       name: secret-azure
       key: configs
 ---
@@ -26,7 +31,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: secret-azure
-  namespace: skycluster
+  namespace: ${NAMESPACE}
 type: Opaque
 data:
   configs: $cont_enc

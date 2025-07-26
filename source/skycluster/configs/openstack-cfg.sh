@@ -2,7 +2,7 @@
 
 # Check if any of these variables are not set, if so exist
 if [[ -z $AUTH_URL || -z $USERNAME || -z $PASSWORD || -z $TENANT_NAME || \
-  -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME ]]; then
+  -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME || -z $NAMESPACE ]]; then
   echo "One or more required variables are not set."
   exit 1
 fi
@@ -16,20 +16,21 @@ metadata:
   name: provider-cfg-os-${REGION_LOWER}
   labels:
     skycluster.io/managed-by: skycluster
+    skycluster.io/provider-platform: openstack
     skycluster.io/provider-region: ${REGION_LOWER}
 spec:
   credentials:
     source: Secret
     secretRef:
       name: secret-os-${REGION_LOWER}
-      namespace: skycluster
+      namespace: ${NAMESPACE}
       key: configs
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: secret-os-${REGION_LOWER}
-  namespace: skycluster
+  namespace: ${NAMESPACE}
 type: Opaque
 stringData:
   configs: |
@@ -41,6 +42,6 @@ stringData:
       "tenant_name": "$TENANT_NAME",
       "project_domain_name": "$USER_DOMAIN_NAME",
       "user_domain_name": "$USER_DOMAIN_NAME",
-      "insecure": "true"
+      "insecure": "false"
     }
 EOF

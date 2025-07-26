@@ -7,7 +7,14 @@ Providers Configuration
 
 Providers such as ``AWS`` require authentication to manage 
 external resources. For each provider integrated 
-into the SkyCluster Manager, a separate configuration must be created.
+into the SkyCluster Manager, a separate configuration must be created. The ``NAMESPACE`` variable
+is used to specify the namespace where the provider configuration will be applied and should match the namespace 
+where the SkyCluster Manager is installed.
+
+.. code-block:: sh
+
+  export NAMESPACE=skycluster
+  
 
 AWS Configuration
 =================
@@ -44,12 +51,6 @@ Then execute the command below to configure the AWS provider:
 
     #!/bin/bash
 
-    # If env variables are not set, exit
-    if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
-      echo "AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY must be set."
-      exit 1
-    fi
-
     # Create the content of the credentials in a variable
     creds_content="[default]
     aws_access_key_id = $AWS_ACCESS_KEY_ID
@@ -70,17 +71,36 @@ Then execute the command below to configure the AWS provider:
         source: Secret
         secretRef:
           name: secret-aws
-          namespace: crossplane-system
-          key: creds
+          namespace: ${NAMESPACE}
+          key: configs
     ---
     apiVersion: v1
     kind: Secret
     metadata:
       name: secret-aws
-      namespace: crossplane-system
+      namespace: ${NAMESPACE}
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/provider-platform: aws
+        skycluster.io/secret-role: configs
     type: Opaque
     data:
-      creds: $creds_enc
+      configs: $creds_enc
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: credentials-aws
+      namespace: ${NAMESPACE}
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/provider-platform: aws
+        skycluster.io/secret-role: credentials
+    type: Opaque
+    stringData:
+      aws_access_key_id: $AWS_ACCESS_KEY_ID
+      aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    ---
     EOF
 
 
@@ -116,21 +136,24 @@ Then execute the command below to configure the GCP provider:
 
     #!/bin/bash
 
-    if [[ -z "$GCP_SVC_ACC_PATH" ]] || [[ -z "$PROJECT_ID" ]] ; then
-      echo "GCP_SVC_ACC_PATH and PROJECT_ID must be set."
+    BASE64_ENCODED_GCP_SVC_ACC=$(cat "$GCP_SVC_ACC_PATH" | base64 -w0)
+
+    if [[ -z "$BASE64_ENCODED_GCP_SVC_ACC" ]]; then
+      echo "Failed to encode GCP service account file."
       exit 1
     fi
-
-    # if file does not exist, exit
-    if [[ ! -f "$GCP_SVC_ACC_PATH" ]]; then
-      echo "GCP_SVC_ACC_PATH File does not exist. Ensure the file exists and use the absolute path."
-      exit 1
-    fi
-
-    kubectl create secret generic secret-gcp -n skycluster --from-file=configs=${GCP_SVC_ACC_PATH}
 
     # Apply the provider configuration
     cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: secret-gcp
+      namespace: ${NAMESPACE}
+    type: Opaque
+    data:
+      configs: ${BASE64_ENCODED_GCP_SVC_ACC}
+    ---
     apiVersion: gcp.upbound.io/v1beta1
     kind: ProviderConfig
     metadata:
@@ -142,7 +165,7 @@ Then execute the command below to configure the GCP provider:
       credentials:
         source: Secret
         secretRef:
-          namespace: skycluster
+          namespace: ${NAMESPACE}
           name: secret-gcp
           key: configs
     EOF
@@ -189,11 +212,6 @@ Then execute the command below to configure the Azure provider:
   
     #!/bin/bash
 
-    if [[ ! -f $AZURE_CONFIG_PATH ]]; then
-      echo "Azure config file not found at $AZURE_CONFIG_PATH"
-      exit 1
-    fi
-
     cont_enc=$(cat $AZURE_CONFIG_PATH | base64 -w0)
 
     cat <<EOF | kubectl apply -f -
@@ -207,7 +225,7 @@ Then execute the command below to configure the Azure provider:
       credentials:
         source: Secret
         secretRef:
-          namespace: crossplane-system
+          namespace: ${NAMESPACE}
           name: secret-azure
           key: configs
     ---
@@ -215,11 +233,12 @@ Then execute the command below to configure the Azure provider:
     kind: Secret
     metadata:
       name: secret-azure
-      namespace: skycluster
+      namespace: ${NAMESPACE}
     type: Opaque
     data:
       configs: $cont_enc
     EOF
+
 
 Openstack Configuration
 ========================
@@ -255,44 +274,42 @@ Then execute the command below to configure your Openstack provider:
 
     #!/bin/bash
 
-    # Check if any of these variables are not set, if so exist
-    if [[ -z $AUTH_URL || -z $USERNAME || -z $PASSWORD || -z $TENANT_NAME || \
-      -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME ]]; then
-      echo "One or more required variables are not set."
-      exit 1
-    fi
-    
+    REGION_LOWER=$(echo $REGION | tr '[:upper:]' '[:lower:]')
+
     cat <<EOF | kubectl apply -f -
     apiVersion: openstack.crossplane.io/v1beta1
     kind: ProviderConfig
     metadata:
-      name: provider-cfg-os-${REGION}
+      name: provider-cfg-os-${REGION_LOWER}
       labels:
         skycluster.io/managed-by: skycluster
+        skycluster.io/provider-platform: openstack
+        skycluster.io/provider-region: ${REGION_LOWER}
     spec:
       credentials:
         source: Secret
         secretRef:
-          name: secret-os-${REGION}
-          namespace: crossplane-system
+          name: secret-os-${REGION_LOWER}
+          namespace: ${NAMESPACE}
           key: configs
     ---
     apiVersion: v1
     kind: Secret
     metadata:
-      name: secret-os-${REGION}
-      namespace: crossplane-system
+      name: secret-os-${REGION_LOWER}
+      namespace: ${NAMESPACE}
     type: Opaque
     stringData:
       configs: |
         {
-          "auth_url": $AUTH_URL,
-          "user_name": $USERNAME,
-          "password": $PASSWORD,
-          "tenant_name": $TENANT_NAME,
-          "region": $REGION,
-          "user_domain_name": $USER_DOMAIN_NAME,
-          "project_domain_name": $PROJECT_DOMAIN_NAME
+          "auth_url": "$AUTH_URL",
+          "region": "$REGION",
+          "user_name": "$USERNAME",
+          "password": "$PASSWORD",
+          "tenant_name": "$TENANT_NAME",
+          "project_domain_name": "$USER_DOMAIN_NAME",
+          "user_domain_name": "$USER_DOMAIN_NAME",
+          "insecure": "false"
         }
     EOF
     
