@@ -8,10 +8,11 @@ Getting Started
   :maxdepth: 2
   :hidden:
 
-  installation/installation
-  installation/providers-configs
-  installation/skycluster-configs
-  installation/skycluster-dashboard
+  installation
+  providers-configs
+  skycluster-configs
+  skycluster-dashboard
+  skycluster-cli
   ../examples/index
   ../references/index
 
