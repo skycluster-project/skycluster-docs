@@ -7,6 +7,7 @@ if [[ -z $AUTH_URL || -z $USERNAME || -z $PASSWORD || -z $TENANT_NAME || \
   exit 1
 fi
 
+NAMESPACE="skycluster-system"
 REGION_LOWER=$(echo $REGION | tr '[:upper:]' '[:lower:]')
 
 cat <<EOF | kubectl apply -f -
@@ -16,20 +17,21 @@ metadata:
   name: provider-cfg-os-${REGION_LOWER}
   labels:
     skycluster.io/managed-by: skycluster
+    skycluster.io/provider-platform: openstack
     skycluster.io/provider-region: ${REGION_LOWER}
 spec:
   credentials:
     source: Secret
     secretRef:
       name: secret-os-${REGION_LOWER}
-      namespace: skycluster
+      namespace: ${NAMESPACE}
       key: configs
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: secret-os-${REGION_LOWER}
-  namespace: skycluster
+  namespace: ${NAMESPACE}
 type: Opaque
 stringData:
   configs: |
@@ -41,6 +43,6 @@ stringData:
       "tenant_name": "$TENANT_NAME",
       "project_domain_name": "$USER_DOMAIN_NAME",
       "user_domain_name": "$USER_DOMAIN_NAME",
-      "insecure": "true"
+      "insecure": "false"
     }
 EOF

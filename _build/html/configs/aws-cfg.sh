@@ -6,6 +6,8 @@ if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
   exit 1
 fi
 
+NAMESPACE="skycluster-system"
+
 # Create the content of the credentials in a variable
 creds_content="[default]
 aws_access_key_id = $AWS_ACCESS_KEY_ID
@@ -26,15 +28,34 @@ spec:
     source: Secret
     secretRef:
       name: secret-aws
-      namespace: skycluster
+      namespace: ${NAMESPACE}
       key: configs
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: secret-aws
-  namespace: skycluster
+  namespace: ${NAMESPACE}
+  labels:
+    skycluster.io/managed-by: skycluster
+    skycluster.io/provider-platform: aws
+    skycluster.io/secret-role: configs
 type: Opaque
 data:
   configs: $creds_enc
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: credentials-aws
+  namespace: ${NAMESPACE}
+  labels:
+    skycluster.io/managed-by: skycluster
+    skycluster.io/provider-platform: aws
+    skycluster.io/secret-role: credentials
+type: Opaque
+stringData:
+  aws_access_key_id: $AWS_ACCESS_KEY_ID
+  aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+---
 EOF

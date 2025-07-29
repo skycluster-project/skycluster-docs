@@ -44,14 +44,9 @@ Read the ``SkyCluster`` documentation to learn more about the project and how to
   This is a Work In Progress (WIP). The documentation is not complete yet and the code base changes frequently.
 
 .. toctree::
-  :maxdepth: 3
-  :includehidden:
+  :maxdepth: 2
+  :hidden:
 
-  docs/user-guide/index
-  docs/use-cases/index
-  docs/references/index
-
-  
-.. 
-  This are the main sections such as
-  installation, configurations, about, 
+  en/latest/getting-started/index
+  en/latest/examples/index
+  en/latest/references/index

@@ -6,11 +6,13 @@ if [ -z "$PUBLIC_KEY" ] || [ -z "$PRIVATE_KEY" ]; then
   exit 1
 fi
 
+NAMESPACE="skycluster-system"
+
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
-  namespace: skycluster
+  namespace: ${NAMESPACE}
   name: public-private-key
   labels:
     skycluster.io/managed-by: skycluster
