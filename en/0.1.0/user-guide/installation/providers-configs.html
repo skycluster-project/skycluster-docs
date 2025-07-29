@@ -52,6 +52,8 @@
     <link rel="icon" href="../../../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="SkyCluster Configuration" href="skycluster-configs.html" />
+    <link rel="prev" title="Installation" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.0" />
@@ -149,8 +151,8 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../latest/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
     Getting Started
   </a>
 </li>
@@ -244,8 +246,8 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../latest/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
     Getting Started
   </a>
 </li>
@@ -294,13 +296,16 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l2 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="overlay-server-config.html">Overlay Server Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Use Cases</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -343,6 +348,12 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Getting Started</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Installation</a></li>
+    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Providers Configuration</span></li>
   </ul>
 </nav>
@@ -390,44 +401,57 @@ environmental variables and run the configuration script:</p>
 </div>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
 <span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># If env variables are not set, exit</span>
-<span class="linenos"> 4</span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AWS_ACCESS_KEY_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="linenos"> 5</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY must be set.&quot;</span>
-<span class="linenos"> 6</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="linenos"> 7</span><span class="k">fi</span>
-<span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="c1"># Create the content of the credentials in a variable</span>
-<span class="linenos">10</span><span class="nv">creds_content</span><span class="o">=</span><span class="s2">&quot;[default]</span>
-<span class="linenos">11</span><span class="s2">aws_access_key_id = </span><span class="nv">$AWS_ACCESS_KEY_ID</span>
-<span class="linenos">12</span><span class="s2">aws_secret_access_key = </span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span>
-<span class="linenos">13</span>
-<span class="linenos">14</span><span class="c1"># Echo the content and pipe it to base64 for encoding</span>
-<span class="linenos">15</span><span class="nv">creds_enc</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$creds_content</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="linenos">18</span><span class="s">apiVersion: aws.upbound.io/v1beta1</span>
-<span class="linenos">19</span><span class="s">kind: ProviderConfig</span>
-<span class="linenos">20</span><span class="s">metadata:</span>
-<span class="linenos">21</span><span class="s">  name: provider-cfg-aws</span>
-<span class="linenos">22</span><span class="s">  labels:</span>
-<span class="linenos">23</span><span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="linenos">24</span><span class="s">spec:</span>
-<span class="linenos">25</span><span class="s">  credentials:</span>
-<span class="linenos">26</span><span class="s">    source: Secret</span>
-<span class="linenos">27</span><span class="s">    secretRef:</span>
-<span class="linenos">28</span><span class="s">      name: secret-aws</span>
-<span class="linenos">29</span><span class="s">      namespace: crossplane-system</span>
-<span class="linenos">30</span><span class="s">      key: creds</span>
-<span class="linenos">31</span><span class="s">---</span>
-<span class="linenos">32</span><span class="s">apiVersion: v1</span>
-<span class="linenos">33</span><span class="s">kind: Secret</span>
-<span class="linenos">34</span><span class="s">metadata:</span>
-<span class="linenos">35</span><span class="s">  name: secret-aws</span>
-<span class="linenos">36</span><span class="s">  namespace: crossplane-system</span>
-<span class="linenos">37</span><span class="s">type: Opaque</span>
-<span class="linenos">38</span><span class="s">data:</span>
-<span class="linenos">39</span><span class="s">  creds: $creds_enc</span>
-<span class="linenos">40</span><span class="s">EOF</span>
+<span class="linenos"> 3</span><span class="c1"># Create the content of the credentials in a variable</span>
+<span class="linenos"> 4</span><span class="nv">creds_content</span><span class="o">=</span><span class="s2">&quot;[default]</span>
+<span class="linenos"> 5</span><span class="s2">aws_access_key_id = </span><span class="nv">$AWS_ACCESS_KEY_ID</span>
+<span class="linenos"> 6</span><span class="s2">aws_secret_access_key = </span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1"># Echo the content and pipe it to base64 for encoding</span>
+<span class="linenos"> 9</span><span class="nv">creds_enc</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$creds_content</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">12</span><span class="s">apiVersion: aws.upbound.io/v1beta1</span>
+<span class="linenos">13</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">14</span><span class="s">metadata:</span>
+<span class="linenos">15</span><span class="s">  name: provider-cfg-aws</span>
+<span class="linenos">16</span><span class="s">  labels:</span>
+<span class="linenos">17</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">18</span><span class="s">spec:</span>
+<span class="linenos">19</span><span class="s">  credentials:</span>
+<span class="linenos">20</span><span class="s">    source: Secret</span>
+<span class="linenos">21</span><span class="s">    secretRef:</span>
+<span class="linenos">22</span><span class="s">      name: secret-aws</span>
+<span class="linenos">23</span><span class="s">      namespace: ${NAMESPACE}</span>
+<span class="linenos">24</span><span class="s">      key: configs</span>
+<span class="linenos">25</span><span class="s">---</span>
+<span class="linenos">26</span><span class="s">apiVersion: v1</span>
+<span class="linenos">27</span><span class="s">kind: Secret</span>
+<span class="linenos">28</span><span class="s">metadata:</span>
+<span class="linenos">29</span><span class="s">  name: secret-aws</span>
+<span class="linenos">30</span><span class="s">  namespace: ${NAMESPACE}</span>
+<span class="linenos">31</span><span class="s">  labels:</span>
+<span class="linenos">32</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">33</span><span class="s">    skycluster.io/provider-platform: aws</span>
+<span class="linenos">34</span><span class="s">    skycluster.io/secret-role: configs</span>
+<span class="linenos">35</span><span class="s">type: Opaque</span>
+<span class="linenos">36</span><span class="s">data:</span>
+<span class="linenos">37</span><span class="s">  configs: $creds_enc</span>
+<span class="linenos">38</span><span class="s">---</span>
+<span class="linenos">39</span><span class="s">apiVersion: v1</span>
+<span class="linenos">40</span><span class="s">kind: Secret</span>
+<span class="linenos">41</span><span class="s">metadata:</span>
+<span class="linenos">42</span><span class="s">  name: credentials-aws</span>
+<span class="linenos">43</span><span class="s">  namespace: ${NAMESPACE}</span>
+<span class="linenos">44</span><span class="s">  labels:</span>
+<span class="linenos">45</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">46</span><span class="s">    skycluster.io/provider-platform: aws</span>
+<span class="linenos">47</span><span class="s">    skycluster.io/secret-role: credentials</span>
+<span class="linenos">48</span><span class="s">type: Opaque</span>
+<span class="linenos">49</span><span class="s">stringData:</span>
+<span class="linenos">50</span><span class="s">  aws_access_key_id: $AWS_ACCESS_KEY_ID</span>
+<span class="linenos">51</span><span class="s">  aws_secret_access_key: $AWS_SECRET_ACCESS_KEY</span>
+<span class="linenos">52</span><span class="s">---</span>
+<span class="linenos">53</span><span class="s">EOF</span>
 </pre></div>
 </div>
 </div>
@@ -453,36 +477,39 @@ Then:</p>
 </div>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
 <span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PROJECT_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="linenos"> 4</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GCP_SVC_ACC_PATH and PROJECT_ID must be set.&quot;</span>
-<span class="linenos"> 5</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="linenos"> 6</span><span class="k">fi</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># if file does not exist, exit</span>
-<span class="linenos"> 9</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="linenos">10</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GCP_SVC_ACC_PATH File does not exist. Ensure the file exists and use the absolute path.&quot;</span>
-<span class="linenos">11</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="linenos">12</span><span class="k">fi</span>
-<span class="linenos">13</span>
-<span class="linenos">14</span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>secret-gcp<span class="w"> </span>-n<span class="w"> </span>skycluster<span class="w"> </span>--from-file<span class="o">=</span><span class="nv">configs</span><span class="o">=</span><span class="si">${</span><span class="nv">GCP_SVC_ACC_PATH</span><span class="si">}</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Apply the provider configuration</span>
-<span class="linenos">17</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="linenos">18</span><span class="s">apiVersion: gcp.upbound.io/v1beta1</span>
-<span class="linenos">19</span><span class="s">kind: ProviderConfig</span>
-<span class="linenos">20</span><span class="s">metadata:</span>
-<span class="linenos">21</span><span class="s">  name: provider-cfg-gcp</span>
-<span class="linenos">22</span><span class="s">  labels:</span>
-<span class="linenos">23</span><span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="linenos">24</span><span class="s">spec:</span>
-<span class="linenos">25</span><span class="s">  projectID: ${PROJECT_ID}</span>
-<span class="linenos">26</span><span class="s">  credentials:</span>
-<span class="linenos">27</span><span class="s">    source: Secret</span>
-<span class="linenos">28</span><span class="s">    secretRef:</span>
-<span class="linenos">29</span><span class="s">      namespace: skycluster</span>
-<span class="linenos">30</span><span class="s">      name: secret-gcp</span>
-<span class="linenos">31</span><span class="s">      key: configs</span>
-<span class="linenos">32</span><span class="s">EOF</span>
+<span class="linenos"> 3</span><span class="nv">BASE64_ENCODED_GCP_SVC_ACC</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BASE64_ENCODED_GCP_SVC_ACC</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Failed to encode GCP service account file.&quot;</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 8</span><span class="k">fi</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="c1"># Apply the provider configuration</span>
+<span class="linenos">11</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">12</span><span class="s">apiVersion: v1</span>
+<span class="linenos">13</span><span class="s">kind: Secret</span>
+<span class="linenos">14</span><span class="s">metadata:</span>
+<span class="linenos">15</span><span class="s">  name: secret-gcp</span>
+<span class="linenos">16</span><span class="s">  namespace: ${NAMESPACE}</span>
+<span class="linenos">17</span><span class="s">type: Opaque</span>
+<span class="linenos">18</span><span class="s">data:</span>
+<span class="linenos">19</span><span class="s">  configs: ${BASE64_ENCODED_GCP_SVC_ACC}</span>
+<span class="linenos">20</span><span class="s">---</span>
+<span class="linenos">21</span><span class="s">apiVersion: gcp.upbound.io/v1beta1</span>
+<span class="linenos">22</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">23</span><span class="s">metadata:</span>
+<span class="linenos">24</span><span class="s">  name: provider-cfg-gcp</span>
+<span class="linenos">25</span><span class="s">  labels:</span>
+<span class="linenos">26</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">27</span><span class="s">spec:</span>
+<span class="linenos">28</span><span class="s">  projectID: ${PROJECT_ID}</span>
+<span class="linenos">29</span><span class="s">  credentials:</span>
+<span class="linenos">30</span><span class="s">    source: Secret</span>
+<span class="linenos">31</span><span class="s">    secretRef:</span>
+<span class="linenos">32</span><span class="s">      namespace: ${NAMESPACE}</span>
+<span class="linenos">33</span><span class="s">      name: secret-gcp</span>
+<span class="linenos">34</span><span class="s">      key: configs</span>
+<span class="linenos">35</span><span class="s">EOF</span>
 </pre></div>
 </div>
 </div>
@@ -515,37 +542,32 @@ az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>cr
 </div>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
 <span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="linenos"> 4</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Azure config file not found at </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="s2">&quot;</span>
-<span class="linenos"> 5</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="linenos"> 6</span><span class="k">fi</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="nv">cont_enc</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="linenos">11</span><span class="s">apiVersion: azure.upbound.io/v1beta1</span>
-<span class="linenos">12</span><span class="s">metadata:</span>
-<span class="linenos">13</span><span class="s">  name: provider-cfg-azure</span>
-<span class="linenos">14</span><span class="s">  labels:</span>
-<span class="linenos">15</span><span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="linenos">16</span><span class="s">kind: ProviderConfig</span>
-<span class="linenos">17</span><span class="s">spec:</span>
-<span class="linenos">18</span><span class="s">  credentials:</span>
-<span class="linenos">19</span><span class="s">    source: Secret</span>
-<span class="linenos">20</span><span class="s">    secretRef:</span>
-<span class="linenos">21</span><span class="s">      namespace: crossplane-system</span>
-<span class="linenos">22</span><span class="s">      name: secret-azure</span>
-<span class="linenos">23</span><span class="s">      key: configs</span>
-<span class="linenos">24</span><span class="s">---</span>
-<span class="linenos">25</span><span class="s">apiVersion: v1</span>
-<span class="linenos">26</span><span class="s">kind: Secret</span>
-<span class="linenos">27</span><span class="s">metadata:</span>
-<span class="linenos">28</span><span class="s">  name: secret-azure</span>
-<span class="linenos">29</span><span class="s">  namespace: skycluster</span>
-<span class="linenos">30</span><span class="s">type: Opaque</span>
-<span class="linenos">31</span><span class="s">data:</span>
-<span class="linenos">32</span><span class="s">  configs: $cont_enc</span>
-<span class="linenos">33</span><span class="s">EOF</span>
+<span class="linenos"> 3</span><span class="nv">cont_enc</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos"> 6</span><span class="s">apiVersion: azure.upbound.io/v1beta1</span>
+<span class="linenos"> 7</span><span class="s">metadata:</span>
+<span class="linenos"> 8</span><span class="s">  name: provider-cfg-azure</span>
+<span class="linenos"> 9</span><span class="s">  labels:</span>
+<span class="linenos">10</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">11</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">12</span><span class="s">spec:</span>
+<span class="linenos">13</span><span class="s">  credentials:</span>
+<span class="linenos">14</span><span class="s">    source: Secret</span>
+<span class="linenos">15</span><span class="s">    secretRef:</span>
+<span class="linenos">16</span><span class="s">      namespace: ${NAMESPACE}</span>
+<span class="linenos">17</span><span class="s">      name: secret-azure</span>
+<span class="linenos">18</span><span class="s">      key: configs</span>
+<span class="linenos">19</span><span class="s">---</span>
+<span class="linenos">20</span><span class="s">apiVersion: v1</span>
+<span class="linenos">21</span><span class="s">kind: Secret</span>
+<span class="linenos">22</span><span class="s">metadata:</span>
+<span class="linenos">23</span><span class="s">  name: secret-azure</span>
+<span class="linenos">24</span><span class="s">  namespace: ${NAMESPACE}</span>
+<span class="linenos">25</span><span class="s">type: Opaque</span>
+<span class="linenos">26</span><span class="s">data:</span>
+<span class="linenos">27</span><span class="s">  configs: $cont_enc</span>
+<span class="linenos">28</span><span class="s">EOF</span>
 </pre></div>
 </div>
 </div>
@@ -573,46 +595,44 @@ az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>cr
 </div>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
 <span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Check if any of these variables are not set, if so exist</span>
-<span class="linenos"> 4</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$AUTH_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USERNAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PASSWORD</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$TENANT_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="linenos"> 5</span><span class="w">  </span>-z<span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USER_DOMAIN_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PROJECT_DOMAIN_NAME</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="linenos"> 6</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;One or more required variables are not set.&quot;</span>
-<span class="linenos"> 7</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-<span class="linenos"> 8</span><span class="k">fi</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
-<span class="linenos">11</span><span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
-<span class="linenos">12</span><span class="s">kind: ProviderConfig</span>
-<span class="linenos">13</span><span class="s">metadata:</span>
-<span class="linenos">14</span><span class="s">  name: provider-cfg-os-${REGION}</span>
-<span class="linenos">15</span><span class="s">  labels:</span>
-<span class="linenos">16</span><span class="s">    skycluster.io/managed-by: skycluster</span>
-<span class="linenos">17</span><span class="s">spec:</span>
-<span class="linenos">18</span><span class="s">  credentials:</span>
-<span class="linenos">19</span><span class="s">    source: Secret</span>
-<span class="linenos">20</span><span class="s">    secretRef:</span>
-<span class="linenos">21</span><span class="s">      name: secret-os-${REGION}</span>
-<span class="linenos">22</span><span class="s">      namespace: crossplane-system</span>
-<span class="linenos">23</span><span class="s">      key: configs</span>
-<span class="linenos">24</span><span class="s">---</span>
-<span class="linenos">25</span><span class="s">apiVersion: v1</span>
-<span class="linenos">26</span><span class="s">kind: Secret</span>
-<span class="linenos">27</span><span class="s">metadata:</span>
-<span class="linenos">28</span><span class="s">  name: secret-os-${REGION}</span>
-<span class="linenos">29</span><span class="s">  namespace: crossplane-system</span>
-<span class="linenos">30</span><span class="s">type: Opaque</span>
-<span class="linenos">31</span><span class="s">stringData:</span>
-<span class="linenos">32</span><span class="s">  configs: |</span>
-<span class="linenos">33</span><span class="s">    {</span>
-<span class="linenos">34</span><span class="s">      &quot;auth_url&quot;: $AUTH_URL,</span>
-<span class="linenos">35</span><span class="s">      &quot;user_name&quot;: $USERNAME,</span>
-<span class="linenos">36</span><span class="s">      &quot;password&quot;: $PASSWORD,</span>
-<span class="linenos">37</span><span class="s">      &quot;tenant_name&quot;: $TENANT_NAME,</span>
-<span class="linenos">38</span><span class="s">      &quot;region&quot;: $REGION,</span>
-<span class="linenos">39</span><span class="s">      &quot;user_domain_name&quot;: $USER_DOMAIN_NAME,</span>
-<span class="linenos">40</span><span class="s">      &quot;project_domain_name&quot;: $PROJECT_DOMAIN_NAME</span>
-<span class="linenos">41</span><span class="s">    }</span>
-<span class="linenos">42</span><span class="s">EOF</span>
+<span class="linenos"> 3</span><span class="nv">REGION_LOWER</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="k">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos"> 6</span><span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
+<span class="linenos"> 7</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos"> 8</span><span class="s">metadata:</span>
+<span class="linenos"> 9</span><span class="s">  name: provider-cfg-os-${REGION_LOWER}</span>
+<span class="linenos">10</span><span class="s">  labels:</span>
+<span class="linenos">11</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">12</span><span class="s">    skycluster.io/provider-platform: openstack</span>
+<span class="linenos">13</span><span class="s">    skycluster.io/provider-region: ${REGION_LOWER}</span>
+<span class="linenos">14</span><span class="s">spec:</span>
+<span class="linenos">15</span><span class="s">  credentials:</span>
+<span class="linenos">16</span><span class="s">    source: Secret</span>
+<span class="linenos">17</span><span class="s">    secretRef:</span>
+<span class="linenos">18</span><span class="s">      name: secret-os-${REGION_LOWER}</span>
+<span class="linenos">19</span><span class="s">      namespace: ${NAMESPACE}</span>
+<span class="linenos">20</span><span class="s">      key: configs</span>
+<span class="linenos">21</span><span class="s">---</span>
+<span class="linenos">22</span><span class="s">apiVersion: v1</span>
+<span class="linenos">23</span><span class="s">kind: Secret</span>
+<span class="linenos">24</span><span class="s">metadata:</span>
+<span class="linenos">25</span><span class="s">  name: secret-os-${REGION_LOWER}</span>
+<span class="linenos">26</span><span class="s">  namespace: ${NAMESPACE}</span>
+<span class="linenos">27</span><span class="s">type: Opaque</span>
+<span class="linenos">28</span><span class="s">stringData:</span>
+<span class="linenos">29</span><span class="s">  configs: |</span>
+<span class="linenos">30</span><span class="s">    {</span>
+<span class="linenos">31</span><span class="s">      &quot;auth_url&quot;: &quot;$AUTH_URL&quot;,</span>
+<span class="linenos">32</span><span class="s">      &quot;region&quot;: &quot;$REGION&quot;,</span>
+<span class="linenos">33</span><span class="s">      &quot;user_name&quot;: &quot;$USERNAME&quot;,</span>
+<span class="linenos">34</span><span class="s">      &quot;password&quot;: &quot;$PASSWORD&quot;,</span>
+<span class="linenos">35</span><span class="s">      &quot;tenant_name&quot;: &quot;$TENANT_NAME&quot;,</span>
+<span class="linenos">36</span><span class="s">      &quot;project_domain_name&quot;: &quot;$USER_DOMAIN_NAME&quot;,</span>
+<span class="linenos">37</span><span class="s">      &quot;user_domain_name&quot;: &quot;$USER_DOMAIN_NAME&quot;,</span>
+<span class="linenos">38</span><span class="s">      &quot;insecure&quot;: &quot;false&quot;</span>
+<span class="linenos">39</span><span class="s">    }</span>
+<span class="linenos">40</span><span class="s">EOF</span>
 </pre></div>
 </div>
 </div>
@@ -653,6 +673,24 @@ You can choose from the following available regions: <code class="docutils liter
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="skycluster-configs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SkyCluster Configuration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               

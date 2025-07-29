@@ -52,6 +52,8 @@
     <link rel="icon" href="../../../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Providers Configuration" href="providers-configs.html" />
+    <link rel="prev" title="Getting Started" href="../../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.0" />
@@ -149,8 +151,8 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../latest/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
     Getting Started
   </a>
 </li>
@@ -240,8 +242,8 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../latest/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
     Getting Started
   </a>
 </li>
@@ -289,14 +291,17 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-configs.html">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="providers-configs.html">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l2 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="overlay-server-config.html">Overlay Server Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Use Cases</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -339,6 +344,9 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Getting Started</a></li>
+    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Installation</span></li>
   </ul>
 </nav>
@@ -361,71 +369,72 @@
 <div class="toctree-wrapper compound">
 </div>
 <p><strong>Pre-requisites</strong>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">SkyCluster</span> <span class="pre">Manager</span></code> depends on the following tools:</p>
+<p><code class="docutils literal notranslate"><span class="pre">SkyCluster</span> <span class="pre">Operator</span></code> runs as a Kubernetes operator and requires a
+Kubernetes cluster to run on. You can use any Kubernetes cluster,
+including a local cluster created using <a class="reference external" href="https://kind.sigs.k8s.io/docs/user/quick-start">kind</a>.</p>
+<p>To install and run <code class="docutils literal notranslate"><span class="pre">SkyCluster</span> <span class="pre">Operator</span></code>, you need to ensure the following requirements are met on your machine:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">Kubectl</a></p></li>
 <li><p><a class="reference external" href="https://helm.sh/docs/intro/install">Helm</a></p></li>
 <li><p><a class="reference external" href="https://kind.sigs.k8s.io/docs/user/quick-start">Kind</a></p></li>
-<li><p><a class="reference external" href="https://crossplane.io">CrossPlane</a></p></li>
-<li><p><a class="reference external" href="https://tailscale.com/kb/1347/installation">Tailscale</a></p></li>
+<li><p><a class="reference external" href="https://docs.docker.com/get-docker">Docker</a> (for local cluster)</p></li>
+<li><p>Public IP Address: The cluster in your local machine is used to act as a broker between other gateways across different cloud providers, and hence it requires a public IP address to be reachable from the internet.</p></li>
 </ul>
 <p>Please make sure you have installed all tools before proceeding.
-We utilize <code class="docutils literal notranslate"><span class="pre">kind</span></code> to create a local cluster to install and test SkyCluster Manager.
+We utilize <code class="docutils literal notranslate"><span class="pre">kind</span></code> to create a local cluster to run SkyCluster operator.
 Please ensure you can use <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> without sudo before proceeding (refer to the
 <a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall">docker post-installation guide</a>).</p>
-<p><strong>Create a Local Management Kubernetes Cluster</strong>:</p>
-<p>A management Kubernetes cluster is
-required to run the <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> and act as the point of
-contact for submitting your application. You can create a local
-management Kubernetes cluster using <code class="docutils literal notranslate"><span class="pre">kind</span></code> with the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kind<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>skycluster
+<p><strong>Create a Local Cluster</strong>:</p>
+<p>A local cluster is required to run the <code class="docutils literal notranslate"><span class="pre">skycluster-operator</span></code> and act as the point of
+contact for submitting your application. You can create a local management Kubernetes cluster using <code class="docutils literal notranslate"><span class="pre">kind</span></code> with the following command for testing purposes. If your machine has a public IP address you can bound the cluster to it by using the <code class="docutils literal notranslate"><span class="pre">--advertise-address</span></code> flag. If you plan to use the cluster for production purposes, you should consider using a more robust solution such as <a class="reference external" href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">kubeadm</a> or <a class="reference external" href="https://rancher.com/docs/rancher/v2.5/en/quick-start/">Rancher</a>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kind<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>skycluster<span class="w"> </span>--config<span class="w"> </span>skycluster-kind.yaml
 </pre></div>
 </div>
-<p><strong>Install Crossplane</strong>:</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> relies on
-Crossplane for managing external cloud resources.
-Crossplane is a Kubernetes extension that allows
-Kubernetes to manage external cloud resources via standard Kubernetes
-APIs. To install Crossplane, use the following commands:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>crossplane-stable<span class="w"> </span>https://charts.crossplane.io/stable
-helm<span class="w"> </span>repo<span class="w"> </span>update
-
-helm<span class="w"> </span>install<span class="w"> </span>crossplane<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--namespace<span class="w"> </span>crossplane-system<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--create-namespace<span class="w"> </span>crossplane-stable/crossplane<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--version<span class="w"> </span><span class="m">1</span>.20.0
+<p>and the <code class="docutils literal notranslate"><span class="pre">skycluster-kind.yaml</span></code> file should contain the following content:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cluster</span>
+<span class="linenos"> 2</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kind.x-k8s.io/v1alpha4</span>
+<span class="linenos"> 3</span><span class="nt">networking</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nt">apiServerAddress</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.0.0.0&quot;</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nt">apiServerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+<span class="linenos"> 6</span><span class="nt">kubeadmConfigPatches</span><span class="p">:</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="no">kind: ClusterConfiguration</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="no">apiServer:</span>
+<span class="linenos">10</span><span class="w">      </span><span class="no">certSANs:</span>
+<span class="linenos">11</span><span class="w">        </span><span class="no">- &quot;127.0.0.1&quot;</span>
+<span class="linenos">12</span><span class="w">        </span><span class="no">- &quot;skycluster.local&quot;</span>
+<span class="linenos">13</span><span class="w">        </span><span class="no">- &quot;X.X.X.X&quot;  # Replace with your cluster internal IP</span>
+<span class="linenos">14</span><span class="w">        </span><span class="no">- &quot;X.X.X.X&quot;  # Replace with your cluster public IP</span>
+<span class="linenos">15</span><span class="nt">nodes</span><span class="p">:</span>
+<span class="linenos">16</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">control-plane</span>
 </pre></div>
 </div>
-<p>You need to ensure the CrossPlane is installed and is running: <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-ncrossplane-system</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">crossplane</span></code> before proceeding to the next step.</p>
-<p><strong>Install SkyCluster</strong>:</p>
-<p>SkyCluster Manager supports AWS, GCP and Azure as well as on-premises infrastructure powered by OpenStack.
-You can install all the providers or only the ones you need. Create a settings file
-<code class="docutils literal notranslate"><span class="pre">settings.yaml</span></code> with the following content and set <code class="docutils literal notranslate"><span class="pre">enabled</span></code> to <code class="docutils literal notranslate"><span class="pre">false</span></code> for the providers you don’t want to be installed:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">providers</span><span class="p">:</span>
-<span class="linenos"> 2</span><span class="w">  </span><span class="nt">public</span><span class="p">:</span>
-<span class="linenos"> 3</span><span class="w">    </span><span class="nt">aws</span><span class="p">:</span>
-<span class="linenos"> 4</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="linenos"> 5</span><span class="w">    </span><span class="nt">gcp</span><span class="p">:</span>
-<span class="linenos"> 6</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="linenos"> 7</span><span class="w">    </span><span class="nt">azure</span><span class="p">:</span>
-<span class="linenos"> 8</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="linenos"> 9</span><span class="w">    </span><span class="nt">azure-network</span><span class="p">:</span>
-<span class="linenos">10</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="linenos">11</span><span class="w">  </span><span class="nt">private</span><span class="p">:</span>
-<span class="linenos">12</span><span class="w">    </span><span class="nt">openstack</span><span class="p">:</span>
-<span class="linenos">13</span><span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<p>The cluster is used used to act as a broker between other gateways across different cloud providers, and hence it requires a public IP address to be reachable from the internet. Once installed replace the <cite>0.0.0.0</cite> with the actual public IP address of your machine in the <cite>~/.kube/config</cite> file:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/0\.0\.0\.0/</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>ifconfig.io<span class="k">)</span><span class="s2">/g&quot;</span><span class="w"> </span>~/.kube/config
 </pre></div>
 </div>
-<p>Then run the following command to install the skycluster using <code class="docutils literal notranslate"><span class="pre">helm</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>skycluster<span class="w"> </span>https://skycluster.io/charts
-helm<span class="w"> </span>repo<span class="w"> </span>update
-
-helm<span class="w"> </span>install<span class="w"> </span>skycluster<span class="w"> </span>skycluster/skycluster<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span><span class="nv">install</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>-f<span class="w"> </span>settings.yaml
+<p>At least one node in your cluster should be labeled as a gateway node. You can label the control plane node as follows:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>skycluster-control-plane<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>skycluster.io/node-type<span class="o">=</span>gateway<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>submariner.io/gateway<span class="o">=</span><span class="nb">true</span>
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
+<p>Ensure that a node is labeled as a gateway node and that you can access the cluster using the public IP address before proceeding to the next step.</p>
+</div>
+<p><strong>Install SkyCluster</strong>:</p>
+<p>SkyCluster Manager supports AWS, GCP and Azure as well as on-premises infrastructure powered by OpenStack.
+Install the skycluster using <code class="docutils literal notranslate"><span class="pre">helm</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>skycluster<span class="w"> </span>https://skycluster.io/charts
+helm<span class="w"> </span>repo<span class="w"> </span>update
+
+helm<span class="w"> </span>install<span class="w"> </span>skycluster<span class="w"> </span>skycluster/skycluster<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>skycluster<span class="w"> </span>--create-namespace<span class="w"> </span>--wait
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>This step may take few mintues to be completed depending on your internet connection.
 You need to wait for all the providers to become available and healthy before proceeding to the next step.
 Check the status of the providers by running <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">providers</span></code>.
@@ -453,6 +462,24 @@ that you configured in the previouse step.</p>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="../../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Getting Started</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="providers-configs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Providers Configuration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
