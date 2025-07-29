@@ -5,11 +5,7 @@ if [[ ! -f $AZURE_CONFIG_PATH ]]; then
   exit 1
 fi
 
-if [ -z "$NAMESPACE" ]; then
-  echo "NAMESPACE must be set."
-  exit 1
-fi
-
+NAMESPACE="skycluster-system"
 cont_enc=$(cat $AZURE_CONFIG_PATH | base64 -w0)
 
 cat <<EOF | kubectl apply -f -

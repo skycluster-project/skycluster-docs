@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -z "$GCP_SVC_ACC_PATH" ]] || [[ -z "$PROJECT_ID" ]] || [[ -z "$NAMESPACE" ]]; then
-  echo "GCP_SVC_ACC_PATH and PROJECT_ID and NAMESPACE must be set."
+if [[ -z "$GCP_SVC_ACC_PATH" ]] || [[ -z "$PROJECT_ID" ]]; then
+  echo "GCP_SVC_ACC_PATH and PROJECT_ID must be set."
   exit 1
 fi
 
@@ -11,6 +11,7 @@ if [[ ! -f "$GCP_SVC_ACC_PATH" ]]; then
   exit 1
 fi
 
+NAMESPACE="skycluster-system"
 BASE64_ENCODED_GCP_SVC_ACC=$(cat "$GCP_SVC_ACC_PATH" | base64 -w0)
 
 if [[ -z "$BASE64_ENCODED_GCP_SVC_ACC" ]]; then

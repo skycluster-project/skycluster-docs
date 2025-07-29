@@ -19,9 +19,6 @@ Create an object of type ``XSetup`` to configure the SkyCluster operator. This o
       labels:
         skycluster.io/managed-by: skycluster
     spec: 
-      # This is the name of the cluster that you used when deploying the 
-      # SkyCluster helm chart
-      namespace: skycluster
       # The public IP of the api server running SkyCluster controller
       apiServer: A.B.C.D:6443
       # If set to true, the SkyCluster operator will deploy submariner 

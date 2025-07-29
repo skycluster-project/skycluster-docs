@@ -2,11 +2,12 @@
 
 # Check if any of these variables are not set, if so exist
 if [[ -z $AUTH_URL || -z $USERNAME || -z $PASSWORD || -z $TENANT_NAME || \
-  -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME || -z $NAMESPACE ]]; then
+  -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME ]]; then
   echo "One or more required variables are not set."
   exit 1
 fi
 
+NAMESPACE="skycluster-system"
 REGION_LOWER=$(echo $REGION | tr '[:upper:]' '[:lower:]')
 
 cat <<EOF | kubectl apply -f -

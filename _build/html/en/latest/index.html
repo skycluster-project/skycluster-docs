@@ -53,8 +53,6 @@
     <link rel="icon" href="../../_static/skycluster-favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Installation" href="user-guide/installation/index.html" />
-    <link rel="prev" title="SkyCluster" href="../../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.0" />
@@ -152,9 +150,23 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
-    Getting Started
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation/index.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references/index.html">
+    References
   </a>
 </li>
 
@@ -227,6 +239,8 @@
       
       
       
+        
+      
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
@@ -243,9 +257,23 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
-    Getting Started
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation/index.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references/index.html">
+    References
   </a>
 </li>
 
@@ -289,40 +317,13 @@
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
-<nav class="bd-docs-nav bd-links"
-     aria-label="Section Navigation">
-  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="user-guide/installation/index.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="user-guide/installation/providers-configs.html">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="user-guide/installation/skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="user-guide/installation/overlay-server-config.html">Overlay Server Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="user-guide/quick-start/index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="use-cases/index.html">Use Cases</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="use-cases/use-case-1.html">Use Case 1</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="references/index.html">References</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="references/objects.html">Primary Objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="references/configs.html">Configurations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="references/skycluster-cli.html">SkyCluster Cli</a></li>
-</ul>
-</details></li>
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/index.html">References</a></li>
 </ul>
 </div>
-</nav></div>
     </div>
   
   
@@ -380,30 +381,17 @@
   <section id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> operates within a management Kubernetes cluster. Users interact with this management cluster by submitting their application manifests, which include deployments, services, and config maps. The <code class="docutils literal notranslate"><span class="pre">skycluster-manager</span></code> then provisions a new multi-cloud or hybrid-cloud Kubernetes cluster and deploys the submitted application manifests into it.</p>
-<p>Read the <code class="docutils literal notranslate"><span class="pre">SkyCluster</span></code> documentation to learn more about the project and how to use it.</p>
+<p>Follow the instructions in the user guide to get started with SkyCluster.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This is a Work In Progress (WIP). The documentation is not complete yet and the code base changes frequently.</p>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="user-guide/installation/index.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user-guide/installation/providers-configs.html">Providers Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user-guide/installation/skycluster-configs.html">SkyCluster Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user-guide/installation/overlay-server-config.html">Overlay Server Configuration</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="user-guide/quick-start/index.html">Quick Start</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="use-cases/index.html">Use Cases</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="use-cases/use-case-1.html">Use Case 1</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="references/index.html">References</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="references/objects.html">Primary Objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="references/configs.html">Configurations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="references/skycluster-cli.html">SkyCluster Cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/index.html#pre-requisites">Pre-requisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/index.html#create-a-local-cluster">Create a Local Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/index.html#install-skycluster">Install SkyCluster</a></li>
 </ul>
 </li>
 </ul>
@@ -420,24 +408,6 @@
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../../index.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">SkyCluster</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="user-guide/installation/index.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Installation</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               

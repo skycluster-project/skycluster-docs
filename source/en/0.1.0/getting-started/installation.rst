@@ -57,19 +57,28 @@ and the ``skycluster-kind.yaml`` file should contain the following content:
   kind: Cluster
   apiVersion: kind.x-k8s.io/v1alpha4
   networking:
-    apiServerAddress: "0.0.0.0" 
-    apiServerPort: 6443 
+    podSubnet: 10.0.0.0/19
+    serviceSubnet: 172.31.0.0/16
+    apiServerAddress: 0.0.0.0
+    apiServerPort: 6443
   kubeadmConfigPatches:
     - |
       kind: ClusterConfiguration
       apiServer:
         certSANs:
-          - "127.0.0.1"
-          - "skycluster.local"
-          - "X.X.X.X"  # Replace with your cluster internal IP
-          - "X.X.X.X"  # Replace with your cluster public IP
+          - 127.0.0.1
+          - 0.0.0.0
+          - skycluster.local
+          - a.b.c.d    # Replace with your cluster internal IP
+          - e.f.g.h    # Replace with your cluster public IP
   nodes:
     - role: control-plane
+      extraPortMappings:
+      # Required for inter-cluster communication
+      - containerPort: 4500
+        hostPort: 4500
+        protocol: UDP
+    - role: worker
       
 The cluster is used used to act as a broker between other gateways across different cloud providers, and hence it requires a public IP address to be reachable from the internet. Once installed replace the `0.0.0.0` with the actual public IP address of your machine in the `~/.kube/config` file:
 
@@ -108,15 +117,14 @@ Install SkyCluster
 ==================
 
 SkyCluster Manager supports AWS, GCP and Azure as well as on-premises infrastructure powered by OpenStack.
-Install the skycluster using ``helm``:
+Install the skycluster using ``helm`` chart as follows. All settings are deployed to the fixed namespac ``skycluster-system``.
 
 .. code-block:: sh
 
   helm repo add skycluster https://skycluster.io/charts
   helm repo update
 
-  helm install skycluster skycluster/skycluster \
-    --namespace skycluster --create-namespace
+  helm install skycluster skycluster/skycluster 
 
 .. note::
 
@@ -124,7 +132,7 @@ Install the skycluster using ``helm``:
 
   .. code-block:: sh
 
-    kubectl get providers
+    kubectl get providers.pkg
 
   Ensure that all pods are in the ``Running`` state before proceeding to the next step.
 

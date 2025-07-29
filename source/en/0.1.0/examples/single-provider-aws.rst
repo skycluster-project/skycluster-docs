@@ -30,6 +30,10 @@ Create the a provider instance for AWS:
         - type: private
           cidr: 10.10.1.0/24
           zone: us-west-2b
+      gateway:
+        flavor: 2vCPU-4GB
+        volumeType: gp2
+        volumeSize: 8
       providerRef:
         platform: aws
         region: us-east-1

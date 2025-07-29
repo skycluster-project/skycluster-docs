@@ -1,10 +1,12 @@
 #!/bin/bash
 
 # If env variables are not set, exit
-if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ] || [ -z "$NAMESPACE" ]; then
-  echo "AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY and NAMESPACE must be set."
+if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+  echo "AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY must be set."
   exit 1
 fi
+
+NAMESPACE="skycluster-system"
 
 # Create the content of the credentials in a variable
 creds_content="[default]

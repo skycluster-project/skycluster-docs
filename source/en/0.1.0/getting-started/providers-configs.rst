@@ -7,14 +7,9 @@ Providers Configuration
 
 Providers such as ``AWS`` require authentication to manage 
 external resources. For each provider integrated 
-into the SkyCluster Manager, a separate configuration must be created. The ``NAMESPACE`` variable
-is used to specify the namespace where the provider configuration will be applied and should match the namespace 
-where the SkyCluster Manager is installed.
+into the SkyCluster Manager, a separate configuration must be created. 
+All configurations are stored in the fixed ``skycluster-system`` namespace.
 
-.. code-block:: sh
-
-  export NAMESPACE=skycluster
-  
 
 AWS Configuration
 =================

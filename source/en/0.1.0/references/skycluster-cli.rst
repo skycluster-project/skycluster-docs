@@ -6,7 +6,7 @@
 SkyCluster Cli
 ##############
 
-Using ``skycluster-cli`` tool you can call skycluster related APIs. Please see the `SkyCluster Cli <SKYCLUSTERCLI_>`_ repository.
+Using ``skycluster-cli`` tool you can call skycluster related APIs. For issues and requested features please check out the `SkyCluster Cli <SKYCLUSTERCLI_>`_ repository.
 
 Installation
 ------------
