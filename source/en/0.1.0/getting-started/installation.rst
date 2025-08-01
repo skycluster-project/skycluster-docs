@@ -26,17 +26,22 @@ To install and run ``SkyCluster Operator``, you need to ensure the following req
 - `Kind <KIND_>`_
 - `Docker <DOCKER_>`_ (for local cluster)
 - `Crossplane <CROSSPLANE_>`_ (for managing underlying cloud resources)
+- `Tailscale <TAILSCALE_>`_
 - Public IP Address: The cluster in your local machine is used to act as a broker between other gateways across different cloud providers, and hence it requires a public IP address to be reachable from the internet.
-.. - `CrossPlane <CROSSPLANE_>`_
-.. - `Tailscale <TAILSCALE_>`_
+- You need to open the following ports on your firewall to allow communication cross-domain:
 
-
+  - **4500/UDP**: Required for inter-cluster communication
+  - **8000/TCP**: Required for SkyCluster dashboard
+  - **8080/TCP**: Required for headscale (overlay setup)
+  - **3478/UDP**: Required for STUN Protocol (overlay setup)
+  - **41641/UDP**: Required for Tailscale (overlay setup)
 
 Please make sure you have installed all tools before proceeding.
 We utilize ``kind`` to create a local cluster to run SkyCluster operator.
 Please ensure you can use ``kubectl`` without sudo before proceeding (refer to the 
 `docker post-installation guide <DOCKER_POST_INSTALL_>`_).
 
+----
 
 Create a Local Cluster
 ========================
@@ -78,6 +83,10 @@ and the ``skycluster-kind.yaml`` file should contain the following content:
       - containerPort: 4500
         hostPort: 4500
         protocol: UDP
+      # Required for overlay setup
+      - containerPort: 8080
+        hostPort: 8080
+        protocol: TCP
     - role: worker
       
 The cluster is used used to act as a broker between other gateways across different cloud providers, and hence it requires a public IP address to be reachable from the internet. Once installed replace the `0.0.0.0` with the actual public IP address of your machine in the `~/.kube/config` file:
@@ -97,6 +106,8 @@ At least one node in your cluster should be labeled as a gateway node. You can l
 .. warning::
   Ensure that a node is labeled as a gateway node and that you can access the cluster using the public IP address before proceeding to the next step.
 
+----
+
 Install Crossplane
 ==================
 To manage the underlying cloud resources, you need to install `Crossplane <CROSSPLANE_>`_ in your cluster. You can do this using the following command:
@@ -108,13 +119,22 @@ To manage the underlying cloud resources, you need to install `Crossplane <CROSS
     --create-namespace crossplane-stable/crossplane \
     --version 1.20.0 
 
-  # Ensure that Crossplane is installed successfully
-  # and all pods are running
-  kubectl get pods -n crossplane-system
+.. note::
 
+  Ensure that Crossplane is installed successfully and all pods are running before proceeding to the next step.
+
+  .. code-block:: sh
+
+    kubectl get pods -n crossplane-system
+
+
+----
 
 Install SkyCluster
 ==================
+
+SkyCluster Main Chart
+----------------------
 
 SkyCluster Manager supports AWS, GCP and Azure as well as on-premises infrastructure powered by OpenStack.
 Install the skycluster using ``helm`` chart as follows. All settings are deployed to the fixed namespac ``skycluster-system``.
@@ -134,7 +154,56 @@ Install the skycluster using ``helm`` chart as follows. All settings are deploye
 
     kubectl get providers.pkg
 
-  Ensure that all pods are in the ``Running`` state before proceeding to the next step.
+  Ensure that all pods have ``INSTALLED`` and ``HEALTHY`` states equal to ``True``.
+
+
+Once you have all providers listed above all ready, you can proceed to the next step:
+
+SkyCluster CRDs
+----------------------
+
+.. warning::
+
+  WIP: The following charts are not yet available for installation.
+
+  .. code-block:: sh
+
+    helm install skycluster-crds skycluster/skycluster 
+
+
+SkyCluster CA
+----------------
+
+SkyCluster uses a self-signed CA to sign the certificates for its components. The CA is automatically generated during the installation of the SkyCluster operator. You need to install the CA in your cluster to enable secure communication between the SkyCluster components.
+
+You can run the following command to install the CA in your cluster:
+
+.. code-block:: sh
+
+  curl -s https://skycluster.io/configs/install-ca.sh | bash
+
+The above script performs the following steps:
+
+.. container:: toggle 
+
+  .. container:: header
+
+    **install-ca.sh**
+
+  .. code-block:: sh
+    :linenos:
+
+    CA_CERT=$(kubectl get secret skycluster-self-ca \
+      -n skycluster-system -o jsonpath='{.data.ca\.crt}')
+    
+    # Ensure the CA_CERT is not empty then:
+    
+    echo "$CA_CERT" | base64 -d | \
+      sudo tee /usr/local/share/ca-certificates/skycluster.crt > /dev/null
+    
+    sudo update-ca-certificates
+
+----
 
 **Providers' Configuration**:
 
@@ -144,6 +213,7 @@ Please follow the instructions
 in `provider configuration <providers-configs.html>`_ page to apply required 
 configurations.
 
+----
 
 **Setting up Regions and Locations**:
 

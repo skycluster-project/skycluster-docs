@@ -35,6 +35,58 @@ Check the status of the SkyCluster operator:
 
 Once ready, you can follow the examples in the SkyCluster documentation to deploy applications.
 
+----
+
+SkyCluster Overlay
+=================
+
+SkyCluster uses an overlay network to enable communication between private networks across different 
+providers. The overlay network is created using open source ``tailscale`` for client and ``headscale`` as the server, which provides a secure mesh network. The headscale server is deployed in the SkyCluster namespace and is responsible for managing the overlay network. SkyCluster automatically configures the headscale server and the tailscale clients within each provider. However to enabled access to the overlay network from this machine, you need to install the ``tailscale`` client and authenticate it with the headscale server.
+
+First install the ``tailscale`` client on your machine:
+
+.. code-block:: sh
+
+  curl -fsSL https://tailscale.com/install.sh | sh
+
+Then authenticate the client with the headscale server you can run the following script. This script will retrieve the headscale server connection data from SkyCluster and authenticate your system with it:
+
+.. code-block:: sh
+
+  curl -s https://skycluster.io/configs/tailscale-connect.sh | bash
+
+
+The above script performs the following steps:
+
+.. container:: toggle 
+
+  .. container:: header
+
+    **tailscale-connect.sh**
+
+  .. code-block:: sh
+    :linenos:
+
+    HEADSCALE_DATA=$(kubectl get secret headscale-connection-secret \
+      -n skycluster-system -o jsonpath='{.data}')
+
+    if [[ -z "$HEADSCALE_DATA" ]]; then
+      echo "Error: Headscale data not found in headscale-connection-secret secret" >&2
+      exit 1
+    fi
+
+    # KEY
+    HEADSCALE_KEY=$(echo "$HEADSCALE_DATA" | jq -r '."preauth.json"' | base64 -d | jq -r '.key')
+    if [[ -z "$HEADSCALE_KEY" ]]; then
+      echo "Error: Headscale key not found in headscale-connection-secret secret" >&2
+      exit 1
+    fi
+
+    # TAILSCALE Address
+    SERVER="https://$(curl -s ifconfig.io):8080"
+    sudo tailscale up --login-server $SERVER --auth-key $HEADSCALE_KEY --accept-routes
+
+----
 
 SkyCluster Secret
 =================
