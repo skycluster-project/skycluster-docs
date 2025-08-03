@@ -66,14 +66,14 @@ Then execute the command below to configure the AWS provider:
         source: Secret
         secretRef:
           name: secret-aws
-          namespace: ${NAMESPACE}
+          namespace: skycluster-system
           key: configs
     ---
     apiVersion: v1
     kind: Secret
     metadata:
       name: secret-aws
-      namespace: ${NAMESPACE}
+      namespace: skycluster-system
       labels:
         skycluster.io/managed-by: skycluster
         skycluster.io/provider-platform: aws
@@ -86,7 +86,7 @@ Then execute the command below to configure the AWS provider:
     kind: Secret
     metadata:
       name: credentials-aws
-      namespace: ${NAMESPACE}
+      namespace: skycluster-system
       labels:
         skycluster.io/managed-by: skycluster
         skycluster.io/provider-platform: aws
@@ -144,7 +144,7 @@ Then execute the command below to configure the GCP provider:
     kind: Secret
     metadata:
       name: secret-gcp
-      namespace: ${NAMESPACE}
+      namespace: skycluster-system
     type: Opaque
     data:
       configs: ${BASE64_ENCODED_GCP_SVC_ACC}
@@ -160,7 +160,7 @@ Then execute the command below to configure the GCP provider:
       credentials:
         source: Secret
         secretRef:
-          namespace: ${NAMESPACE}
+          namespace: skycluster-system
           name: secret-gcp
           key: configs
     EOF
@@ -220,7 +220,7 @@ Then execute the command below to configure the Azure provider:
       credentials:
         source: Secret
         secretRef:
-          namespace: ${NAMESPACE}
+          namespace: skycluster-system
           name: secret-azure
           key: configs
     ---
@@ -228,7 +228,7 @@ Then execute the command below to configure the Azure provider:
     kind: Secret
     metadata:
       name: secret-azure
-      namespace: ${NAMESPACE}
+      namespace: skycluster-system
     type: Opaque
     data:
       configs: $cont_enc
@@ -285,14 +285,14 @@ Then execute the command below to configure your Openstack provider:
         source: Secret
         secretRef:
           name: secret-os-${REGION_LOWER}
-          namespace: ${NAMESPACE}
+          namespace: skycluster-system
           key: configs
     ---
     apiVersion: v1
     kind: Secret
     metadata:
       name: secret-os-${REGION_LOWER}
-      namespace: ${NAMESPACE}
+      namespace: skycluster-system
     type: Opaque
     stringData:
       configs: |

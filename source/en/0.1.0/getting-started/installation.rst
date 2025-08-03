@@ -84,7 +84,7 @@ and the ``skycluster-kind.yaml`` file should contain the following content:
         hostPort: 4500
         protocol: UDP
       # Required for overlay setup
-      - containerPort: 8080
+      - containerPort: 30080
         hostPort: 8080
         protocol: TCP
     - role: worker
@@ -201,7 +201,56 @@ The above script performs the following steps:
     echo "$CA_CERT" | base64 -d | \
       sudo tee /usr/local/share/ca-certificates/skycluster.crt > /dev/null
     
-    sudo update-ca-certificates
+    sudo update-ca-certificates --fresh
+
+
+SkyCluster Secret
+-----------------
+
+You need to create a secret containing a public key and a private key for the skycluster
+to authenticate itself with its components.
+The secret should be created in the ``skycluster-system`` namespace.
+
+First export your public and private keys, assuming **your private and public keys are named** ``id_rsa`` and ``id_rsa.pub`` or adjust the paths to your keys:
+
+.. code-block:: sh
+
+  export PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
+  export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64 -w0)
+
+And then run the following command to generate the secret:
+
+.. code-block:: sh
+
+  curl -s https://skycluster.io/configs/skysecret-cfg.sh | bash
+
+**Alternatively**, you can create a secret using a YAML file below:
+
+.. container:: toggle 
+
+  .. container:: header 
+
+    **skysecret-example.yaml**
+
+  .. code-block:: yaml
+    :linenos:
+
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: skycluster-system
+      name: public-private-key
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/secret-type: default-keypair
+    type: Opaque
+    stringData:
+      config: |
+        {
+          "publicKey": "ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1",
+          "privateKey": "LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K"
+        }
+
 
 ----
 

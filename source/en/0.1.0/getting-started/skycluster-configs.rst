@@ -37,8 +37,8 @@ Once ready, you can follow the examples in the SkyCluster documentation to deplo
 
 ----
 
-SkyCluster Overlay
-=================
+Join SkyCluster Overlay
+========================
 
 SkyCluster uses an overlay network to enable communication between private networks across different 
 providers. The overlay network is created using open source ``tailscale`` for client and ``headscale`` as the server, which provides a secure mesh network. The headscale server is deployed in the SkyCluster namespace and is responsible for managing the overlay network. SkyCluster automatically configures the headscale server and the tailscale clients within each provider. However to enabled access to the overlay network from this machine, you need to install the ``tailscale`` client and authenticate it with the headscale server.
@@ -86,51 +86,26 @@ The above script performs the following steps:
     SERVER="https://$(curl -s ifconfig.io):8080"
     sudo tailscale up --login-server $SERVER --auth-key $HEADSCALE_KEY --accept-routes
 
+To maintain the connection to the overlay network, you can run the above script periodically or set it up a cron job to run it at regular intervals. This will ensure that your machine remains connected to the SkyCluster overlay network. To add the script to a cron job, you can use the following command:
+
+.. code-block:: sh
+  
+  mkdir -p ~/.skycluster
+
+  # download the cron script
+  curl -fsSL https://skycluster.io/configs/tailscale-cron.sh -o ~/.skycluster/tailscale-cron.sh
+  chmod +x ~/.skycluster/tailscale-cron.sh
+
+  # backup existing cron jobs
+  sudo crontab -u root -l 2>/dev/null > /tmp/mycron || true
+
+  # add the cron job to run the script every 5 minutes
+  echo "*/5 * * * * ~/.skycluster/tailscale-cron.sh" >> /tmp/mycron
+  sudo crontab -u root /tmp/mycron
+
+
+.. warning::
+
+  This step is required to connect your machine to the SkyCluster overlay network. If you do not run this step, the SkyCluster operator will not be able to manage the resources within other providers. You will not be able to access the resources within the SkyCluster overlay network from your machine.
+
 ----
-
-SkyCluster Secret
-=================
-
-You need to create a secret containing a public key and a private key for the skycluster
-to authenticate itself with its components.
-The secret should be created in the ``skycluster`` namespace.
-
-First export your public and private keys, assuming **your private and public keys are named** ``id_rsa`` and ``id_rsa.pub`` or adjust the paths to your keys:
-
-.. code-block:: sh
-
-  export PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
-  export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64 -w0)
-
-And then run the following command to generate the secret:
-
-.. code-block:: sh
-
-  curl -s https://skycluster.io/configs/skysecret-cfg.sh | bash
-
-**Alternatively**, you can create a secret using a YAML file below:
-
-.. container:: toggle 
-
-  .. container:: header 
-
-    **skysecret-example.yaml**
-
-  .. code-block:: yaml
-    :linenos:
-
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      namespace: skycluster
-      name: public-private-key
-      labels:
-        skycluster.io/managed-by: skycluster
-        skycluster.io/secret-type: keypair
-    type: Opaque
-    stringData:
-      config: |
-        {
-          "publicKey": "ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1",
-          "privateKey": "LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K"
-        }
