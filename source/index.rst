@@ -1,11 +1,6 @@
 SkyCluster 
 ##########
 
-.. .. image:: _static/imgs/skycluster-logo-v1.png
-..   :scale: 15%
-..   :alt: SkyCluster Logo
-..   :align: center
-
 .. meta::
   :description: SkyCluster enables deployment of containerized application across hybrid and multi-clouds environment.
 

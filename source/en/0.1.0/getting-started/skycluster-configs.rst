@@ -86,22 +86,26 @@ The above script performs the following steps:
     SERVER="https://$(curl -s ifconfig.io):8080"
     sudo tailscale up --login-server $SERVER --auth-key $HEADSCALE_KEY --accept-routes
 
+Automating Connectivity
+-----------------------
+
 To maintain the connection to the overlay network, you can run the above script periodically or set it up a cron job to run it at regular intervals. This will ensure that your machine remains connected to the SkyCluster overlay network. To add the script to a cron job, you can use the following command:
 
 .. code-block:: sh
-  
-  mkdir -p ~/.skycluster
+
+  SCRIPT_PATH="$HOME/.skycluster/tailscale-cron.sh"
+  mkdir -p "$HOME/.skycluster"
 
   # download the cron script
-  curl -fsSL https://skycluster.io/configs/tailscale-cron.sh -o ~/.skycluster/tailscale-cron.sh
-  chmod +x ~/.skycluster/tailscale-cron.sh
+  curl -fsSL https://skycluster.io/configs/tailscale-cron.sh -o $SCRIPT_PATH
+  chmod +x $SCRIPT_PATH
 
   # backup existing cron jobs
-  sudo crontab -u root -l 2>/dev/null > /tmp/mycron || true
+  crontab -u $USER -l 2>/dev/null > /tmp/mycron || true
 
   # add the cron job to run the script every 5 minutes
-  echo "*/5 * * * * ~/.skycluster/tailscale-cron.sh" >> /tmp/mycron
-  sudo crontab -u root /tmp/mycron
+  echo "*/5 * * * * $SCRIPT_PATH" >> /tmp/mycron
+  crontab -u $USER /tmp/mycron
 
 
 .. warning::
