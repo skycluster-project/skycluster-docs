@@ -112,4 +112,3 @@ To maintain the connection to the overlay network, you can run the above script 
 
   This step is required to connect your machine to the SkyCluster overlay network. If you do not run this step, the SkyCluster operator will not be able to manage the resources within other providers. You will not be able to access the resources within the SkyCluster overlay network from your machine.
 
-----

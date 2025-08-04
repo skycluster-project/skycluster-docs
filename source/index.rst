@@ -18,11 +18,6 @@ and multi-cloud providers.
 By doing so, it aims to reduce deployment costs while meeting 
 the application's performance and compliance requirements.
 
-.. image:: _static/imgs/skycluster-definition-min.png
-  :alt: SkyCluster Definition
-  :align: center
-  :width: 60%
-
 
 To this end, we introduce the ``skycluster-manager`` 
 as a custom Kubernetes controller designed to 

@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="SkyCluster Dashboard" href="skycluster-dashboard.html" />
-    <link rel="prev" title="Providers Configuration" href="providers-configs.html" />
+    <link rel="prev" title="Providers Registration" href="register-providers.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.0" />
@@ -330,6 +330,9 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers-configs.html">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="register-providers.html">Providers Registration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -437,43 +440,68 @@
 </div>
 <p>Once ready, you can follow the examples in the SkyCluster documentation to deploy applications.</p>
 </section>
-<section id="skycluster-secret">
-<h2>SkyCluster Secret<a class="headerlink" href="#skycluster-secret" title="Link to this heading">#</a></h2>
-<p>You need to create a secret containing a public key and a private key for the skycluster
-to authenticate itself with its components.
-The secret should be created in the <code class="docutils literal notranslate"><span class="pre">skycluster</span></code> namespace.</p>
-<p>First export your public and private keys, assuming <strong>your private and public keys are named</strong> <code class="docutils literal notranslate"><span class="pre">id_rsa</span></code> and <code class="docutils literal notranslate"><span class="pre">id_rsa.pub</span></code> or adjust the paths to your keys:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PUBLIC_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>~/.ssh/id_rsa.pub<span class="k">)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">PRIVATE_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<hr class="docutils" />
+<section id="join-skycluster-overlay">
+<h2>Join SkyCluster Overlay<a class="headerlink" href="#join-skycluster-overlay" title="Link to this heading">#</a></h2>
+<p>SkyCluster uses an overlay network to enable communication between private networks across different
+providers. The overlay network is created using open source <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> for client and <code class="docutils literal notranslate"><span class="pre">headscale</span></code> as the server, which provides a secure mesh network. The headscale server is deployed in the SkyCluster namespace and is responsible for managing the overlay network. SkyCluster automatically configures the headscale server and the tailscale clients within each provider. However to enabled access to the overlay network from this machine, you need to install the <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> client and authenticate it with the headscale server.</p>
+<p>First install the <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> client on your machine:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://tailscale.com/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </pre></div>
 </div>
-<p>And then run the following command to generate the secret:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/skysecret-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+<p>Then authenticate the client with the headscale server you can run the following script. This script will retrieve the headscale server connection data from SkyCluster and authenticate your system with it:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/tailscale-connect.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
-<p><strong>Alternatively</strong>, you can create a secret using a YAML file below:</p>
+<p>The above script performs the following steps:</p>
 <div class="toggle docutils container">
 <div class="header docutils container">
-<p><strong>skysecret-example.yaml</strong></p>
+<p><strong>tailscale-connect.sh</strong></p>
 </div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="linenos"> 2</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
-<span class="linenos"> 3</span><span class="nt">metadata</span><span class="p">:</span>
-<span class="linenos"> 4</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
-<span class="linenos"> 5</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">public-private-key</span>
-<span class="linenos"> 6</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
-<span class="linenos"> 7</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
-<span class="linenos"> 8</span><span class="w">    </span><span class="nt">skycluster.io/secret-type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">keypair</span>
-<span class="linenos"> 9</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-<span class="linenos">10</span><span class="nt">stringData</span><span class="p">:</span>
-<span class="linenos">11</span><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="linenos">12</span><span class="w">    </span><span class="no">{</span>
-<span class="linenos">13</span><span class="w">      </span><span class="no">&quot;publicKey&quot;: &quot;ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1&quot;,</span>
-<span class="linenos">14</span><span class="w">      </span><span class="no">&quot;privateKey&quot;: &quot;LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K&quot;</span>
-<span class="linenos">15</span><span class="w">    </span><span class="no">}</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nv">HEADSCALE_DATA</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>headscale-connection-secret<span class="w"> </span><span class="se">\</span>
+<span class="linenos"> 2</span><span class="w">  </span>-n<span class="w"> </span>skycluster-system<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data}&#39;</span><span class="k">)</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEADSCALE_DATA</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error: Headscale data not found in headscale-connection-secret secret&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 7</span><span class="k">fi</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># KEY</span>
+<span class="linenos">10</span><span class="nv">HEADSCALE_KEY</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEADSCALE_DATA</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.&quot;preauth.json&quot;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.key&#39;</span><span class="k">)</span>
+<span class="linenos">11</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEADSCALE_KEY</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos">12</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error: Headscale key not found in headscale-connection-secret secret&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="linenos">13</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos">14</span><span class="k">fi</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="c1"># TAILSCALE Address</span>
+<span class="linenos">17</span><span class="nv">SERVER</span><span class="o">=</span><span class="s2">&quot;https://</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>ifconfig.io<span class="k">)</span><span class="s2">:8080&quot;</span>
+<span class="linenos">18</span>sudo<span class="w"> </span>tailscale<span class="w"> </span>up<span class="w"> </span>--login-server<span class="w"> </span><span class="nv">$SERVER</span><span class="w"> </span>--auth-key<span class="w"> </span><span class="nv">$HEADSCALE_KEY</span><span class="w"> </span>--accept-routes
 </pre></div>
 </div>
 </div>
+<section id="automating-connectivity">
+<h3>Automating Connectivity<a class="headerlink" href="#automating-connectivity" title="Link to this heading">#</a></h3>
+<p>To maintain the connection to the overlay network, you can run the above script periodically or set it up a cron job to run it at regular intervals. This will ensure that your machine remains connected to the SkyCluster overlay network. To add the script to a cron job, you can use the following command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">SCRIPT_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.skycluster/tailscale-cron.sh&quot;</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.skycluster&quot;</span>
+
+<span class="c1"># download the cron script</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://skycluster.io/configs/tailscale-cron.sh<span class="w"> </span>-o<span class="w"> </span><span class="nv">$SCRIPT_PATH</span>
+chmod<span class="w"> </span>+x<span class="w"> </span><span class="nv">$SCRIPT_PATH</span>
+
+<span class="c1"># backup existing cron jobs</span>
+crontab<span class="w"> </span>-u<span class="w"> </span><span class="nv">$USER</span><span class="w"> </span>-l<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span>&gt;<span class="w"> </span>/tmp/mycron<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+
+<span class="c1"># add the cron job to run the script every 5 minutes</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;*/5 * * * * </span><span class="nv">$SCRIPT_PATH</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/tmp/mycron
+crontab<span class="w"> </span>-u<span class="w"> </span><span class="nv">$USER</span><span class="w"> </span>/tmp/mycron
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This step is required to connect your machine to the SkyCluster overlay network. If you do not run this step, the SkyCluster operator will not be able to manage the resources within other providers. You will not be able to access the resources within the SkyCluster overlay network from your machine.</p>
+</div>
+</section>
 </section>
 </section>
 
@@ -488,12 +516,12 @@ The secret should be created in the <code class="docutils literal notranslate"><
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="providers-configs.html"
+       href="register-providers.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Providers Configuration</p>
+        <p class="prev-next-title">Providers Registration</p>
       </div>
     </a>
     <a class="right-next"
@@ -525,7 +553,10 @@ The secret should be created in the <code class="docutils literal notranslate"><
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-setup">SkyCluster Setup</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-secret">SkyCluster Secret</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#join-skycluster-overlay">Join SkyCluster Overlay</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automating-connectivity">Automating Connectivity</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

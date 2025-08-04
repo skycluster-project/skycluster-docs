@@ -404,8 +404,8 @@ there is a high volume of traffic involved.</p>
 <span class="linenos">16</span><span class="w">    </span><span class="c1"># such as a public network, an existing router, etc.</span>
 <span class="linenos">17</span><span class="w">    </span><span class="c1"># You can specify the external resource ID using</span>
 <span class="linenos">18</span><span class="w">    </span><span class="c1"># the following labels:</span>
-<span class="hll"><span class="linenos">19</span><span class="w">    </span><span class="c1"># skycluster.io/ext-Kind-Group-Version: &lt;resource-name&gt;</span>
-</span><span class="linenos">20</span><span class="w">    </span><span class="c1"># Due to the annotation key length limit, we only use</span>
+<span class="linenos">19</span><span class="w">    </span><span class="c1"># skycluster.io/ext-Kind-Group-Version: &lt;resource-name&gt;</span>
+<span class="linenos">20</span><span class="w">    </span><span class="c1"># Due to the annotation key length limit, we only use</span>
 <span class="linenos">21</span><span class="w">    </span><span class="c1"># the first word of the api group.</span>
 <span class="linenos">22</span><span class="w">    </span><span class="c1"># This approach prevents creating, modifying or deleting</span>
 <span class="linenos">23</span><span class="w">    </span><span class="c1"># the resource group by SkyCluster. However, SkyCluster</span>
@@ -413,14 +413,14 @@ there is a high volume of traffic involved.</p>
 <span class="linenos">25</span><span class="w">    </span><span class="c1"># creating other resources.</span>
 <span class="linenos">26</span>
 <span class="linenos">27</span><span class="w">    </span><span class="c1"># For Azure, for instance, you can specify the resource group:</span>
-<span class="hll"><span class="linenos">28</span><span class="w">    </span><span class="c1"># skycluster.io/ext-ResourceGroup-azure-v1beta1: skycluster-manual</span>
-</span><span class="linenos">29</span>
+<span class="linenos">28</span><span class="w">    </span><span class="c1"># skycluster.io/ext-ResourceGroup-azure-v1beta1: skycluster-manual</span>
+<span class="linenos">29</span>
 <span class="linenos">30</span><span class="w">    </span><span class="c1"># For OpenStack providers, SkyCluster does not support creating</span>
 <span class="linenos">31</span><span class="w">    </span><span class="c1"># a public (external) network.</span>
 <span class="linenos">32</span><span class="w">    </span><span class="c1"># The network should exist before creating the provider.</span>
 <span class="linenos">33</span><span class="w">    </span><span class="c1"># Use the label below to specify the external network name:</span>
-<span class="hll"><span class="linenos">34</span><span class="w">    </span><span class="c1"># skycluster.io/ext-os-public-subnet-name: ext-net</span>
-</span><span class="linenos">35</span>
+<span class="linenos">34</span><span class="w">    </span><span class="c1"># skycluster.io/ext-os-public-subnet-name: ext-net</span>
+<span class="linenos">35</span>
 <span class="linenos">36</span><span class="w">    </span><span class="c1"># Other examples:</span>
 <span class="linenos">37</span><span class="w">    </span><span class="c1"># skycluster.io/ext-ProjectV3-identity-v1alpha1: 1e1c7...3ddc8f30b</span>
 <span class="linenos">38</span><span class="w">    </span><span class="c1"># skycluster.io/ext-RouterV2-networking-v1alpha1: 0033d21...6153167017</span>
@@ -429,8 +429,8 @@ there is a high volume of traffic involved.</p>
 <span class="linenos">41</span><span class="w">    </span><span class="c1"># For openstack, we get the subnet cidr, typically in the form of</span>
 <span class="linenos">42</span><span class="w">    </span><span class="c1"># x.y.z.0/24, and we manually assign the network cidr to x.y.0.0/16</span>
 <span class="linenos">43</span><span class="w">    </span><span class="c1"># Currently, this is the only swttings we support</span>
-<span class="hll"><span class="linenos">44</span><span class="w">    </span><span class="nt">vpcCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.80.10.0/24</span>
-</span><span class="linenos">45</span><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="linenos">44</span><span class="w">    </span><span class="nt">vpcCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.80.10.0/24</span>
+<span class="linenos">45</span><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 <span class="linenos">46</span><span class="w">      </span><span class="c1"># flavor: large</span>
 <span class="linenos">47</span><span class="w">      </span><span class="c1"># If public key is not provided, a new keypair using SkyCluster keypair secret</span>
 <span class="linenos">48</span><span class="w">      </span><span class="c1"># will be created. This secert should be generated during the configuration of</span>
@@ -446,10 +446,10 @@ there is a high volume of traffic involved.</p>
 <span class="linenos">58</span><span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
 <span class="linenos">59</span><span class="w">    </span><span class="c1"># Provider name can be any of the supported providers</span>
 <span class="linenos">60</span><span class="w">    </span><span class="c1"># Currently, we support aws, gcp, azure and os (openstack)</span>
-<span class="hll"><span class="linenos">61</span><span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os</span>
-</span><span class="hll"><span class="linenos">62</span><span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;RegionName&gt;</span>
-</span><span class="hll"><span class="linenos">63</span><span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ZoneName&gt;</span>
-</span></pre></div>
+<span class="linenos">61</span><span class="w">    </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os</span>
+<span class="linenos">62</span><span class="w">    </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;RegionName&gt;</span>
+<span class="linenos">63</span><span class="w">    </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ZoneName&gt;</span>
+</pre></div>
 </div>
 </div>
 <div class="toggle docutils container">
@@ -603,20 +603,20 @@ and location and quality constraints.</p>
 <span class="linenos">11</span><span class="w">    </span><span class="nt">privateRegistry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.skycluster.io</span>
 <span class="linenos">12</span><span class="w">    </span><span class="nt">agents</span><span class="p">:</span>
 <span class="linenos">13</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agent-sci-1</span>
-<span class="hll"><span class="linenos">14</span><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4vCPU-16GB</span>
-</span><span class="linenos">15</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+<span class="linenos">14</span><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4vCPU-16GB</span>
+<span class="linenos">15</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
 <span class="linenos">16</span><span class="w">      </span><span class="nt">providerRef</span><span class="p">:</span>
 <span class="linenos">17</span><span class="w">        </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os</span>
-<span class="hll"><span class="linenos">18</span><span class="w">        </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCINET</span>
-</span><span class="linenos">19</span><span class="w">        </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="linenos">18</span><span class="w">        </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCINET</span>
+<span class="linenos">19</span><span class="w">        </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
 <span class="linenos">20</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agent-va-1</span>
 <span class="linenos">21</span><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4vCPU-16GB</span>
 <span class="linenos">22</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
-<span class="hll"><span class="linenos">23</span><span class="w">      </span><span class="nt">providerRef</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">24</span><span class="w">        </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os</span>
-</span><span class="hll"><span class="linenos">25</span><span class="w">        </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VAUGHAN</span>
-</span><span class="hll"><span class="linenos">26</span><span class="w">        </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
-</span><span class="linenos">27</span><span class="w">    </span><span class="nt">ctrl</span><span class="p">:</span>
+<span class="linenos">23</span><span class="w">      </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="linenos">24</span><span class="w">        </span><span class="nt">providerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os</span>
+<span class="linenos">25</span><span class="w">        </span><span class="nt">providerRegion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VAUGHAN</span>
+<span class="linenos">26</span><span class="w">        </span><span class="nt">providerZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="linenos">27</span><span class="w">    </span><span class="nt">ctrl</span><span class="p">:</span>
 <span class="linenos">28</span><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8vCPU-32GB</span>
 <span class="linenos">29</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
 <span class="linenos">30</span><span class="w">      </span><span class="nt">providerRef</span><span class="p">:</span>

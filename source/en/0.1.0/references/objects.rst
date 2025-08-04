@@ -26,7 +26,6 @@ there is a high volume of traffic involved.
 
   .. code-block:: yaml
     :linenos:
-    :emphasize-lines: 19,28,34,44,61-63
 
     apiVersion: xrds.skycluster.io/v1alpha1
     kind: SkyProvider
@@ -255,7 +254,6 @@ and location and quality constraints.
     **skyk8s-example.sh**
 
   .. code-block:: yaml
-    :emphasize-lines: 14,18,23-26,59,60,70
     :linenos:
 
     apiVersion: xrds.skycluster.io/v1alpha1
