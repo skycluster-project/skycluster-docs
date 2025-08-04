@@ -18,7 +18,8 @@ Installation
 The SkyCluster dashboard is automatically deployed with the SkyCluster operator. If you have already installed the operator, you can skip the installation steps below. Check the status of
 dashboard deployment by running the following command and ensure the same namespace is used as the operator:
 
-.. code-block:: bash
+.. code-block:: sh
+
     # Check the status of the dashboard deployment
     kubectl get deployment skycluster-dashboard -n skycluster
 
@@ -72,7 +73,8 @@ To manually install the SkyCluster dashboard, apply the following configuration 
     
 Apply the above configuration to your Kubernetes cluster using kubectl and once the dashboard is running, you can access it via the LoadBalancer IP address.
 
-.. code-block:: bash
+.. code-block:: sh
+
     kubectl apply -f skycluster-dashboard.yaml
     kubectl get svc skycluster-dashboard
 

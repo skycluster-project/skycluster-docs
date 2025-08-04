@@ -402,51 +402,131 @@
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XProviderInstance</span>
 <span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-provider-us-east</span>
 <span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
 <span class="w">  </span><span class="c1"># Unique identifier for the setup/application</span>
-<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-app</span>
+
+<span class="w">  </span><span class="nt">vpcCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.15.0.0/16</span>
 <span class="w">  </span><span class="c1"># vpcCidr is used region-wide for all services and resources in this VPC</span>
-<span class="w">  </span><span class="nt">vpcCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.10.0.0/16</span>
-<span class="w">  </span><span class="c1"># Subnet CIDRs should be within the VPC CIDR range</span>
+
 <span class="w">  </span><span class="nt">subnets</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Subnet CIDRs should be within the VPC CIDR range</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">public</span>
-<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.10.0.0/16</span>
-<span class="w">      </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-west-2a</span>
+<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.15.0.0/19</span>
+<span class="w">      </span><span class="c1"># Ensure the subnet CIDR range is within the VPC CIDR range</span>
+<span class="w">      </span><span class="c1"># and does not overlap with other subnets and is</span>
+<span class="w">      </span><span class="c1"># appropriately sized for the expected number of resources</span>
+<span class="w">      </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">private</span>
-<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.10.1.0/24</span>
-<span class="w">      </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-west-2b</span>
+<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.15.32.0/19</span>
+<span class="w">      </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
+<span class="w">      </span><span class="c1"># Some services such as EKS require multiple availability zones</span>
+<span class="w">      </span><span class="c1"># so we define a secondary zone here</span>
+
 <span class="w">  </span><span class="nt">gateway</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+<span class="w">    </span><span class="c1"># Flavor is defined as the number of vCPUs and memory</span>
 <span class="w">    </span><span class="nt">volumeType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gp2</span>
-<span class="w">    </span><span class="nt">volumeSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="w">    </span><span class="nt">volumeSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+
 <span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
 <span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
 <span class="w">    </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
 <span class="w">      </span><span class="c1"># The provider is identified by the primary zone</span>
 <span class="w">      </span><span class="c1"># Secondary zones are used for high availability or services</span>
 <span class="w">      </span><span class="c1"># that require multiple availability zones such as EKS</span>
-<span class="w">      </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
 <span class="w">      </span><span class="nt">secondary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
 </pre></div>
 </div>
 <p>The above example creates multiple resources in AWS, including a VPC, subnets, security groups, and IAM roles. The AWS in region <code class="docutils literal notranslate"><span class="pre">us-east-1</span></code> is now ready to be used for deploying other resources such as virtual machines, Kubernetes clusters, databases, or other services.</p>
 </section>
-<section id="aws-eks-cluster">
-<h2>AWS EKS Cluster<a class="headerlink" href="#aws-eks-cluster" title="Link to this heading">#</a></h2>
+<section id="virtual-instance">
+<h2>Virtual Instance<a class="headerlink" href="#virtual-instance" title="Link to this heading">#</a></h2>
+<p>Now let’s create a virtual instance using the provider instance we just created:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XInstance</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-instance-us-east</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="w">  </span><span class="c1"># Unique identifier for the setup/application</span>
+<span class="w">  </span><span class="c1"># Must be same as the one used in the provider instance</span>
+
+<span class="w">  </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+<span class="w">  </span><span class="c1"># Images are defined by images.skycluster.io custom resources</span>
+<span class="w">  </span><span class="c1"># publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3...</span>
+<span class="w">  </span><span class="c1"># Optional: the default public key is used if not specified</span>
+
+<span class="w">  </span><span class="nt">publicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="w">  </span><span class="nt">userData</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">#cloud-config</span>
+<span class="w">    </span><span class="no">write_files:</span>
+<span class="w">      </span><span class="no">- path: /tmp/hello.sh</span>
+<span class="w">        </span><span class="no">owner: root:root</span>
+<span class="w">        </span><span class="no">permissions: &#39;0755&#39;</span>
+<span class="w">        </span><span class="no">content: |</span>
+<span class="w">          </span><span class="no">#!/bin/sh</span>
+<span class="w">          </span><span class="no">echo &quot;Hello, World!&quot; &gt; /tmp/hello.txt</span>
+<span class="w">    </span><span class="no">runcmd:</span>
+<span class="w">      </span><span class="no">- chmod +x /tmp/hello.sh</span>
+<span class="w">      </span><span class="no">- /tmp/hello.sh</span>
+<span class="w">  </span><span class="c1"># Optional: the user data should follow the cloud-init format</span>
+
+<span class="w">  </span><span class="c1"># securityGroups:</span>
+<span class="w">  </span><span class="c1">#   tcpPorts:</span>
+<span class="w">  </span><span class="c1">#     - fromPort: 22</span>
+<span class="w">  </span><span class="c1">#       toPort: 22</span>
+<span class="w">  </span><span class="c1">#       protocol: tcp</span>
+<span class="w">  </span><span class="c1">#   udpPorts:</span>
+<span class="w">  </span><span class="c1">#     - fromPort: 80</span>
+<span class="w">  </span><span class="c1">#       toPort: 80</span>
+<span class="w">  </span><span class="c1">#       protocol: udp</span>
+<span class="w">  </span><span class="c1"># Optional: security groups can be defined to allow specific ports</span>
+
+<span class="w">  </span><span class="c1"># rootVolumes:</span>
+<span class="w">  </span><span class="c1">#   - size: 20Gi</span>
+<span class="w">  </span><span class="c1">#     type: gp2</span>
+<span class="w">  </span><span class="c1"># Optional</span>
+
+<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Provider reference must match the one used in the provider instance</span>
+<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">    </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
+</pre></div>
+</div>
+</section>
+<section id="kubernetes-cluster-aws-eks-cluster">
+<h2>Kubernetes Cluster (AWS EKS Cluster)<a class="headerlink" href="#kubernetes-cluster-aws-eks-cluster" title="Link to this heading">#</a></h2>
 <p>Now let’s create a Kubernetes cluster using the provider instance we just created:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XK8S</span>
 <span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-cluster-us-east</span>
 <span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
 <span class="w">  </span><span class="c1"># Unique identifier for the setup/application</span>
-<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-app</span>
-<span class="w">  </span><span class="nt">serviceCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.0/24</span>
+<span class="w">  </span><span class="c1"># Must be same as the one used in the provider instance</span>
+
+<span class="w">  </span><span class="nt">serviceCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.20.0.0/16</span>
+
 <span class="w">  </span><span class="nt">nodeTypes</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;t3.medium&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+
+<span class="w">  </span><span class="nt">principal</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Optional: the principal is used to authenticate the role</span>
+<span class="w">    </span><span class="c1"># to view and manage the cluster through the AWS CLI or UI</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">servicePrincipal</span><span class="w"> </span><span class="c1"># user | role | serviceAccount | servicePrincipal | managedIdentity</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::885707601199:root&quot;</span><span class="w"> </span><span class="c1"># ARN (AWS) | member (GCP) | principalId (Azure)</span>
+
 <span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Provider reference must match the one used in the provider instance</span>
 <span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
 <span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
 <span class="w">    </span><span class="nt">zones</span><span class="p">:</span>
@@ -508,7 +588,8 @@
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-provider">Prepare Provider</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aws-eks-cluster">AWS EKS Cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#virtual-instance">Virtual Instance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kubernetes-cluster-aws-eks-cluster">Kubernetes Cluster (AWS EKS Cluster)</a></li>
 </ul>
   </nav></div>
 

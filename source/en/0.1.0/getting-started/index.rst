@@ -10,6 +10,7 @@ Getting Started
 
   installation
   providers-configs
+  register-providers
   skycluster-configs
   skycluster-dashboard
   skycluster-cli
