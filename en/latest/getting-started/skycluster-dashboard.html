@@ -330,6 +330,9 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers-configs.html">Providers Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="register-providers.html">Providers Registration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -422,6 +425,13 @@
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
 <p>The SkyCluster dashboard is automatically deployed with the SkyCluster operator. If you have already installed the operator, you can skip the installation steps below. Check the status of
 dashboard deployment by running the following command and ensure the same namespace is used as the operator:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the status of the dashboard deployment</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster
+
+<span class="c1"># Check the status of the dashboard service</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster
+</pre></div>
+</div>
 <p>Please note the <code class="docutils literal notranslate"><span class="pre">EXTERNAL-IP</span></code> of the service, as you will need it to access the dashboard. If the EXTERNAL-IP is still pending, it means the LoadBalancer is not yet ready. CHeck the status of the
 LoadBalancer installation.</p>
 <section id="manual-installation">
@@ -463,6 +473,10 @@ LoadBalancer installation.</p>
 </pre></div>
 </div>
 <p>Apply the above configuration to your Kubernetes cluster using kubectl and once the dashboard is running, you can access it via the LoadBalancer IP address.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>skycluster-dashboard.yaml
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>skycluster-dashboard
+</pre></div>
+</div>
 </section>
 </section>
 </section>

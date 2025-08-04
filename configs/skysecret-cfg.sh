@@ -16,7 +16,7 @@ metadata:
   name: public-private-key
   labels:
     skycluster.io/managed-by: skycluster
-    skycluster.io/secret-type: keypair
+    skycluster.io/secret-type: default-keypair
 type: Opaque
 stringData:
   config: |
