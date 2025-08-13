@@ -26,6 +26,10 @@ kind: Secret
 metadata:
   name: secret-gcp
   namespace: ${NAMESPACE}
+  labels:
+    skycluster.io/managed-by: skycluster
+    skycluster.io/provider-platform: gcp
+    skycluster.io/secret-role: credentials 
 type: Opaque
 data:
   configs: ${BASE64_ENCODED_GCP_SVC_ACC}

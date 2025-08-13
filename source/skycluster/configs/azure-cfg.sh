@@ -28,6 +28,10 @@ kind: Secret
 metadata:
   name: secret-azure
   namespace: ${NAMESPACE}
+  labels:
+    skycluster.io/managed-by: skycluster
+    skycluster.io/provider-platform: azure
+    skycluster.io/secret-role: credentials 
 type: Opaque
 data:
   configs: $cont_enc

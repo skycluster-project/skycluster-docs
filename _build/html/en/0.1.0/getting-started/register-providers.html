@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Providers Registration &#8212; SkyCluster</title>
+    <title>Providers Registration &#8212; SkyCluster Docs</title>
   
   
   
@@ -49,7 +49,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'en/0.1.0/getting-started/register-providers';</script>
     <link rel="canonical" href="https://skycluster.io/en/0.1.0/getting-started/register-providers.html" />
-    <link rel="icon" href="../../../_static/skycluster-favicon.png"/>
+    <link rel="icon" href="../../../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="../../../_static/skycluster-favicon.png" class="logo__image only-light" alt=""/>
-    <img src="../../../_static/skycluster-favicon.png" class="logo__image only-dark pst-js-only" alt=""/>
+    <img src="../../../_static/skycluster-logo1-enhanced-icon-small.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/skycluster-logo1-enhanced-dark-icon-small.png" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">SkyCluster</p>
@@ -383,9 +383,9 @@
 </div>
 <section id="setting-up-cloud-providers">
 <h2>Setting Up Cloud Providers<a class="headerlink" href="#setting-up-cloud-providers" title="Link to this heading">#</a></h2>
-<p>A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a <cite>Provider</cite> resource in the SkyCluster system. The following example shows how to configure the <code class="docutils literal notranslate"><span class="pre">us-east-1</span></code> region with primary zone <code class="docutils literal notranslate"><span class="pre">us-east-1a</span></code> and secondary zone <code class="docutils literal notranslate"><span class="pre">us-east-1b</span></code>.</p>
+<p>A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a <cite>ProviderProfile</cite> resource in the SkyCluster system. The following example shows how to configure the <code class="docutils literal notranslate"><span class="pre">us-east-1</span></code> region with primary zone <code class="docutils literal notranslate"><span class="pre">us-east-1a</span></code> and secondary zone <code class="docutils literal notranslate"><span class="pre">us-east-1b</span></code>.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Provider</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProviderProfile</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east-1</span>
 <span class="nt">spec</span><span class="p">:</span>
@@ -410,14 +410,14 @@
 <p>SkyCluster automatically detects the images and instance types available for the specified provider and region for major cloud providers including <code class="docutils literal notranslate"><span class="pre">AWS</span></code>, <code class="docutils literal notranslate"><span class="pre">Azure</span></code>, <code class="docutils literal notranslate"><span class="pre">GCP</span></code>. For <code class="docutils literal notranslate"><span class="pre">OpenStack</span></code> and <code class="docutils literal notranslate"><span class="pre">Other</span></code> providers, you need to manually configure the available services.</p>
 <section id="setting-up-images-and-instance-types">
 <h3>Setting Up Images and Instance Types<a class="headerlink" href="#setting-up-images-and-instance-types" title="Link to this heading">#</a></h3>
-<p>You need to configure the available images and instance types for your provider. For <code class="docutils literal notranslate"><span class="pre">AWS</span></code>, <code class="docutils literal notranslate"><span class="pre">Azure</span></code>, and <code class="docutils literal notranslate"><span class="pre">GCP</span></code>, this is done automatically by creating <code class="docutils literal notranslate"><span class="pre">Image</span></code> and <code class="docutils literal notranslate"><span class="pre">InstanceType</span></code> resources. The following example shows how to configure images including <code class="docutils literal notranslate"><span class="pre">ubuntu-22.04</span></code> and <code class="docutils literal notranslate"><span class="pre">ubuntu-24.04</span></code> for the <code class="docutils literal notranslate"><span class="pre">aws-us-east-1</span></code> provider for the <code class="docutils literal notranslate"><span class="pre">us-east-1a</span></code> and <code class="docutils literal notranslate"><span class="pre">us-east-1b</span></code> zones.</p>
+<p>You need to configure the available images and instance types for your provider. For <code class="docutils literal notranslate"><span class="pre">AWS</span></code>, <code class="docutils literal notranslate"><span class="pre">Azure</span></code>, and <code class="docutils literal notranslate"><span class="pre">GCP</span></code>, this is done automatically by creating <code class="docutils literal notranslate"><span class="pre">Image</span></code> and <code class="docutils literal notranslate"><span class="pre">InstanceType</span></code> resources. The following example shows how to configure images including <code class="docutils literal notranslate"><span class="pre">ubuntu-22.04</span></code> and <code class="docutils literal notranslate"><span class="pre">ubuntu-24.04</span></code> for the <code class="docutils literal notranslate"><span class="pre">aws-us-east-1</span></code> provider profile for the <code class="docutils literal notranslate"><span class="pre">us-east-1a</span></code> and <code class="docutils literal notranslate"><span class="pre">us-east-1b</span></code> zones.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Image</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east-1</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east-1</span>
-<span class="w">  </span><span class="c1"># Must match the provider name in the Provider resource</span>
+<span class="w">  </span><span class="c1"># Must match the provider profile name in the Provider resource</span>
 
 <span class="w">  </span><span class="nt">zones</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">nameLabel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
@@ -430,7 +430,7 @@
 <span class="w">      </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
 </pre></div>
 </div>
-<p>The operator creates a config map for each provider that contains the available images offered by the provider.</p>
+<p>The operator creates a config map for each provider profile that contains the available images offered by the provider.</p>
 <p>To configure the instance types, you need to create an <code class="docutils literal notranslate"><span class="pre">InstanceType</span></code> resource. The following example shows how to get available instance types for the <code class="docutils literal notranslate"><span class="pre">aws-us-east-1</span></code> provider. SkyCluster operator automatically detects the available instance types from <code class="docutils literal notranslate"><span class="pre">t3*</span></code>, <code class="docutils literal notranslate"><span class="pre">t4*</span></code>, <code class="docutils literal notranslate"><span class="pre">m5*</span></code>, <code class="docutils literal notranslate"><span class="pre">m6*</span></code>, <code class="docutils literal notranslate"><span class="pre">g4*</span></code>, <code class="docutils literal notranslate"><span class="pre">g5*</span></code>, <code class="docutils literal notranslate"><span class="pre">p3*</span></code>, <code class="docutils literal notranslate"><span class="pre">p4*</span></code> instance families.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">InstanceType</span>

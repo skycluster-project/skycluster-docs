@@ -1,31 +1,28 @@
-SkyCluster 
-##########
+
+.. title:: SkyCluster
 
 .. meta::
-  :description: SkyCluster enables deployment of containerized application across hybrid and multi-clouds environment.
+  :description: SkyCluster enables deployment of containerized application across Edge and hybrid multi-clouds environment.
 
+.. image:: en/0.1.0/_static/imgs/skycluster-logo1-enhanced-light.png
+    :class: only-light
+    :width: 40%
+    :align: center
 
-What is SkyCluster?
-*******************
+.. image:: en/0.1.0/_static/imgs/skycluster-logo1-enhanced-dark.png
+    :class: only-dark
+    :width: 40%
+    :align: center
+
 
 ``SkyCluster`` is a research project focused on studying 
-the deployment of containerized applications in multi-cloud and 
-hybrid-cloud environments. 
+the deployment of containerized applications in edge and hybrid multi-cloud environments. 
 The project's goal is to simplify the deployment process by 
 offering same interfaces as Kubernetes, but with enhanced 
-capabilities to deploy applications across various hybrid 
-and multi-cloud providers. 
-By doing so, it aims to reduce deployment costs while meeting 
-the application's performance and compliance requirements.
+capabilities to deploy applications and services across various providers.
+SkyCluster reduces deployment efforts and costs while ensuring your setup and 
+application meets performance and compliance requirements.
 
-
-To this end, we introduce the ``skycluster-manager`` 
-as a custom Kubernetes controller designed to 
-facilitate the deployment of Kubernetes resources 
-in a multi-cloud or hybrid-cloud Kubernetes 
-environment, specifically tailored for a given application.
-
-The ``skycluster-manager`` operates within a management Kubernetes cluster. Users interact with this management cluster by submitting their application manifests, which include deployments, services, and config maps. The ``skycluster-manager`` then provisions a new multi-cloud or hybrid-cloud Kubernetes cluster and deploys the submitted application manifests into it.
 
 Read the ``SkyCluster`` documentation to learn more about the project and how to use it.
 

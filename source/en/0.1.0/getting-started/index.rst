@@ -17,9 +17,9 @@ Getting Started
   ../examples/index
   ../references/index
 
-The ``skycluster-manager`` operates within a management Kubernetes cluster. Users interact with this management cluster by submitting their application manifests, which include deployments, services, and config maps. The ``skycluster-manager`` then provisions a new multi-cloud or hybrid-cloud Kubernetes cluster and deploys the submitted application manifests into it.
+The ``skycluster-operator`` runs in a management Kubernetes cluster, acting as a broker across registered providers, including cloud hyperscalers, edge, and private clouds, to deploy services in a provider-agnostic way with seamless inter-service connectivity. It also enables deployment of Kubernetes applications across a federated multi-cluster environment, selecting providers based on your application's requirements.
 
-Follow the instructions in the user guide to get started with SkyCluster.
+Follow the next sections to get started with SkyCluster.
 
 .. warning::
 
