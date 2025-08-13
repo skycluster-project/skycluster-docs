@@ -8,12 +8,12 @@ Providers Registration
 Setting Up Cloud Providers
 =============================
 
-A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a `Provider` resource in the SkyCluster system. The following example shows how to configure the ``us-east-1`` region with primary zone ``us-east-1a`` and secondary zone ``us-east-1b``. 
+A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a `ProviderProfile` resource in the SkyCluster system. The following example shows how to configure the ``us-east-1`` region with primary zone ``us-east-1a`` and secondary zone ``us-east-1b``. 
 
 .. code-block:: yaml
 
   apiVersion: core.skycluster.io/v1alpha1
-  kind: Provider
+  kind: ProviderProfile
   metadata:
     name: aws-us-east-1
   spec:
@@ -40,7 +40,7 @@ SkyCluster automatically detects the images and instance types available for the
 Setting Up Images and Instance Types
 ---------------------------------------
 
-You need to configure the available images and instance types for your provider. For ``AWS``, ``Azure``, and ``GCP``, this is done automatically by creating ``Image`` and ``InstanceType`` resources. The following example shows how to configure images including ``ubuntu-22.04`` and ``ubuntu-24.04`` for the ``aws-us-east-1`` provider for the ``us-east-1a`` and ``us-east-1b`` zones.
+You need to configure the available images and instance types for your provider. For ``AWS``, ``Azure``, and ``GCP``, this is done automatically by creating ``Image`` and ``InstanceType`` resources. The following example shows how to configure images including ``ubuntu-22.04`` and ``ubuntu-24.04`` for the ``aws-us-east-1`` provider profile for the ``us-east-1a`` and ``us-east-1b`` zones.
 
 .. code-block:: yaml
 
@@ -50,7 +50,7 @@ You need to configure the available images and instance types for your provider.
     name: aws-us-east-1
   spec:
     providerRef: aws-us-east-1
-    # Must match the provider name in the Provider resource
+    # Must match the provider profile name in the Provider resource
 
     zones:
       - nameLabel: ubuntu-22.04
@@ -62,7 +62,7 @@ You need to configure the available images and instance types for your provider.
       - nameLabel: ubuntu-24.04
         zone: us-east-1b
 
-The operator creates a config map for each provider that contains the available images offered by the provider. 
+The operator creates a config map for each provider profile that contains the available images offered by the provider. 
 
 To configure the instance types, you need to create an ``InstanceType`` resource. The following example shows how to get available instance types for the ``aws-us-east-1`` provider. SkyCluster operator automatically detects the available instance types from ``t3*``, ``t4*``, ``m5*``, ``m6*``, ``g4*``, ``g5*``, ``p3*``, ``p4*`` instance families.
 

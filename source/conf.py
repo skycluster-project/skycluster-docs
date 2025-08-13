@@ -33,13 +33,13 @@ html_baseurl = 'https://skycluster.io'
 # defaul is {lang}{version}{link}, where {lang} and {version} get set by language and version
 sitemap_url_scheme = "{lang}{version}{link}"
 sitemap_excludes = ['index.html', 'search.html', 'genindex.html']
-html_title = 'SkyCluster'
+html_title = 'SkyCluster Docs'
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-html_favicon = 'en/latest/_static/imgs/skycluster-favicon.png'
-html_logo = 'en/latest/_static/imgs/skycluster-favicon.png'
+html_favicon = 'en/latest/_static/imgs/skycluster-logo1-enhanced-favicon.png'
+html_logo = 'en/latest/_static/imgs/skycluster-logo1-enhanced-icon-small.png'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -62,8 +62,8 @@ html_theme_options = {
     "show_nav_level": 4,
     "logo": {
         "text": "SkyCluster",
-        "image_light": "en/latest/_static/imgs/skycluster-favicon.png",
-        "image_dark": "en/latest/_static/imgs/skycluster-favicon.png",
+        "image_light": "en/latest/_static/imgs/skycluster-logo1-enhanced-icon-small.png",
+        "image_dark": "en/latest/_static/imgs/skycluster-logo1-enhanced-dark-icon-small.png",
     },
     "icon_links_label": "Quick Links",
     "icon_links": [

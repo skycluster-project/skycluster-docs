@@ -102,8 +102,13 @@ Then execute the command below to configure the AWS provider:
 GCP Configuration
 =================
 
-Create a new project in Google Cloud, then add a service account. 
-Generate a service account key file in JSON format and download the file. 
+Create a new project in Google Cloud and enable the following APIs:
+
+- ``Cloud Billing API`` 
+- ``Kubernetes Engine API``
+- ``Compute Engine API``
+
+Make sure to add a service account and generate a service account key file in JSON format and download the file.
 Then:
 
 .. code-block:: sh

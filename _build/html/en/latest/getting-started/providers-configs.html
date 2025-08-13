@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Providers Configuration &#8212; SkyCluster</title>
+    <title>Providers Configuration &#8212; SkyCluster Docs</title>
   
   
   
@@ -49,7 +49,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'en/latest/getting-started/providers-configs';</script>
     <link rel="canonical" href="https://skycluster.io/en/latest/getting-started/providers-configs.html" />
-    <link rel="icon" href="../../../_static/skycluster-favicon.png"/>
+    <link rel="icon" href="../../../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Providers Registration" href="register-providers.html" />
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../../../_static/skycluster-favicon.png" class="logo__image only-light" alt=""/>
-    <img src="../../../_static/skycluster-favicon.png" class="logo__image only-dark pst-js-only" alt=""/>
+    <img src="../../../_static/skycluster-logo1-enhanced-icon-small.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/skycluster-logo1-enhanced-dark-icon-small.png" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">SkyCluster</p>
@@ -500,8 +500,13 @@ environmental variables and run the configuration script:</p>
 </section>
 <section id="gcp-configuration">
 <h2>GCP Configuration<a class="headerlink" href="#gcp-configuration" title="Link to this heading">#</a></h2>
-<p>Create a new project in Google Cloud, then add a service account.
-Generate a service account key file in JSON format and download the file.
+<p>Create a new project in Google Cloud and enable the following APIs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Cloud</span> <span class="pre">Billing</span> <span class="pre">API</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Kubernetes</span> <span class="pre">Engine</span> <span class="pre">API</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Compute</span> <span class="pre">Engine</span> <span class="pre">API</span></code></p></li>
+</ul>
+<p>Make sure to add a service account and generate a service account key file in JSON format and download the file.
 Then:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use absolute path to the service account key file</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">GCP_SVC_ACC_PATH</span><span class="o">=</span>/home/ubuntu/my-gcp-svc-acc.json
