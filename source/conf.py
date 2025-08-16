@@ -26,7 +26,10 @@ extensions = [
     'sphinx_copybutton',
     'sphinx_reredirects',
     'sphinx_sitemap',
+    'sphinx_tabs.tabs'
 ]
+
+sphinx_tabs_disable_tab_closing = True
 
 # the current base URL of your documentation.
 html_baseurl = 'https://skycluster.io'
