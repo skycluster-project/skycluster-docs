@@ -35,7 +35,7 @@ sphinx_tabs_disable_tab_closing = True
 # the current base URL of your documentation.
 html_baseurl = 'https://skycluster.io'
 # defaul is {lang}{version}{link}, where {lang} and {version} get set by language and version
-sitemap_url_scheme = "{lang}{version}{link}"
+sitemap_url_scheme = "{version}{lang}{link}"
 sitemap_excludes = ['index.html', 'search.html', 'genindex.html']
 html_title = 'SkyCluster Docs'
 
@@ -55,7 +55,7 @@ html_extra_path = ['CNAME', 'skycluster']
 
 # Add this to include Table of Contents in each page
 html_sidebars = {
-    "**": ["sidebar-nav-bs.html", "versioning.html"]
+    "**": ["sidebar-nav-bs.html"]
 }
 
 # Add title customization using html_theme_options
@@ -82,6 +82,7 @@ html_theme_options = {
     "footer_end": [],
     "content_footer_items": ["last-updated"],
     "back_to_top_button": True,
+    "navbar_persistent": ["versioning.html", "search-button"]
 }
 
 
@@ -95,4 +96,5 @@ def setup(app):
     
     
     
-smv_branch_whitelist = '^(dev|latest)$'
+# smv_branch_whitelist = '^(dev|latest)$'
+smv_branch_whitelist = '^latest$'

@@ -174,11 +174,142 @@
       
         <div class="navbar-item navbar-persistent--container">
           
+<div class="pd-version-selector" role="group" aria-label="Version selector">
+  <label class="pd-version-label" for="pd-version-select">Version:</label>
+  <div class="pd-version-select-wrap">
+    <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
+        <option value="installation.html" selected>
+          latest
+        </option>
+    </select>
+  </div>
+</div>
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+
+
+<style>
+
+/* ---- Base tokens (map to pydata variables, with safe fallbacks) ---- */
+:root {
+  --vs-fg: var(--pst-color-text, #222);
+  --vs-bg: var(--pst-color-background, #fff);
+  --vs-muted: var(--pst-color-muted, #6c757d);
+  --vs-border: var(--pst-color-border, #d0d7de);
+  --vs-accent: var(--pst-color-primary, #3b82f6);
+  /* elevated surface: prefer surface if available, else background */
+  --vs-bg-elev: var(--pst-color-surface, var(--pst-color-background, #fff));
+  --vs-radius: var(--pst-border-radius, .25rem);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.06));
+  --vs-font-size: 0.9rem;
+}
+
+/* ---- Explicit dark mode from pydata ---- */
+html[data-mode="dark"] {
+  --vs-fg: var(--pst-color-text, #e6e6e6);
+  --vs-bg: var(--pst-color-background, #0b0f19);
+  --vs-muted: var(--pst-color-muted, #a0a0ad);
+  --vs-border: var(--pst-color-border, #2b2f3a);
+  --vs-accent: var(--pst-color-primary, #60a5fa);
+  --vs-bg-elev: var(--pst-color-surface, #131826);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+}
+
+/* ---- “Auto” follows OS setting ---- */
+@media (prefers-color-scheme: dark) {
+  html[data-mode="auto"] {
+    --vs-fg: var(--pst-color-text, #e6e6e6);
+    --vs-bg: var(--pst-color-background, #0b0f19);
+    --vs-muted: var(--pst-color-muted, #a0a0ad);
+    --vs-border: var(--pst-color-border, #2b2f3a);
+    --vs-accent: var(--pst-color-primary, #60a5fa);
+    --vs-bg-elev: var(--pst-color-surface, #131826);
+    --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+  }
+}
+
+/* ---- Component styles (aligned to pydata sizing) ---- */
+.pd-version-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 1rem 0;
+  color: var(--vs-fg);
+  font-size: var(--vs-font-size);
+}
+
+.pd-version-label {
+  font-weight: 600;
+  color: var(--vs-fg);
+  margin: 0;
+}
+
+.pd-version-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* custom chevron that inherits currentColor so it adapts to dark */
+.pd-version-select-wrap::after {
+  content: "";
+  position: absolute;
+  right: .6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: .7rem;
+  height: .7rem;
+  pointer-events: none;
+  color: var(--vs-fg);
+  opacity: .8;
+  background-image:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+}
+
+.pd-version-select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: .45rem 2rem .45rem .65rem;
+  border-radius: var(--vs-radius);
+  border: 1px solid var(--vs-border);
+  background-color: var(--vs-bg-elev);
+  color: var(--vs-fg);
+  box-shadow: var(--vs-shadow);
+  line-height: 1.2;
+  min-width: 11ch;
+  max-width: 100%;
+  font: inherit;
+}
+
+/* hover/focus aligned to theme primary */
+.pd-version-select-wrap select:hover {
+  border-color: color-mix(in oklab, var(--vs-accent) 45%, var(--vs-border));
+}
+
+.pd-version-select-wrap select:focus {
+  outline: 3px solid color-mix(in oklab, var(--vs-accent) 25%, transparent);
+  outline-offset: 1px;
+  border-color: var(--vs-accent);
+}
+
+/* ensure options remain readable in the OS popup UI */
+.pd-version-select-wrap select option { color: initial; }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pd-version-select-wrap select,
+  .pd-version-select-wrap::after { transition: none; }
+}
+
+
+</style>
+        </div>
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
         </div>
       
@@ -213,11 +344,141 @@
   
   
     <div class="navbar-persistent--mobile">
+<div class="pd-version-selector" role="group" aria-label="Version selector">
+  <label class="pd-version-label" for="pd-version-select">Version:</label>
+  <div class="pd-version-select-wrap">
+    <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
+        <option value="installation.html" selected>
+          latest
+        </option>
+    </select>
+  </div>
+</div>
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+
+
+<style>
+
+/* ---- Base tokens (map to pydata variables, with safe fallbacks) ---- */
+:root {
+  --vs-fg: var(--pst-color-text, #222);
+  --vs-bg: var(--pst-color-background, #fff);
+  --vs-muted: var(--pst-color-muted, #6c757d);
+  --vs-border: var(--pst-color-border, #d0d7de);
+  --vs-accent: var(--pst-color-primary, #3b82f6);
+  /* elevated surface: prefer surface if available, else background */
+  --vs-bg-elev: var(--pst-color-surface, var(--pst-color-background, #fff));
+  --vs-radius: var(--pst-border-radius, .25rem);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.06));
+  --vs-font-size: 0.9rem;
+}
+
+/* ---- Explicit dark mode from pydata ---- */
+html[data-mode="dark"] {
+  --vs-fg: var(--pst-color-text, #e6e6e6);
+  --vs-bg: var(--pst-color-background, #0b0f19);
+  --vs-muted: var(--pst-color-muted, #a0a0ad);
+  --vs-border: var(--pst-color-border, #2b2f3a);
+  --vs-accent: var(--pst-color-primary, #60a5fa);
+  --vs-bg-elev: var(--pst-color-surface, #131826);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+}
+
+/* ---- “Auto” follows OS setting ---- */
+@media (prefers-color-scheme: dark) {
+  html[data-mode="auto"] {
+    --vs-fg: var(--pst-color-text, #e6e6e6);
+    --vs-bg: var(--pst-color-background, #0b0f19);
+    --vs-muted: var(--pst-color-muted, #a0a0ad);
+    --vs-border: var(--pst-color-border, #2b2f3a);
+    --vs-accent: var(--pst-color-primary, #60a5fa);
+    --vs-bg-elev: var(--pst-color-surface, #131826);
+    --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+  }
+}
+
+/* ---- Component styles (aligned to pydata sizing) ---- */
+.pd-version-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 1rem 0;
+  color: var(--vs-fg);
+  font-size: var(--vs-font-size);
+}
+
+.pd-version-label {
+  font-weight: 600;
+  color: var(--vs-fg);
+  margin: 0;
+}
+
+.pd-version-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* custom chevron that inherits currentColor so it adapts to dark */
+.pd-version-select-wrap::after {
+  content: "";
+  position: absolute;
+  right: .6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: .7rem;
+  height: .7rem;
+  pointer-events: none;
+  color: var(--vs-fg);
+  opacity: .8;
+  background-image:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+}
+
+.pd-version-select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: .45rem 2rem .45rem .65rem;
+  border-radius: var(--vs-radius);
+  border: 1px solid var(--vs-border);
+  background-color: var(--vs-bg-elev);
+  color: var(--vs-fg);
+  box-shadow: var(--vs-shadow);
+  line-height: 1.2;
+  min-width: 11ch;
+  max-width: 100%;
+  font: inherit;
+}
+
+/* hover/focus aligned to theme primary */
+.pd-version-select-wrap select:hover {
+  border-color: color-mix(in oklab, var(--vs-accent) 45%, var(--vs-border));
+}
+
+.pd-version-select-wrap select:focus {
+  outline: 3px solid color-mix(in oklab, var(--vs-accent) 25%, transparent);
+  outline-offset: 1px;
+  border-color: var(--vs-accent);
+}
+
+/* ensure options remain readable in the OS popup UI */
+.pd-version-select-wrap select option { color: initial; }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pd-version-select-wrap select,
+  .pd-version-select-wrap::after { transition: none; }
+}
+
+
+</style>
+    </div>
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
     </div>
   
@@ -337,13 +598,6 @@
 </ul>
 </div>
 </nav></div>
-        <div class="sidebar-primary-item">
-<h3>Versions</h3>
-<ul>
-  <li><a href="../../../dev/en/getting-started/installation.html">dev</a></li>
-  <li><a href="installation.html">latest</a></li>
-</ul>
-</div>
     </div>
   
   
