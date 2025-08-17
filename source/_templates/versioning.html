@@ -1,8 +1,33 @@
 {% if versions %}
-<h3>{{ _('Versions') }}</h3>
-<ul>
-  {%- for item in versions %}
-  <li><a href="{{ item.url }}">{{ item.name }}</a></li>
-  {%- endfor %}
-</ul>
+<div class="version-selector">
+  <label for="version-select">{{ _('Version:') }}</label>
+  <select id="version-select" onchange="window.location.href=this.value">
+    {%- for item in versions %}
+      <option value="{{ item.url }}"
+        {%- if item.name == current_version %} selected{% endif %}>
+        {{ item.name }}
+      </option>
+    {%- endfor %}
+  </select>
+</div>
 {% endif %}
+
+<style>
+.version-selector {
+  margin: 1em 0;
+  font-family: sans-serif;
+}
+
+.version-selector label {
+  margin-right: 0.5em;
+  font-weight: bold;
+}
+
+.version-selector select {
+  padding: 0.3em 0.6em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 0.9em;
+}
+</style>
