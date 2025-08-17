@@ -4,12 +4,12 @@
 .. meta::
   :description: SkyCluster enables deployment of containerized application across Edge and hybrid multi-clouds environment.
 
-.. image:: en/0.1.0/_static/imgs/skycluster-logo1-enhanced-light.png
+.. image:: en/_static/imgs/skycluster-logo1-enhanced-light.png
     :class: only-light
     :width: 40%
     :align: center
 
-.. image:: en/0.1.0/_static/imgs/skycluster-logo1-enhanced-dark.png
+.. image:: en/_static/imgs/skycluster-logo1-enhanced-dark.png
     :class: only-dark
     :width: 40%
     :align: center
@@ -34,6 +34,6 @@ Read the ``SkyCluster`` documentation to learn more about the project and how to
   :maxdepth: 2
   :hidden:
 
-  en/latest/getting-started/index
-  en/latest/examples/index
-  en/latest/references/index
+  en/getting-started/index
+  en/examples/index
+  

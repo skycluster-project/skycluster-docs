@@ -26,7 +26,11 @@ extensions = [
     'sphinx_copybutton',
     'sphinx_reredirects',
     'sphinx_sitemap',
+    'sphinx_tabs.tabs',
+    'sphinx_multiversion'
 ]
+
+sphinx_tabs_disable_tab_closing = True
 
 # the current base URL of your documentation.
 html_baseurl = 'https://skycluster.io'
@@ -38,20 +42,20 @@ html_title = 'SkyCluster Docs'
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-html_favicon = 'en/latest/_static/imgs/skycluster-logo1-enhanced-favicon.png'
-html_logo = 'en/latest/_static/imgs/skycluster-logo1-enhanced-icon-small.png'
+html_favicon = 'en/_static/imgs/skycluster-logo1-enhanced-favicon.png'
+html_logo = 'en/_static/imgs/skycluster-logo1-enhanced-icon-small.png'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 # html_theme = 'alabaster'
 html_theme = 'pydata_sphinx_theme'
-html_static_path = ['en/latest/_static']
+html_static_path = ['en/_static']
 html_extra_path = ['CNAME', 'skycluster']
 
 # Add this to include Table of Contents in each page
 html_sidebars = {
-    "**": ["sidebar-nav-bs.html"]
+    "**": ["sidebar-nav-bs.html", "versioning.html"]
 }
 
 # Add title customization using html_theme_options
@@ -62,8 +66,8 @@ html_theme_options = {
     "show_nav_level": 4,
     "logo": {
         "text": "SkyCluster",
-        "image_light": "en/latest/_static/imgs/skycluster-logo1-enhanced-icon-small.png",
-        "image_dark": "en/latest/_static/imgs/skycluster-logo1-enhanced-dark-icon-small.png",
+        "image_light": "en/_static/imgs/skycluster-logo1-enhanced-icon-small.png",
+        "image_dark": "en/_static/imgs/skycluster-logo1-enhanced-dark-icon-small.png",
     },
     "icon_links_label": "Quick Links",
     "icon_links": [
@@ -88,3 +92,7 @@ html_theme_options = {
 def setup(app):
     app.add_css_file('css/custom.css')
     app.add_js_file('https://code.jquery.com/jquery-3.6.0.min.js')
+    
+    
+    
+smv_branch_whitelist = '^(dev|latest)$'
