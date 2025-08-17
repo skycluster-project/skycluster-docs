@@ -95,5 +95,4 @@ def setup(app):
     
     
     
-# smv_branch_whitelist = '^(dev|main)$'
-smv_branch_whitelist = '^dev$'
+smv_branch_whitelist = '^(dev|latest)$'

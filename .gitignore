@@ -23,3 +23,5 @@ __pycache__/
 # Virtual environment
 venv/
 .env/
+
+_build/html/dev/

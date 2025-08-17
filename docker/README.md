@@ -20,6 +20,10 @@ to automaticall watch source files and render html output:
 ```bash
 cd /skycluster # root directory
 sphinx-autobuild source/ _build/html --host 0.0.0.0
+
+sphinx-multiversion  source _build/html/
+
+python3 -m http.server 8000 --directory _build/html/dev
 ```
 
 
