@@ -1,0 +1,318 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xazureprovider-composition
+spec:
+  compositeTypeRef: 
+    apiVersion: xrds.skycluster.io/v1alpha1
+    kind: XAzureProvider
+  mode: Pipeline
+  pipeline:
+    - step: pull-extra-resources
+      functionRef:
+        name: function-extra-resources
+      input:
+        apiVersion: extra-resources.fn.crossplane.io/v1beta1
+        kind: Input
+        spec:
+          extraResources:
+            - kind: ProviderConfig
+              into: ProviderConfig
+              apiVersion: azure.upbound.io/v1beta1
+              type: Selector
+              selector:
+                maxMatch: 1
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value 
+                    value: skycluster
+            # - kind: ConfigMap
+            #   into: ScriptConfigMap
+            #   apiVersion: v1
+            #   type: Selector # or Reference
+            #   selector:
+            #     maxMatch: 1
+            #     minMatch: 1
+            #     matchLabels:
+            #       - key: skycluster.io/managed-by
+            #         type: Value # it could be FromCompositeFieldPath
+            #         value: skycluster
+            #       - key: skycluster.io/script-type
+            #         type: Value
+            #         value: cloud-init
+            - kind: ConfigMap
+              into: ConfigMaps
+              apiVersion: v1
+              type: Selector # or Reference
+              selector:
+                maxMatch: 100
+                minMatch: 1
+                matchLabels:
+                  - key: skycluster.io/managed-by
+                    type: Value 
+                    value: skycluster
+                  - key: skycluster.io/provider-name
+                    type: Value
+                    value: azure
+            # - kind: Secret
+            #   into: Secret
+            #   apiVersion: v1
+            #   type: Selector # or Reference
+            #   selector:
+            #     maxMatch: 1
+            #     minMatch: 1
+            #     matchLabels:
+            #       - key: skycluster.io/managed-by
+            #         type: Value # it could be FromCompositeFieldPath
+            #         value: skycluster
+            #       - key: skycluster.io/type
+            #         type: Value
+            #         value: ssh-key
+    - step: setup
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- $Observed := .observed.composite.resource }} 
+            {{- $ProviderName := $Observed.spec.providerRef.providerName }}
+            {{- $ProviderRegion := $Observed.spec.providerRef.providerRegion }}
+            {{- $ProviderSpec := $Observed.spec.forProvider }}
+
+            {{- $PublicIp := dig "resources" "public-ip" "resource" "status" "atProvider" "address" "" .observed }}
+            {{- $NetInfId := dig "resources" "net-interface" "resource" "status" "atProvider" "id" "" .observed }}
+            {{- $PrivateIp := dig "resources" "net-interface" "resource" "status" "atProvider" "privateIpAddress" "" .observed }}
+            
+            {{- $ExtraResources := dig "apiextensions.crossplane.io/extra-resources" "" .context }}
+            {{- $ProviderConfig := index (dig "ProviderConfig" "" $ExtraResources) 0 }}
+            
+            {{- $Configs := dig "ConfigMaps" "" $ExtraResources }}
+
+            {{- $CMs := dict -}}
+            {{- range $res := $Configs }}
+              {{- $region := or (dig "skycluster.io/provider-region" "" $res.metadata.labels) "global" }}
+              {{- $zone :=  or (dig "skycluster.io/provider-zone" "" $res.metadata.labels) "default" }}
+              {{- if not (hasKey $CMs $region) }}
+                {{- $r := dict -}}
+                {{- $_ := set $CMs $region $r }}
+              {{- end }}
+              {{- if not (hasKey (index $CMs $region) $zone) }}
+                {{- $_ := set (index $CMs $region) $zone $res.data }}
+              {{- end }}
+            {{- end}}
+
+            {{- $ConfigDefault := index (index $CMs $ProviderRegion) "default" }}
+            {{- $DefaultZone := dig "default-zone" "" $ConfigDefault }}
+            {{- $ProviderZone := or (dig "spec" "providerRef" "providerZone" "" $Observed) $DefaultZone }}
+            {{- $Config := index (index $CMs $ProviderRegion) $ProviderZone }}
+
+            apiVersion: azure.upbound.io/v1beta1
+            kind: ResourceGroup
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "res-group" }}
+                crossplane.io/external-name: {{ printf "skycluster-%s" $ProviderRegion }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                location: {{ $ProviderRegion }}
+              # managementPolicies: ["Observe"]
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: network.azure.upbound.io/v1beta2
+            kind: VirtualNetwork
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "vnetwork" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                {{- $parts := splitList "/" $ProviderSpec.ipCidrRange -}}
+                {{- $ip := index $parts 0 -}}
+                {{- $octets := splitList "." $ip -}}
+                {{- $first := index $octets 0 -}}
+                {{- $second := index $octets 1 }}            
+                addressSpace: 
+                  - {{ printf "%s.%s.0.0/16" $first $second }}
+                location: {{ $ProviderRegion }}
+                resourceGroupName: {{ printf "skycluster-%s" $ProviderRegion }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: network.azure.upbound.io/v1beta2
+            kind: Subnet
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "subnet-gw" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+                skycluster.io/subnet-type: gw
+            spec:
+              forProvider:
+                {{- $parts := splitList "/" $ProviderSpec.ipCidrRange -}}
+                {{- $ip := index $parts 0 -}}
+                {{- $mask := index $parts 1 | int -}}
+                {{- $octets := splitList "." $ip -}}
+                {{- $first := index $octets 0 -}}
+                {{- $second := index $octets 1 -}}
+                {{- $third := index $octets 2 -}}
+                {{- $fourth := index $octets 3 -}}
+                {{- $subnetIpCidr := "" -}}
+                {{- if eq $mask 24 }}
+                  {{- $subnetIpCidr = printf "%s.%s.%s.0/24" $first $second $third }}
+                {{- else if eq $mask 16 }}
+                  {{- $subnetIpCidr = printf "%s.%s.0.0/16" $first $second }}
+                {{- else if eq $mask 8 }}
+                  {{- $subnetIpCidr = printf "%s.0.0.0/8" $first }}
+                {{- end }}
+                addressPrefixes: 
+                  - {{ $subnetIpCidr }}
+                virtualNetworkNameSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                resourceGroupName: {{ printf "skycluster-%s" $ProviderRegion }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: network.azure.upbound.io/v1beta2
+            kind: Subnet
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "subnet-agents" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+                skycluster.io/subnet-type: agents
+            spec:
+              forProvider:
+                addressPrefixes: 
+                  - {{ $ProviderSpec.ipCidrRange }}
+                virtualNetworkNameSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                resourceGroupName: {{ printf "skycluster-%s" $ProviderRegion }}
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: network.azure.upbound.io/v1beta1
+            kind: RouteTable
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "rtable-gw" }}
+                crossplane.io/external-name: {{ printf "skycluster-rtable-public-%s" $ProviderRegion }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+                skycluster.io/route-table-type: gw
+            spec:
+              forProvider:
+                resourceGroupName: {{ printf "skycluster-%s" $ProviderRegion }}
+                location: {{ $ProviderRegion }}
+              # managementPolicies: ["Observe"]
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: network.azure.upbound.io/v1beta1
+            kind: RouteTable
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "rtable-agents" }}
+                crossplane.io/external-name: {{ printf "skycluster-rtable-private-%s" $ProviderRegion }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+                skycluster.io/route-table-type: agents
+            spec:
+              forProvider:
+                resourceGroupName: {{ printf "skycluster-%s" $ProviderRegion }}
+                location: {{ $ProviderRegion }}
+              # managementPolicies: ["Observe"]
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            apiVersion: network.azure.upbound.io/v1beta1
+            kind: SubnetRouteTableAssociation
+            metadata:
+              annotations: 
+                {{ setResourceNameAnnotation "route-agent-assoc" }}
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+            spec:
+              forProvider:
+                routeTableIdSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                    skycluster.io/route-table-type: agents
+                subnetIdSelector:
+                  matchLabels:
+                    {{ range $k, $v := $Observed.metadata.labels -}}
+                    {{ $k }}: {{ printf "%q" $v }}
+                    {{ end }}
+                    skycluster.io/subnet-type: agents
+              providerConfigRef:
+                name: {{ $ProviderConfig.metadata.name }}
+            ---
+            # # for agents
+            # apiVersion: network.azure.upbound.io/v1beta1
+            # kind: Route
+            # metadata:
+            #   annotations: 
+            #     {{ setResourceNameAnnotation "route-to-gw" }}
+            #   labels:
+            #   {{ range $k, $v := $Observed.metadata.labels -}}
+            #   {{ $k }}: {{ printf "%q" $v }}
+            #   {{ end }}
+            # spec:
+            #   forProvider:
+            #     addressPrefix: 0.0.0.0/0
+            #     nextHopType: VirtualAppliance
+            #     nextHopInIpAddress: {{ $PrivateIp }}
+            #     resourceGroupName: {{ printf "skycluster-%s" $ProviderRegion }}
+            #     routeTableNameSelector:
+            #       matchLabels:
+            #         {{ range $k, $v := $Observed.metadata.labels -}}
+            #         {{ $k }}: {{ printf "%q" $v }}
+            #         {{ end }}
+            #         skycluster.io/route-table-type: agents
+            #   providerConfigRef:
+            #     name: {{ $ProviderConfig.metadata.name }}
+            ---
+    # - step: patch-and-transform
+    #   functionRef:
+    #     name: function-patch-and-transform
+    #   input:
+    #     apiVersion: pt.fn.crossplane.io/v1beta1
+    #     kind: Resources
+    #     resources:
+    #       - name: instance
+    #         patches:
+    #           - type: ToCompositeFieldPath
+    #             fromFieldPath: status.atProvider.privateIpAddress
+    #             toFieldPath: status.network.privateIpAddress
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready
