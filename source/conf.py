@@ -55,7 +55,7 @@ html_extra_path = ['CNAME', 'skycluster']
 
 # Add this to include Table of Contents in each page
 html_sidebars = {
-    "**": ["versioning.html", "sidebar-nav-bs.html"]
+    "**": ["sidebar-nav-bs.html"]
 }
 
 # Add title customization using html_theme_options
@@ -82,6 +82,7 @@ html_theme_options = {
     "footer_end": [],
     "content_footer_items": ["last-updated"],
     "back_to_top_button": True,
+    "navbar_persistent": ["versioning.html", "search-button"]
 }
 
 
