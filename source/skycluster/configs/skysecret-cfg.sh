@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # If env variables are not set, exit
-if [ -z "$PUBLIC_KEY" ] || [ -z "$PRIVATE_KEY" ]; then
-  echo "PUBLIC_KEY and PRIVATE_KEY must be set."
+if [ -z "$PUBLIC_KEY" ] || [ -z "$PRIVATE_KEY" ] || [ -z "$KUBECONFIG_B64" ]; then
+  echo "PUBLIC_KEY, PRIVATE_KEY, and KUBECONFIG must be set."
   exit 1
 fi
 
@@ -24,4 +24,17 @@ stringData:
       "publicKey": "$PUBLIC_KEY",
       "privateKey": "$PRIVATE_KEY"
     }
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: ${NAMESPACE}
+  name: k8s-skycluster-management-connection
+  labels:
+    skycluster.io/managed-by: skycluster
+    skycluster.io/secret-type: k8s-connection-data
+    skycluster.io/cluster-name: skycluster-management
+type: Opaque
+data:
+  kubeconfig: "${KUBECONFIG_B64}"
 EOF

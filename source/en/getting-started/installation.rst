@@ -218,6 +218,9 @@ First export your public and private keys, assuming **your private and public ke
   export PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
   export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64 -w0)
 
+  # the kind cluster kubeconfig
+  export KUBECONFIG_B64=$(kubectl config view --minify --flatten --context=kind-skycluster | base64 -w0)
+
 And then run the following command to generate the secret:
 
 .. code-block:: sh
@@ -250,6 +253,19 @@ And then run the following command to generate the secret:
           "publicKey": "ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1",
           "privateKey": "LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K"
         }
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: skycluster-system
+      name: k8s-skycluster-management-connection
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/secret-type: k8s-connection-data
+        skycluster.io/cluster-name: skycluster-management
+    type: Opaque
+    data:
+      kubeconfig: YXBpVmVyc2lvbjo...
 
 
 ----
