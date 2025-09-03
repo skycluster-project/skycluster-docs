@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>SkyCluster Dashboard &#8212; SkyCluster Docs</title>
+    <title>Multi Provider Setup &#8212; SkyCluster Docs</title>
   
   
   
@@ -47,13 +47,13 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'en/getting-started/skycluster-dashboard';</script>
-    <link rel="canonical" href="https://skycluster.io/en/getting-started/skycluster-dashboard.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'en/examples/multi-provider';</script>
+    <link rel="canonical" href="https://skycluster.io/en/examples/multi-provider.html" />
     <link rel="icon" href="../../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="SkyCluster CLI" href="skycluster-cli.html" />
-    <link rel="prev" title="SkyCluster Configuration" href="skycluster-configs.html" />
+    <link rel="next" title="Troubleshooting" href="../getting-started/troubleshooting.html" />
+    <link rel="prev" title="Setup Provider Setup" href="single-provider.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.0" />
@@ -151,15 +151,15 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
     Getting Started
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Examples
   </a>
 </li>
@@ -178,7 +178,7 @@
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="skycluster-dashboard.html" selected>
+        <option value="multi-provider.html" selected>
           latest
         </option>
     </select>
@@ -348,7 +348,7 @@ html[data-mode="dark"] {
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="skycluster-dashboard.html" selected>
+        <option value="multi-provider.html" selected>
           latest
         </option>
     </select>
@@ -514,15 +514,15 @@ html[data-mode="dark"] {
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
     Getting Started
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Examples
   </a>
 </li>
@@ -571,34 +571,10 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="installation.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-auth.html">Providers Authentication</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-profile.html">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">SkyCluster Dashboard</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-cli.html">SkyCluster CLI</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -642,9 +618,12 @@ html[data-mode="dark"] {
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Getting Started</a></li>
+    <li class="breadcrumb-item"><a href="../getting-started/index.html" class="nav-link">Getting Started</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">SkyCluster Dashboard</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Multi Provider Setup</span></li>
   </ul>
 </nav>
 </div>
@@ -661,72 +640,51 @@ html[data-mode="dark"] {
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="skycluster-dashboard">
-<h1>SkyCluster Dashboard<a class="headerlink" href="#skycluster-dashboard" title="Link to this heading">#</a></h1>
+  <section id="multi-provider-setup">
+<h1>Multi Provider Setup<a class="headerlink" href="#multi-provider-setup" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>The SkyCluster dashboard is a web-based user interface that allows you to manage and monitor your SkyCluster deployments. Please refer to the project github repository for issues and updates related to the dashboard. To install the dashboard, follow these steps:</p>
-<section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
-<p>If you use <code class="docutils literal notranslate"><span class="pre">kind</span></code> to run your Kubernetes cluster, make sure you have a load balancer such as <a class="reference external" href="https://kind.sigs.k8s.io/docs/user/loadbalancer/">Kind LoadBalancer</a> configured. This is necessary for the SkyCluster dashboard to be accessible via a LoadBalancer service.</p>
-</section>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<p>The SkyCluster dashboard is automatically deployed with the SkyCluster operator. If you have already installed the operator, you can skip the installation steps below. Check the status of
-dashboard deployment by running the following command and ensure the same namespace is used as the operator:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the status of the dashboard deployment</span>
-kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster
+<p>Make sure you have followed steps in <a class="reference internal" href="../getting-started/index.html"><span class="doc">Getting Started</span></a> and ensure all
+prerequisites installed and configured, including:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../getting-started/providers-auth.html"><span class="doc">Providers Authentication</span></a></p></li>
+<li><p><a class="reference internal" href="../getting-started/providers-profile.html"><span class="doc">Providers Profiles</span></a></p></li>
+<li><p><a class="reference internal" href="../getting-started/skycluster-configs.html"><span class="doc">SkyCluster Configuration</span></a></p></li>
+<li><p><a class="reference internal" href="single-provider.html"><span class="doc">Setup Provider Setup</span></a></p></li>
+</ul>
+<p>At this stage, you should have multiple providers created and ready for use. Check out you providers by:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
+<span class="c1"># NAME                  PRIVATE_IP      PUBLIC_IP        CIDR_BLOCK</span>
+<span class="c1"># os-provider-scinet    10.16.128.11    142.1.174.185    10.16.0.0/16</span>
+</pre></div>
+</div>
+<p>From the SkyCluster controller and across all providers, you should be able to reach the services and resources created within the CIDR block of each provider. This resembles a flat network setup created by SkyCluster. Try pinging the private gateway address of each provider from the SkyCluster controller to verify connectivity. Check the <a class="reference internal" href="../getting-started/troubleshooting.html"><span class="doc">Troubleshooting</span></a> page if you encounter any issues.</p>
+<section id="multi-cluster-kubernetes-cluster">
+<h2>Multi-cluster Kubernetes Cluster<a class="headerlink" href="#multi-cluster-kubernetes-cluster" title="Link to this heading">#</a></h2>
+<p>To connect Kubernetes clusters an <code class="docutils literal notranslate"><span class="pre">XKubeMesh</span></code> resource must be created. This resource manages inter-cluster connectivity by linking each cluster and configuring the Istio setup.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XKubeMesh</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-kubemesh</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Reference to xkubes.skycluster.io resources</span>
+<span class="w">  </span><span class="nt">clusterNames</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-kube-os-scinet</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-kube-gcp</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-aws-kube</span>
 
-<span class="c1"># Check the status of the dashboard service</span>
-kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster
+<span class="w">  </span><span class="c1"># The local kind cluster config that used for skycluster controller setup</span>
+<span class="w">  </span><span class="nt">localCluster</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">podCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.0/19</span>
+<span class="w">    </span><span class="nt">serviceCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.31.0.0/16</span>
 </pre></div>
 </div>
-<p>Please note the <code class="docutils literal notranslate"><span class="pre">EXTERNAL-IP</span></code> of the service, as you will need it to access the dashboard. If the EXTERNAL-IP is still pending, it means the LoadBalancer is not yet ready. CHeck the status of the
-LoadBalancer installation.</p>
-<section id="manual-installation">
-<h3>Manual Installation<a class="headerlink" href="#manual-installation" title="Link to this heading">#</a></h3>
-<p>To manually install the SkyCluster dashboard, apply the following configuration to your Kubernetes cluster. This configuration creates a deployment and a service for the dashboard:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
-<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
-<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">serviceAccountName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-sva</span>
-<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
-<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">etesami/skycluster-dashboard:latest</span>
-<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8090</span>
-<span class="nn">---</span>
-<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
-<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
-<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
-<span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8090</span>
-<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
+<p>Check out the status of inter-cluster connectivity by running:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xkubemeshes.skycluster.io
+<span class="c1"># NAME       SYNCED   READY   COMPOSITION                 AGE</span>
+<span class="c1"># kubemesh   True     True    xkubemeshes.skycluster.io   4h41m</span>
 </pre></div>
 </div>
-<p>Apply the above configuration to your Kubernetes cluster using kubectl and once the dashboard is running, you can access it via the LoadBalancer IP address.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>skycluster-dashboard.yaml
-kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>skycluster-dashboard
-</pre></div>
-</div>
-</section>
 </section>
 </section>
 
@@ -741,20 +699,20 @@ kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="skycluster-configs.html"
+       href="single-provider.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">SkyCluster Configuration</p>
+        <p class="prev-next-title">Setup Provider Setup</p>
       </div>
     </a>
     <a class="right-next"
-       href="skycluster-cli.html"
+       href="../getting-started/troubleshooting.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">SkyCluster CLI</p>
+        <p class="prev-next-title">Troubleshooting</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -777,11 +735,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-installation">Manual Installation</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-cluster-kubernetes-cluster">Multi-cluster Kubernetes Cluster</a></li>
 </ul>
   </nav></div>
 

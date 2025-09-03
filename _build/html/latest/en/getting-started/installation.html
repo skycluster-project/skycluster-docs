@@ -333,7 +333,7 @@ html[data-mode="dark"] {
           
           
           
-          <a href="https://github.com/etesami/skycluster" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+          <a href="https://github.com/skycluster-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
@@ -556,7 +556,7 @@ html[data-mode="dark"] {
           
           
           
-          <a href="https://github.com/etesami/skycluster" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+          <a href="https://github.com/skycluster-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
@@ -590,9 +590,15 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider-aws.html">Single Provider  (AWS)</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -687,6 +693,8 @@ including a local cluster created using <a class="reference external" href="http
 We utilize <code class="docutils literal notranslate"><span class="pre">kind</span></code> to create a local cluster to run SkyCluster operator.
 Please ensure you can use <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> without sudo before proceeding (refer to the
 <a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall">docker post-installation guide</a>).</p>
+<p>If you intend to use kubectl or other local tools to interface with GKE service offered by
+GCP you need to ensure <code class="docutils literal notranslate"><span class="pre">gcloud</span></code> is installed (<a class="reference external" href="https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl">installation guide</a>).</p>
 </section>
 <hr class="docutils" />
 <section id="create-a-local-cluster">
@@ -827,6 +835,9 @@ The secret should be created in the <code class="docutils literal notranslate"><
 <p>First export your public and private keys, assuming <strong>your private and public keys are named</strong> <code class="docutils literal notranslate"><span class="pre">id_rsa</span></code> and <code class="docutils literal notranslate"><span class="pre">id_rsa.pub</span></code> or adjust the paths to your keys:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PUBLIC_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>~/.ssh/id_rsa.pub<span class="k">)</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">PRIVATE_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+
+<span class="c1"># the kind cluster kubeconfig</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG_B64</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span>--minify<span class="w"> </span>--flatten<span class="w"> </span>--context<span class="o">=</span>kind-skycluster<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
 </pre></div>
 </div>
 <p>And then run the following command to generate the secret:</p>
@@ -853,6 +864,19 @@ The secret should be created in the <code class="docutils literal notranslate"><
 <span class="linenos">13</span><span class="w">      </span><span class="no">&quot;publicKey&quot;: &quot;ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1&quot;,</span>
 <span class="linenos">14</span><span class="w">      </span><span class="no">&quot;privateKey&quot;: &quot;LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K&quot;</span>
 <span class="linenos">15</span><span class="w">    </span><span class="no">}</span>
+<span class="linenos">16</span><span class="nn">---</span>
+<span class="linenos">17</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="linenos">18</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="linenos">19</span><span class="nt">metadata</span><span class="p">:</span>
+<span class="linenos">20</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
+<span class="linenos">21</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8s-skycluster-management-connection</span>
+<span class="linenos">22</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="linenos">23</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
+<span class="linenos">24</span><span class="w">    </span><span class="nt">skycluster.io/secret-type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8s-connection-data</span>
+<span class="linenos">25</span><span class="w">    </span><span class="nt">skycluster.io/cluster-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-management</span>
+<span class="linenos">26</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="linenos">27</span><span class="nt">data</span><span class="p">:</span>
+<span class="linenos">28</span><span class="w">  </span><span class="nt">kubeconfig</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YXBpVmVyc2lvbjo...</span>
 </pre></div>
 </div>
 </div>
