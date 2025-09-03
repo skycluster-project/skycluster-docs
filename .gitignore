@@ -43,3 +43,6 @@ _build/html/search.html
 _build/html/searchindex.js
 _build/html/sitemap.xml
 
+
+# only on dev branch, must not be merged with latest or main branch
+_build
