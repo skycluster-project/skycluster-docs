@@ -43,7 +43,7 @@ A provider is identified by its platform name and region and primary zone. To in
 
       .. code-block:: yaml
 
-                apiVersion: core.skycluster.io/v1alpha1
+        apiVersion: core.skycluster.io/v1alpha1
         kind: ProviderProfile
         metadata:
           name: gcp-us-east1
@@ -67,6 +67,9 @@ A provider is identified by its platform name and region and primary zone. To in
 
 
   .. tab:: Azure
+
+      .. warning::
+        Azure support is limited and some features may not work.
 
       .. code-block:: yaml
 
@@ -284,7 +287,7 @@ The ``baremetal`` type requires specifying gateway connection and access details
 Device Nodes
 -------------
 
-The ``DeviceNode`` API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its ``type`` field.
+The ``DeviceNode`` API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its ``type`` field. By default the gateway node does not run any workload.
 
 .. tabs::
 
@@ -301,14 +304,6 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
           deviceSpec:
             type: gateway
             zone: default
-            cores: 4
-            ram: 2GB
-            storage: 100GB
-            gpu:
-            - enabled: True
-              manufacturer: NVIDIA
-              model: JetsonNano
-              memory: 8GB
 
 
 
@@ -319,19 +314,22 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
         apiVersion: core.skycluster.io/v1alpha1
         kind: DeviceNode
         metadata:
-          name: savi-toronto-worker1
+          name: savi-toronto-edge-jetson-nano1
         spec:
-          providerRef: savi-toronto-default
+          providerRef: savi-toronto-edge
           deviceSpec:
             type: worker
             zone: default
-            cpus: 4
-            ram: 2GB
-            storage: 100GB
-            gpu:
-            - enabled: True
-              manufacturer: NVIDIA
-              model: JetsonNano
-              memory: 8GB
-
-
+            configs:
+              name: Jetson Nano
+              cpus: 1
+              ram: 4GB
+              gpu: 
+                count: 472
+                unit: GFLOPS # GFLOPS | TFLOPS | TOPS | GPU
+                enabled: true
+                manufacturer: NVIDIA
+                memory: Maxwell
+                model: JetsonNano
+              storage: 100GB
+              price: "0"

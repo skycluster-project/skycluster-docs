@@ -15,6 +15,7 @@ Getting Started
   skycluster-dashboard
   skycluster-cli
   ../examples/index
+  troubleshooting
   
 
 The ``skycluster-operator`` runs in a management Kubernetes cluster, acting as a broker across registered providers, including cloud hyperscalers, edge, and private clouds, to deploy services in a provider-agnostic way with seamless inter-service connectivity. It also enables deployment of Kubernetes applications across a federated multi-cluster environment, selecting providers based on your application's requirements.

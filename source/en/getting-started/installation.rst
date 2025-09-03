@@ -11,6 +11,7 @@ Installation
 .. _TAILSCALE: https://tailscale.com/kb/1347/installation
 .. _DOCKER_POST_INSTALL: https://docs.docker.com/engine/install/linux-postinstall
 .. _DOCKER: https://docs.docker.com/get-docker
+.. _GCLOUD: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl
 
 Pre-requisites
 ================
@@ -40,6 +41,9 @@ Please make sure you have installed all tools before proceeding.
 We utilize ``kind`` to create a local cluster to run SkyCluster operator.
 Please ensure you can use ``kubectl`` without sudo before proceeding (refer to the 
 `docker post-installation guide <DOCKER_POST_INSTALL_>`_).
+
+If you intend to use kubectl or other local tools to interface with GKE service offered by
+GCP you need to ensure ``gcloud`` is installed (`installation guide <GCLOUD_>`_).
 
 ----
 
@@ -218,6 +222,9 @@ First export your public and private keys, assuming **your private and public ke
   export PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
   export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64 -w0)
 
+  # the kind cluster kubeconfig
+  export KUBECONFIG_B64=$(kubectl config view --minify --flatten --context=kind-skycluster | base64 -w0)
+
 And then run the following command to generate the secret:
 
 .. code-block:: sh
@@ -250,6 +257,19 @@ And then run the following command to generate the secret:
           "publicKey": "ssh-rsa AAAAB3NzaC1yc...fKEgCExt6YjE= ubuntu@cluster-dev1",
           "privateKey": "LS0tLS1CRUdJTiBPUEVOU1..gS0VZLS0tLS0K"
         }
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: skycluster-system
+      name: k8s-skycluster-management-connection
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/secret-type: k8s-connection-data
+        skycluster.io/cluster-name: skycluster-management
+    type: Opaque
+    data:
+      kubeconfig: YXBpVmVyc2lvbjo...
 
 
 ----

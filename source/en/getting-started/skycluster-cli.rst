@@ -36,24 +36,31 @@ Available Commands
     skycluster --help
     
     # List all gateway nodes
-    skycluster skyprovider list
-    skycluster skyprovider delete --all
-    skycluster skyprovider delete --provider-name aws
+    skycluster xprovider list
+    skycluster xprovider delete --all
+    skycluster xprovider delete --platform aws
     
-    # List all skyvm instances across all providers
-    skycluster skyvm list
+    # List all xinstance instances across all providers
+    skycluster xinstance list
+    skycluster xinstance delete --all
+    skycluster xinstance delete --platform aws
+
+    # List all xkube instances across all providers
+    skycluster xkube list
+    skycluster xkube delete --all
+    skycluster xkube delete --platform aws
+
+
 
     # List all available flavors across all providers
-    skycluster skyvm flavor list
+    skycluster xinstance flavor list
     # List all available flavors across gcp and aws provider
-    skycluster skyvm flavor list --provider-name aws,gcp
+    skycluster xinstance flavor list --platform aws,gcp
 
     # List all available images across all providers
-    skycluster skyvm image list
+    skycluster xinstance image list
     # List all available images across gcp and aws provider
-    skycluster skyvm image list --provider-name aws,gcp
-    skycluster skyvm delete --all
-    skycluster skyvm delete --provider-name aws
+    skycluster xinstance image list --platform aws,gcp
 
     # Print the overlay k8s kubeconfig
     skycluster skyk8s config show

@@ -5,7 +5,8 @@ Examples
   :hidden:
   :maxdepth: 2
   
-  single-provider-aws
+  single-provider
+  multi-provider
 
 To run the examples, you must follow steps in :doc:`/en/getting-started/index` and setup providers 
 profiles and SkyCluster before creating resources and services.
@@ -33,15 +34,13 @@ In addition, ensure that the XSetup object is configured and ready in your envir
     # NAME                  REGION      READY
     # aws-us-east-1         us-east-1   True
 
+  If any ``READY`` status field is not ``Ready`` check the :doc:`/en/getting-started/troubleshooting` page.
 
 
 List of examples:
 ------------------
 
-
-Provider Setup
-================
-
-- :doc:`single-provider-aws`
+- :doc:`single-provider`
+- :doc:`multi-provider`
 
 
