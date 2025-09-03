@@ -333,7 +333,7 @@ html[data-mode="dark"] {
           
           
           
-          <a href="https://github.com/etesami/skycluster" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+          <a href="https://github.com/skycluster-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
@@ -556,7 +556,7 @@ html[data-mode="dark"] {
           
           
           
-          <a href="https://github.com/etesami/skycluster" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+          <a href="https://github.com/skycluster-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
@@ -590,9 +590,15 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider-aws.html">Single Provider  (AWS)</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -683,24 +689,31 @@ html[data-mode="dark"] {
 skycluster<span class="w"> </span>--help
 
 <span class="c1"># List all gateway nodes</span>
-skycluster<span class="w"> </span>skyprovider<span class="w"> </span>list
-skycluster<span class="w"> </span>skyprovider<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>skyprovider<span class="w"> </span>delete<span class="w"> </span>--provider-name<span class="w"> </span>aws
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>--all
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
 
-<span class="c1"># List all skyvm instances across all providers</span>
-skycluster<span class="w"> </span>skyvm<span class="w"> </span>list
+<span class="c1"># List all xinstance instances across all providers</span>
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>--all
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
+
+<span class="c1"># List all xkube instances across all providers</span>
+skycluster<span class="w"> </span>xkube<span class="w"> </span>list
+skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--all
+skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
+
+
 
 <span class="c1"># List all available flavors across all providers</span>
-skycluster<span class="w"> </span>skyvm<span class="w"> </span>flavor<span class="w"> </span>list
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>flavor<span class="w"> </span>list
 <span class="c1"># List all available flavors across gcp and aws provider</span>
-skycluster<span class="w"> </span>skyvm<span class="w"> </span>flavor<span class="w"> </span>list<span class="w"> </span>--provider-name<span class="w"> </span>aws,gcp
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>flavor<span class="w"> </span>list<span class="w"> </span>--platform<span class="w"> </span>aws,gcp
 
 <span class="c1"># List all available images across all providers</span>
-skycluster<span class="w"> </span>skyvm<span class="w"> </span>image<span class="w"> </span>list
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>image<span class="w"> </span>list
 <span class="c1"># List all available images across gcp and aws provider</span>
-skycluster<span class="w"> </span>skyvm<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--provider-name<span class="w"> </span>aws,gcp
-skycluster<span class="w"> </span>skyvm<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>skyvm<span class="w"> </span>delete<span class="w"> </span>--provider-name<span class="w"> </span>aws
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--platform<span class="w"> </span>aws,gcp
 
 <span class="c1"># Print the overlay k8s kubeconfig</span>
 skycluster<span class="w"> </span>skyk8s<span class="w"> </span>config<span class="w"> </span>show

@@ -18,7 +18,7 @@ metadata:
   labels:
     skycluster.io/managed-by: skycluster
     skycluster.io/provider-platform: openstack
-    skycluster.io/provider-region: ${REGION_LOWER}
+    skycluster.io/provider-region: ${REGION}
 spec:
   credentials:
     source: Secret
