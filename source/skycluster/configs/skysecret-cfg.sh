@@ -29,11 +29,11 @@ apiVersion: v1
 kind: Secret
 metadata:
   namespace: ${NAMESPACE}
-  name: k8s-skycluster-management-connection
+  name: k8s-skycluster-management
   labels:
     skycluster.io/managed-by: skycluster
     skycluster.io/secret-type: k8s-connection-data
-    skycluster.io/cluster-name: skycluster-management
+    skycluster.io/cluster-name: k8s-skycluster-management
 type: Opaque
 data:
   kubeconfig: "${KUBECONFIG_B64}"

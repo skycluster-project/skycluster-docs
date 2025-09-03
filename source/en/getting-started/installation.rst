@@ -11,6 +11,7 @@ Installation
 .. _TAILSCALE: https://tailscale.com/kb/1347/installation
 .. _DOCKER_POST_INSTALL: https://docs.docker.com/engine/install/linux-postinstall
 .. _DOCKER: https://docs.docker.com/get-docker
+.. _GCLOUD: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl
 
 Pre-requisites
 ================
@@ -40,6 +41,9 @@ Please make sure you have installed all tools before proceeding.
 We utilize ``kind`` to create a local cluster to run SkyCluster operator.
 Please ensure you can use ``kubectl`` without sudo before proceeding (refer to the 
 `docker post-installation guide <DOCKER_POST_INSTALL_>`_).
+
+If you intend to use kubectl or other local tools to interface with GKE service offered by
+GCP you need to ensure ``gcloud`` is installed (`installation guide <GCLOUD_>`_).
 
 ----
 

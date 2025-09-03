@@ -25,3 +25,21 @@ venv/
 .env/
 
 _build/html/dev/
+
+# This files are generated for local development
+# when running any of 
+# server="sphinx-autobuild source _build/html --host 0.0.0.0"
+# build-all="sphinx-build source _build/html -E"
+# but are not needed for the productino environment
+_build/html/_images/
+_build/html/_static/
+_build/html/charts/
+_build/html/configs/
+_build/html/crossplane/
+_build/html/datasets/
+_build/html/en/
+_build/html/genindex.html
+_build/html/search.html
+_build/html/searchindex.js
+_build/html/sitemap.xml
+

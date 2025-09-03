@@ -19,11 +19,21 @@ to automaticall watch source files and render html output:
 
 ```bash
 cd /skycluster # root directory
-sphinx-autobuild source/ _build/html --host 0.0.0.0
 
+# This creates a version-based pages, where the version is based on the branch or tag name
+# Only "latest" branch is to be deployed each time that you run this command.
+# This creates the folder "_build/html/latest"
 sphinx-multiversion  source _build/html/
 
-python3 -m http.server 8000 --directory _build/html/dev
+
+# To serve and check the generated output:
+python3 -m http.server 8000 --directory _build/html/latest
+
+# For all other local development and testing use:
+sphinx-autobuild source/ _build/html/dev --host 0.0.0.0
+# Where it generates a rendered version of the local files into dev.
+# or sphinx-build source _build/html -E
+
 ```
 
 

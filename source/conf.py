@@ -73,7 +73,7 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "GitHub",         
-            "url": "https://github.com/etesami/skycluster",  # required
+            "url": "https://github.com/skycluster-project",
             "icon": "fa-brands fa-square-github",
             "type": "fontawesome",
         },
