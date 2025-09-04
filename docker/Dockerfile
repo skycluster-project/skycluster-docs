@@ -1,23 +1,47 @@
-# Use the Ubuntu base image
-FROM ubuntu:22.04
+# Stage 1: Builder
+FROM python:3.12-slim AS builder
 
-# Set environment variable to avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update and install dependencies
+WORKDIR /skycluster
+
+# Install build dependencies and git
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 \
-    python3-pip \
     git \
     build-essential \
     curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set the working directory inside the container
+# Upgrade pip
+RUN python -m pip install --upgrade pip
+
+
+# Install Python dependencies into /install
+RUN pip install --prefix=/install --no-cache-dir \
+    sphinx \
+    sphinx-autobuild \
+    pydata-sphinx-theme \
+    sphinx-copybutton \
+    sphinx-reredirects \
+    sphinx-sitemap \
+    git+https://github.com/etesami/sphinx-tabs.git@robuster_dark_mode_detection \
+    sphinx-multiversion
+
+# Stage 2: Final lightweight image
+FROM python:3.12-slim
+
 WORKDIR /skycluster
 
-# Install Sphinx, sphinx-autobuild for live reload, and the PyData theme
-RUN pip3 install --no-cache-dir sphinx sphinx-autobuild pydata-sphinx-theme sphinx-copybutton sphinx-reredirects sphinx-sitemap git+https://github.com/etesami/sphinx-tabs.git@robuster_dark_mode_detection sphinx-multiversion
+# Install git (needed by sphinx-multiversion at runtime)
+RUN apt-get update && apt-get install -y --no-install-recommends git && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN echo 'alias server="sphinx-autobuild source _build/html --host 0.0.0.0"' >> ~/.bashrc
-RUN echo 'alias build-all="sphinx-build source _build/html -E"' >> ~/.bashrc
+# Copy installed Python packages from builder
+COPY --from=builder /install /usr/local
+
+COPY build-docs.sh /usr/local/bin/build-docs.sh
+RUN chmod +x /usr/local/bin/build-docs.sh
+
+
+# Set default entrypoint
+ENTRYPOINT ["/usr/local/bin/build-docs.sh"]
