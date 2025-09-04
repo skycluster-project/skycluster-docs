@@ -1,0 +1,990 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Providers Authentication &#8212; SkyCluster Docs</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=bc219c3d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'en/getting-started/providers-auth';</script>
+    <link rel="canonical" href="https://skycluster.io/en/getting-started/providers-auth.html" />
+    <link rel="icon" href="../../_static/skycluster-logo1-enhanced-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/skycluster-logo1-enhanced-icon-small.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/skycluster-logo1-enhanced-dark-icon-small.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">SkyCluster</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<div class="pd-version-selector" role="group" aria-label="Version selector">
+  <label class="pd-version-label" for="pd-version-select">Version:</label>
+  <div class="pd-version-select-wrap">
+    <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
+        <option value="providers-auth.html" selected>
+          latest
+        </option>
+    </select>
+  </div>
+</div>
+
+
+
+<style>
+
+/* ---- Base tokens (map to pydata variables, with safe fallbacks) ---- */
+:root {
+  --vs-fg: var(--pst-color-text, #222);
+  --vs-bg: var(--pst-color-background, #fff);
+  --vs-muted: var(--pst-color-muted, #6c757d);
+  --vs-border: var(--pst-color-border, #d0d7de);
+  --vs-accent: var(--pst-color-primary, #3b82f6);
+  /* elevated surface: prefer surface if available, else background */
+  --vs-bg-elev: var(--pst-color-surface, var(--pst-color-background, #fff));
+  --vs-radius: var(--pst-border-radius, .25rem);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.06));
+  --vs-font-size: 0.9rem;
+}
+
+/* ---- Explicit dark mode from pydata ---- */
+html[data-mode="dark"] {
+  --vs-fg: var(--pst-color-text, #e6e6e6);
+  --vs-bg: var(--pst-color-background, #0b0f19);
+  --vs-muted: var(--pst-color-muted, #a0a0ad);
+  --vs-border: var(--pst-color-border, #2b2f3a);
+  --vs-accent: var(--pst-color-primary, #60a5fa);
+  --vs-bg-elev: var(--pst-color-surface, #131826);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+}
+
+/* ---- “Auto” follows OS setting ---- */
+@media (prefers-color-scheme: dark) {
+  html[data-mode="auto"] {
+    --vs-fg: var(--pst-color-text, #e6e6e6);
+    --vs-bg: var(--pst-color-background, #0b0f19);
+    --vs-muted: var(--pst-color-muted, #a0a0ad);
+    --vs-border: var(--pst-color-border, #2b2f3a);
+    --vs-accent: var(--pst-color-primary, #60a5fa);
+    --vs-bg-elev: var(--pst-color-surface, #131826);
+    --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+  }
+}
+
+/* ---- Component styles (aligned to pydata sizing) ---- */
+.pd-version-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 1rem 0;
+  color: var(--vs-fg);
+  font-size: var(--vs-font-size);
+}
+
+.pd-version-label {
+  font-weight: 600;
+  color: var(--vs-fg);
+  margin: 0;
+}
+
+.pd-version-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* custom chevron that inherits currentColor so it adapts to dark */
+.pd-version-select-wrap::after {
+  content: "";
+  position: absolute;
+  right: .6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: .7rem;
+  height: .7rem;
+  pointer-events: none;
+  color: var(--vs-fg);
+  opacity: .8;
+  background-image:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+}
+
+.pd-version-select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: .45rem 2rem .45rem .65rem;
+  border-radius: var(--vs-radius);
+  border: 1px solid var(--vs-border);
+  background-color: var(--vs-bg-elev);
+  color: var(--vs-fg);
+  box-shadow: var(--vs-shadow);
+  line-height: 1.2;
+  min-width: 11ch;
+  max-width: 100%;
+  font: inherit;
+}
+
+/* hover/focus aligned to theme primary */
+.pd-version-select-wrap select:hover {
+  border-color: color-mix(in oklab, var(--vs-accent) 45%, var(--vs-border));
+}
+
+.pd-version-select-wrap select:focus {
+  outline: 3px solid color-mix(in oklab, var(--vs-accent) 25%, transparent);
+  outline-offset: 1px;
+  border-color: var(--vs-accent);
+}
+
+/* ensure options remain readable in the OS popup UI */
+.pd-version-select-wrap select option { color: initial; }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pd-version-select-wrap select,
+  .pd-version-select-wrap::after { transition: none; }
+}
+
+
+</style>
+        </div>
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Quick Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/skycluster-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<div class="pd-version-selector" role="group" aria-label="Version selector">
+  <label class="pd-version-label" for="pd-version-select">Version:</label>
+  <div class="pd-version-select-wrap">
+    <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
+        <option value="providers-auth.html" selected>
+          latest
+        </option>
+    </select>
+  </div>
+</div>
+
+
+
+<style>
+
+/* ---- Base tokens (map to pydata variables, with safe fallbacks) ---- */
+:root {
+  --vs-fg: var(--pst-color-text, #222);
+  --vs-bg: var(--pst-color-background, #fff);
+  --vs-muted: var(--pst-color-muted, #6c757d);
+  --vs-border: var(--pst-color-border, #d0d7de);
+  --vs-accent: var(--pst-color-primary, #3b82f6);
+  /* elevated surface: prefer surface if available, else background */
+  --vs-bg-elev: var(--pst-color-surface, var(--pst-color-background, #fff));
+  --vs-radius: var(--pst-border-radius, .25rem);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.06));
+  --vs-font-size: 0.9rem;
+}
+
+/* ---- Explicit dark mode from pydata ---- */
+html[data-mode="dark"] {
+  --vs-fg: var(--pst-color-text, #e6e6e6);
+  --vs-bg: var(--pst-color-background, #0b0f19);
+  --vs-muted: var(--pst-color-muted, #a0a0ad);
+  --vs-border: var(--pst-color-border, #2b2f3a);
+  --vs-accent: var(--pst-color-primary, #60a5fa);
+  --vs-bg-elev: var(--pst-color-surface, #131826);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+}
+
+/* ---- “Auto” follows OS setting ---- */
+@media (prefers-color-scheme: dark) {
+  html[data-mode="auto"] {
+    --vs-fg: var(--pst-color-text, #e6e6e6);
+    --vs-bg: var(--pst-color-background, #0b0f19);
+    --vs-muted: var(--pst-color-muted, #a0a0ad);
+    --vs-border: var(--pst-color-border, #2b2f3a);
+    --vs-accent: var(--pst-color-primary, #60a5fa);
+    --vs-bg-elev: var(--pst-color-surface, #131826);
+    --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+  }
+}
+
+/* ---- Component styles (aligned to pydata sizing) ---- */
+.pd-version-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 1rem 0;
+  color: var(--vs-fg);
+  font-size: var(--vs-font-size);
+}
+
+.pd-version-label {
+  font-weight: 600;
+  color: var(--vs-fg);
+  margin: 0;
+}
+
+.pd-version-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* custom chevron that inherits currentColor so it adapts to dark */
+.pd-version-select-wrap::after {
+  content: "";
+  position: absolute;
+  right: .6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: .7rem;
+  height: .7rem;
+  pointer-events: none;
+  color: var(--vs-fg);
+  opacity: .8;
+  background-image:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+}
+
+.pd-version-select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: .45rem 2rem .45rem .65rem;
+  border-radius: var(--vs-radius);
+  border: 1px solid var(--vs-border);
+  background-color: var(--vs-bg-elev);
+  color: var(--vs-fg);
+  box-shadow: var(--vs-shadow);
+  line-height: 1.2;
+  min-width: 11ch;
+  max-width: 100%;
+  font: inherit;
+}
+
+/* hover/focus aligned to theme primary */
+.pd-version-select-wrap select:hover {
+  border-color: color-mix(in oklab, var(--vs-accent) 45%, var(--vs-border));
+}
+
+.pd-version-select-wrap select:focus {
+  outline: 3px solid color-mix(in oklab, var(--vs-accent) 25%, transparent);
+  outline-offset: 1px;
+  border-color: var(--vs-accent);
+}
+
+/* ensure options remain readable in the OS popup UI */
+.pd-version-select-wrap select option { color: initial; }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pd-version-select-wrap select,
+  .pd-version-select-wrap::after { transition: none; }
+}
+
+
+</style>
+    </div>
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Quick Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/skycluster-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Providers Authentication</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="providers-authentication">
+<h1>Providers Authentication<a class="headerlink" href="#providers-authentication" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>Providers such as <code class="docutils literal notranslate"><span class="pre">AWS</span></code> require authentication to manage
+external resources. For each provider integrated
+into the SkyCluster Manager, a separate configuration must be created.
+All configurations are stored in the fixed <code class="docutils literal notranslate"><span class="pre">skycluster-system</span></code> namespace.</p>
+<section id="aws-cloud">
+<h2>AWS Cloud<a class="headerlink" href="#aws-cloud" title="Link to this heading">#</a></h2>
+<p>In the AWS Console, navigate to Identity and Access Management (IAM)
+and create a new user. Ensure the user has the following
+permission policy: <code class="docutils literal notranslate"><span class="pre">AmazonEC2FullAceess</span></code>.
+Next, in the Security Credentials section, generate an access key.
+After obtaining the <code class="docutils literal notranslate"><span class="pre">Access</span> <span class="pre">Key</span> <span class="pre">ID</span></code> and <code class="docutils literal notranslate"><span class="pre">Secret</span> <span class="pre">Access</span> <span class="pre">Key</span></code>, export them as
+environmental variables and run the configuration script:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>abcd....xwyz<span class="w"> </span><span class="c1"># replace with your ID</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>abcd....xwyz<span class="w"> </span><span class="c1"># replace with your Key</span>
+</pre></div>
+</div>
+<p>Then execute the command below to configure the AWS provider:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/aws-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong> you can just copy the script below and run it:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>aws-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># Create the content of the credentials in a variable</span>
+<span class="linenos"> 4</span><span class="nv">creds_content</span><span class="o">=</span><span class="s2">&quot;[default]</span>
+<span class="linenos"> 5</span><span class="s2">aws_access_key_id = </span><span class="nv">$AWS_ACCESS_KEY_ID</span>
+<span class="linenos"> 6</span><span class="s2">aws_secret_access_key = </span><span class="nv">$AWS_SECRET_ACCESS_KEY</span><span class="s2">&quot;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1"># Echo the content and pipe it to base64 for encoding</span>
+<span class="linenos"> 9</span><span class="nv">creds_enc</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$creds_content</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">12</span><span class="s">apiVersion: aws.upbound.io/v1beta1</span>
+<span class="linenos">13</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">14</span><span class="s">metadata:</span>
+<span class="linenos">15</span><span class="s">  name: provider-cfg-aws</span>
+<span class="linenos">16</span><span class="s">  labels:</span>
+<span class="linenos">17</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">18</span><span class="s">spec:</span>
+<span class="linenos">19</span><span class="s">  credentials:</span>
+<span class="linenos">20</span><span class="s">    source: Secret</span>
+<span class="linenos">21</span><span class="s">    secretRef:</span>
+<span class="linenos">22</span><span class="s">      name: secret-aws</span>
+<span class="linenos">23</span><span class="s">      namespace: skycluster-system</span>
+<span class="linenos">24</span><span class="s">      key: configs</span>
+<span class="linenos">25</span><span class="s">---</span>
+<span class="linenos">26</span><span class="s">apiVersion: v1</span>
+<span class="linenos">27</span><span class="s">kind: Secret</span>
+<span class="linenos">28</span><span class="s">metadata:</span>
+<span class="linenos">29</span><span class="s">  name: secret-aws</span>
+<span class="linenos">30</span><span class="s">  namespace: skycluster-system</span>
+<span class="linenos">31</span><span class="s">  labels:</span>
+<span class="linenos">32</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">33</span><span class="s">    skycluster.io/provider-platform: aws</span>
+<span class="linenos">34</span><span class="s">    skycluster.io/secret-role: configs</span>
+<span class="linenos">35</span><span class="s">type: Opaque</span>
+<span class="linenos">36</span><span class="s">data:</span>
+<span class="linenos">37</span><span class="s">  configs: $creds_enc</span>
+<span class="linenos">38</span><span class="s">---</span>
+<span class="linenos">39</span><span class="s">apiVersion: v1</span>
+<span class="linenos">40</span><span class="s">kind: Secret</span>
+<span class="linenos">41</span><span class="s">metadata:</span>
+<span class="linenos">42</span><span class="s">  name: credentials-aws</span>
+<span class="linenos">43</span><span class="s">  namespace: skycluster-system</span>
+<span class="linenos">44</span><span class="s">  labels:</span>
+<span class="linenos">45</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">46</span><span class="s">    skycluster.io/provider-platform: aws</span>
+<span class="linenos">47</span><span class="s">    skycluster.io/secret-role: credentials</span>
+<span class="linenos">48</span><span class="s">type: Opaque</span>
+<span class="linenos">49</span><span class="s">stringData:</span>
+<span class="linenos">50</span><span class="s">  aws_access_key_id: $AWS_ACCESS_KEY_ID</span>
+<span class="linenos">51</span><span class="s">  aws_secret_access_key: $AWS_SECRET_ACCESS_KEY</span>
+<span class="linenos">52</span><span class="s">---</span>
+<span class="linenos">53</span><span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="gcp-cloud">
+<h2>GCP Cloud<a class="headerlink" href="#gcp-cloud" title="Link to this heading">#</a></h2>
+<p>Create a new project in Google Cloud and enable the following APIs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Cloud</span> <span class="pre">Billing</span> <span class="pre">API</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Kubernetes</span> <span class="pre">Engine</span> <span class="pre">API</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Compute</span> <span class="pre">Engine</span> <span class="pre">API</span></code></p></li>
+</ul>
+<p>Make sure to add a service account and generate a service account key file in JSON format and download the file.
+Then:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use absolute path to the service account key file</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GCP_SVC_ACC_PATH</span><span class="o">=</span>/home/ubuntu/my-gcp-svc-acc.json
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_ID</span><span class="o">=</span>my-gcp-project-id
+</pre></div>
+</div>
+<p>Then execute the command below to configure the GCP provider:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/gcp-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>gcp-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nv">BASE64_ENCODED_GCP_SVC_ACC</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GCP_SVC_ACC_PATH</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BASE64_ENCODED_GCP_SVC_ACC</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Failed to encode GCP service account file.&quot;</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 8</span><span class="k">fi</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="c1"># Apply the provider configuration</span>
+<span class="linenos">11</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">12</span><span class="s">apiVersion: v1</span>
+<span class="linenos">13</span><span class="s">kind: Secret</span>
+<span class="linenos">14</span><span class="s">metadata:</span>
+<span class="linenos">15</span><span class="s">  name: secret-gcp</span>
+<span class="linenos">16</span><span class="s">  namespace: skycluster-system</span>
+<span class="linenos">17</span><span class="s">type: Opaque</span>
+<span class="linenos">18</span><span class="s">data:</span>
+<span class="linenos">19</span><span class="s">  configs: ${BASE64_ENCODED_GCP_SVC_ACC}</span>
+<span class="linenos">20</span><span class="s">---</span>
+<span class="linenos">21</span><span class="s">apiVersion: gcp.upbound.io/v1beta1</span>
+<span class="linenos">22</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">23</span><span class="s">metadata:</span>
+<span class="linenos">24</span><span class="s">  name: provider-cfg-gcp</span>
+<span class="linenos">25</span><span class="s">  labels:</span>
+<span class="linenos">26</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">27</span><span class="s">spec:</span>
+<span class="linenos">28</span><span class="s">  projectID: ${PROJECT_ID}</span>
+<span class="linenos">29</span><span class="s">  credentials:</span>
+<span class="linenos">30</span><span class="s">    source: Secret</span>
+<span class="linenos">31</span><span class="s">    secretRef:</span>
+<span class="linenos">32</span><span class="s">      namespace: skycluster-system</span>
+<span class="linenos">33</span><span class="s">      name: secret-gcp</span>
+<span class="linenos">34</span><span class="s">      key: configs</span>
+<span class="linenos">35</span><span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="azure-cloud">
+<h2>Azure Cloud<a class="headerlink" href="#azure-cloud" title="Link to this heading">#</a></h2>
+<p>Create a subscription and note your Subscription ID.
+Next you will need to create a service principal and authentication file.
+The easiest way to do this is through the <code class="docutils literal notranslate"><span class="pre">CloudShell</span></code> in the Azure portal.
+<strong>Open the Azure portal and then run the following command in the CloudShell</strong>
+to create the service principal:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">SUBS_ID</span><span class="o">=</span>&lt;subsc-id&gt;
+az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>create-for-rbac<span class="w"> </span>--name<span class="w"> </span>skycluster-setup<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span>Owner<span class="w"> </span>--sdk-auth<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scopes<span class="w"> </span>/subscriptions/<span class="si">${</span><span class="nv">SUBS_ID</span><span class="si">}</span><span class="w"> </span>&gt;<span class="w"> </span>azure_config.json
+</pre></div>
+</div>
+<p>Download the <code class="docutils literal notranslate"><span class="pre">azure_config.json</span></code> file and export the path as an environmental variable:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_CONFIG_PATH</span><span class="o">=</span>/home/ubuntu/azure_config.json
+</pre></div>
+</div>
+<p>Then execute the command below to configure the Azure provider:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/azure-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>azure-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nv">cont_enc</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$AZURE_CONFIG_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos"> 6</span><span class="s">apiVersion: azure.upbound.io/v1beta1</span>
+<span class="linenos"> 7</span><span class="s">metadata:</span>
+<span class="linenos"> 8</span><span class="s">  name: provider-cfg-azure</span>
+<span class="linenos"> 9</span><span class="s">  labels:</span>
+<span class="linenos">10</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">11</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">12</span><span class="s">spec:</span>
+<span class="linenos">13</span><span class="s">  credentials:</span>
+<span class="linenos">14</span><span class="s">    source: Secret</span>
+<span class="linenos">15</span><span class="s">    secretRef:</span>
+<span class="linenos">16</span><span class="s">      namespace: skycluster-system</span>
+<span class="linenos">17</span><span class="s">      name: secret-azure</span>
+<span class="linenos">18</span><span class="s">      key: configs</span>
+<span class="linenos">19</span><span class="s">---</span>
+<span class="linenos">20</span><span class="s">apiVersion: v1</span>
+<span class="linenos">21</span><span class="s">kind: Secret</span>
+<span class="linenos">22</span><span class="s">metadata:</span>
+<span class="linenos">23</span><span class="s">  name: secret-azure</span>
+<span class="linenos">24</span><span class="s">  namespace: skycluster-system</span>
+<span class="linenos">25</span><span class="s">type: Opaque</span>
+<span class="linenos">26</span><span class="s">data:</span>
+<span class="linenos">27</span><span class="s">  configs: $cont_enc</span>
+<span class="linenos">28</span><span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="openstack">
+<h2>Openstack<a class="headerlink" href="#openstack" title="Link to this heading">#</a></h2>
+<p>If you have on-premises infrastructure managed by Openstack you can follow the steps below:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AUTH_URL</span><span class="o">=</span><span class="s2">&quot;url&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USERNAME</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&quot;pass&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TENANT_NAME</span><span class="o">=</span><span class="s2">&quot;project-name&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;region&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USER_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+</pre></div>
+</div>
+<p>Then execute the command below to configure your Openstack provider:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/openstack-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p><strong>Alternatively</strong>, you can run the following script:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>openstack-setup.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nv">REGION_LOWER</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="k">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos"> 6</span><span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
+<span class="linenos"> 7</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos"> 8</span><span class="s">metadata:</span>
+<span class="linenos"> 9</span><span class="s">  name: provider-cfg-os-${REGION_LOWER}</span>
+<span class="linenos">10</span><span class="s">  labels:</span>
+<span class="linenos">11</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">12</span><span class="s">    skycluster.io/provider-platform: openstack</span>
+<span class="linenos">13</span><span class="s">    skycluster.io/provider-region: ${REGION_LOWER}</span>
+<span class="linenos">14</span><span class="s">spec:</span>
+<span class="linenos">15</span><span class="s">  credentials:</span>
+<span class="linenos">16</span><span class="s">    source: Secret</span>
+<span class="linenos">17</span><span class="s">    secretRef:</span>
+<span class="linenos">18</span><span class="s">      name: secret-os-${REGION_LOWER}</span>
+<span class="linenos">19</span><span class="s">      namespace: skycluster-system</span>
+<span class="linenos">20</span><span class="s">      key: configs</span>
+<span class="linenos">21</span><span class="s">---</span>
+<span class="linenos">22</span><span class="s">apiVersion: v1</span>
+<span class="linenos">23</span><span class="s">kind: Secret</span>
+<span class="linenos">24</span><span class="s">metadata:</span>
+<span class="linenos">25</span><span class="s">  name: secret-os-${REGION_LOWER}</span>
+<span class="linenos">26</span><span class="s">  namespace: skycluster-system</span>
+<span class="linenos">27</span><span class="s">type: Opaque</span>
+<span class="linenos">28</span><span class="s">stringData:</span>
+<span class="linenos">29</span><span class="s">  configs: |</span>
+<span class="linenos">30</span><span class="s">    {</span>
+<span class="linenos">31</span><span class="s">      &quot;auth_url&quot;: &quot;$AUTH_URL&quot;,</span>
+<span class="linenos">32</span><span class="s">      &quot;region&quot;: &quot;$REGION&quot;,</span>
+<span class="linenos">33</span><span class="s">      &quot;user_name&quot;: &quot;$USERNAME&quot;,</span>
+<span class="linenos">34</span><span class="s">      &quot;password&quot;: &quot;$PASSWORD&quot;,</span>
+<span class="linenos">35</span><span class="s">      &quot;tenant_name&quot;: &quot;$TENANT_NAME&quot;,</span>
+<span class="linenos">36</span><span class="s">      &quot;project_domain_name&quot;: &quot;$USER_DOMAIN_NAME&quot;,</span>
+<span class="linenos">37</span><span class="s">      &quot;user_domain_name&quot;: &quot;$USER_DOMAIN_NAME&quot;,</span>
+<span class="linenos">38</span><span class="s">      &quot;insecure&quot;: &quot;false&quot;</span>
+<span class="linenos">39</span><span class="s">    }</span>
+<span class="linenos">40</span><span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<p>Repeat the steps for each additional openstack provider you want to configure.</p>
+<section id="savi-testbed-openstack-example">
+<h3>SAVI Testbed (OpenStack Example)<a class="headerlink" href="#savi-testbed-openstack-example" title="Link to this heading">#</a></h3>
+<p>We offer computing resources for academic research through the SAVI Testbed,
+a distributed computing infrastructure built on the OpenStack framework.
+To request access, please contact us. Once granted access,
+use your <code class="docutils literal notranslate"><span class="pre">USERNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">PASSWORD</span></code> and
+follow the steps below to configure the SAVI Testbed provider.
+You can choose from the following available regions: <code class="docutils literal notranslate"><span class="pre">SCINET</span></code>, <code class="docutils literal notranslate"><span class="pre">VAUGHAN</span></code>, <code class="docutils literal notranslate"><span class="pre">BAHEN</span></code>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AUTH_URL</span><span class="o">=</span><span class="s2">&quot;http://iamv3.savitestbed.ca:5000/v3&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USERNAME</span><span class="o">=</span><span class="s2">&quot;USERNAME&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&quot;PASSWORD&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TENANT_NAME</span><span class="o">=</span><span class="s2">&quot;skycluster&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;SCINET|VAUGHAN|BAHEN&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USER_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_DOMAIN_NAME</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span>
+</pre></div>
+</div>
+<p>Then execute the command below to configure the provider:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/openstack-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p>Repeat the steps for each additional regions you want to configure.</p>
+</section>
+</section>
+<section id="on-premises-edge-clusters">
+<h2>On-premises Edge Clusters<a class="headerlink" href="#on-premises-edge-clusters" title="Link to this heading">#</a></h2>
+<p>SkyCluster supports on-premises edge clusters, where a group of edge devices can be registered as an edge provider to run workloads. This enables orchestration of workloads across the devices.</p>
+<p>A gateway device with a static IP address and specific internet-accessible ports is required. The gateway provides access to the edge devices and their internal IP addresses. SkyCluster uses SSH connections to configure both the gateway and worker nodes, installing K3S with the gateway serving as the controller and the edge devices functioning as worker nodes. This setup allows the edge cluster to operate independently while collaborating with other clusters to share application workloads.</p>
+<p>Before setting up an edge cluster, ensure the following requirements are met:</p>
+<ul class="simple">
+<li><p>The gateway device has a static IP address.</p></li>
+<li><p>Port 443 on the gateway is accessible from the internet.</p></li>
+<li><p>SSH access is enabled on the gateway and all worker nodes.</p></li>
+<li><p>A private key is configured for SSH access on the gateway and all edge devices.</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GW_URL</span><span class="o">=</span><span class="s2">&quot;http://gw.savitestbed.ca&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PRIVATE_KEY_PATH</span><span class="o">=</span>/path/to/private/key
+<span class="nb">export</span><span class="w"> </span><span class="nv">USERNAME</span><span class="o">=</span><span class="s2">&quot;USERNAME&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;region-name&quot;</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">PRIVATE_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$PRIVATE_KEY_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+</pre></div>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/on-premises-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aws-cloud">AWS Cloud</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gcp-cloud">GCP Cloud</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#azure-cloud">Azure Cloud</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openstack">Openstack</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#savi-testbed-openstack-example">SAVI Testbed (OpenStack Example)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-premises-edge-clusters">On-premises Edge Clusters</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle:not(.open) > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+  </body>
+</html>

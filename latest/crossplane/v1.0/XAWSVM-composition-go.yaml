@@ -1,0 +1,115 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata: 
+  name: xawsvm-composition
+spec:
+  compositeTypeRef: 
+    apiVersion: xrds.skycluster.io/v1alpha1
+    kind: XAWSVM
+  writeConnectionSecretsToNamespace: skycluster-manager
+  mode: Pipeline
+  pipeline:
+    # - step: pull-extra-resources
+    #   functionRef:
+    #     name: function-extra-resources
+    #   input:
+    #     apiVersion: extra-resources.fn.crossplane.io/v1beta1
+    #     kind: Input
+    #     spec:
+    #       extraResources:
+    #         - kind: KeyPair
+    #           into: KeyPair
+    #           apiVersion: ec2.aws.upbound.io/v1beta1
+    #           type: Selector # or Reference
+    #           selector:
+    #             maxMatch: 1
+    #             minMatch: 1
+    #             matchLabels:
+    #               - key: skycluster.io/managed-by
+    #                 type: Value # it could be FromCompositeFieldPath
+    #                 value: skycluster
+    #               - key: skycluster.io/app-name
+    #                 type: FromCompositeFieldPath
+    #                 valueFromFieldPath: metadata.labels["skycluster.io/app-name"]
+    #               - key: skycluster.io/environment
+    #                 type: FromCompositeFieldPath
+    #                 valueFromFieldPath: metadata.labels["skycluster.io/environment"]
+    #               - key: skycluster.io/provider-name
+    #                 type: FromCompositeFieldPath
+    #                 valueFromFieldPath: metadata.labels["skycluster.io/provider-name"]
+    #               - key: skycluster.io/provider-region
+    #                 type: FromCompositeFieldPath
+    #                 valueFromFieldPath: metadata.labels["skycluster.io/provider-region"]
+    #             {{- $ExtraResources := (index .context "apiextensions.crossplane.io/extra-resources").KeyPair }}
+    #             {{- $KeyPair := index $ExtraResources 0 }}
+    - step: create-an-instance
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- $Observed := .observed.composite.resource }} 
+            {{- $ProviderName := $Observed.spec.provider.name }}
+            {{- $ProviderRegion := $Observed.spec.provider.region }}
+            {{- $ProviderZone := $Observed.spec.provider.zone }}
+            {{- $ProviderSpec := $Observed.spec.forProvider }}
+            
+            apiVersion: ec2.aws.upbound.io/v1beta1
+            kind: Instance
+            metadata:
+              labels:
+                {{ range $k, $v := $Observed.metadata.labels -}}
+                  {{ $k }}: {{ printf "%q" $v }}
+                {{ end }}
+              annotations: 
+                {{ setResourceNameAnnotation "instance" }}
+            spec:
+              forProvider:
+                instanceType: {{ $ProviderSpec.flavorName }}
+                ami: {{ $ProviderSpec.imageName }}
+                keyName: {{ $KeyPair.status.atProvider.id }}
+                region: {{ $ProviderRegion }}
+                subnetIdSelector:
+                  matchLabels:
+                    skycluster.io/managed-by: skycluster
+                    skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                    skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                    skycluster.io/provider-name: {{ $ProviderName }}
+                    skycluster.io/provider-region: {{ $ProviderRegion }}
+                    skycluster.io/provider-zone: {{ $ProviderZone }}
+                    skycluster.io/public-subnet: "false"
+                {{- if not (empty $ProviderSpec.cloudInit) }}
+                userData: |
+                  {{- nindent 6 $ProviderSpec.cloudInit }}
+                {{- end }}
+                vpcSecurityGroupIdSelector:
+                  matchLabels:
+                    skycluster.io/managed-by: skycluster
+                    skycluster.io/app-name: {{ index $Observed.metadata.labels "skycluster.io/app-name" }}
+                    skycluster.io/environment: {{ index $Observed.metadata.labels "skycluster.io/environment" }}
+                    skycluster.io/provider-name: {{ $ProviderName }}
+                    skycluster.io/provider-region: {{ $ProviderRegion }}
+                    skycluster.io/provider-zone: {{ $ProviderZone }}
+              providerConfigRef:
+                name: provider-cfg-aws
+    - step: patch-and-transform
+      functionRef:
+        name: function-patch-and-transform
+      input:
+        apiVersion: pt.fn.crossplane.io/v1beta1
+        kind: Resources
+        resources:
+          - name: instance
+            patches:
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.privateIp"
+                toFieldPath: "status.atProvider.network.privateIpAddress"
+              - type: ToCompositeFieldPath
+                fromFieldPath: "status.atProvider.publicIp"
+                toFieldPath: "status.atProvider.network.publicIpAddress"
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready
