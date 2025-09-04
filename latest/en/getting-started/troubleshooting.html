@@ -52,7 +52,6 @@
     <link rel="icon" href="../../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="Multi Provider Setup" href="../examples/multi-provider.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.0" />
@@ -150,19 +149,6 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
-    Getting Started
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
-    Examples
-  </a>
-</li>
-
   </ul>
 </nav></div>
       
@@ -513,19 +499,6 @@ html[data-mode="dark"] {
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
-    Getting Started
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
-    Examples
-  </a>
-</li>
-
   </ul>
 </nav></div>
           
@@ -569,39 +542,7 @@ html[data-mode="dark"] {
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="installation.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-auth.html">Providers Authentication</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-profile.html">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-dashboard.html">SkyCluster Dashboard</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-cli.html">SkyCluster CLI</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</div>
+  <div class="bd-toc-item navbar-nav"></div>
 </nav></div>
     </div>
   
@@ -640,9 +581,6 @@ html[data-mode="dark"] {
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Getting Started</a></li>
-    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Troubleshooting</span></li>
   </ul>
 </nav>
@@ -706,7 +644,7 @@ reachable across all providers, SkyCluster utilizes Submariner to creates tunnel
 </pre></div>
 </div>
 <p>If any of <code class="docutils literal notranslate"><span class="pre">SYNCED</span></code> or <code class="docutils literal notranslate"><span class="pre">READY</span></code> status is not <code class="docutils literal notranslate"><span class="pre">True</span></code> for overlay setups, there is an issue with the SkyCluster overlay network configuration.</p>
-<p>SkyCluster uses the Tailscale client underlay to connect to the overlay, as described in <span class="xref std std-doc">en/getting-started/skycluster-configs.html</span>. Ensure that the routing and overlay setup status of the controller is up to date by running:</p>
+<p>SkyCluster uses the Tailscale client underlay to connect to the overlay, as described in <a class="reference internal" href="skycluster-configs.html"><span class="doc">SkyCluster Configuration</span></a>. Ensure that the routing and overlay setup status of the controller is up to date by running:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># connect/reconnect to the overlay</span>
 curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/tailscale-connect.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 
@@ -730,15 +668,6 @@ sudo<span class="w"> </span>tailscale<span class="w"> </span>status
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../examples/multi-provider.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Multi Provider Setup</p>
-      </div>
-    </a>
 </div>
                 </footer>
               
