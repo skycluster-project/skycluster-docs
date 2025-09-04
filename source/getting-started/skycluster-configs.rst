@@ -115,4 +115,4 @@ To maintain the connection to the overlay network, you can run the above script 
 .. note::
 
   You are now ready to initialize the providers and deploy your workload. To get started, see the examples in
-  :doc:`/en/examples/index`.
+  :doc:`/examples/index`.

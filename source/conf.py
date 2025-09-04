@@ -1,21 +1,21 @@
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+# https://www.sphinx-doc.org/master/usage/configuration.html
 
 # -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+# https://www.sphinx-doc.org/master/usage/configuration.html#project-information
 
 project = 'SkyCluster'
 copyright = '2024, Ehsan Etesami'
 author = 'Ehsan Etesami'
 
 language = 'en'
-version = '0.1.0'
-release = '0.1.0'
+version = 'latest'
+release = 'latest'
 
 # -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+# https://www.sphinx-doc.org/master/usage/configuration.html#general-configuration
 
 extensions = [
     'sphinx.ext.githubpages',
@@ -33,24 +33,24 @@ extensions = [
 sphinx_tabs_disable_tab_closing = True
 
 # the current base URL of your documentation.
-html_baseurl = 'https://skycluster.io'
+html_baseurl = 'https://skycluster.io/'
 # defaul is {lang}{version}{link}, where {lang} and {version} get set by language and version
 sitemap_url_scheme = "{version}{lang}{link}"
-sitemap_excludes = ['search.html', 'genindex.html']
+sitemap_excludes = ['index.html', 'search.html', 'genindex.html']
 html_title = 'SkyCluster Docs'
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-html_favicon = 'en/_static/imgs/skycluster-logo1-enhanced-favicon.png'
-html_logo = 'en/_static/imgs/skycluster-logo1-enhanced-icon-small.png'
+html_favicon = '_static/imgs/skycluster-logo1-enhanced-favicon.png'
+html_logo = '_static/imgs/skycluster-logo1-enhanced-icon-small.png'
 
 # -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+# https://www.sphinx-doc.org/master/usage/configuration.html#options-for-html-output
 
 # html_theme = 'alabaster'
 html_theme = 'pydata_sphinx_theme'
-html_static_path = ['en/_static']
+html_static_path = ['_static']
 html_extra_path = ['CNAME', 'skycluster']
 
 # Add this to include Table of Contents in each page
@@ -66,8 +66,8 @@ html_theme_options = {
     "show_nav_level": 4,
     "logo": {
         "text": "SkyCluster",
-        "image_light": "en/_static/imgs/skycluster-logo1-enhanced-icon-small.png",
-        "image_dark": "en/_static/imgs/skycluster-logo1-enhanced-dark-icon-small.png",
+        "image_light": "_static/imgs/skycluster-logo1-enhanced-icon-small.png",
+        "image_dark": "_static/imgs/skycluster-logo1-enhanced-dark-icon-small.png",
     },
     "icon_links_label": "Quick Links",
     "icon_links": [

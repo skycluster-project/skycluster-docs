@@ -51,7 +51,7 @@ Create a Local Cluster
 ========================
  
 A local cluster is required to run the ``skycluster-operator`` and act as the point of 
-contact for submitting your application. You can create a local management Kubernetes cluster using ``kind`` with the following command for testing purposes. If your machine has a public IP address you can bound the cluster to it by using the ``--advertise-address`` flag. If you plan to use the cluster for production purposes, you should consider using a more robust solution such as `kubeadm <https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/>`_ or `Rancher <https://rancher.com/docs/rancher/v2.5/en/quick-start/>`_.
+contact for submitting your application. You can create a local management Kubernetes cluster using ``kind`` with the following command for testing purposes. If your machine has a public IP address you can bound the cluster to it by using the ``--advertise-address`` flag. If you plan to use the cluster for production purposes, you should consider using a more robust solution such as `kubeadm <https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/>`_ or `Rancher <https://rancher.com/docs/rancher/v2.5/quick-start/>`_.
 
 .. code-block:: sh
 

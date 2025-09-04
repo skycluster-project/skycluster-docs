@@ -4,12 +4,12 @@ Setup Provider Setup
 .. toctree::
   :hidden:
 
-Make sure you have followed steps in :doc:`/en/getting-started/index` and ensure all  
+Make sure you have followed steps in :doc:`/getting-started/index` and ensure all  
 prerequisites installed and configured, including:
 
-- :doc:`/en/getting-started/providers-auth`
-- :doc:`/en/getting-started/providers-profile`
-- :doc:`/en/getting-started/skycluster-configs`
+- :doc:`/getting-started/providers-auth`
+- :doc:`/getting-started/providers-profile`
+- :doc:`/getting-started/skycluster-configs`
 
 
 Initializing Provider
@@ -99,7 +99,7 @@ Once the ``XProvider`` resource becomes ready, the region ``us-east-1`` is ready
 
 .. note::
 
-  Check the status of the ``XProvider`` instance by running the following command or through :doc:`/en/getting-started/skycluster-dashboard`.
+  Check the status of the ``XProvider`` instance by running the following command or through :doc:`/getting-started/skycluster-dashboard`.
 
   .. code-block:: sh
 
@@ -182,7 +182,7 @@ Now let's create a virtual instance using the provider instance we just created:
 
 .. note::
 
-  Check the status of the ``XInstance`` resource by running the following command or through :doc:`/en/getting-started/skycluster-dashboard`.
+  Check the status of the ``XInstance`` resource by running the following command or through :doc:`/getting-started/skycluster-dashboard`.
 
   .. code-block:: sh
 
@@ -203,7 +203,7 @@ If you enable a public IP for your ``XInstance``, you can access it directly fro
 using the instance’s ``External IP``.  
 Otherwise, the instance is accessible only via its private IP from the machine running the SkyCluster system.
 
-You need to use the key described in the SkyCluster Secret configuration section of :doc:`/en/getting-started/installation`.
+You need to use the key described in the SkyCluster Secret configuration section of :doc:`/getting-started/installation`.
 
 .. code-block:: sh
 
@@ -291,7 +291,7 @@ are using ``AWS`` as the provider in this example, this will be an EKS cluster.
 
 .. note::
 
-  Check the status of the ``XKube`` instance by running the following command or through :doc:`/en/getting-started/skycluster-dashboard`.
+  Check the status of the ``XKube`` instance by running the following command or through :doc:`/getting-started/skycluster-dashboard`.
 
   .. code-block:: sh
 

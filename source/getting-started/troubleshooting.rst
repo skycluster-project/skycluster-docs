@@ -65,7 +65,7 @@ Then check the status of overlay setups, which includes the broker and headscale
 
 If any of ``SYNCED`` or ``READY`` status is not ``True`` for overlay setups, there is an issue with the SkyCluster overlay network configuration.
 
-SkyCluster uses the Tailscale client underlay to connect to the overlay, as described in :doc:`/en/getting-started/skycluster-configs`. Ensure that the routing and overlay setup status of the controller is up to date by running:
+SkyCluster uses the Tailscale client underlay to connect to the overlay, as described in :doc:`/getting-started/skycluster-configs`. Ensure that the routing and overlay setup status of the controller is up to date by running:
 
 .. code-block:: sh
 

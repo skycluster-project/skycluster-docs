@@ -24,25 +24,25 @@ __pycache__/
 venv/
 .env/
 
-_build/html/dev/
 
 # This files are generated for local development
-# when running any of 
-# server="sphinx-autobuild source _build/html --host 0.0.0.0"
-# build-all="sphinx-build source _build/html -E"
-# but are not needed for the productino environment
+_build/html/dev/
 _build/html/_images/
 _build/html/_static/
 _build/html/charts/
 _build/html/configs/
 _build/html/crossplane/
 _build/html/datasets/
-_build/html/en/
 _build/html/genindex.html
 _build/html/search.html
 _build/html/searchindex.js
 _build/html/sitemap.xml
+_build/html/.buildinfo
+_build/html/.buildinfo.bak
+_build/html/examples/
+_build/html/getting-started/
+_build/html/latest
+_build/html/_sources
 
-
-# only on dev branch, must not be merged with latest or main branch
-_build
+# # only on dev branch, must not be merged with latest or main branch
+# _build
