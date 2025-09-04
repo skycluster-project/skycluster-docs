@@ -10,6 +10,17 @@ jobs:
       contents: write
     steps:
     - uses: actions/checkout@v3
+
+    - name: Pull prebuilt Sphinx Docker image
+      run: docker pull etesami/sphinx-thin:v1.0.2
+
+    - name: Build Sphinx docs with multiversion
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/skycluster \
+        -e GIT_CONFIG_GLOBAL=/tmp/gitconfig \
+        etesami/sphinx-thin:v1.0.2 \
+        /skycluster/source /skycluster/_build/html  
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v4
       if: github.ref == 'refs/heads/latest'
