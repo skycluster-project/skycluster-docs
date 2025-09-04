@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SkyCluster Configuration &#8212; SkyCluster Docs</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=bc219c3d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=c6e86fd7"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/skycluster-configs';</script>
+    <link rel="canonical" href="https://skycluster.io/getting-started/skycluster-configs.html" />
+    <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="latest" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6TSDY1BPK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-L6TSDY1BPK');
+    </script>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/skycluster-logo1-enhanced-icon-small.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/skycluster-logo1-enhanced-dark-icon-small.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">SkyCluster</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<div class="pd-version-selector" role="group" aria-label="Version selector">
+  <label class="pd-version-label" for="pd-version-select">Version:</label>
+  <div class="pd-version-select-wrap">
+    <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
+        <option value="skycluster-configs.html" selected>
+          latest
+        </option>
+    </select>
+  </div>
+</div>
+
+
+
+<style>
+
+/* ---- Base tokens (map to pydata variables, with safe fallbacks) ---- */
+:root {
+  --vs-fg: var(--pst-color-text, #222);
+  --vs-bg: var(--pst-color-background, #fff);
+  --vs-muted: var(--pst-color-muted, #6c757d);
+  --vs-border: var(--pst-color-border, #d0d7de);
+  --vs-accent: var(--pst-color-primary, #3b82f6);
+  /* elevated surface: prefer surface if available, else background */
+  --vs-bg-elev: var(--pst-color-surface, var(--pst-color-background, #fff));
+  --vs-radius: var(--pst-border-radius, .25rem);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.06));
+  --vs-font-size: 0.9rem;
+}
+
+/* ---- Explicit dark mode from pydata ---- */
+html[data-mode="dark"] {
+  --vs-fg: var(--pst-color-text, #e6e6e6);
+  --vs-bg: var(--pst-color-background, #0b0f19);
+  --vs-muted: var(--pst-color-muted, #a0a0ad);
+  --vs-border: var(--pst-color-border, #2b2f3a);
+  --vs-accent: var(--pst-color-primary, #60a5fa);
+  --vs-bg-elev: var(--pst-color-surface, #131826);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+}
+
+/* ---- “Auto” follows OS setting ---- */
+@media (prefers-color-scheme: dark) {
+  html[data-mode="auto"] {
+    --vs-fg: var(--pst-color-text, #e6e6e6);
+    --vs-bg: var(--pst-color-background, #0b0f19);
+    --vs-muted: var(--pst-color-muted, #a0a0ad);
+    --vs-border: var(--pst-color-border, #2b2f3a);
+    --vs-accent: var(--pst-color-primary, #60a5fa);
+    --vs-bg-elev: var(--pst-color-surface, #131826);
+    --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+  }
+}
+
+/* ---- Component styles (aligned to pydata sizing) ---- */
+.pd-version-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 1rem 0;
+  color: var(--vs-fg);
+  font-size: var(--vs-font-size);
+}
+
+.pd-version-label {
+  font-weight: 600;
+  color: var(--vs-fg);
+  margin: 0;
+}
+
+.pd-version-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* custom chevron that inherits currentColor so it adapts to dark */
+.pd-version-select-wrap::after {
+  content: "";
+  position: absolute;
+  right: .6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: .7rem;
+  height: .7rem;
+  pointer-events: none;
+  color: var(--vs-fg);
+  opacity: .8;
+  background-image:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+}
+
+.pd-version-select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: .45rem 2rem .45rem .65rem;
+  border-radius: var(--vs-radius);
+  border: 1px solid var(--vs-border);
+  background-color: var(--vs-bg-elev);
+  color: var(--vs-fg);
+  box-shadow: var(--vs-shadow);
+  line-height: 1.2;
+  min-width: 11ch;
+  max-width: 100%;
+  font: inherit;
+}
+
+/* hover/focus aligned to theme primary */
+.pd-version-select-wrap select:hover {
+  border-color: color-mix(in oklab, var(--vs-accent) 45%, var(--vs-border));
+}
+
+.pd-version-select-wrap select:focus {
+  outline: 3px solid color-mix(in oklab, var(--vs-accent) 25%, transparent);
+  outline-offset: 1px;
+  border-color: var(--vs-accent);
+}
+
+/* ensure options remain readable in the OS popup UI */
+.pd-version-select-wrap select option { color: initial; }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pd-version-select-wrap select,
+  .pd-version-select-wrap::after { transition: none; }
+}
+
+
+</style>
+        </div>
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Quick Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/skycluster-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<div class="pd-version-selector" role="group" aria-label="Version selector">
+  <label class="pd-version-label" for="pd-version-select">Version:</label>
+  <div class="pd-version-select-wrap">
+    <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
+        <option value="skycluster-configs.html" selected>
+          latest
+        </option>
+    </select>
+  </div>
+</div>
+
+
+
+<style>
+
+/* ---- Base tokens (map to pydata variables, with safe fallbacks) ---- */
+:root {
+  --vs-fg: var(--pst-color-text, #222);
+  --vs-bg: var(--pst-color-background, #fff);
+  --vs-muted: var(--pst-color-muted, #6c757d);
+  --vs-border: var(--pst-color-border, #d0d7de);
+  --vs-accent: var(--pst-color-primary, #3b82f6);
+  /* elevated surface: prefer surface if available, else background */
+  --vs-bg-elev: var(--pst-color-surface, var(--pst-color-background, #fff));
+  --vs-radius: var(--pst-border-radius, .25rem);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.06));
+  --vs-font-size: 0.9rem;
+}
+
+/* ---- Explicit dark mode from pydata ---- */
+html[data-mode="dark"] {
+  --vs-fg: var(--pst-color-text, #e6e6e6);
+  --vs-bg: var(--pst-color-background, #0b0f19);
+  --vs-muted: var(--pst-color-muted, #a0a0ad);
+  --vs-border: var(--pst-color-border, #2b2f3a);
+  --vs-accent: var(--pst-color-primary, #60a5fa);
+  --vs-bg-elev: var(--pst-color-surface, #131826);
+  --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+}
+
+/* ---- “Auto” follows OS setting ---- */
+@media (prefers-color-scheme: dark) {
+  html[data-mode="auto"] {
+    --vs-fg: var(--pst-color-text, #e6e6e6);
+    --vs-bg: var(--pst-color-background, #0b0f19);
+    --vs-muted: var(--pst-color-muted, #a0a0ad);
+    --vs-border: var(--pst-color-border, #2b2f3a);
+    --vs-accent: var(--pst-color-primary, #60a5fa);
+    --vs-bg-elev: var(--pst-color-surface, #131826);
+    --vs-shadow: var(--pst-box-shadow, 0 1px 2px rgba(0,0,0,.5));
+  }
+}
+
+/* ---- Component styles (aligned to pydata sizing) ---- */
+.pd-version-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 1rem 0;
+  color: var(--vs-fg);
+  font-size: var(--vs-font-size);
+}
+
+.pd-version-label {
+  font-weight: 600;
+  color: var(--vs-fg);
+  margin: 0;
+}
+
+.pd-version-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* custom chevron that inherits currentColor so it adapts to dark */
+.pd-version-select-wrap::after {
+  content: "";
+  position: absolute;
+  right: .6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: .7rem;
+  height: .7rem;
+  pointer-events: none;
+  color: var(--vs-fg);
+  opacity: .8;
+  background-image:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+}
+
+.pd-version-select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: .45rem 2rem .45rem .65rem;
+  border-radius: var(--vs-radius);
+  border: 1px solid var(--vs-border);
+  background-color: var(--vs-bg-elev);
+  color: var(--vs-fg);
+  box-shadow: var(--vs-shadow);
+  line-height: 1.2;
+  min-width: 11ch;
+  max-width: 100%;
+  font: inherit;
+}
+
+/* hover/focus aligned to theme primary */
+.pd-version-select-wrap select:hover {
+  border-color: color-mix(in oklab, var(--vs-accent) 45%, var(--vs-border));
+}
+
+.pd-version-select-wrap select:focus {
+  outline: 3px solid color-mix(in oklab, var(--vs-accent) 25%, transparent);
+  outline-offset: 1px;
+  border-color: var(--vs-accent);
+}
+
+/* ensure options remain readable in the OS popup UI */
+.pd-version-select-wrap select option { color: initial; }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pd-version-select-wrap select,
+  .pd-version-select-wrap::after { transition: none; }
+}
+
+
+</style>
+    </div>
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Quick Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/skycluster-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">SkyCluster Configuration</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="skycluster-configuration">
+<h1>SkyCluster Configuration<a class="headerlink" href="#skycluster-configuration" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<section id="skycluster-setup">
+<h2>SkyCluster Setup<a class="headerlink" href="#skycluster-setup" title="Link to this heading">#</a></h2>
+<p>Create an object of type <code class="docutils literal notranslate"><span class="pre">XSetup</span></code> to configure the SkyCluster operator. This object is used to configure the SkyCluster operator and its components, including the provider configs objects for <code class="docutils literal notranslate"><span class="pre">provider-helm</span></code> and <code class="docutils literal notranslate"><span class="pre">provider-kubernetes</span></code> operator. Make sure the labels are set correctly to ensure the operator can manage the resources.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XSetup</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mycluster</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># The public IP of the api server running SkyCluster controller</span>
+<span class="w">  </span><span class="nt">apiServer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A.B.C.D:6443</span>
+<span class="w">  </span><span class="c1"># If set to true, the SkyCluster operator will deploy submariner</span>
+<span class="w">  </span><span class="c1"># to enable cross-cluster communication</span>
+<span class="w">  </span><span class="nt">submariner</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+<p>Check the status of the SkyCluster operator:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xsetup.skycluster.io<span class="w"> </span>mycluster
+</pre></div>
+</div>
+<p>Once ready, you can follow the examples in the SkyCluster documentation to deploy applications.</p>
+</section>
+<hr class="docutils" />
+<section id="join-skycluster-overlay">
+<h2>Join SkyCluster Overlay<a class="headerlink" href="#join-skycluster-overlay" title="Link to this heading">#</a></h2>
+<p>SkyCluster uses an overlay network to enable communication between private networks across different
+providers. The overlay network is created using open source <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> for client and <code class="docutils literal notranslate"><span class="pre">headscale</span></code> as the server, which provides a secure mesh network. The headscale server is deployed in the SkyCluster namespace and is responsible for managing the overlay network. SkyCluster automatically configures the headscale server and the tailscale clients within each provider. However to enabled access to the overlay network from this machine, you need to install the <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> client and authenticate it with the headscale server.</p>
+<p>First install the <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> client on your machine:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://tailscale.com/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</pre></div>
+</div>
+<p>Then authenticate the client with the headscale server you can run the following script. This script will retrieve the headscale server connection data from SkyCluster and authenticate your system with it:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/tailscale-connect.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</pre></div>
+</div>
+<p>The above script performs the following steps:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>tailscale-connect.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nv">HEADSCALE_DATA</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>headscale-connection-secret<span class="w"> </span><span class="se">\</span>
+<span class="linenos"> 2</span><span class="w">  </span>-n<span class="w"> </span>skycluster-system<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data}&#39;</span><span class="k">)</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEADSCALE_DATA</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error: Headscale data not found in headscale-connection-secret secret&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 7</span><span class="k">fi</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># KEY</span>
+<span class="linenos">10</span><span class="nv">HEADSCALE_KEY</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEADSCALE_DATA</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.&quot;preauth.json&quot;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.key&#39;</span><span class="k">)</span>
+<span class="linenos">11</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEADSCALE_KEY</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos">12</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error: Headscale key not found in headscale-connection-secret secret&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="linenos">13</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos">14</span><span class="k">fi</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="c1"># TAILSCALE Address</span>
+<span class="linenos">17</span><span class="nv">SERVER</span><span class="o">=</span><span class="s2">&quot;https://</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>ifconfig.io<span class="k">)</span><span class="s2">:8080&quot;</span>
+<span class="linenos">18</span>sudo<span class="w"> </span>tailscale<span class="w"> </span>up<span class="w"> </span>--login-server<span class="w"> </span><span class="nv">$SERVER</span><span class="w"> </span>--auth-key<span class="w"> </span><span class="nv">$HEADSCALE_KEY</span><span class="w"> </span>--accept-routes
+</pre></div>
+</div>
+</div>
+<section id="automating-connectivity">
+<h3>Automating Connectivity<a class="headerlink" href="#automating-connectivity" title="Link to this heading">#</a></h3>
+<p>To maintain the connection to the overlay network, you can run the above script periodically or set it up a cron job to run it at regular intervals. This will ensure that your machine remains connected to the SkyCluster overlay network. To add the script to a cron job, you can use the following command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">SCRIPT_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.skycluster/tailscale-cron.sh&quot;</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.skycluster&quot;</span>
+
+<span class="c1"># download the cron script</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://skycluster.io/configs/tailscale-cron.sh<span class="w"> </span>-o<span class="w"> </span><span class="nv">$SCRIPT_PATH</span>
+chmod<span class="w"> </span>+x<span class="w"> </span><span class="nv">$SCRIPT_PATH</span>
+
+<span class="c1"># backup existing cron jobs</span>
+crontab<span class="w"> </span>-u<span class="w"> </span><span class="nv">$USER</span><span class="w"> </span>-l<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span>&gt;<span class="w"> </span>/tmp/mycron<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+
+<span class="c1"># add the cron job to run the script every 5 minutes</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;*/5 * * * * </span><span class="nv">$SCRIPT_PATH</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/tmp/mycron
+crontab<span class="w"> </span>-u<span class="w"> </span><span class="nv">$USER</span><span class="w"> </span>/tmp/mycron
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This step is required to connect your machine to the SkyCluster overlay network. If you do not run this step, the SkyCluster operator will not be able to manage the resources within other providers. You will not be able to access the resources within the SkyCluster overlay network from your machine.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You are now ready to initialize the providers and deploy your workload. To get started, see the examples in
+<a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a>.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-setup">SkyCluster Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#join-skycluster-overlay">Join SkyCluster Overlay</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automating-connectivity">Automating Connectivity</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle:not(.open) > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+  </body>
+</html>
