@@ -43,6 +43,7 @@ _build/html/examples/
 _build/html/getting-started/
 _build/html/latest
 _build/html/_sources
+_build/html/
 
 # # only on dev branch, must not be merged with latest or main branch
 # _build
