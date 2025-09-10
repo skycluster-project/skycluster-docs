@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>SkyCluster CLI &#8212; SkyCluster Docs</title>
+    <title>Managed Kubernetes Cluster &#8212; SkyCluster Docs</title>
   
   
   
@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=bc219c3d" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=5f7ef147" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -47,13 +48,14 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/skycluster-cli';</script>
-    <link rel="canonical" href="https://skycluster.io/getting-started/skycluster-cli.html" />
+    <script src="../_static/tabs.js?v=3030b3cb"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/xkube';</script>
+    <link rel="canonical" href="https://skycluster.io/examples/xkube.html" />
     <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Examples" href="../examples/index.html" />
-    <link rel="prev" title="SkyCluster Dashboard" href="skycluster-dashboard.html" />
+    <link rel="next" title="Multi Provider Setup" href="multi-provider.html" />
+    <link rel="prev" title="Virtual Instance" href="xinstance.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="latest" />
@@ -151,15 +153,15 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
     Getting Started
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Examples
   </a>
 </li>
@@ -178,7 +180,7 @@
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="skycluster-cli.html" selected>
+        <option value="xkube.html" selected>
           latest
         </option>
     </select>
@@ -348,7 +350,7 @@ html[data-mode="dark"] {
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="skycluster-cli.html" selected>
+        <option value="xkube.html" selected>
           latest
         </option>
     </select>
@@ -484,10 +486,6 @@ html[data-mode="dark"] {
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
-      <span class="fa-solid fa-outdent"></span>
-    </button>
-  
 </div>
 
     </header>
@@ -514,15 +512,15 @@ html[data-mode="dark"] {
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
     Getting Started
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Examples
   </a>
 </li>
@@ -571,43 +569,19 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="installation.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-auth.html">Providers Authentication</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-profile.html">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-dashboard.html">SkyCluster Dashboard</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">SkyCluster CLI</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xkube.html">Managed Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Managed Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xkubemesh.html">Multi-cluster Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="xkubemesh.html">Multi-cluster Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -651,9 +625,15 @@ html[data-mode="dark"] {
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Getting Started</a></li>
+    <li class="breadcrumb-item"><a href="../getting-started/index.html" class="nav-link">Getting Started</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">SkyCluster CLI</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="single-provider.html" class="nav-link">Setup Provider Setup</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Managed Kubernetes Cluster</span></li>
   </ul>
 </nav>
 </div>
@@ -670,65 +650,158 @@ html[data-mode="dark"] {
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="skycluster-cli">
-<h1>SkyCluster CLI<a class="headerlink" href="#skycluster-cli" title="Link to this heading">#</a></h1>
+  <section id="managed-kubernetes-cluster">
+<h1>Managed Kubernetes Cluster<a class="headerlink" href="#managed-kubernetes-cluster" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>Using <code class="docutils literal notranslate"><span class="pre">skycluster-cli</span></code> tool you can call skycluster related APIs. For issues and requested features please check out the <a class="reference external" href="https://github.com/skycluster-project/skycluster-cli">SkyCluster Cli</a> repository.</p>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<p>Download the latest pre-built binary from the <a class="reference external" href="https://github.com/skycluster-project/skycluster-cli/releases">releases page</a> and put it in your PATH.</p>
-</section>
-<section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
-<p>Create a configuration file in your home directory named <code class="docutils literal notranslate"><span class="pre">.skycluster</span></code>. The configuration file should look like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kubeconfig</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">sky-manager</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/ubuntu/.kube/config</span>
-<span class="w">  </span><span class="nt">sky-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/tmp/k3s.yaml</span>
-<span class="nt">overlay</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">server_ip</span>
-<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
-<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+<p>Now let’s create a managed Kubernetes cluster using the provider instance we just created. We use same <code class="docutils literal notranslate"><span class="pre">XKube</span></code> resource for different cloud providers. However, a few parameters must be adjusted based on the provider requirements.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">AWS EKS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">GCP GKE</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">OpenStack (K3S)</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XKube</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-aws-kube</span>
+<span class="nt">spec</span><span class="p">:</span>
+
+<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east</span>
+<span class="w">  </span><span class="nt">serviceCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.0.0/16</span>
+
+<span class="w">  </span><span class="nt">podCidr</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.16.128.0/17</span>
+<span class="w">    </span><span class="nt">public</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.16.128.0/18</span>
+<span class="w">    </span><span class="nt">private</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.16.192.0/18</span>
+
+<span class="w">  </span><span class="nt">nodeGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceType</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2vCPU-4GB&quot;</span>
+<span class="w">    </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">autoScaling</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">minSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="w">  </span><span class="nt">principal</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">servicePrincipal</span><span class="w"> </span><span class="c1"># user | role | serviceAccount | servicePrincipal | managedIdentity</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::8857123199:root&quot;</span><span class="w"> </span><span class="c1"># ARN (AWS) | member (GCP) | principalId (Azure)</span>
+
+<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">    </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
+<span class="w">      </span><span class="nt">secondary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
 </pre></div>
 </div>
-</section>
-<section id="available-commands">
-<h2>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading">#</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show help and usage message</span>
-skycluster<span class="w"> </span>--help
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XKube</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-kube-gcp</span>
+<span class="nt">spec</span><span class="p">:</span>
 
-<span class="c1"># List all gateway nodes</span>
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
+<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp-us-east1</span>
 
-<span class="c1"># List all xinstance instances across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
+<span class="w">  </span><span class="nt">nodeCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.17.128.0/17</span><span class="w"> </span><span class="c1"># GKE requires a node CIDR range</span>
 
-<span class="c1"># List all xkube instances across all providers</span>
-skycluster<span class="w"> </span>xkube<span class="w"> </span>list
-skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
+<span class="w">  </span><span class="nt">podCidr</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.17.0.0/16</span>
 
+<span class="w">  </span><span class="c1"># There is a default node pool created by GKE with one node</span>
+<span class="w">  </span><span class="nt">nodeGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">nodeCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">    </span><span class="nt">instanceType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+<span class="w">    </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">autoScaling</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">minSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
 
-
-<span class="c1"># List all available flavors across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>flavor<span class="w"> </span>list
-<span class="c1"># List all available flavors across gcp and aws provider</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>flavor<span class="w"> </span>list<span class="w"> </span>--platform<span class="w"> </span>aws,gcp
-
-<span class="c1"># List all available images across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>image<span class="w"> </span>list
-<span class="c1"># List all available images across gcp and aws provider</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--platform<span class="w"> </span>aws,gcp
-
-<span class="c1"># Print the overlay k8s kubeconfig</span>
-skycluster<span class="w"> </span>skyk8s<span class="w"> </span>config<span class="w"> </span>show
+<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east1</span>
+<span class="w">    </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east1-b</span>
 </pre></div>
 </div>
-</section>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XKube</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-kube-os-scinet</span>
+<span class="nt">spec</span><span class="p">:</span>
+
+<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os-scinet</span>
+
+<span class="w">  </span><span class="nt">serviceCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.15.192.0/18</span>
+
+<span class="w">  </span><span class="nt">podCidr</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.15.64.0/18</span>
+
+<span class="w">  </span><span class="nt">controlPlane</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">instanceType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8vCPU-32GB</span>
+<span class="w">    </span><span class="c1"># autoScaling:</span>
+<span class="w">    </span><span class="c1">#   enabled: true</span>
+<span class="w">    </span><span class="c1">#   minSize: 1</span>
+<span class="w">    </span><span class="c1">#   maxSize: 3</span>
+<span class="w">    </span><span class="c1"># highAvailability: true</span>
+
+<span class="w">  </span><span class="nt">nodeGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceType</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4vCPU-4GB&quot;</span>
+<span class="w">    </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">autoScaling</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">minSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openstack</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCINET</span>
+<span class="w">    </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+</pre></div>
+</div>
+</div></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can determine the appropriate CIDR size for your provider by using the <code class="docutils literal notranslate"><span class="pre">skycluster</span></code>
+CLI commands and provide the VPC CIDR.</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>Example:</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>subnet<span class="w"> </span><span class="m">10</span>.16.0.0/16<span class="w"> </span>-p<span class="w"> </span>aws
+<span class="c1">#     NAME                             CIDR</span>
+<span class="c1"># └── VPC                          10.16.0.0/16</span>
+<span class="c1">#     ├── Subnet Range             10.16.0.0/17</span>
+<span class="c1">#     └── XKube Pod Range (EKS)    10.16.128.0/17</span>
+<span class="c1">#         ├── Primary              10.16.128.0/18</span>
+<span class="c1">#         └── Secondary            10.16.192.0/18</span>
+<span class="c1"># └── XKube Service Range (EKS)    172.16.0.0/16</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Check the status of the <code class="docutils literal notranslate"><span class="pre">XKube</span></code> instance by running the following command or through <a class="reference internal" href="../getting-started/skycluster-dashboard.html"><span class="doc">SkyCluster Dashboard</span></a>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xkubes.skycluster.io
+<span class="c1"># NAME                          SYNC     STATUS</span>
+<span class="c1"># example-instance-us-east      Ready    Ready</span>
+</pre></div>
+</div>
+<p>You can also use the SkyCluster cli commadnd:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkubes<span class="w"> </span>list
+</pre></div>
+</div>
+</div>
+<p>Once you initialize and set up a provider, you can create additional <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> resources to integrate other cloud providers such as GCP and Azure. When you have more than two providers configured, you are ready to follow the multi-provider examples.</p>
+<p>For GCP GKE service:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkubes<span class="w"> </span>list
+<span class="c1"># note gcp cluster with external name</span>
+
+<span class="c1"># use gcloud to setup kubeconfig</span>
+gcloud<span class="w"> </span>container<span class="w"> </span>clusters<span class="w"> </span>get-credentials<span class="w"> </span>&lt;external-name&gt;<span class="w"> </span>--location<span class="w"> </span>&lt;location&gt;
+
+<span class="c1"># please refer to</span>
+<span class="c1"># https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl</span>
+</pre></div>
+</div>
 </section>
 
 
@@ -742,20 +815,20 @@ skycluster<span class="w"> </span>skyk8s<span class="w"> </span>config<span clas
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="skycluster-dashboard.html"
+       href="xinstance.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">SkyCluster Dashboard</p>
+        <p class="prev-next-title">Virtual Instance</p>
       </div>
     </a>
     <a class="right-next"
-       href="../examples/index.html"
+       href="multi-provider.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Examples</p>
+        <p class="prev-next-title">Multi Provider Setup</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -765,26 +838,6 @@ skycluster<span class="w"> </span>skyk8s<span class="w"> </span>config<span clas
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-commands">Available Commands</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

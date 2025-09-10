@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>SkyCluster CLI &#8212; SkyCluster Docs</title>
+    <title>Virtual Instance &#8212; SkyCluster Docs</title>
   
   
   
@@ -47,13 +47,13 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/skycluster-cli';</script>
-    <link rel="canonical" href="https://skycluster.io/getting-started/skycluster-cli.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/xinstance';</script>
+    <link rel="canonical" href="https://skycluster.io/examples/xinstance.html" />
     <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Examples" href="../examples/index.html" />
-    <link rel="prev" title="SkyCluster Dashboard" href="skycluster-dashboard.html" />
+    <link rel="next" title="Managed Kubernetes Cluster" href="xkube.html" />
+    <link rel="prev" title="Setup Provider Setup" href="single-provider.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="latest" />
@@ -151,15 +151,15 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
     Getting Started
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Examples
   </a>
 </li>
@@ -178,7 +178,7 @@
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="skycluster-cli.html" selected>
+        <option value="xinstance.html" selected>
           latest
         </option>
     </select>
@@ -348,7 +348,7 @@ html[data-mode="dark"] {
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="skycluster-cli.html" selected>
+        <option value="xinstance.html" selected>
           latest
         </option>
     </select>
@@ -484,10 +484,6 @@ html[data-mode="dark"] {
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
-      <span class="fa-solid fa-outdent"></span>
-    </button>
-  
 </div>
 
     </header>
@@ -514,15 +510,15 @@ html[data-mode="dark"] {
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
     Getting Started
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Examples
   </a>
 </li>
@@ -571,43 +567,19 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="installation.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-auth.html">Providers Authentication</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-profile.html">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-dashboard.html">SkyCluster Dashboard</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">SkyCluster CLI</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xkube.html">Managed Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l2 has-children"><a class="reference internal" href="xkube.html">Managed Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xkubemesh.html">Multi-cluster Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="xkubemesh.html">Multi-cluster Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -651,9 +623,15 @@ html[data-mode="dark"] {
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Getting Started</a></li>
+    <li class="breadcrumb-item"><a href="../getting-started/index.html" class="nav-link">Getting Started</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">SkyCluster CLI</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="single-provider.html" class="nav-link">Setup Provider Setup</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Virtual Instance</span></li>
   </ul>
 </nav>
 </div>
@@ -670,65 +648,92 @@ html[data-mode="dark"] {
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="skycluster-cli">
-<h1>SkyCluster CLI<a class="headerlink" href="#skycluster-cli" title="Link to this heading">#</a></h1>
+  <section id="virtual-instance">
+<h1>Virtual Instance<a class="headerlink" href="#virtual-instance" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>Using <code class="docutils literal notranslate"><span class="pre">skycluster-cli</span></code> tool you can call skycluster related APIs. For issues and requested features please check out the <a class="reference external" href="https://github.com/skycluster-project/skycluster-cli">SkyCluster Cli</a> repository.</p>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<p>Download the latest pre-built binary from the <a class="reference external" href="https://github.com/skycluster-project/skycluster-cli/releases">releases page</a> and put it in your PATH.</p>
-</section>
-<section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
-<p>Create a configuration file in your home directory named <code class="docutils literal notranslate"><span class="pre">.skycluster</span></code>. The configuration file should look like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kubeconfig</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">sky-manager</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/ubuntu/.kube/config</span>
-<span class="w">  </span><span class="nt">sky-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/tmp/k3s.yaml</span>
-<span class="nt">overlay</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">server_ip</span>
-<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
-<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+<p>Now let’s create a virtual instance using the provider instance we just created:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XInstance</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-instance-us-east</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Unique identifier for the setup/application</span>
+<span class="w">  </span><span class="c1"># Must be same as the one used in the provider instance (for AWS)</span>
+<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east</span>
+
+<span class="w">  </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+
+<span class="w">  </span><span class="c1"># Images are defined by images.core.skycluster.io custom resources</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+
+<span class="w">  </span><span class="c1"># publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3...</span>
+<span class="w">  </span><span class="c1"># Optional: the default public key is used if not specified</span>
+
+<span class="w">  </span><span class="c1"># If publicIp set to true, a public IP will be assigned to the instance</span>
+<span class="w">  </span><span class="nt">publicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="w">  </span><span class="c1"># Optional: the user data should follow the cloud-init format</span>
+<span class="w">  </span><span class="nt">userData</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">#cloud-config</span>
+<span class="w">    </span><span class="no">write_files:</span>
+<span class="w">      </span><span class="no">- path: /tmp/hello.sh</span>
+<span class="w">        </span><span class="no">owner: root:root</span>
+<span class="w">        </span><span class="no">permissions: &#39;0755&#39;</span>
+<span class="w">        </span><span class="no">content: |</span>
+<span class="w">          </span><span class="no">#!/bin/sh</span>
+<span class="w">          </span><span class="no">echo &quot;Hello, World!&quot; &gt; /tmp/hello.txt</span>
+<span class="w">    </span><span class="no">runcmd:</span>
+<span class="w">      </span><span class="no">- chmod +x /tmp/hello.sh</span>
+<span class="w">      </span><span class="no">- /tmp/hello.sh</span>
+
+<span class="w">  </span><span class="c1"># Optional: security groups can be defined to allow specific ports</span>
+<span class="w">  </span><span class="c1"># securityGroups:</span>
+<span class="w">  </span><span class="c1">#   tcpPorts:</span>
+<span class="w">  </span><span class="c1">#     - fromPort: 22</span>
+<span class="w">  </span><span class="c1">#       toPort: 22</span>
+<span class="w">  </span><span class="c1">#       protocol: tcp</span>
+<span class="w">  </span><span class="c1">#   udpPorts:</span>
+<span class="w">  </span><span class="c1">#     - fromPort: 80</span>
+<span class="w">  </span><span class="c1">#       toPort: 80</span>
+<span class="w">  </span><span class="c1">#       protocol: udp</span>
+
+<span class="w">  </span><span class="c1"># Optional</span>
+<span class="w">  </span><span class="c1"># rootVolumes:</span>
+<span class="w">  </span><span class="c1">#   - size: 20Gi</span>
+<span class="w">  </span><span class="c1">#     type: gp2</span>
+
+<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Provider reference must match the one used in the provider instance</span>
+<span class="w">    </span><span class="c1"># (for AWS)</span>
+<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">    </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
 </pre></div>
 </div>
-</section>
-<section id="available-commands">
-<h2>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading">#</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show help and usage message</span>
-skycluster<span class="w"> </span>--help
-
-<span class="c1"># List all gateway nodes</span>
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
-
-<span class="c1"># List all xinstance instances across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
-
-<span class="c1"># List all xkube instances across all providers</span>
-skycluster<span class="w"> </span>xkube<span class="w"> </span>list
-skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
-
-
-
-<span class="c1"># List all available flavors across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>flavor<span class="w"> </span>list
-<span class="c1"># List all available flavors across gcp and aws provider</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>flavor<span class="w"> </span>list<span class="w"> </span>--platform<span class="w"> </span>aws,gcp
-
-<span class="c1"># List all available images across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>image<span class="w"> </span>list
-<span class="c1"># List all available images across gcp and aws provider</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--platform<span class="w"> </span>aws,gcp
-
-<span class="c1"># Print the overlay k8s kubeconfig</span>
-skycluster<span class="w"> </span>skyk8s<span class="w"> </span>config<span class="w"> </span>show
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Check the status of the <code class="docutils literal notranslate"><span class="pre">XInstance</span></code> resource by running the following command or through <a class="reference internal" href="../getting-started/skycluster-dashboard.html"><span class="doc">SkyCluster Dashboard</span></a>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xinstances.skycluster.io
+<span class="c1"># NAME                          SYNC     STATUS</span>
+<span class="c1"># example-instance-us-east      Ready    Ready</span>
 </pre></div>
 </div>
-</section>
+<p>You can also use the SkyCluster cli commadnd:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
+<span class="c1"># NAME                            PUBLIC_IP        PRIVATE_IP</span>
+<span class="c1"># example-kube-os-scinet-nd4qq                     10.16.128.12</span>
+<span class="c1"># example-kube-os-scinet-w4mtz    142.1.174.183    10.16.128.16</span>
+</pre></div>
+</div>
+</div>
+<p>If you enable a public IP for your <code class="docutils literal notranslate"><span class="pre">XInstance</span></code>, you can access it directly from anywhere
+using the instance’s <code class="docutils literal notranslate"><span class="pre">External</span> <span class="pre">IP</span></code>.
+Otherwise, the instance is accessible only via its private IP from the machine running the SkyCluster system.</p>
+<p>You need to use the key described in the SkyCluster Secret configuration section of <a class="reference internal" href="../getting-started/installation.html"><span class="doc">Installation</span></a>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-i<span class="w"> </span>id_rsa<span class="w"> </span>ubuntu@&lt;instance-ip&gt;
+</pre></div>
+</div>
 </section>
 
 
@@ -742,20 +747,20 @@ skycluster<span class="w"> </span>skyk8s<span class="w"> </span>config<span clas
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="skycluster-dashboard.html"
+       href="single-provider.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">SkyCluster Dashboard</p>
+        <p class="prev-next-title">Setup Provider Setup</p>
       </div>
     </a>
     <a class="right-next"
-       href="../examples/index.html"
+       href="xkube.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Examples</p>
+        <p class="prev-next-title">Managed Kubernetes Cluster</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -765,26 +770,6 @@ skycluster<span class="w"> </span>skyk8s<span class="w"> </span>config<span clas
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-commands">Available Commands</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

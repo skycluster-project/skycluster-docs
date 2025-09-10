@@ -52,8 +52,8 @@
     <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Troubleshooting" href="../getting-started/troubleshooting.html" />
-    <link rel="prev" title="Setup Provider Setup" href="single-provider.html" />
+    <link rel="next" title="Multi-cluster Kubernetes Cluster" href="xkubemesh.html" />
+    <link rel="prev" title="Managed Kubernetes Cluster" href="xkube.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="latest" />
@@ -484,10 +484,6 @@ html[data-mode="dark"] {
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
-      <span class="fa-solid fa-outdent"></span>
-    </button>
-  
 </div>
 
     </header>
@@ -571,10 +567,19 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l2 has-children"><a class="reference internal" href="xkube.html">Managed Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="xkubemesh.html">Multi-cluster Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
 </ul>
 </details></li>
 </ul>
@@ -659,33 +664,6 @@ prerequisites installed and configured, including:</p>
 </pre></div>
 </div>
 <p>From the SkyCluster controller and across all providers, you should be able to reach the services and resources created within the CIDR block of each provider. This resembles a flat network setup created by SkyCluster. Try pinging the private gateway address of each provider from the SkyCluster controller to verify connectivity. Check the <a class="reference internal" href="../getting-started/troubleshooting.html"><span class="doc">Troubleshooting</span></a> page if you encounter any issues.</p>
-<section id="multi-cluster-kubernetes-cluster">
-<h2>Multi-cluster Kubernetes Cluster<a class="headerlink" href="#multi-cluster-kubernetes-cluster" title="Link to this heading">#</a></h2>
-<p>To connect Kubernetes clusters an <code class="docutils literal notranslate"><span class="pre">XKubeMesh</span></code> resource must be created. This resource manages inter-cluster connectivity by linking each cluster and configuring the Istio setup.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XKubeMesh</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-kubemesh</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="c1"># Reference to xkubes.skycluster.io resources</span>
-<span class="w">  </span><span class="nt">clusterNames</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-kube-os-scinet</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-kube-gcp</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ex1-aws-kube</span>
-
-<span class="w">  </span><span class="c1"># The local kind cluster config that used for skycluster controller setup</span>
-<span class="w">  </span><span class="nt">localCluster</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">podCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.0/19</span>
-<span class="w">    </span><span class="nt">serviceCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.31.0.0/16</span>
-</pre></div>
-</div>
-<p>Check out the status of inter-cluster connectivity by running:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xkubemeshes.skycluster.io
-<span class="c1"># NAME       SYNCED   READY   COMPOSITION                 AGE</span>
-<span class="c1"># kubemesh   True     True    xkubemeshes.skycluster.io   4h41m</span>
-</pre></div>
-</div>
-</section>
 </section>
 
 
@@ -699,20 +677,20 @@ prerequisites installed and configured, including:</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="single-provider.html"
+       href="xkube.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Setup Provider Setup</p>
+        <p class="prev-next-title">Managed Kubernetes Cluster</p>
       </div>
     </a>
     <a class="right-next"
-       href="../getting-started/troubleshooting.html"
+       href="xkubemesh.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Troubleshooting</p>
+        <p class="prev-next-title">Multi-cluster Kubernetes Cluster</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -722,24 +700,6 @@ prerequisites installed and configured, including:</p>
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-cluster-kubernetes-cluster">Multi-cluster Kubernetes Cluster</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
