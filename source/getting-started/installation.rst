@@ -67,7 +67,7 @@ and the ``skycluster-kind.yaml`` file should contain the following content:
   apiVersion: kind.x-k8s.io/v1alpha4
   networking:
     podSubnet: 10.0.0.0/19
-    serviceSubnet: 172.31.0.0/16
+    serviceSubnet: 10.0.32.0/19
     apiServerAddress: 0.0.0.0
     apiServerPort: 6443
   kubeadmConfigPatches:
