@@ -1,0 +1,25 @@
+apiVersion: v1
+entries:
+  skycluster:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2025-09-15T19:11:10.300855748Z"
+    description: SkyCluster Main Helm Chart
+    digest: bb2ac24d9db9b2bb05f7c66fb73423e5911a3b2aa335b17e2b1b3fdc5e448265
+    name: skycluster
+    type: application
+    urls:
+    - https://skycluster.io/charts/skycluster-0.1.1.tgz
+    version: 0.1.1
+  skycluster-crds:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2025-09-15T19:11:10.307409503Z"
+    description: SkyCluster CRDs Helm Chart
+    digest: 1f0f9377dee6e9dc9e4472dfa156f30087c79ca74d41aee431eaef6235d5e05b
+    name: skycluster-crds
+    type: application
+    urls:
+    - https://skycluster.io/charts/skycluster-crds-0.1.1.tgz
+    version: 0.1.1
+generated: "2025-09-15T19:11:10.298493835Z"
