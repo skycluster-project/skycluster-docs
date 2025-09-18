@@ -256,7 +256,7 @@ Once all dependency resources are created and ready, the ``ProviderProfile`` sta
 On-premises Custom Providers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-On-premises providers can be registered similarly to cloud providers. The key difference is that you must supply additional configuration specific to your on-premises environment, such as the gateway node address, required keys, and details about the edge devices.
+On-premises providers can be registered similarly to cloud providers but you must also create ``DeviceNode`` resources to supply on-premises configuration such as the gateway node address, required keys, and edge-device details.
 
 
 Provider Profiles
@@ -282,7 +282,7 @@ Provider Profiles
           type: edge
 
 
-The ``baremetal`` type requires specifying gateway connection and access details, along with worker node data and their capabilities.
+The ``baremetal`` type requires specifying gateway connection and access details, along with worker node data and their capabilities. You must configure this by creating ``DeviceNode`` resources:
 
 Device Nodes
 -------------
@@ -304,8 +304,18 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
           deviceSpec:
             type: gateway
             zone: default
+            
+            publicIp: x.y.z.w
 
-
+            # by default the subnet mask is /24 for this network
+            privateIp: 10.23.100.22
+            
+            auth:
+              privateKeySecretRef:
+                # secret containing the private SSH key, see below
+                name: savi-toronto-edge-ssh-key
+                key: privateKey
+              username: ubuntu
 
   .. tab:: Worker
 
@@ -320,6 +330,17 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
           deviceSpec:
             type: worker
             zone: default
+
+            privateIp: 10.23.100.200
+            # must be reachable from the gateway node
+            
+            auth:
+              privateKeySecretRef:
+                # secret containing the private SSH key, see below
+                name: savi-toronto-edge-ssh-key
+                key: privateKey
+              username: ubuntu
+            
             configs:
               name: Jetson Nano
               cpus: 1
@@ -333,3 +354,58 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
                 model: JetsonNano
               storage: 100GB
               price: "0"
+
+
+Private Key Secret 
+---------------------
+
+A secret containing the private SSH key must be created to allow SkyCluster to connect to the gateway and worker nodes. Make sure the SSH key has access to both the gateway and worker nodes. 
+Then export your encoded private key and the desired secret name as environment variables:
+
+.. code-block:: sh
+
+  export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64 -w0)
+  export SECRET_NAME=savi-toronto-edge-ssh-key
+
+And then run the following command to generate the secret:
+
+.. code-block:: sh
+
+  curl -s https://skycluster.io/configs/secret-cfg.sh | bash
+
+
+.. container:: toggle 
+
+  .. container:: header 
+
+    **secret-cfg.sh**
+
+  .. code-block:: sh
+    :linenos:
+
+    #!/bin/bash
+
+    # If env variables are not set, exit
+    if [ -z "$PRIVATE_KEY" ] || [ -z "$SECRET_NAME" ]; then
+      echo "PRIVATE_KEY and SECRET_NAME must be set."
+      exit 1
+    fi
+
+    NAMESPACE="skycluster-system"
+
+    cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: ${NAMESPACE}
+      name: ${SECRET_NAME}
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/secret-type: keypair-onpremise
+    type: Opaque
+    stringData:
+      privateKey: "$PRIVATE_KEY"
+    EOF
+
+
+----
