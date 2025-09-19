@@ -335,11 +335,8 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
             # must be reachable from the gateway node
             
             auth:
-              privateKeySecretRef:
-                # secret containing the private SSH key, see below
-                name: savi-toronto-edge-ssh-key
-                key: privateKey
               username: ubuntu
+              # same private key as the gateway node will be used
             
             configs:
               name: Jetson Nano
@@ -354,58 +351,3 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
                 model: JetsonNano
               storage: 100GB
               price: "0"
-
-
-Private Key Secret 
----------------------
-
-A secret containing the private SSH key must be created to allow SkyCluster to connect to the gateway and worker nodes. Make sure the SSH key has access to both the gateway and worker nodes. 
-Then export your encoded private key and the desired secret name as environment variables:
-
-.. code-block:: sh
-
-  export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64 -w0)
-  export SECRET_NAME=savi-toronto-edge-ssh-key
-
-And then run the following command to generate the secret:
-
-.. code-block:: sh
-
-  curl -s https://skycluster.io/configs/secret-cfg.sh | bash
-
-
-.. container:: toggle 
-
-  .. container:: header 
-
-    **secret-cfg.sh**
-
-  .. code-block:: sh
-    :linenos:
-
-    #!/bin/bash
-
-    # If env variables are not set, exit
-    if [ -z "$PRIVATE_KEY" ] || [ -z "$SECRET_NAME" ]; then
-      echo "PRIVATE_KEY and SECRET_NAME must be set."
-      exit 1
-    fi
-
-    NAMESPACE="skycluster-system"
-
-    cat <<EOF | kubectl apply -f -
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      namespace: ${NAMESPACE}
-      name: ${SECRET_NAME}
-      labels:
-        skycluster.io/managed-by: skycluster
-        skycluster.io/secret-type: keypair-onpremise
-    type: Opaque
-    stringData:
-      privateKey: "$PRIVATE_KEY"
-    EOF
-
-
-----

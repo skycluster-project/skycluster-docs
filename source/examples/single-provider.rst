@@ -174,6 +174,35 @@ Then create a ``XProvider`` resource:
             zones:
               # The provider is identified by the primary zone
               primary: default
+  
+  .. tab:: On-premises Edge
+
+      .. code-block:: yaml
+  
+        apiVersion: skycluster.io/v1alpha1
+        kind: XProvider
+        metadata:
+          name: savi-toronto-edge
+        spec:
+          # Unique identifier for the setup/application
+          applicationId: savi-toronto-edge
+          
+          gatewayDeviceName: savi-toronto-edge-gw
+          # The gateway device is a physical machine that serves as the gateway
+          # It should be introduced to SkyCluster by creating DeviceNode resource
+          
+          workerDeviceNames:
+            # List of physical machines that will be used as worker nodes
+            # They should be introduced to SkyCluster by creating DeviceNode resources
+            - savi-toronto-edge-jetson-nano1
+            - savi-toronto-edge-jetson-nano2
+
+          providerRef:
+            platform: baremetal
+            region: toronto
+            zones:
+              # The provider is identified by the primary zone
+              primary: default
 
 .. note::
 

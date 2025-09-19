@@ -16,7 +16,7 @@ metadata:
   name: ${SECRET_NAME}
   labels:
     skycluster.io/managed-by: skycluster
-    skycluster.io/secret-type: keypair-onpremise
+    skycluster.io/secret-type: onpremise-keypair
 type: Opaque
 stringData:
   privateKey: "$PRIVATE_KEY"

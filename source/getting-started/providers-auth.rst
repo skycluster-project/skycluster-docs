@@ -341,8 +341,66 @@ Then execute the command below to configure the provider:
 
   curl -s https://skycluster.io/configs/openstack-cfg.sh | bash
 
-
 Repeat the steps for each additional regions you want to configure.
+
+
+.. container:: toggle
+
+  .. container:: header
+
+    **openstack-cfg.sh**
+
+  .. code-block:: sh
+    :linenos:
+
+    #!/bin/bash
+
+    # Check if any of these variables are not set, if so exist
+    if [[ -z $AUTH_URL || -z $USERNAME || -z $PASSWORD || -z $TENANT_NAME || \
+      -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME ]]; then
+      echo "One or more required variables are not set."
+      exit 1
+    fi
+
+    NAMESPACE="skycluster-system"
+    REGION_LOWER=$(echo $REGION | tr '[:upper:]' '[:lower:]')
+
+    cat <<EOF | kubectl apply -f -
+    apiVersion: openstack.crossplane.io/v1beta1
+    kind: ProviderConfig
+    metadata:
+      name: provider-cfg-os-${REGION_LOWER}
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/provider-platform: openstack
+        skycluster.io/provider-region: ${REGION}
+    spec:
+      credentials:
+        source: Secret
+        secretRef:
+          name: secret-os-${REGION_LOWER}
+          namespace: ${NAMESPACE}
+          key: configs
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: secret-os-${REGION_LOWER}
+      namespace: ${NAMESPACE}
+    type: Opaque
+    stringData:
+      configs: |
+        {
+          "auth_url": "$AUTH_URL",
+          "region": "$REGION",
+          "user_name": "$USERNAME",
+          "password": "$PASSWORD",
+          "tenant_name": "$TENANT_NAME",
+          "project_domain_name": "$USER_DOMAIN_NAME",
+          "user_domain_name": "$USER_DOMAIN_NAME",
+          "insecure": "false"
+        }
+    EOF
 
 
 On-premises Edge Clusters
@@ -359,16 +417,59 @@ Before setting up an edge cluster, ensure the following requirements are met:
 - SSH access is enabled on the gateway and all worker nodes.
 - A private key is configured for SSH access on the gateway and all edge devices.
 
-.. code-block:: sh
 
-  export GW_URL="http://gw.savitestbed.ca"
-  export PRIVATE_KEY_PATH=/path/to/private/key
-  export USERNAME="USERNAME"
-  export REGION="region-name"
-  
-  export PRIVATE_KEY=$(cat $PRIVATE_KEY_PATH | base64 -w0)
+Private Key Secret 
+---------------------
 
+A secret containing the private SSH key must be created to allow SkyCluster to connect to the gateway and worker nodes. Make sure the SSH key has access to both the gateway and worker nodes. 
+Then export your encoded private key and the desired secret name as environment variables:
 
 .. code-block:: sh
 
-  curl -s https://skycluster.io/configs/on-premises-cfg.sh | bash
+  export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64 -w0)
+  export SECRET_NAME=savi-toronto-edge-ssh-key
+  # replace with your desired secret name, e.g., savi-toronto-edge-ssh-key
+  # the secret name will be referenced when you setup gateway node.
+
+And then run the following command to generate the secret:
+
+.. code-block:: sh
+
+  curl -s https://skycluster.io/configs/secret-cfg.sh | bash
+
+
+.. container:: toggle 
+
+  .. container:: header 
+
+    **secret-cfg.sh**
+
+  .. code-block:: sh
+    :linenos:
+
+    #!/bin/bash
+
+    # If env variables are not set, exit
+    if [ -z "$PRIVATE_KEY" ] || [ -z "$SECRET_NAME" ]; then
+      echo "PRIVATE_KEY and SECRET_NAME must be set."
+      exit 1
+    fi
+
+    NAMESPACE="skycluster-system"
+
+    cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: ${NAMESPACE}
+      name: ${SECRET_NAME}
+      labels:
+        skycluster.io/managed-by: skycluster
+        skycluster.io/secret-type: onpremise-keypair
+    type: Opaque
+    stringData:
+      privateKey: "$PRIVATE_KEY"
+    EOF
+
+
+----
