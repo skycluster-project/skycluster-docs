@@ -249,3 +249,7 @@ The above example creates multiple resources in your project, including a VPC, s
     # os-provider-scinet    10.16.128.11    142.1.174.185    10.16.0.0/16
 
 
+.. note::
+
+  - For on-premises edge providers, ensure that the gateway device is reachable from your local machine via SSH using the private key specified in the secret. 
+  - The gateway and worker nodes are introduced by creating ``DeviceNode`` resources. Please refer to :doc:`/getting-started/providers-profile` for more details.
