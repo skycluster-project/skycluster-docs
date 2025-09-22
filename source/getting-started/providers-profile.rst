@@ -4,6 +4,7 @@ Providers Profiles
 .. toctree::
   :hidden:
 
+.. _NVIDIA: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
 
 Setting Up Cloud Providers
 =============================
@@ -285,7 +286,7 @@ Provider Profiles
 The ``baremetal`` type requires specifying gateway connection and access details, along with worker node data and their capabilities. You must configure this by creating ``DeviceNode`` resources:
 
 Device Nodes
--------------
+  -------------
 
 The ``DeviceNode`` API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its ``type`` field. By default the gateway node does not run any workload.
 
@@ -351,3 +352,12 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
                 model: JetsonNano
               storage: 100GB
               price: "0"
+
+
+NVIDIA Device Preparation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+SkyCluster supports DeviceNode resources equipped with NVIDIA GPUs by installing a local K3s cluster and joining the devices as worker nodes. To enable GPU workloads, the devices must have the NVIDIA Container Runtime installed. Since installation steps vary depending on the device specifications (e.g., Jetson, desktop GPUs), you need to follow the official `NVIDIA instructions <NVIDIA_>`_ to set up the toolkit. This toolkit allows containers to access the GPU resources on the Jetson device, enabling GPU-accelerated applications to run smoothly.
+
+After setting up the toolkit, ensure that your containerized applications are configured to utilize the GPU resources effectively. You may need to specify the appropriate runtime and environment variables in your container configurations to leverage the GPU capabilities.
+
