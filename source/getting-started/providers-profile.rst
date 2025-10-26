@@ -9,7 +9,7 @@ Providers Profiles
 Setting Up Cloud Providers
 =============================
 
-A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a `ProviderProfile` resource in the SkyCluster system. The following examples show how to configure the a ``ProfileProvider`` for the major cloud providers: AWS, GCP, and Azure.
+A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a `ProviderProfile` resource in `skycluster-system` namespace. The following examples show how to configure the a ``ProfileProvider`` for the major cloud providers: AWS, GCP, and Azure.
 
 .. tabs::
 
@@ -21,6 +21,7 @@ A provider is identified by its platform name and region and primary zone. To in
         kind: ProviderProfile
         metadata:
           name: aws-us-east-1
+          namespace: skycluster-system
         spec:
           platform: aws # Platform can be aws, azure, gcp
           region: us-east-1  # Region identifier
@@ -48,6 +49,7 @@ A provider is identified by its platform name and region and primary zone. To in
         kind: ProviderProfile
         metadata:
           name: gcp-us-east1
+          namespace: skycluster-system
         spec:
           platform: gcp # Platform can be aws, azure, gcp
           region: us-east1  # Region identifier
@@ -78,6 +80,7 @@ A provider is identified by its platform name and region and primary zone. To in
         kind: ProviderProfile
         metadata:
           name: azure-eastus
+          namespace: skycluster-system
         spec:
           platform: azure # Platform can be aws, azure, gcp
           region: eastus  # Region identifier
@@ -103,7 +106,7 @@ After creating a ``ProfileProvider`` resource, the SkyCluster operator generates
 
 .. code-block:: sh
 
-  kubectl get providerprofile
+  kubectl get providerprofile -n skycluster-system
   # NAME            REGION      READY
   # aws-us-east-1   us-east-1   Ready
 
@@ -130,6 +133,7 @@ Provider Profiles
     kind: ProviderProfile
     metadata:
       name: savi-scinet-default
+      namespace: skycluster-system
     spec:
       platform: openstack
       region: scinet
@@ -153,7 +157,7 @@ Provider Profiles
 
   .. code-block:: sh
 
-    kubectl get providerprofile
+    kubectl get providerprofile -n skycluster-system
     # NAME                  REGION      READY
     # savi-scinet-default   scinet      False
 
@@ -161,6 +165,7 @@ The operator creates a config map for each provider profile that constains offer
 
 .. code-block:: sh
 
+  # Change the label value to match your provider profile name
   kubectl get configmap -n skycluster-system \
     -l skycluster.io/provider-profile=savi-scinet-default
 
@@ -174,7 +179,7 @@ ensure ``ProviderProfile`` becomes ready and can be used:
 Images 
 ********
 
-You need to configure the available images **manually** for on-premises providers. 
+You need to configure the available images **manually** in `skycluster-system` namespace for on-premises providers. 
 The following example shows how to configure images including ``ubuntu-20.04``, ``ubuntu-22.04`` and ``ubuntu-24.04`` for the ``savi-scinet-default`` provider profile for the ``scinet`` region.
 
 .. code-block:: yaml
@@ -183,6 +188,7 @@ The following example shows how to configure images including ``ubuntu-20.04``, 
   kind: Image
   metadata:
     name: savi-scinet-default-images
+    namespace: skycluster-system
   spec:
     providerRef: savi-scinet-default
     # Must match the provider profile name in the Provider resource
@@ -202,14 +208,14 @@ Check the status of ``Image`` resource by running the following command:
 
 .. code-block:: sh
 
-    kubectl get images.core.skycluster.io
+    kubectl get images.core.skycluster.io -n skycluster-system
     # NAME                         REGION      READY
     # savi-scinet-default-images   scinet      True
 
 Instance Type
 **************
 
-To configure the instance types, you need to create an ``InstanceType`` resource. The following example shows how to introduce available instance types. 
+To configure the instance types, you need to create an ``InstanceType`` resource in `skycluster-system` namespace. The following example shows how to introduce available instance types.
 
 .. code-block:: yaml
 
@@ -217,6 +223,7 @@ To configure the instance types, you need to create an ``InstanceType`` resource
   kind: InstanceType
   metadata:
     name: savi-scinet-default-instance-types
+    namespace: skycluster-system
   spec:
     providerRef: savi-scinet-default
     # Must match the provider name in the Provider resource
@@ -239,7 +246,7 @@ Check the status of the ``InstanceType`` resource by running the following comma
 
 .. code-block:: sh
 
-    kubectl get instancetype.core.skycluster.io
+    kubectl get instancetype.core.skycluster.io -n skycluster-system
     # NAME                                 REGION      READY
     # savi-scinet-default-instance-types   scinet      True
 
@@ -248,7 +255,7 @@ Once all dependency resources are created and ready, the ``ProviderProfile`` sta
 
 .. code-block:: sh
 
-    kubectl get providerprofile
+    kubectl get providerprofile -n skycluster-system
     # NAME                  REGION      READY
     # savi-scinet-default   scinet      True
 
@@ -257,7 +264,7 @@ Once all dependency resources are created and ready, the ``ProviderProfile`` sta
 On-premises Custom Providers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-On-premises providers can be registered similarly to cloud providers but you must also create ``DeviceNode`` resources to supply on-premises configuration such as the gateway node address, required keys, and edge-device details.
+On-premises providers can be registered similarly to cloud providers but you must also create ``DeviceNode`` resources in `skycluster-system` namespace to supply on-premises configuration such as the gateway node address, required keys, and edge-device details.
 
 
 Provider Profiles
@@ -269,6 +276,7 @@ Provider Profiles
     kind: ProviderProfile
     metadata:
       name: savi-toronto-default
+      namespace: skycluster-system
     spec:
       platform: baremetal
       region: toronto
@@ -288,7 +296,7 @@ The ``baremetal`` type requires specifying gateway connection and access details
 Device Nodes
   -------------
 
-The ``DeviceNode`` API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its ``type`` field. By default the gateway node does not run any workload.
+The ``DeviceNode`` API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its ``type`` field. By default the gateway node does not run any workload. The ``DeviceNode`` resource are created in the `skycluster-system` namespace.
 
 .. tabs::
 
@@ -300,6 +308,7 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
         kind: DeviceNode
         metadata:
           name: savi-toronto-gw
+          namespace: skycluster-system
         spec:
           providerRef: savi-toronto-default
           deviceSpec:
@@ -326,6 +335,7 @@ The ``DeviceNode`` API represents an edge device that can run workloads. A Devic
         kind: DeviceNode
         metadata:
           name: savi-toronto-edge-jetson-nano1
+          namespace: skycluster-system
         spec:
           providerRef: savi-toronto-edge
           deviceSpec:
