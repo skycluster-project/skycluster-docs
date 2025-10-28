@@ -80,3 +80,10 @@ SkyCluster uses the Tailscale client underlay to connect to the overlay, as desc
 If the connection does not establish, there is an issue with the overlay connection and setup.
 
 
+
+AWS Specific Issues
+=========================
+
+**Unable to delete XProvider resources**:
+
+If you provision services that require load balancers, AWS may provision them automatically. When you delete ``XProvider`` resources, you must ensure that all associated load balancers are deleted first. Otherwise, the deletion of ``XProvider`` resources may fail due to existing dependencies.
