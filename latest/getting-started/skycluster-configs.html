@@ -590,7 +590,7 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -693,7 +693,9 @@ html[data-mode="dark"] {
 </pre></div>
 </div>
 <p>Check the status of the SkyCluster operator:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xsetup.skycluster.io<span class="w"> </span>mycluster
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xsetup.skycluster.io
+<span class="c1"># NAME              SYNCED   READY   COMPOSITION             AGE</span>
+<span class="c1"># skycluster-mgmt   True     True    xsetups.skycluster.io   21h</span>
 </pre></div>
 </div>
 <p>Once ready, you can follow the examples in the SkyCluster documentation to deploy applications.</p>
@@ -703,7 +705,11 @@ html[data-mode="dark"] {
 <h2>Join SkyCluster Overlay<a class="headerlink" href="#join-skycluster-overlay" title="Link to this heading">#</a></h2>
 <p>SkyCluster uses an overlay network to enable communication between private networks across different
 providers. The overlay network is created using open source <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> for client and <code class="docutils literal notranslate"><span class="pre">headscale</span></code> as the server, which provides a secure mesh network. The headscale server is deployed in the SkyCluster namespace and is responsible for managing the overlay network. SkyCluster automatically configures the headscale server and the tailscale clients within each provider. However to enabled access to the overlay network from this machine, you need to install the <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> client and authenticate it with the headscale server.</p>
-<p>First install the <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> client on your machine:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This step is optional but recommended to enable access to the resources within the local machine outside of the SkyCluster control plane.</p>
+</div>
+<p>To connect your local machine to the overlay network, first install the <code class="docutils literal notranslate"><span class="pre">tailscale</span></code> client on your machine:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://tailscale.com/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </pre></div>
 </div>
@@ -754,10 +760,6 @@ crontab<span class="w"> </span>-u<span class="w"> </span><span class="nv">$USER<
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;*/5 * * * * </span><span class="nv">$SCRIPT_PATH</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/tmp/mycron
 crontab<span class="w"> </span>-u<span class="w"> </span><span class="nv">$USER</span><span class="w"> </span>/tmp/mycron
 </pre></div>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This step is required to connect your machine to the SkyCluster overlay network. If you do not run this step, the SkyCluster operator will not be able to manage the resources within other providers. You will not be able to access the resources within the SkyCluster overlay network from your machine.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

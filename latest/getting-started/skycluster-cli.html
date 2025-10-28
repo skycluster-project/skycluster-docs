@@ -590,7 +590,7 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -674,7 +674,7 @@ html[data-mode="dark"] {
 <h1>SkyCluster CLI<a class="headerlink" href="#skycluster-cli" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>Using <code class="docutils literal notranslate"><span class="pre">skycluster-cli</span></code> tool you can call skycluster related APIs. For issues and requested features please check out the <a class="reference external" href="https://github.com/skycluster-project/skycluster-cli">SkyCluster Cli</a> repository.</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">skycluster</span></code> tool you can call skycluster related APIs. For issues and requested features please check out the <a class="reference external" href="https://github.com/skycluster-project/skycluster-cli">SkyCluster Cli</a> repository.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
 <p>Download the latest pre-built binary from the <a class="reference external" href="https://github.com/skycluster-project/skycluster-cli/releases">releases page</a> and put it in your PATH.</p>
@@ -682,13 +682,8 @@ html[data-mode="dark"] {
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
 <p>Create a configuration file in your home directory named <code class="docutils literal notranslate"><span class="pre">.skycluster</span></code>. The configuration file should look like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kubeconfig</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">sky-manager</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/ubuntu/.kube/config</span>
-<span class="w">  </span><span class="nt">sky-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/tmp/k3s.yaml</span>
-<span class="nt">overlay</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">server_ip</span>
-<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
-<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kubeconfig</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/ubuntu/.kube/config</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 </pre></div>
 </div>
 </section>
@@ -712,20 +707,8 @@ skycluster<span class="w"> </span>xkube<span class="w"> </span>list
 skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--all
 skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
 
-
-
-<span class="c1"># List all available flavors across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>flavor<span class="w"> </span>list
-<span class="c1"># List all available flavors across gcp and aws provider</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>flavor<span class="w"> </span>list<span class="w"> </span>--platform<span class="w"> </span>aws,gcp
-
-<span class="c1"># List all available images across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>image<span class="w"> </span>list
-<span class="c1"># List all available images across gcp and aws provider</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--platform<span class="w"> </span>aws,gcp
-
-<span class="c1"># Print the overlay k8s kubeconfig</span>
-skycluster<span class="w"> </span>skyk8s<span class="w"> </span>config<span class="w"> </span>show
+<span class="c1"># Print the kubeconfig of a specific xkube</span>
+skycluster<span class="w"> </span>xkube<span class="w"> </span>config<span class="w"> </span>-k<span class="w"> </span>&lt;xkube-name&gt;
 </pre></div>
 </div>
 </section>

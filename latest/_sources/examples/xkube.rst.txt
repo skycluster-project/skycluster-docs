@@ -5,8 +5,15 @@ Managed Kubernetes Cluster
 .. toctree::
   :hidden:
 
+**Summary:** This example demonstrates how to setup and configure a Managed Kubernetes cluster within your chosen cloud provider using SkyCluster by defining an ``XKube`` resource. The ``XKube`` resource allows you to create and manage Kubernetes clusters on various cloud providers, abstracting away the complexities of cluster management.  
 
-Now let's create a managed Kubernetes cluster using the provider instance we just created. We use same ``XKube`` resource for different cloud providers. However, a few parameters must be adjusted based on the provider requirements.
+A managed kubernetes cluster allows you to interact with Kubernetes control plane without the need to manage the underlying nodes or infrastructure. 
+
+.. Various approaches are used to automatically scale and provision underlying nodes based on the application workloads. 
+
+Before you begin make sure you have followed steps in :doc:`/examples/single-provider` to prepare your provider by creating a ``XProvider`` instance. We now create ``XKube`` resource  with a few parameters adjustment based on the your ``XProvider`` setup.
+
+
 
 .. tabs::
 
@@ -29,16 +36,31 @@ Now let's create a managed Kubernetes cluster using the provider instance we jus
             private: 10.16.192.0/18	
           
           nodeGroups:
-          - instanceType: "2vCPU-4GB"
+          - instanceTypes:
+            - 2vCPU-4GB
+            - 4vCPU-8GB
+            - 8vCPU-32GB
             publicAccess: true
+            nodeCount: 3 # recommended
             autoScaling: 
               enabled: false
               minSize: 1
-              maxSize: 1
+              maxSize: 4
+
+          # additional node pools (for auto-scaling groups)    
+          - instanceTypes:
+            - 2vCPU-4GB
+            publicAccess: false
+          - instanceTypes:
+            - 2vCPU-8GB
+            publicAccess: false
+          - instanceTypes:
+            - 4vCPU-16GB
+            publicAccess: false
             
           principal:
             type: servicePrincipal # user | role | serviceAccount | servicePrincipal | managedIdentity
-            id: "arn:aws:iam::8857123199:root" # ARN (AWS) | member (GCP) | principalId (Azure)
+            id: "arn:aws:iam::2354325499:root" # ARN (AWS) | member (GCP) | principalId (Azure)
           
           providerRef:
             platform: aws
@@ -151,27 +173,34 @@ Now let's create a managed Kubernetes cluster using the provider instance we jus
   .. code-block:: sh
 
     kubectl get xkubes.skycluster.io
-    # NAME                          SYNC     STATUS
-    # example-instance-us-east      Ready    Ready
+    # NAME                    SYNCED   READY   COMPOSITION            AGE
+    # xk-aws-us-east--4z74l   True     True    xkubes.skycluster.io   8h
+    # xk-aws-us-west--3z59k   True     True    xkubes.skycluster.io   8h
 
   You can also use the SkyCluster cli commadnd:
 
   .. code-block:: sh
 
-    skycluster xkubes list 
+    skycluster xkube list
+    # NAME                     GATEWAY                                        POD_CIDR          SERVICE_CIDR     LOCATION      EXTERNAL_NAME
+    # xk-aws-us-east--4z74l    https://D51.gr7.us-east-1.eks.amazonaws.com    10.89.128.0/17    10.199.0.0/16    us-east-1a    xk-aws-us-east--4z74l-5tvkw
+    # xk-aws-us-west--3z59k    https://FF2.yl4.us-west-1.eks.amazonaws.com    10.58.128.0/17    10.230.0.0/16    us-west-1b    xk-aws-us-west--3z59k-q67rq
 
-
-Once you initialize and set up a provider, you can create additional ``XProvider`` resources to integrate other cloud providers such as GCP and Azure. When you have more than two providers configured, you are ready to follow the multi-provider examples. 
-
-For GCP GKE service:
+You can easily access to the kubeconfig for your managed kubernetes cluster using the SkyCluster CLI.
 
 .. code-block:: sh
 
-  skycluster xkubes list 
-  # note gcp cluster with external name
+  skycluster xkube list  # note the name and external name
+  # NAME                    LOCATION      EXTERNAL_NAME
+  # xk-aws-us-east--4z74l   us-east-1a    xk-aws-us-east--4z74l-5tvkw
 
+  # For AWS EKS use the Name field
+  skycluster xkube config -k xk-aws-us-east--4z74l ~/.kube/aws-config
+
+  # For GCP GKE use the EXTERNAL_NAME field and utilize the gcloud CLI
   # use gcloud to setup kubeconfig
-  gcloud container clusters get-credentials <external-name> --location <location>
+  # gcloud container clusters get-credentials <external-name> --location <location>
+  gcloud container clusters get-credentials xk-aws-us-east--4z74l-5tvkw --location us-east-1a
 
   # please refer to 
   # https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl

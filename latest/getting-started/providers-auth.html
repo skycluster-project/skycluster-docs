@@ -590,7 +590,7 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -964,6 +964,61 @@ You can choose from the following available regions: <code class="docutils liter
 </pre></div>
 </div>
 <p>Repeat the steps for each additional regions you want to configure.</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>openstack-cfg.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># Check if any of these variables are not set, if so exist</span>
+<span class="linenos"> 4</span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$AUTH_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USERNAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PASSWORD</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$TENANT_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="linenos"> 5</span><span class="w">  </span>-z<span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$USER_DOMAIN_NAME</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$PROJECT_DOMAIN_NAME</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;One or more required variables are not set.&quot;</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 8</span><span class="k">fi</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="nv">NAMESPACE</span><span class="o">=</span><span class="s2">&quot;skycluster-system&quot;</span>
+<span class="linenos">11</span><span class="nv">REGION_LOWER</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$REGION</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="k">)</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">14</span><span class="s">apiVersion: openstack.crossplane.io/v1beta1</span>
+<span class="linenos">15</span><span class="s">kind: ProviderConfig</span>
+<span class="linenos">16</span><span class="s">metadata:</span>
+<span class="linenos">17</span><span class="s">  name: provider-cfg-os-${REGION_LOWER}</span>
+<span class="linenos">18</span><span class="s">  labels:</span>
+<span class="linenos">19</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">20</span><span class="s">    skycluster.io/provider-platform: openstack</span>
+<span class="linenos">21</span><span class="s">    skycluster.io/provider-region: ${REGION}</span>
+<span class="linenos">22</span><span class="s">spec:</span>
+<span class="linenos">23</span><span class="s">  credentials:</span>
+<span class="linenos">24</span><span class="s">    source: Secret</span>
+<span class="linenos">25</span><span class="s">    secretRef:</span>
+<span class="linenos">26</span><span class="s">      name: secret-os-${REGION_LOWER}</span>
+<span class="linenos">27</span><span class="s">      namespace: ${NAMESPACE}</span>
+<span class="linenos">28</span><span class="s">      key: configs</span>
+<span class="linenos">29</span><span class="s">---</span>
+<span class="linenos">30</span><span class="s">apiVersion: v1</span>
+<span class="linenos">31</span><span class="s">kind: Secret</span>
+<span class="linenos">32</span><span class="s">metadata:</span>
+<span class="linenos">33</span><span class="s">  name: secret-os-${REGION_LOWER}</span>
+<span class="linenos">34</span><span class="s">  namespace: ${NAMESPACE}</span>
+<span class="linenos">35</span><span class="s">type: Opaque</span>
+<span class="linenos">36</span><span class="s">stringData:</span>
+<span class="linenos">37</span><span class="s">  configs: |</span>
+<span class="linenos">38</span><span class="s">    {</span>
+<span class="linenos">39</span><span class="s">      &quot;auth_url&quot;: &quot;$AUTH_URL&quot;,</span>
+<span class="linenos">40</span><span class="s">      &quot;region&quot;: &quot;$REGION&quot;,</span>
+<span class="linenos">41</span><span class="s">      &quot;user_name&quot;: &quot;$USERNAME&quot;,</span>
+<span class="linenos">42</span><span class="s">      &quot;password&quot;: &quot;$PASSWORD&quot;,</span>
+<span class="linenos">43</span><span class="s">      &quot;tenant_name&quot;: &quot;$TENANT_NAME&quot;,</span>
+<span class="linenos">44</span><span class="s">      &quot;project_domain_name&quot;: &quot;$USER_DOMAIN_NAME&quot;,</span>
+<span class="linenos">45</span><span class="s">      &quot;user_domain_name&quot;: &quot;$USER_DOMAIN_NAME&quot;,</span>
+<span class="linenos">46</span><span class="s">      &quot;insecure&quot;: &quot;false&quot;</span>
+<span class="linenos">47</span><span class="s">    }</span>
+<span class="linenos">48</span><span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
 </section>
 </section>
 <section id="on-premises-edge-clusters">
@@ -977,17 +1032,52 @@ You can choose from the following available regions: <code class="docutils liter
 <li><p>SSH access is enabled on the gateway and all worker nodes.</p></li>
 <li><p>A private key is configured for SSH access on the gateway and all edge devices.</p></li>
 </ul>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GW_URL</span><span class="o">=</span><span class="s2">&quot;http://gw.savitestbed.ca&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">PRIVATE_KEY_PATH</span><span class="o">=</span>/path/to/private/key
-<span class="nb">export</span><span class="w"> </span><span class="nv">USERNAME</span><span class="o">=</span><span class="s2">&quot;USERNAME&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;region-name&quot;</span>
-
-<span class="nb">export</span><span class="w"> </span><span class="nv">PRIVATE_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$PRIVATE_KEY_PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<section id="private-key-secret">
+<h3>Private Key Secret<a class="headerlink" href="#private-key-secret" title="Link to this heading">#</a></h3>
+<p>A secret containing the private SSH key must be created to allow SkyCluster to connect to the gateway and worker nodes. Make sure the SSH key has access to both the gateway and worker nodes.
+Then export your encoded private key and the desired secret name as environment variables:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PRIVATE_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-w0<span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SECRET_NAME</span><span class="o">=</span>savi-toronto-edge-ssh-key
+<span class="c1"># replace with your desired secret name, e.g., savi-toronto-edge-ssh-key</span>
+<span class="c1"># the secret name will be referenced when you setup gateway node.</span>
 </pre></div>
 </div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/on-premises-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+<p>And then run the following command to generate the secret:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://skycluster.io/configs/secret-cfg.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </pre></div>
 </div>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>secret-cfg.sh</strong></p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># If env variables are not set, exit</span>
+<span class="linenos"> 4</span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PRIVATE_KEY</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SECRET_NAME</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PRIVATE_KEY and SECRET_NAME must be set.&quot;</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos"> 7</span><span class="k">fi</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="nv">NAMESPACE</span><span class="o">=</span><span class="s2">&quot;skycluster-system&quot;</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="linenos">12</span><span class="s">apiVersion: v1</span>
+<span class="linenos">13</span><span class="s">kind: Secret</span>
+<span class="linenos">14</span><span class="s">metadata:</span>
+<span class="linenos">15</span><span class="s">  namespace: ${NAMESPACE}</span>
+<span class="linenos">16</span><span class="s">  name: ${SECRET_NAME}</span>
+<span class="linenos">17</span><span class="s">  labels:</span>
+<span class="linenos">18</span><span class="s">    skycluster.io/managed-by: skycluster</span>
+<span class="linenos">19</span><span class="s">    skycluster.io/secret-type: onpremise-keypair</span>
+<span class="linenos">20</span><span class="s">type: Opaque</span>
+<span class="linenos">21</span><span class="s">stringData:</span>
+<span class="linenos">22</span><span class="s">  privateKey: &quot;$PRIVATE_KEY&quot;</span>
+<span class="linenos">23</span><span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
 </section>
 </section>
 
@@ -1045,7 +1135,10 @@ You can choose from the following available regions: <code class="docutils liter
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#savi-testbed-openstack-example">SAVI Testbed (OpenStack Example)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-premises-edge-clusters">On-premises Edge Clusters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-premises-edge-clusters">On-premises Edge Clusters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#private-key-secret">Private Key Secret</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

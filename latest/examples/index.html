@@ -52,7 +52,7 @@
     <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Setup Provider Setup" href="single-provider.html" />
+    <link rel="next" title="Setup Provider" href="single-provider.html" />
     <link rel="prev" title="SkyCluster CLI" href="../getting-started/skycluster-cli.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -571,7 +571,7 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -650,6 +650,9 @@ html[data-mode="dark"] {
 <h1>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<p>We introduce several examples to demonstrate how to use SkyCluster to create and manage services across multiple cloud providers. The examples cover various scenarios, from single-provider deployments to multi-provider configurations and setup and deployment of microservices automatically while minimizing total cost.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
 <p>To run the examples, you must follow steps in <a class="reference internal" href="../getting-started/index.html"><span class="doc">Getting Started</span></a> and setup providers
 profiles and SkyCluster before creating resources and services.
 This involves setting up credentials and creating a profile to define the desired regions and zones. Once a profile is created, the provider profile will be onboarded into SkyCluster for service configuration and management.</p>
@@ -664,7 +667,7 @@ This involves setting up credentials and creating a profile to define the desire
 </pre></div>
 </div>
 <p>Make sure you have at least one <code class="docutils literal notranslate"><span class="pre">ProviderProfile</span></code> created and <code class="docutils literal notranslate"><span class="pre">Ready</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofiles
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofiles<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 <span class="c1"># NAME                  REGION      READY</span>
 <span class="c1"># aws-us-east-1         us-east-1   True</span>
 </pre></div>
@@ -672,11 +675,17 @@ This involves setting up credentials and creating a profile to define the desire
 <p>If any <code class="docutils literal notranslate"><span class="pre">READY</span></code> status field is not <code class="docutils literal notranslate"><span class="pre">Ready</span></code> check the <a class="reference internal" href="../getting-started/troubleshooting.html"><span class="doc">Troubleshooting</span></a> page.</p>
 </div>
 <section id="list-of-examples">
-<h2>List of examples:<a class="headerlink" href="#list-of-examples" title="Link to this heading">#</a></h2>
+<h3>List of examples:<a class="headerlink" href="#list-of-examples" title="Link to this heading">#</a></h3>
+<p>Prepare and setup cloud resources and services:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="single-provider.html"><span class="doc">Setup Provider Setup</span></a></p></li>
+<li><p><a class="reference internal" href="single-provider.html"><span class="doc">Setup Provider</span></a></p></li>
 <li><p><a class="reference internal" href="multi-provider.html"><span class="doc">Multi Provider Setup</span></a></p></li>
 </ul>
+<p>Running and deploying microservices:</p>
+<ul class="simple">
+<li><p><span class="xref std std-doc">microservice-deploy</span></p></li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -704,7 +713,7 @@ This involves setting up credentials and creating a profile to define the desire
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Setup Provider Setup</p>
+        <p class="prev-next-title">Setup Provider</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -727,7 +736,10 @@ This involves setting up credentials and creating a profile to define the desire
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-of-examples">List of examples:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#list-of-examples">List of examples:</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

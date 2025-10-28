@@ -91,7 +91,6 @@ and the ``skycluster-kind.yaml`` file should contain the following content:
       - containerPort: 30080
         hostPort: 8080
         protocol: TCP
-    - role: worker
       
 The cluster is used used to act as a broker between other gateways across different cloud providers, and hence it requires a public IP address to be reachable from the internet. Once installed replace the `0.0.0.0` with the actual public IP address of your machine in the `~/.kube/config` file:
 
@@ -117,6 +116,10 @@ Install Crossplane
 To manage the underlying cloud resources, you need to install `Crossplane <CROSSPLANE_>`_ in your cluster. You can do this using the following command:
 
 .. code-block:: sh
+
+  helm repo add crossplane-stable https://charts.crossplane.io/stable
+  
+  helm repo update
 
   helm install crossplane \
     --namespace crossplane-system \
@@ -262,7 +265,7 @@ And then run the following command to generate the secret:
     kind: Secret
     metadata:
       namespace: skycluster-system
-      name: k8s-skycluster-management-connection
+      name: k8s-skycluster-management
       labels:
         skycluster.io/managed-by: skycluster
         skycluster.io/secret-type: k8s-connection-data

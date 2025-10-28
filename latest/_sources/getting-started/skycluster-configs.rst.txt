@@ -31,7 +31,9 @@ Check the status of the SkyCluster operator:
 
 .. code-block:: bash
 
-    kubectl get xsetup.skycluster.io mycluster
+    kubectl get xsetup.skycluster.io
+    # NAME              SYNCED   READY   COMPOSITION             AGE
+    # skycluster-mgmt   True     True    xsetups.skycluster.io   21h
 
 Once ready, you can follow the examples in the SkyCluster documentation to deploy applications.
 
@@ -43,7 +45,11 @@ Join SkyCluster Overlay
 SkyCluster uses an overlay network to enable communication between private networks across different 
 providers. The overlay network is created using open source ``tailscale`` for client and ``headscale`` as the server, which provides a secure mesh network. The headscale server is deployed in the SkyCluster namespace and is responsible for managing the overlay network. SkyCluster automatically configures the headscale server and the tailscale clients within each provider. However to enabled access to the overlay network from this machine, you need to install the ``tailscale`` client and authenticate it with the headscale server.
 
-First install the ``tailscale`` client on your machine:
+.. note::
+
+  This step is optional but recommended to enable access to the resources within the local machine outside of the SkyCluster control plane. 
+
+To connect your local machine to the overlay network, first install the ``tailscale`` client on your machine:
 
 .. code-block:: sh
 
@@ -107,10 +113,6 @@ To maintain the connection to the overlay network, you can run the above script 
   echo "*/5 * * * * $SCRIPT_PATH" >> /tmp/mycron
   crontab -u $USER /tmp/mycron
 
-
-.. warning::
-
-  This step is required to connect your machine to the SkyCluster overlay network. If you do not run this step, the SkyCluster operator will not be able to manage the resources within other providers. You will not be able to access the resources within the SkyCluster overlay network from your machine.
 
 .. note::
 

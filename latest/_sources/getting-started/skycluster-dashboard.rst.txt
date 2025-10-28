@@ -21,13 +21,16 @@ dashboard deployment by running the following command and ensure the same namesp
 .. code-block:: sh
 
     # Check the status of the dashboard deployment
-    kubectl get deployment skycluster-dashboard -n skycluster
+    kubectl get deployment skycluster-dashboard -n skycluster-system
+    # NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+    # skycluster-dashboard   1/1     1            1           43h
 
     # Check the status of the dashboard service
-    kubectl get svc skycluster-dashboard -n skycluster
+    kubectl get svc skycluster-dashboard -n skycluster-system
+    # NAME                   TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)        AGE
+    # skycluster-dashboard   LoadBalancer   10.0.58.65   172.18.0.3    80:30423/TCP   43h
 
-Please note the ``EXTERNAL-IP`` of the service, as you will need it to access the dashboard. If the EXTERNAL-IP is still pending, it means the LoadBalancer is not yet ready. CHeck the status of the 
-LoadBalancer installation.
+Please note the ``EXTERNAL-IP`` of the service, as you will need it to access the dashboard. If the EXTERNAL-IP is still pending, it means the LoadBalancer is not yet ready. Check the status of the LoadBalancer installation. If you are using ``kind``, ensure that you have set up the Kind LoadBalancer installation.
 
 Manual Installation
 -------------------
@@ -40,6 +43,7 @@ To manually install the SkyCluster dashboard, apply the following configuration 
     kind: Deployment
     metadata:
       name: skycluster-dashboard
+      namespace: skycluster-system
     spec:
       replicas: 1
       selector:
@@ -61,6 +65,7 @@ To manually install the SkyCluster dashboard, apply the following configuration 
     kind: Service
     metadata:
       name: skycluster-dashboard
+      namespace: skycluster-system
     spec:
       selector:
         app: skycluster-dashboard
@@ -76,5 +81,5 @@ Apply the above configuration to your Kubernetes cluster using kubectl and once 
 .. code-block:: sh
 
     kubectl apply -f skycluster-dashboard.yaml
-    kubectl get svc skycluster-dashboard
+    kubectl get svc skycluster-dashboard -n skycluster-system
 

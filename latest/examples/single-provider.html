@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Setup Provider Setup &#8212; SkyCluster Docs</title>
+    <title>Setup Provider &#8212; SkyCluster Docs</title>
   
   
   
@@ -573,7 +573,7 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -634,7 +634,7 @@ html[data-mode="dark"] {
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Setup Provider Setup</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Setup Provider</span></li>
   </ul>
 </nav>
 </div>
@@ -651,11 +651,13 @@ html[data-mode="dark"] {
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="setup-provider-setup">
-<h1>Setup Provider Setup<a class="headerlink" href="#setup-provider-setup" title="Link to this heading">#</a></h1>
+  <section id="setup-provider">
+<h1>Setup Provider<a class="headerlink" href="#setup-provider" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>Make sure you have followed steps in <a class="reference internal" href="../getting-started/index.html"><span class="doc">Getting Started</span></a> and ensure all
+<p><strong>Summary:</strong> This example demonstrates how to setup and configure a single cloud provider using SkyCluster by defining an <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> resource. The <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> is a foundational resource that enables the creation and management of other cloud resources and services within the specified provider.</p>
+<p>Once you complete this example, you will have a functional cloud provider setup that can be used to deploy virtual machines, Kubernetes clusters, databases, and other services and you can access to any services inside this provider’s VPC through your local machine.</p>
+<p>Before you begin make sure you have followed steps in <a class="reference internal" href="../getting-started/index.html"><span class="doc">Getting Started</span></a> and ensure all
 prerequisites installed and configured, including:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../getting-started/providers-auth.html"><span class="doc">Providers Authentication</span></a></p></li>
@@ -669,14 +671,14 @@ with a static IP address that serves as the gateway for all services and resourc
 It configures routing and sets up overlay networks to provide access to VPC resources. Charges apply
 as services are provisioned, and when the Provider is deleted, SkyCluster automatically cleans up all associated services.</p>
 <p>Before creating a <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> resource, ensure you have a <code class="docutils literal notranslate"><span class="pre">ProviderProfile</span></code> instance created and ready for this provider:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 <span class="c1"># NAME                  PLATFORM    REGION      READY</span>
 <span class="c1"># aws-us-east-1         aws         us-east-1   True</span>
 </pre></div>
 </div>
 <p>Then create a <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> resource:</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">AWS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">GCP</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">OpenStack</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">AWS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">GCP</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">OpenStack</button><button aria-controls="panel-0-0-3" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-3" name="0-3" role="tab" tabindex="-1">On-premises Edge</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XProvider</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-provider-us-east</span>
@@ -706,7 +708,7 @@ as services are provisioned, and when the Provider is deleted, SkyCluster automa
 
 <span class="w">  </span><span class="nt">gateway</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># Flavor is defined as the number of vCPUs and memory</span>
-<span class="w">    </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+<span class="w">    </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4vCPU-16GB</span>
 <span class="w">    </span><span class="nt">volumeType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gp2</span>
 <span class="w">    </span><span class="nt">volumeSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
 
@@ -807,6 +809,32 @@ as services are provisioned, and when the Provider is deleted, SkyCluster automa
 <span class="w">      </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
 </pre></div>
 </div>
+</div><div aria-labelledby="tab-0-0-3" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-3" name="0-3" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XProvider</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-edge</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Unique identifier for the setup/application</span>
+<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-edge</span>
+
+<span class="w">  </span><span class="nt">gatewayDeviceName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-edge-gw</span>
+<span class="w">  </span><span class="c1"># The gateway device is a physical machine that serves as the gateway</span>
+<span class="w">  </span><span class="c1"># It should be introduced to SkyCluster by creating DeviceNode resource</span>
+
+<span class="w">  </span><span class="nt">workerDeviceNames</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># List of physical machines that will be used as worker nodes</span>
+<span class="w">    </span><span class="c1"># They should be introduced to SkyCluster by creating DeviceNode resources</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-edge-jetson-nano1</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-edge-jetson-nano2</span>
+
+<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">baremetal</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">toronto</span>
+<span class="w">    </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># The provider is identified by the primary zone</span>
+<span class="w">      </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+</pre></div>
+</div>
 </div></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -834,7 +862,7 @@ skycluster<span class="w"> </span>subnet<span class="w"> </span><span class="m">
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Check the status of the <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> instance by running the following command or through <a class="reference internal" href="../getting-started/skycluster-dashboard.html"><span class="doc">SkyCluster Dashboard</span></a>.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xproviderd.skycluster.io
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xproviders.skycluster.io
 <span class="c1"># NAME                      SYNC     STATUS</span>
 <span class="c1"># aws-provider-us-east      Ready    Ready</span>
 </pre></div>
@@ -845,6 +873,13 @@ skycluster<span class="w"> </span>subnet<span class="w"> </span><span class="m">
 <span class="c1"># os-provider-scinet    10.16.128.11    142.1.174.185    10.16.0.0/16</span>
 </pre></div>
 </div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>For on-premises edge providers, ensure that the gateway device is reachable from your local machine via SSH using the private key specified in the secret.</p></li>
+<li><p>The gateway and worker nodes are introduced by creating <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> resources. Please refer to <a class="reference internal" href="../getting-started/providers-profile.html"><span class="doc">Providers Profiles</span></a> for more details.</p></li>
+</ul>
 </div>
 </section>
 </section>

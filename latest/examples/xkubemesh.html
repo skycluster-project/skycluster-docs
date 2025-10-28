@@ -567,7 +567,7 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -652,7 +652,17 @@ html[data-mode="dark"] {
 <h1>Multi-cluster Kubernetes Cluster<a class="headerlink" href="#multi-cluster-kubernetes-cluster" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<p><strong>Summary:</strong> This example demonstrates how to set up multiple Kubernetes clusters across different cloud providers and connect them using SkyCluster’s multi-cluster management capabilities.</p>
+<p>Before you begin make sure you have followed steps in previous section <a class="reference internal" href="multi-provider.html"><span class="doc">Multi Provider Setup</span></a> and have at least two <code class="docutils literal notranslate"><span class="pre">XKube</span></code> clusters deployed across different providers.</p>
 <p>To connect Kubernetes clusters an <code class="docutils literal notranslate"><span class="pre">XKubeMesh</span></code> resource must be created. This resource manages inter-cluster connectivity by linking each cluster and configuring the Istio setup.</p>
+<p>First find the cluster names using <code class="docutils literal notranslate"><span class="pre">skycluster</span></code> cli:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkube<span class="w"> </span>list
+<span class="c1"># NAME                     LOCATION      EXTERNAL_NAME</span>
+<span class="c1"># example-kube-os-scinet   us-east-1a    xk-aws-us-east--4z74l-5tvkw</span>
+<span class="c1"># ex1-kube-gcp             us-central1   xk-gcp-us-central1--4z74l-5tvkw</span>
+<span class="c1"># ex1-aws-kube             us-west-1b    xk-aws-us-west--3z59k-q67rq</span>
+</pre></div>
+</div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XKubeMesh</span>
 <span class="nt">metadata</span><span class="p">:</span>
@@ -670,12 +680,14 @@ html[data-mode="dark"] {
 <span class="w">    </span><span class="nt">serviceSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.32.0/19</span>
 </pre></div>
 </div>
-<p>Check out the status of inter-cluster connectivity by running:</p>
+<p>This may take a few minutes. Check out the status of inter-cluster connectivity by running:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xkubemeshes.skycluster.io
-<span class="c1"># NAME       SYNCED   READY   COMPOSITION                 AGE</span>
-<span class="c1"># kubemesh   True     True    xkubemeshes.skycluster.io   4h41m</span>
+<span class="c1"># NAME          SYNCED   READY   COMPOSITION                 AGE</span>
+<span class="c1"># my-kubemesh   True     True    xkubemeshes.skycluster.io   4h41m</span>
 </pre></div>
 </div>
+<p>Once the <code class="docutils literal notranslate"><span class="pre">XKubeMesh</span></code> is ready, you should be able to access services deployed on any of the connected clusters from any other cluster. Any pod deployed on any of the clusters should be able to reach other pods and services running on other clusters.</p>
+<p>You can now deploy multi-cluster applications across the connected clusters. Follow the <span class="xref std std-doc">/examples/multi-cluster-apps</span> for more details on deploying multi-cluster applications using SkyCluster.</p>
 </section>
 
 

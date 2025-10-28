@@ -1,4 +1,4 @@
-Setup Provider Setup
+Setup Provider
 #######################
 
 .. toctree::
@@ -7,7 +7,11 @@ Setup Provider Setup
   xinstance
   xkube
 
-Make sure you have followed steps in :doc:`/getting-started/index` and ensure all  
+**Summary:** This example demonstrates how to setup and configure a single cloud provider using SkyCluster by defining an ``XProvider`` resource. The ``XProvider`` is a foundational resource that enables the creation and management of other cloud resources and services within the specified provider. 
+
+Once you complete this example, you will have a functional cloud provider setup that can be used to deploy virtual machines, Kubernetes clusters, databases, and other services and you can access to any services inside this provider's VPC through your local machine.
+
+Before you begin make sure you have followed steps in :doc:`/getting-started/index` and ensure all  
 prerequisites installed and configured, including:
 
 - :doc:`/getting-started/providers-auth`
@@ -27,7 +31,7 @@ Before creating a ``XProvider`` resource, ensure you have a ``ProviderProfile`` 
 
 .. code-block:: sh
 
-  kubectl get providerprofile
+  kubectl get providerprofile -n skycluster-system
   # NAME                  PLATFORM    REGION      READY
   # aws-us-east-1         aws         us-east-1   True
 
@@ -69,7 +73,7 @@ Then create a ``XProvider`` resource:
         
           gateway:
             # Flavor is defined as the number of vCPUs and memory
-            flavor: 2vCPU-4GB
+            flavor: 4vCPU-16GB
             volumeType: gp2
             volumeSize: 20
 
@@ -174,6 +178,35 @@ Then create a ``XProvider`` resource:
             zones:
               # The provider is identified by the primary zone
               primary: default
+  
+  .. tab:: On-premises Edge
+
+      .. code-block:: yaml
+  
+        apiVersion: skycluster.io/v1alpha1
+        kind: XProvider
+        metadata:
+          name: savi-toronto-edge
+        spec:
+          # Unique identifier for the setup/application
+          applicationId: savi-toronto-edge
+          
+          gatewayDeviceName: savi-toronto-edge-gw
+          # The gateway device is a physical machine that serves as the gateway
+          # It should be introduced to SkyCluster by creating DeviceNode resource
+          
+          workerDeviceNames:
+            # List of physical machines that will be used as worker nodes
+            # They should be introduced to SkyCluster by creating DeviceNode resources
+            - savi-toronto-edge-jetson-nano1
+            - savi-toronto-edge-jetson-nano2
+
+          providerRef:
+            platform: baremetal
+            region: toronto
+            zones:
+              # The provider is identified by the primary zone
+              primary: default
 
 .. note::
 
@@ -207,7 +240,7 @@ The above example creates multiple resources in your project, including a VPC, s
 
   .. code-block:: sh
 
-    kubectl get xproviderd.skycluster.io
+    kubectl get xproviders.skycluster.io
     # NAME                      SYNC     STATUS
     # aws-provider-us-east      Ready    Ready
 
@@ -220,3 +253,7 @@ The above example creates multiple resources in your project, including a VPC, s
     # os-provider-scinet    10.16.128.11    142.1.174.185    10.16.0.0/16
 
 
+.. note::
+
+  - For on-premises edge providers, ensure that the gateway device is reachable from your local machine via SSH using the private key specified in the secret. 
+  - The gateway and worker nodes are introduced by creating ``DeviceNode`` resources. Please refer to :doc:`/getting-started/providers-profile` for more details.

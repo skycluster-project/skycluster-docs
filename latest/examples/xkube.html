@@ -569,7 +569,7 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -631,7 +631,7 @@ html[data-mode="dark"] {
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
     
     
-    <li class="breadcrumb-item"><a href="single-provider.html" class="nav-link">Setup Provider Setup</a></li>
+    <li class="breadcrumb-item"><a href="single-provider.html" class="nav-link">Setup Provider</a></li>
     
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Managed Kubernetes Cluster</span></li>
   </ul>
@@ -654,7 +654,9 @@ html[data-mode="dark"] {
 <h1>Managed Kubernetes Cluster<a class="headerlink" href="#managed-kubernetes-cluster" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>Now let’s create a managed Kubernetes cluster using the provider instance we just created. We use same <code class="docutils literal notranslate"><span class="pre">XKube</span></code> resource for different cloud providers. However, a few parameters must be adjusted based on the provider requirements.</p>
+<p><strong>Summary:</strong> This example demonstrates how to setup and configure a Managed Kubernetes cluster within your chosen cloud provider using SkyCluster by defining an <code class="docutils literal notranslate"><span class="pre">XKube</span></code> resource. The <code class="docutils literal notranslate"><span class="pre">XKube</span></code> resource allows you to create and manage Kubernetes clusters on various cloud providers, abstracting away the complexities of cluster management.</p>
+<p>A managed kubernetes cluster allows you to interact with Kubernetes control plane without the need to manage the underlying nodes or infrastructure.</p>
+<p>Before you begin make sure you have followed steps in <a class="reference internal" href="single-provider.html"><span class="doc">Setup Provider</span></a> to prepare your provider by creating a <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> instance. We now create <code class="docutils literal notranslate"><span class="pre">XKube</span></code> resource  with a few parameters adjustment based on the your <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> setup.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">AWS EKS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">GCP GKE</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">OpenStack (K3S)</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XKube</span>
@@ -671,16 +673,31 @@ html[data-mode="dark"] {
 <span class="w">    </span><span class="nt">private</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.16.192.0/18</span>
 
 <span class="w">  </span><span class="nt">nodeGroups</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceType</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2vCPU-4GB&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceTypes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4vCPU-8GB</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8vCPU-32GB</span>
 <span class="w">    </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">nodeCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w"> </span><span class="c1"># recommended</span>
 <span class="w">    </span><span class="nt">autoScaling</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">      </span><span class="nt">minSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">      </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+
+<span class="w">  </span><span class="c1"># additional node pools (for auto-scaling groups)</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceTypes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+<span class="w">    </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceTypes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-8GB</span>
+<span class="w">    </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceTypes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4vCPU-16GB</span>
+<span class="w">    </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
 <span class="w">  </span><span class="nt">principal</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">servicePrincipal</span><span class="w"> </span><span class="c1"># user | role | serviceAccount | servicePrincipal | managedIdentity</span>
-<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::8857123199:root&quot;</span><span class="w"> </span><span class="c1"># ARN (AWS) | member (GCP) | principalId (Azure)</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::2354325499:root&quot;</span><span class="w"> </span><span class="c1"># ARN (AWS) | member (GCP) | principalId (Azure)</span>
 
 <span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
@@ -781,22 +798,31 @@ CLI commands and provide the VPC CIDR.</p>
 <p class="admonition-title">Note</p>
 <p>Check the status of the <code class="docutils literal notranslate"><span class="pre">XKube</span></code> instance by running the following command or through <a class="reference internal" href="../getting-started/skycluster-dashboard.html"><span class="doc">SkyCluster Dashboard</span></a>.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xkubes.skycluster.io
-<span class="c1"># NAME                          SYNC     STATUS</span>
-<span class="c1"># example-instance-us-east      Ready    Ready</span>
+<span class="c1"># NAME                    SYNCED   READY   COMPOSITION            AGE</span>
+<span class="c1"># xk-aws-us-east--4z74l   True     True    xkubes.skycluster.io   8h</span>
+<span class="c1"># xk-aws-us-west--3z59k   True     True    xkubes.skycluster.io   8h</span>
 </pre></div>
 </div>
 <p>You can also use the SkyCluster cli commadnd:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkubes<span class="w"> </span>list
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkube<span class="w"> </span>list
+<span class="c1"># NAME                     GATEWAY                                        POD_CIDR          SERVICE_CIDR     LOCATION      EXTERNAL_NAME</span>
+<span class="c1"># xk-aws-us-east--4z74l    https://D51.gr7.us-east-1.eks.amazonaws.com    10.89.128.0/17    10.199.0.0/16    us-east-1a    xk-aws-us-east--4z74l-5tvkw</span>
+<span class="c1"># xk-aws-us-west--3z59k    https://FF2.yl4.us-west-1.eks.amazonaws.com    10.58.128.0/17    10.230.0.0/16    us-west-1b    xk-aws-us-west--3z59k-q67rq</span>
 </pre></div>
 </div>
 </div>
-<p>Once you initialize and set up a provider, you can create additional <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> resources to integrate other cloud providers such as GCP and Azure. When you have more than two providers configured, you are ready to follow the multi-provider examples.</p>
-<p>For GCP GKE service:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkubes<span class="w"> </span>list
-<span class="c1"># note gcp cluster with external name</span>
+<p>You can easily access to the kubeconfig for your managed kubernetes cluster using the SkyCluster CLI.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkube<span class="w"> </span>list<span class="w">  </span><span class="c1"># note the name and external name</span>
+<span class="c1"># NAME                    LOCATION      EXTERNAL_NAME</span>
+<span class="c1"># xk-aws-us-east--4z74l   us-east-1a    xk-aws-us-east--4z74l-5tvkw</span>
 
+<span class="c1"># For AWS EKS use the Name field</span>
+skycluster<span class="w"> </span>xkube<span class="w"> </span>config<span class="w"> </span>-k<span class="w"> </span>xk-aws-us-east--4z74l<span class="w"> </span>~/.kube/aws-config
+
+<span class="c1"># For GCP GKE use the EXTERNAL_NAME field and utilize the gcloud CLI</span>
 <span class="c1"># use gcloud to setup kubeconfig</span>
-gcloud<span class="w"> </span>container<span class="w"> </span>clusters<span class="w"> </span>get-credentials<span class="w"> </span>&lt;external-name&gt;<span class="w"> </span>--location<span class="w"> </span>&lt;location&gt;
+<span class="c1"># gcloud container clusters get-credentials &lt;external-name&gt; --location &lt;location&gt;</span>
+gcloud<span class="w"> </span>container<span class="w"> </span>clusters<span class="w"> </span>get-credentials<span class="w"> </span>xk-aws-us-east--4z74l-5tvkw<span class="w"> </span>--location<span class="w"> </span>us-east-1a
 
 <span class="c1"># please refer to</span>
 <span class="c1"># https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl</span>

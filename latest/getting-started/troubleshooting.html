@@ -589,7 +589,7 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -727,6 +727,11 @@ sudo<span class="w"> </span>tailscale<span class="w"> </span>status
 </div>
 <p>If the connection does not establish, there is an issue with the overlay connection and setup.</p>
 </section>
+<section id="aws-specific-issues">
+<h2>AWS Specific Issues<a class="headerlink" href="#aws-specific-issues" title="Link to this heading">#</a></h2>
+<p><strong>Unable to delete XProvider resources</strong>:</p>
+<p>If you provision services that require load balancers, AWS may provision them automatically. When you delete <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> resources, you must ensure that all associated load balancers are deleted first. Otherwise, the deletion of <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> resources may fail due to existing dependencies.</p>
+</section>
 </section>
 
 
@@ -769,6 +774,7 @@ sudo<span class="w"> </span>tailscale<span class="w"> </span>status
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#essentials">Essentials</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overlay-network-status">Overlay Network Status</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aws-specific-issues">AWS Specific Issues</a></li>
 </ul>
   </nav></div>
 

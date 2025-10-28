@@ -590,7 +590,7 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -684,14 +684,17 @@ html[data-mode="dark"] {
 <p>The SkyCluster dashboard is automatically deployed with the SkyCluster operator. If you have already installed the operator, you can skip the installation steps below. Check the status of
 dashboard deployment by running the following command and ensure the same namespace is used as the operator:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the status of the dashboard deployment</span>
-kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster
+kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster-system
+<span class="c1"># NAME                   READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="c1"># skycluster-dashboard   1/1     1            1           43h</span>
 
 <span class="c1"># Check the status of the dashboard service</span>
-kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster-system
+<span class="c1"># NAME                   TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)        AGE</span>
+<span class="c1"># skycluster-dashboard   LoadBalancer   10.0.58.65   172.18.0.3    80:30423/TCP   43h</span>
 </pre></div>
 </div>
-<p>Please note the <code class="docutils literal notranslate"><span class="pre">EXTERNAL-IP</span></code> of the service, as you will need it to access the dashboard. If the EXTERNAL-IP is still pending, it means the LoadBalancer is not yet ready. CHeck the status of the
-LoadBalancer installation.</p>
+<p>Please note the <code class="docutils literal notranslate"><span class="pre">EXTERNAL-IP</span></code> of the service, as you will need it to access the dashboard. If the EXTERNAL-IP is still pending, it means the LoadBalancer is not yet ready. Check the status of the LoadBalancer installation. If you are using <code class="docutils literal notranslate"><span class="pre">kind</span></code>, ensure that you have set up the Kind LoadBalancer installation.</p>
 <section id="manual-installation">
 <h3>Manual Installation<a class="headerlink" href="#manual-installation" title="Link to this heading">#</a></h3>
 <p>To manually install the SkyCluster dashboard, apply the following configuration to your Kubernetes cluster. This configuration creates a deployment and a service for the dashboard:</p>
@@ -699,6 +702,7 @@ LoadBalancer installation.</p>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
@@ -720,6 +724,7 @@ LoadBalancer installation.</p>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-dashboard</span>
@@ -732,7 +737,7 @@ LoadBalancer installation.</p>
 </div>
 <p>Apply the above configuration to your Kubernetes cluster using kubectl and once the dashboard is running, you can access it via the LoadBalancer IP address.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>skycluster-dashboard.yaml
-kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>skycluster-dashboard
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>skycluster-dashboard<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 </pre></div>
 </div>
 </section>

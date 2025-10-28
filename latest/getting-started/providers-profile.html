@@ -592,7 +592,7 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -678,12 +678,13 @@ html[data-mode="dark"] {
 </div>
 <section id="setting-up-cloud-providers">
 <h2>Setting Up Cloud Providers<a class="headerlink" href="#setting-up-cloud-providers" title="Link to this heading">#</a></h2>
-<p>A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a <cite>ProviderProfile</cite> resource in the SkyCluster system. The following examples show how to configure the a <code class="docutils literal notranslate"><span class="pre">ProfileProvider</span></code> for the major cloud providers: AWS, GCP, and Azure.</p>
+<p>A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a <cite>ProviderProfile</cite> resource in <cite>skycluster-system</cite> namespace. The following examples show how to configure the a <code class="docutils literal notranslate"><span class="pre">ProfileProvider</span></code> for the major cloud providers: AWS, GCP, and Azure.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">AWS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">GCP</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Azure</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProviderProfile</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east-1</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span><span class="w"> </span><span class="c1"># Platform can be aws, azure, gcp</span>
 <span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span><span class="w">  </span><span class="c1"># Region identifier</span>
@@ -707,6 +708,7 @@ html[data-mode="dark"] {
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProviderProfile</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp-us-east1</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp</span><span class="w"> </span><span class="c1"># Platform can be aws, azure, gcp</span>
 <span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east1</span><span class="w">  </span><span class="c1"># Region identifier</span>
@@ -734,6 +736,7 @@ html[data-mode="dark"] {
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProviderProfile</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">azure-eastus</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">azure</span><span class="w"> </span><span class="c1"># Platform can be aws, azure, gcp</span>
 <span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eastus</span><span class="w">  </span><span class="c1"># Region identifier</span>
@@ -756,7 +759,7 @@ html[data-mode="dark"] {
 </div></div>
 <p>SkyCluster automatically detects available images and instance types for major cloud providers such as <code class="docutils literal notranslate"><span class="pre">AWS</span></code>, <code class="docutils literal notranslate"><span class="pre">Azure</span></code>, and <code class="docutils literal notranslate"><span class="pre">GCP</span></code>. For <code class="docutils literal notranslate"><span class="pre">OpenStack</span></code> and <code class="docutils literal notranslate"><span class="pre">baremetal</span></code>, these services must be configured manually</p>
 <p>After creating a <code class="docutils literal notranslate"><span class="pre">ProfileProvider</span></code> resource, the SkyCluster operator generates a ConfigMap in the <code class="docutils literal notranslate"><span class="pre">skycluster-system</span></code> namespace containing the available images and instance types for that provider. Verify that the provider profile is ready by checking its status:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 <span class="c1"># NAME            REGION      READY</span>
 <span class="c1"># aws-us-east-1   us-east-1   Ready</span>
 </pre></div>
@@ -776,6 +779,7 @@ provider for the on-premises <code class="docutils literal notranslate"><span cl
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProviderProfile</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-scinet-default</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openstack</span>
 <span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scinet</span>
@@ -796,14 +800,15 @@ provider for the on-premises <code class="docutils literal notranslate"><span cl
 the status of the <code class="docutils literal notranslate"><span class="pre">ProviderProfile</span></code> resource by running the following command. You should see the <code class="docutils literal notranslate"><span class="pre">Ready</span></code>
 status set to <code class="docutils literal notranslate"><span class="pre">False</span></code> when you create the object for the first time. It will change to <code class="docutils literal notranslate"><span class="pre">True</span></code> once the
 dependency objects are created.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 <span class="c1"># NAME                  REGION      READY</span>
 <span class="c1"># savi-scinet-default   scinet      False</span>
 </pre></div>
 </div>
 </div>
 <p>The operator creates a config map for each provider profile that constains offerings by the provider. You can verify the config map by running the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>-n<span class="w"> </span>skycluster-system<span class="w"> </span><span class="se">\</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change the label value to match your provider profile name</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>-n<span class="w"> </span>skycluster-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>skycluster.io/provider-profile<span class="o">=</span>savi-scinet-default
 </pre></div>
 </div>
@@ -814,12 +819,13 @@ dependency objects are created.</p>
 ensure <code class="docutils literal notranslate"><span class="pre">ProviderProfile</span></code> becomes ready and can be used:</p>
 <section id="images">
 <h5>Images<a class="headerlink" href="#images" title="Link to this heading">#</a></h5>
-<p>You need to configure the available images <strong>manually</strong> for on-premises providers.
+<p>You need to configure the available images <strong>manually</strong> in <cite>skycluster-system</cite> namespace for on-premises providers.
 The following example shows how to configure images including <code class="docutils literal notranslate"><span class="pre">ubuntu-20.04</span></code>, <code class="docutils literal notranslate"><span class="pre">ubuntu-22.04</span></code> and <code class="docutils literal notranslate"><span class="pre">ubuntu-24.04</span></code> for the <code class="docutils literal notranslate"><span class="pre">savi-scinet-default</span></code> provider profile for the <code class="docutils literal notranslate"><span class="pre">scinet</span></code> region.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Image</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-scinet-default-images</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-scinet-default</span>
 <span class="w">  </span><span class="c1"># Must match the provider profile name in the Provider resource</span>
@@ -837,7 +843,7 @@ The following example shows how to configure images including <code class="docut
 </pre></div>
 </div>
 <p>Check the status of <code class="docutils literal notranslate"><span class="pre">Image</span></code> resource by running the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>images.core.skycluster.io
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>images.core.skycluster.io<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 <span class="c1"># NAME                         REGION      READY</span>
 <span class="c1"># savi-scinet-default-images   scinet      True</span>
 </pre></div>
@@ -845,11 +851,12 @@ The following example shows how to configure images including <code class="docut
 </section>
 <section id="instance-type">
 <h5>Instance Type<a class="headerlink" href="#instance-type" title="Link to this heading">#</a></h5>
-<p>To configure the instance types, you need to create an <code class="docutils literal notranslate"><span class="pre">InstanceType</span></code> resource. The following example shows how to introduce available instance types.</p>
+<p>To configure the instance types, you need to create an <code class="docutils literal notranslate"><span class="pre">InstanceType</span></code> resource in <cite>skycluster-system</cite> namespace. The following example shows how to introduce available instance types.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">InstanceType</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-scinet-default-instance-types</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-scinet-default</span>
 <span class="w">  </span><span class="c1"># Must match the provider name in the Provider resource</span>
@@ -870,13 +877,13 @@ The following example shows how to configure images including <code class="docut
 </pre></div>
 </div>
 <p>Check the status of the <code class="docutils literal notranslate"><span class="pre">InstanceType</span></code> resource by running the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>instancetype.core.skycluster.io
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>instancetype.core.skycluster.io<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 <span class="c1"># NAME                                 REGION      READY</span>
 <span class="c1"># savi-scinet-default-instance-types   scinet      True</span>
 </pre></div>
 </div>
 <p>Once all dependency resources are created and ready, the <code class="docutils literal notranslate"><span class="pre">ProviderProfile</span></code> status changes to <code class="docutils literal notranslate"><span class="pre">Ready</span></code>. At this point, you can use the provider profile to create resources in your cluster. To verify its status, run:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 <span class="c1"># NAME                  REGION      READY</span>
 <span class="c1"># savi-scinet-default   scinet      True</span>
 </pre></div>
@@ -886,13 +893,14 @@ The following example shows how to configure images including <code class="docut
 </section>
 <section id="on-premises-custom-providers">
 <h3>On-premises Custom Providers<a class="headerlink" href="#on-premises-custom-providers" title="Link to this heading">#</a></h3>
-<p>On-premises providers can be registered similarly to cloud providers. The key difference is that you must supply additional configuration specific to your on-premises environment, such as the gateway node address, required keys, and details about the edge devices.</p>
+<p>On-premises providers can be registered similarly to cloud providers but you must also create <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> resources in <cite>skycluster-system</cite> namespace to supply on-premises configuration such as the gateway node address, required keys, and edge-device details.</p>
 <section id="id1">
 <h4>Provider Profiles<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProviderProfile</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-default</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">baremetal</span>
 <span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">toronto</span>
@@ -907,32 +915,54 @@ The following example shows how to configure images including <code class="docut
 <span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">edge</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">baremetal</span></code> type requires specifying gateway connection and access details, along with worker node data and their capabilities.</p>
-</section>
-<section id="device-nodes">
-<h4>Device Nodes<a class="headerlink" href="#device-nodes" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its <code class="docutils literal notranslate"><span class="pre">type</span></code> field. By default the gateway node does not run any workload.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">baremetal</span></code> type requires specifying gateway connection and access details, along with worker node data and their capabilities. You must configure this by creating <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> resources:</p>
+<dl class="simple">
+<dt>Device Nodes</dt><dd></dd>
+</dl>
+<p>The <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its <code class="docutils literal notranslate"><span class="pre">type</span></code> field. By default the gateway node does not run any workload. The <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> resource are created in the <cite>skycluster-system</cite> namespace.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Gateway</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Worker</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DeviceNode</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-gw</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-default</span>
 <span class="w">  </span><span class="nt">deviceSpec</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gateway</span>
 <span class="w">    </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+
+<span class="w">    </span><span class="nt">publicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x.y.z.w</span>
+
+<span class="w">    </span><span class="c1"># by default the subnet mask is /24 for this network</span>
+<span class="w">    </span><span class="nt">privateIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.23.100.22</span>
+
+<span class="w">    </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">privateKeySecretRef</span><span class="p">:</span>
+<span class="w">        </span><span class="c1"># secret containing the private SSH key, see below</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-edge-ssh-key</span>
+<span class="w">        </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">privateKey</span>
+<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu</span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DeviceNode</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-edge-jetson-nano1</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">savi-toronto-edge</span>
 <span class="w">  </span><span class="nt">deviceSpec</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker</span>
 <span class="w">    </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+
+<span class="w">    </span><span class="nt">privateIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.23.100.200</span>
+<span class="w">    </span><span class="c1"># must be reachable from the gateway node</span>
+
+<span class="w">    </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu</span>
+<span class="w">      </span><span class="c1"># same private key as the gateway node will be used</span>
+
 <span class="w">    </span><span class="nt">configs</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Jetson Nano</span>
 <span class="w">      </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
@@ -950,6 +980,11 @@ The following example shows how to configure images including <code class="docut
 </div>
 </div></div>
 </section>
+</section>
+<section id="nvidia-device-preparation">
+<h3>NVIDIA Device Preparation<a class="headerlink" href="#nvidia-device-preparation" title="Link to this heading">#</a></h3>
+<p>SkyCluster supports DeviceNode resources equipped with NVIDIA GPUs by installing a local K3s cluster and joining the devices as worker nodes. To enable GPU workloads, the devices must have the NVIDIA Container Runtime installed. Since installation steps vary depending on the device specifications (e.g., Jetson, desktop GPUs), you need to follow the official <a class="reference external" href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html">NVIDIA instructions</a> to set up the toolkit. This toolkit allows containers to access the GPU resources on the Jetson device, enabling GPU-accelerated applications to run smoothly.</p>
+<p>After setting up the toolkit, ensure that your containerized applications are configured to utilize the GPU resources effectively. You may need to specify the appropriate runtime and environment variables in your container configurations to leverage the GPU capabilities.</p>
 </section>
 </section>
 </section>
@@ -1014,9 +1049,9 @@ The following example shows how to configure images including <code class="docut
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#on-premises-custom-providers">On-premises Custom Providers</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Provider Profiles</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#device-nodes">Device Nodes</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-device-preparation">NVIDIA Device Preparation</a></li>
 </ul>
 </li>
 </ul>

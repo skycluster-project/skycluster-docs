@@ -484,6 +484,10 @@ html[data-mode="dark"] {
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -567,7 +571,7 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -649,21 +653,28 @@ html[data-mode="dark"] {
 <h1>Multi Provider Setup<a class="headerlink" href="#multi-provider-setup" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>Make sure you have followed steps in <a class="reference internal" href="../getting-started/index.html"><span class="doc">Getting Started</span></a> and ensure all
+<p><strong>Summary:</strong> In the examples presented here we demonstrate how to set up and manage multiple Kubernetes clusters across different cloud providers and deploy microservice applications across them.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>Before you begin make sure you have followed steps in <a class="reference internal" href="../getting-started/index.html"><span class="doc">Getting Started</span></a> and ensure all
 prerequisites installed and configured, including:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../getting-started/providers-auth.html"><span class="doc">Providers Authentication</span></a></p></li>
 <li><p><a class="reference internal" href="../getting-started/providers-profile.html"><span class="doc">Providers Profiles</span></a></p></li>
 <li><p><a class="reference internal" href="../getting-started/skycluster-configs.html"><span class="doc">SkyCluster Configuration</span></a></p></li>
-<li><p><a class="reference internal" href="single-provider.html"><span class="doc">Setup Provider Setup</span></a></p></li>
+<li><p><a class="reference internal" href="single-provider.html"><span class="doc">Setup Provider</span></a></p></li>
 </ul>
 <p>At this stage, you should have multiple providers created and ready for use. Check out you providers by:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
-<span class="c1"># NAME                  PRIVATE_IP      PUBLIC_IP        CIDR_BLOCK</span>
-<span class="c1"># os-provider-scinet    10.16.128.11    142.1.174.185    10.16.0.0/16</span>
+<span class="c1"># NAME                     PRIVATE_IP      PUBLIC_IP       CIDR_BLOCK</span>
+<span class="c1"># os-provider-scinet       10.16.128.11    142.w.s.185     10.16.0.0/16</span>
+<span class="c1"># xp-aws-us-east--vjpob    10.89.29.168    13.x.y.167      10.89.0.0/16</span>
+<span class="c1"># xp-aws-us-west--s0k84    10.58.3.98      13.z.w.222      10.58.0.0/16</span>
 </pre></div>
 </div>
-<p>From the SkyCluster controller and across all providers, you should be able to reach the services and resources created within the CIDR block of each provider. This resembles a flat network setup created by SkyCluster. Try pinging the private gateway address of each provider from the SkyCluster controller to verify connectivity. Check the <a class="reference internal" href="../getting-started/troubleshooting.html"><span class="doc">Troubleshooting</span></a> page if you encounter any issues.</p>
+<p>If you have enabled the overlay setup for your local machine you should be able to reach the private IP addresses of each provider from your local machine. Try pinging the private gateway address of each provider to verify connectivity. This resembles a flat network setup created by SkyCluster.</p>
+<p>Check the <a class="reference internal" href="../getting-started/troubleshooting.html"><span class="doc">Troubleshooting</span></a> page if you encounter any issues.</p>
+</section>
 </section>
 
 
@@ -700,6 +711,24 @@ prerequisites installed and configured, including:</p>
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

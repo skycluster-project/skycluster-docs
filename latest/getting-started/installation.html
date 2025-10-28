@@ -590,7 +590,7 @@ html[data-mode="dark"] {
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -742,7 +742,6 @@ contact for submitting your application. You can create a local management Kuber
 <span class="linenos">26</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30080</span>
 <span class="linenos">27</span><span class="w">      </span><span class="nt">hostPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
 <span class="linenos">28</span><span class="w">      </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
-<span class="linenos">29</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker</span>
 </pre></div>
 </div>
 <p>The cluster is used used to act as a broker between other gateways across different cloud providers, and hence it requires a public IP address to be reachable from the internet. Once installed replace the <cite>0.0.0.0</cite> with the actual public IP address of your machine in the <cite>~/.kube/config</cite> file:</p>
@@ -764,7 +763,11 @@ contact for submitting your application. You can create a local management Kuber
 <section id="install-crossplane">
 <h2>Install Crossplane<a class="headerlink" href="#install-crossplane" title="Link to this heading">#</a></h2>
 <p>To manage the underlying cloud resources, you need to install <a class="reference external" href="https://crossplane.io">Crossplane</a> in your cluster. You can do this using the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>install<span class="w"> </span>crossplane<span class="w"> </span><span class="se">\</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>crossplane-stable<span class="w"> </span>https://charts.crossplane.io/stable
+
+helm<span class="w"> </span>repo<span class="w"> </span>update
+
+helm<span class="w"> </span>install<span class="w"> </span>crossplane<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>crossplane-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--create-namespace<span class="w"> </span>crossplane-stable/crossplane<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">1</span>.20.0
@@ -878,7 +881,7 @@ The secret should be created in the <code class="docutils literal notranslate"><
 <span class="linenos">18</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
 <span class="linenos">19</span><span class="nt">metadata</span><span class="p">:</span>
 <span class="linenos">20</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
-<span class="linenos">21</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8s-skycluster-management-connection</span>
+<span class="linenos">21</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8s-skycluster-management</span>
 <span class="linenos">22</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
 <span class="linenos">23</span><span class="w">    </span><span class="nt">skycluster.io/managed-by</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster</span>
 <span class="linenos">24</span><span class="w">    </span><span class="nt">skycluster.io/secret-type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k8s-connection-data</span>
