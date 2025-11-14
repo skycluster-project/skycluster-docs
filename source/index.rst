@@ -2,16 +2,16 @@
 .. title:: SkyCluster
 
 .. meta::
-  :description: SkyCluster enables deployment of containerized application across Edge and hybrid multi-clouds environment.
+  :description: SkyCluster is a Kubernetes-based platform to simplify geo-distributed application deployment and management across Edge and hybrid multi-clouds environment.
 
 .. image:: _static/imgs/skycluster-logo1-enhanced-light.png
     :class: only-light
-    :width: 40%
+    :width: 30%
     :align: center
 
 .. image:: _static/imgs/skycluster-logo1-enhanced-dark.png
     :class: only-dark
-    :width: 40%
+    :width: 30%
     :align: center
 
 
@@ -20,15 +20,13 @@ the deployment of containerized applications in edge and hybrid multi-cloud envi
 The project's goal is to simplify the deployment process by 
 offering same interfaces as Kubernetes, but with enhanced 
 capabilities to deploy applications and services across various providers.
+
 SkyCluster reduces deployment efforts and costs while ensuring your setup and 
 application meets performance and compliance requirements.
 
 
-Read the ``SkyCluster`` documentation to learn more about the project and how to use it.
+Read the documentation to learn more about the project and how to use it.
 
-.. warning::
-
-  This is a Work In Progress (WIP). The documentation is not complete yet and the code base changes frequently.
 
 .. toctree::
   :maxdepth: 2
