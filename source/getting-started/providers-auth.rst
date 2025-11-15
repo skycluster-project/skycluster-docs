@@ -4,13 +4,20 @@ Providers Authentication
 .. toctree::
   :hidden:
 
-
-Providers such as ``AWS`` require authentication to manage 
-external resources. For each provider integrated 
-into the SkyCluster Manager, a separate configuration must be created. 
+Before deploying resources to cloud providers, you need to configure authentication for each provider.
+SkyCluster supports multiple cloud providers, including AWS, GCP, Azure, and OpenStack and on-premises edge clusters.
+This guide provides step-by-step instructions to set up authentication for each supported provider.
 All configurations are stored in the fixed ``skycluster-system`` namespace.
 
+Quick jump links:
 
+- :ref:`aws-cloud`
+- :ref:`gcp-cloud`
+- :ref:`azure-cloud`
+- :ref:`openstack`
+- :ref:`on-premises-edge`
+
+.. _aws-cloud:
 AWS Cloud
 =================
 
@@ -33,72 +40,8 @@ Then execute the command below to configure the AWS provider:
 
   curl -s https://skycluster.io/configs/aws-cfg.sh | bash
 
-**Alternatively** you can just copy the script below and run it:
 
-.. container:: toggle
-
-  .. container:: header
-
-    **aws-setup.sh**
-
-  .. code-block:: sh
-    :linenos:
-
-    #!/bin/bash
-
-    # Create the content of the credentials in a variable
-    creds_content="[default]
-    aws_access_key_id = $AWS_ACCESS_KEY_ID
-    aws_secret_access_key = $AWS_SECRET_ACCESS_KEY"
-
-    # Echo the content and pipe it to base64 for encoding
-    creds_enc=$(echo "$creds_content" | base64 -w0)
-
-    cat <<EOF | kubectl apply -f -
-    apiVersion: aws.upbound.io/v1beta1
-    kind: ProviderConfig
-    metadata:
-      name: provider-cfg-aws
-      labels:
-        skycluster.io/managed-by: skycluster
-    spec:
-      credentials:
-        source: Secret
-        secretRef:
-          name: secret-aws
-          namespace: skycluster-system
-          key: configs
-    ---
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: secret-aws
-      namespace: skycluster-system
-      labels:
-        skycluster.io/managed-by: skycluster
-        skycluster.io/provider-platform: aws
-        skycluster.io/secret-role: configs
-    type: Opaque
-    data:
-      configs: $creds_enc
-    ---
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: credentials-aws
-      namespace: skycluster-system
-      labels:
-        skycluster.io/managed-by: skycluster
-        skycluster.io/provider-platform: aws
-        skycluster.io/secret-role: credentials
-    type: Opaque
-    stringData:
-      aws_access_key_id: $AWS_ACCESS_KEY_ID
-      aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
-    ---
-    EOF
-
-
+.. _gcp-cloud:
 GCP Cloud
 =================
 
@@ -123,54 +66,8 @@ Then execute the command below to configure the GCP provider:
 
   curl -s https://skycluster.io/configs/gcp-cfg.sh | bash
 
-**Alternatively**, you can run the following script:
 
-.. container:: toggle
-
-  .. container:: header
-
-    **gcp-setup.sh**
-
-  .. code-block:: sh
-    :linenos:
-
-    #!/bin/bash
-
-    BASE64_ENCODED_GCP_SVC_ACC=$(cat "$GCP_SVC_ACC_PATH" | base64 -w0)
-
-    if [[ -z "$BASE64_ENCODED_GCP_SVC_ACC" ]]; then
-      echo "Failed to encode GCP service account file."
-      exit 1
-    fi
-
-    # Apply the provider configuration
-    cat <<EOF | kubectl apply -f -
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: secret-gcp
-      namespace: skycluster-system
-    type: Opaque
-    data:
-      configs: ${BASE64_ENCODED_GCP_SVC_ACC}
-    ---
-    apiVersion: gcp.upbound.io/v1beta1
-    kind: ProviderConfig
-    metadata:
-      name: provider-cfg-gcp
-      labels:
-        skycluster.io/managed-by: skycluster
-    spec:
-      projectID: ${PROJECT_ID}
-      credentials:
-        source: Secret
-        secretRef:
-          namespace: skycluster-system
-          name: secret-gcp
-          key: configs
-    EOF
-
-
+.. _azure-cloud:
 Azure Cloud
 ===================
 
@@ -199,47 +96,8 @@ Then execute the command below to configure the Azure provider:
 
   curl -s https://skycluster.io/configs/azure-cfg.sh | bash
 
-**Alternatively**, you can run the following script:
 
-.. container:: toggle
-
-  .. container:: header
-
-    **azure-setup.sh**
-
-  .. code-block:: sh
-    :linenos:
-  
-    #!/bin/bash
-
-    cont_enc=$(cat $AZURE_CONFIG_PATH | base64 -w0)
-
-    cat <<EOF | kubectl apply -f -
-    apiVersion: azure.upbound.io/v1beta1
-    metadata:
-      name: provider-cfg-azure
-      labels:
-        skycluster.io/managed-by: skycluster
-    kind: ProviderConfig
-    spec:
-      credentials:
-        source: Secret
-        secretRef:
-          namespace: skycluster-system
-          name: secret-azure
-          key: configs
-    ---
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: secret-azure
-      namespace: skycluster-system
-    type: Opaque
-    data:
-      configs: $cont_enc
-    EOF
-
-
+.. _openstack:
 Openstack 
 ========================
 
@@ -261,57 +119,6 @@ Then execute the command below to configure your Openstack provider:
 
   curl -s https://skycluster.io/configs/openstack-cfg.sh | bash
 
-**Alternatively**, you can run the following script:
-
-.. container:: toggle
-
-  .. container:: header
-
-    **openstack-setup.sh**
-
-  .. code-block:: sh
-    :linenos:
-
-    #!/bin/bash
-
-    REGION_LOWER=$(echo $REGION | tr '[:upper:]' '[:lower:]')
-
-    cat <<EOF | kubectl apply -f -
-    apiVersion: openstack.crossplane.io/v1beta1
-    kind: ProviderConfig
-    metadata:
-      name: provider-cfg-os-${REGION_LOWER}
-      labels:
-        skycluster.io/managed-by: skycluster
-        skycluster.io/provider-platform: openstack
-        skycluster.io/provider-region: ${REGION_LOWER}
-    spec:
-      credentials:
-        source: Secret
-        secretRef:
-          name: secret-os-${REGION_LOWER}
-          namespace: skycluster-system
-          key: configs
-    ---
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: secret-os-${REGION_LOWER}
-      namespace: skycluster-system
-    type: Opaque
-    stringData:
-      configs: |
-        {
-          "auth_url": "$AUTH_URL",
-          "region": "$REGION",
-          "user_name": "$USERNAME",
-          "password": "$PASSWORD",
-          "tenant_name": "$TENANT_NAME",
-          "project_domain_name": "$USER_DOMAIN_NAME",
-          "user_domain_name": "$USER_DOMAIN_NAME",
-          "insecure": "false"
-        }
-    EOF
     
 Repeat the steps for each additional openstack provider you want to configure.
 
@@ -344,65 +151,7 @@ Then execute the command below to configure the provider:
 Repeat the steps for each additional regions you want to configure.
 
 
-.. container:: toggle
-
-  .. container:: header
-
-    **openstack-cfg.sh**
-
-  .. code-block:: sh
-    :linenos:
-
-    #!/bin/bash
-
-    # Check if any of these variables are not set, if so exist
-    if [[ -z $AUTH_URL || -z $USERNAME || -z $PASSWORD || -z $TENANT_NAME || \
-      -z $REGION || -z $USER_DOMAIN_NAME || -z $PROJECT_DOMAIN_NAME ]]; then
-      echo "One or more required variables are not set."
-      exit 1
-    fi
-
-    NAMESPACE="skycluster-system"
-    REGION_LOWER=$(echo $REGION | tr '[:upper:]' '[:lower:]')
-
-    cat <<EOF | kubectl apply -f -
-    apiVersion: openstack.crossplane.io/v1beta1
-    kind: ProviderConfig
-    metadata:
-      name: provider-cfg-os-${REGION_LOWER}
-      labels:
-        skycluster.io/managed-by: skycluster
-        skycluster.io/provider-platform: openstack
-        skycluster.io/provider-region: ${REGION}
-    spec:
-      credentials:
-        source: Secret
-        secretRef:
-          name: secret-os-${REGION_LOWER}
-          namespace: ${NAMESPACE}
-          key: configs
-    ---
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: secret-os-${REGION_LOWER}
-      namespace: ${NAMESPACE}
-    type: Opaque
-    stringData:
-      configs: |
-        {
-          "auth_url": "$AUTH_URL",
-          "region": "$REGION",
-          "user_name": "$USERNAME",
-          "password": "$PASSWORD",
-          "tenant_name": "$TENANT_NAME",
-          "project_domain_name": "$USER_DOMAIN_NAME",
-          "user_domain_name": "$USER_DOMAIN_NAME",
-          "insecure": "false"
-        }
-    EOF
-
-
+.. _on-premises-edge:
 On-premises Edge Clusters
 ===========================
 
@@ -436,40 +185,3 @@ And then run the following command to generate the secret:
 .. code-block:: sh
 
   curl -s https://skycluster.io/configs/secret-cfg.sh | bash
-
-
-.. container:: toggle 
-
-  .. container:: header 
-
-    **secret-cfg.sh**
-
-  .. code-block:: sh
-    :linenos:
-
-    #!/bin/bash
-
-    # If env variables are not set, exit
-    if [ -z "$PRIVATE_KEY" ] || [ -z "$SECRET_NAME" ]; then
-      echo "PRIVATE_KEY and SECRET_NAME must be set."
-      exit 1
-    fi
-
-    NAMESPACE="skycluster-system"
-
-    cat <<EOF | kubectl apply -f -
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      namespace: ${NAMESPACE}
-      name: ${SECRET_NAME}
-      labels:
-        skycluster.io/managed-by: skycluster
-        skycluster.io/secret-type: onpremise-keypair
-    type: Opaque
-    stringData:
-      privateKey: "$PRIVATE_KEY"
-    EOF
-
-
-----

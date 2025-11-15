@@ -9,11 +9,11 @@
   installation
   providers-auth
   providers-profile
-  skycluster-configs
   skycluster-dashboard
   skycluster-cli
   ../examples/index
   troubleshooting
+  
   
 Getting Started
 ################
