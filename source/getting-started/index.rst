@@ -9,10 +9,7 @@
   installation
   providers-auth
   providers-profile
-  skycluster-dashboard
-  skycluster-cli
-  ../examples/index
-  troubleshooting
+  examples
   
   
 Getting Started

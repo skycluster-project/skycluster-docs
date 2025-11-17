@@ -11,13 +11,14 @@ All configurations are stored in the fixed ``skycluster-system`` namespace.
 
 Quick jump links:
 
-- :ref:`aws-cloud`
-- :ref:`gcp-cloud`
-- :ref:`azure-cloud`
-- :ref:`openstack`
-- :ref:`on-premises-edge`
+  - :ref:`aws-cloud`
+  - :ref:`gcp-cloud`
+  - :ref:`azure-cloud`
+  - :ref:`openstack`
+  - :ref:`on-premises-edge`
 
 .. _aws-cloud:
+
 AWS Cloud
 =================
 
@@ -42,6 +43,7 @@ Then execute the command below to configure the AWS provider:
 
 
 .. _gcp-cloud:
+
 GCP Cloud
 =================
 
@@ -68,6 +70,7 @@ Then execute the command below to configure the GCP provider:
 
 
 .. _azure-cloud:
+
 Azure Cloud
 ===================
 
@@ -98,6 +101,7 @@ Then execute the command below to configure the Azure provider:
 
 
 .. _openstack:
+
 Openstack 
 ========================
 
@@ -152,6 +156,7 @@ Repeat the steps for each additional regions you want to configure.
 
 
 .. _on-premises-edge:
+
 On-premises Edge Clusters
 ===========================
 

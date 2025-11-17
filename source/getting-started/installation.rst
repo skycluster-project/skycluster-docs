@@ -24,6 +24,7 @@ Quick jump links:
 
 
 .. _pre-requisites:
+
 Pre-requisites
 ================
 
@@ -60,6 +61,7 @@ GCP you need to ensure ``gcloud`` is installed (`installation guide <GCLOUD_>`_)
 ----
 
 .. _create-local-cluster:
+
 Create a Local Cluster
 ========================
  
@@ -125,6 +127,7 @@ At least one node in your cluster should be labeled as a gateway node. You can l
 ----
 
 .. _install-crossplane:
+
 Install Crossplane
 ==================
 To manage the underlying cloud resources, you need to install `Crossplane <CROSSPLANE_>`_ in your cluster. You can do this using the following command:
@@ -152,6 +155,7 @@ To manage the underlying cloud resources, you need to install `Crossplane <CROSS
 ----
 
 .. _install-skycluster:
+
 Install SkyCluster
 ==================
 
@@ -195,6 +199,7 @@ SkyCluster CRDs
 ----
 
 .. _skycluster-cli:
+
 SkyCluster CLI
 =================
 
@@ -240,6 +245,13 @@ Check the status of the SkyCluster operator:
     kubectl get xsetup.skycluster.io
     # NAME              SYNCED   READY   COMPOSITION             AGE
     # skycluster-mgmt   True     True    xsetups.skycluster.io   21h
+
+You can also check the status of the SkyCluster components within the dashboard:
+
+.. image:: ../_static/imgs/skycluster-system-status.png
+    :width: 90%
+    :align: center
+    :class: mb-3
 
 Once ready, you can follow the examples in the SkyCluster documentation to deploy applications.
 
