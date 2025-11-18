@@ -166,6 +166,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references/index.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -529,6 +536,13 @@ html[data-mode="dark"] {
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references/index.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -629,9 +643,6 @@ html[data-mode="dark"] {
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../getting-started/index.html" class="nav-link">Getting Started</a></li>
-    
-    
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
     
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Setup Provider</span></li>
@@ -662,7 +673,7 @@ prerequisites installed and configured, including:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../getting-started/providers-auth.html"><span class="doc">Providers Authentication</span></a></p></li>
 <li><p><a class="reference internal" href="../getting-started/providers-profile.html"><span class="doc">Providers Profiles</span></a></p></li>
-<li><p><a class="reference internal" href="../getting-started/skycluster-configs.html"><span class="doc">SkyCluster Configuration</span></a></p></li>
+<li><p><span class="xref std std-doc">/getting-started/skycluster-configs</span></p></li>
 </ul>
 <section id="initializing-provider">
 <h2>Initializing Provider<a class="headerlink" href="#initializing-provider" title="Link to this heading">#</a></h2>
@@ -861,7 +872,7 @@ skycluster<span class="w"> </span>subnet<span class="w"> </span><span class="m">
 <p>The above example creates multiple resources in your project, including a VPC, subnets, security groups, and IAM roles. Once the <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> resource becomes ready, the region <code class="docutils literal notranslate"><span class="pre">us-east-1</span></code> is ready for deploying other resources such as virtual machines, Kubernetes clusters, databases, or other services.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Check the status of the <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> instance by running the following command or through <a class="reference internal" href="../getting-started/skycluster-dashboard.html"><span class="doc">SkyCluster Dashboard</span></a>.</p>
+<p>Check the status of the <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> instance by running the following command or through <span class="xref std std-doc">/getting-started/skycluster-dashboard</span>.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xproviders.skycluster.io
 <span class="c1"># NAME                      SYNC     STATUS</span>
 <span class="c1"># aws-provider-us-east      Ready    Ready</span>

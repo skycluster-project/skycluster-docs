@@ -54,7 +54,7 @@
     <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SkyCluster Configuration" href="skycluster-configs.html" />
+    <link rel="next" title="Quick Start Examples" href="examples.html" />
     <link rel="prev" title="Providers Authentication" href="providers-auth.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -163,6 +163,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../examples/index.html">
     Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references/index.html">
+    References
   </a>
 </li>
 
@@ -529,6 +536,13 @@ html[data-mode="dark"] {
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references/index.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -582,36 +596,7 @@ html[data-mode="dark"] {
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-dashboard.html">SkyCluster Dashboard</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-cli.html">SkyCluster CLI</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xkube.html">Managed Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xkubemesh.html">Multi-cluster Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Quick Start Examples</a></li>
 </ul>
 </div>
 </nav></div>
@@ -676,9 +661,21 @@ html[data-mode="dark"] {
 <h1>Providers Profiles<a class="headerlink" href="#providers-profiles" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<p>By creating a <code class="docutils literal notranslate"><span class="pre">ProviderProfile</span></code> resource, you can register cloud and on-premises providers with SkyCluster. When a provider profile is created, the SkyCluster operator automatically detects available images and instance types for major cloud providers such as AWS, Azure, and GCP. For OpenStack and baremetal providers, these services must be configured manually.</p>
+<p>Quick jump to:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="#cloud-providers"><span class="std std-ref">Setting Up Cloud Providers</span></a></p></li>
+<li><p><a class="reference internal" href="#on-premises-openstack"><span class="std std-ref">Setting Up On-premises Providers</span></a></p></li>
+<li><p><a class="reference internal" href="#on-premises-edge"><span class="std std-ref">Edge Providers</span></a></p></li>
+</ul>
+</div></blockquote>
 <section id="setting-up-cloud-providers">
-<h2>Setting Up Cloud Providers<a class="headerlink" href="#setting-up-cloud-providers" title="Link to this heading">#</a></h2>
-<p>A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a <cite>ProviderProfile</cite> resource in <cite>skycluster-system</cite> namespace. The following examples show how to configure the a <code class="docutils literal notranslate"><span class="pre">ProfileProvider</span></code> for the major cloud providers: AWS, GCP, and Azure.</p>
+<span id="cloud-providers"></span><h2>Setting Up Cloud Providers<a class="headerlink" href="#setting-up-cloud-providers" title="Link to this heading">#</a></h2>
+<p>A provider is identified by its platform name and region and primary zone. When you create a <code class="docutils literal notranslate"><span class="pre">ProviderProfile</span></code> for a (cloud) provider, the SkyCluster operator automatically detects available images and instance types for major cloud providers such as AWS, Azure, and GCP by creating <strong>Image</strong> and <strong>InstanceType</strong> resources and stores the information in a ConfigMap in the <code class="docutils literal notranslate"><span class="pre">skycluster-system</span></code> namespace.</p>
+<a class="mb-3 reference internal image-reference" href="../_images/cloud-provider-profile.jpg"><img alt="../_images/cloud-provider-profile.jpg" class="mb-3 align-center" src="../_images/cloud-provider-profile.jpg" style="width: 60%;" />
+</a>
+<p>The following examples show how to configure the a <code class="docutils literal notranslate"><span class="pre">ProfileProvider</span></code>, use <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> to apply the configuration.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">AWS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">GCP</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Azure</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProviderProfile</span>
@@ -757,21 +754,29 @@ html[data-mode="dark"] {
 </pre></div>
 </div>
 </div></div>
-<p>SkyCluster automatically detects available images and instance types for major cloud providers such as <code class="docutils literal notranslate"><span class="pre">AWS</span></code>, <code class="docutils literal notranslate"><span class="pre">Azure</span></code>, and <code class="docutils literal notranslate"><span class="pre">GCP</span></code>. For <code class="docutils literal notranslate"><span class="pre">OpenStack</span></code> and <code class="docutils literal notranslate"><span class="pre">baremetal</span></code>, these services must be configured manually</p>
 <p>After creating a <code class="docutils literal notranslate"><span class="pre">ProfileProvider</span></code> resource, the SkyCluster operator generates a ConfigMap in the <code class="docutils literal notranslate"><span class="pre">skycluster-system</span></code> namespace containing the available images and instance types for that provider. Verify that the provider profile is ready by checking its status:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>providerprofile<span class="w"> </span>-n<span class="w"> </span>skycluster-system
 <span class="c1"># NAME            REGION      READY</span>
 <span class="c1"># aws-us-east-1   us-east-1   Ready</span>
+
+<span class="c1"># List the config maps for the provider profile</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>cm<span class="w"> </span>-n<span class="w"> </span>skycluster-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>skycluster.io/config-type<span class="o">=</span>provider-profile
+<span class="c1"># NAME                  DATA   AGE</span>
+<span class="c1"># aws-us-east-1-8h8j4   3      8h</span>
+<span class="c1"># gcp-us-east1-lfp95    3      8h</span>
 </pre></div>
 </div>
+<p>You can also check the status of ProviderProfile resource and its dependency within dashboard:</p>
+<a class="mb-3 reference internal image-reference" href="../_images/skycluster-system-provider-profiles.png"><img alt="../_images/skycluster-system-provider-profiles.png" class="mb-3 align-center" src="../_images/skycluster-system-provider-profiles.png" style="width: 90%;" />
+</a>
 </section>
 <section id="setting-up-on-premises-providers">
-<h2>Setting Up On-premises Providers<a class="headerlink" href="#setting-up-on-premises-providers" title="Link to this heading">#</a></h2>
+<span id="on-premises-openstack"></span><h2>Setting Up On-premises Providers<a class="headerlink" href="#setting-up-on-premises-providers" title="Link to this heading">#</a></h2>
 <section id="openstack">
 <h3>OpenStack<a class="headerlink" href="#openstack" title="Link to this heading">#</a></h3>
-<p>Similar to cloud provider, a edge or private provider is identified by its platform name and region
-and primary zone. In addition to <code class="docutils literal notranslate"><span class="pre">ProfileProvider</span></code> resource, you also need to create dependency
-resources to for the provider. The following example shows how to configure the OpenStack
+<p>Similar to cloud provider, an on-premises or private cloud (openstack platform) is identified by its platform name and region and primary zone. In contrast to major cloud providers, the SkyCluster operator cannot automatically detect available images and instance types for on-premises providers. Therefore, you need to create dependency
+resources to for the provider manually. The following example shows how to configure the OpenStack
 provider for the on-premises <code class="docutils literal notranslate"><span class="pre">savi</span></code> edge cluster with <code class="docutils literal notranslate"><span class="pre">scinet</span></code> region with primary zone <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
 <section id="provider-profiles">
 <h4>Provider Profiles<a class="headerlink" href="#provider-profiles" title="Link to this heading">#</a></h4>
@@ -866,9 +871,17 @@ The following example shows how to configure images including <code class="docut
 <span class="w">      </span><span class="nt">zoneOfferings</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">m1.small</span>
 <span class="w">          </span><span class="nt">nameLabel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1vCPU-2GB</span>
+<span class="w">          </span><span class="nt">generation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">m1</span>
+<span class="w">          </span><span class="c1"># we don&#39;t consider spot pricing for on-premises providers</span>
 <span class="w">          </span><span class="nt">price</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.0015&quot;</span>
 <span class="w">          </span><span class="nt">ram</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2GB</span>
 <span class="w">          </span><span class="nt">vcpus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">          </span><span class="nt">gpu</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">            </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">manufacturer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NVIDIA</span>
+<span class="w">            </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T4</span>
+<span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16GB</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">n1.small</span>
 <span class="w">          </span><span class="nt">nameLabel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1vCPU-4GB</span>
 <span class="w">          </span><span class="nt">vcpus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
@@ -891,9 +904,11 @@ The following example shows how to configure images including <code class="docut
 </section>
 </section>
 </section>
-<section id="on-premises-custom-providers">
-<h3>On-premises Custom Providers<a class="headerlink" href="#on-premises-custom-providers" title="Link to this heading">#</a></h3>
-<p>On-premises providers can be registered similarly to cloud providers but you must also create <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> resources in <cite>skycluster-system</cite> namespace to supply on-premises configuration such as the gateway node address, required keys, and edge-device details.</p>
+<section id="edge-providers">
+<span id="on-premises-edge"></span><h3>Edge Providers<a class="headerlink" href="#edge-providers" title="Link to this heading">#</a></h3>
+<a class="mb-3 reference internal image-reference" href="../_images/edge-provider-profile.jpg"><img alt="../_images/edge-provider-profile.jpg" class="mb-3 align-center" src="../_images/edge-provider-profile.jpg" style="width: 60%;" />
+</a>
+<p>Edge providers can be registered similarly to cloud providers but you must create <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> resources in <code class="docutils literal notranslate"><span class="pre">skycluster-system</span></code> namespace to supply edge device configuration such as the gateway node address, required keys, and edge-device details.</p>
 <section id="id1">
 <h4>Provider Profiles<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.skycluster.io/v1alpha1</span>
@@ -1009,11 +1024,11 @@ The following example shows how to configure images including <code class="docut
       </div>
     </a>
     <a class="right-next"
-       href="skycluster-configs.html"
+       href="examples.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">SkyCluster Configuration</p>
+        <p class="prev-next-title">Quick Start Examples</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1047,7 +1062,7 @@ The following example shows how to configure images including <code class="docut
 </li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#on-premises-custom-providers">On-premises Custom Providers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-providers">Edge Providers</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Provider Profiles</a></li>
 </ul>
 </li>

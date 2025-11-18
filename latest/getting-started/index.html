@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="SkyCluster getting started guide." name="description" />
+<meta content="SkyCluster getting started guide overview." name="description" />
 
     <title>Getting Started &#8212; SkyCluster Docs</title>
   
@@ -162,6 +162,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../examples/index.html">
     Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references/index.html">
+    References
   </a>
 </li>
 
@@ -485,6 +492,10 @@ html[data-mode="dark"] {
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -521,6 +532,13 @@ html[data-mode="dark"] {
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../examples/index.html">
     Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references/index.html">
+    References
   </a>
 </li>
 
@@ -577,36 +595,7 @@ html[data-mode="dark"] {
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers-profile.html">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-dashboard.html">SkyCluster Dashboard</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-cli.html">SkyCluster CLI</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xinstance.html">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xkube.html">Managed Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../examples/multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../examples/xkubemesh.html">Multi-cluster Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Quick Start Examples</a></li>
 </ul>
 </div>
 </nav></div>
@@ -664,16 +653,40 @@ html[data-mode="dark"] {
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="toctree-wrapper compound">
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">skycluster-operator</span></code> runs in a management Kubernetes cluster, acting as a broker across registered providers, including cloud hyperscalers, edge, and private clouds, to deploy services in a provider-agnostic way with seamless inter-service connectivity. It also enables deployment of Kubernetes applications across a federated multi-cluster environment, selecting providers based on your application’s requirements.</p>
-<p>Follow the next sections to get started with SkyCluster.</p>
+<section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
+<section id="what-is-skycluster">
+<h2>What is SkyCluster?<a class="headerlink" href="#what-is-skycluster" title="Link to this heading">#</a></h2>
+<p>SkyCluster is a Kubernetes-based platform designed to simplify the deployment, management, and scaling of applications in a cloud-native environment. It provides a robust architecture that leverages Kubernetes’ capabilities to support deploying and managing containerized applications across multiple cloud providers and on-premises environments.</p>
+<p>With SkyCluster, users can easily create and manage Kubernetes clusters across cloud providers, with built-in support for inter-cluster networking, service discovery and traffic management while minimizing the cost and complexity typically associated with multi-provider deployments.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This is a Work In Progress (WIP). The documentation is not complete yet and the code base changes frequently.</p>
 </div>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">#</a></h2>
+<p>The overall architecture of SkyCluster consists of several key components as shown below:</p>
+<a class="mb-3 reference internal image-reference" href="../_images/skycluster-architecture.png"><img alt="../_images/skycluster-architecture.png" class="mb-3 align-center" src="../_images/skycluster-architecture.png" style="width: 85%;" />
+</a>
+<p>The <code class="docutils literal notranslate"><span class="pre">skycluster-operator</span></code> runs in a your local Kubernetes cluster, acting as a broker across registered providers, including cloud hyperscalers, edge, and private clouds, to deploy services in a provider-agnostic way with seamless inter-service connectivity. The ultimate goal is to provide a unified platform for deploying and managing applications across diverse environments.</p>
+<p>The main components of SkyCluster include:</p>
+<ul class="simple">
+<li><p><strong>DeploymentPolicy Controller</strong>: Manages deployment policies that define requirements corresponding to each task within your application pipeline.</p></li>
+<li><p><strong>DataflowPolicy Controller</strong>: Oversees dataflow policies that specify the data dependency between two tasks.</p></li>
+<li><p><strong>Optimizer</strong>: Analyzes deployment and dataflow policies to generate an optimized deployment plan across multiple providers. The optimzier solves an ILP problem to minimize deployment and transfer costs while satisfying performance and compliance requirements.</p></li>
+<li><p><strong>Atlas Controller</strong>: Deploy and provision resources and services across multiple providers based on the optimized deployment plan.</p></li>
+<li><p><strong>Harbor Controller</strong>: Deploy and manage application components within the provisioned environment.</p></li>
+</ul>
+<p>In addition to components outlined above, SkyCluster also includes the following components:</p>
+<ul class="simple">
+<li><p><strong>ProviderProfile Controller</strong>: Handles provider profiles that each provider metadata (e.g., enabled region and zones).</p></li>
+<li><p><strong>DeviceNode Controller</strong>: Manages edge device nodes that are registered to SkyCluster for edge deployments.</p></li>
+</ul>
+<p>SkyCluster facilitates the deployment of complex, geo-distributed applications by abstracting the underlying infrastructure and providing a seamless experience for users.</p>
+</section>
 </section>
 
 
@@ -710,6 +723,25 @@ html[data-mode="dark"] {
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-skycluster">What is SkyCluster?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture">Architecture</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

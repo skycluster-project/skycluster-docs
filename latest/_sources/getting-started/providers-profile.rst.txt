@@ -6,10 +6,27 @@ Providers Profiles
 
 .. _NVIDIA: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
 
+By creating a ``ProviderProfile`` resource, you can register cloud and on-premises providers with SkyCluster. When a provider profile is created, the SkyCluster operator automatically detects available images and instance types for major cloud providers such as AWS, Azure, and GCP. For OpenStack and baremetal providers, these services must be configured manually.
+
+Quick jump to:
+
+  - :ref:`cloud-providers`
+  - :ref:`on-premises-openstack`
+  - :ref:`on-premises-edge`
+
+.. _cloud-providers:
+
 Setting Up Cloud Providers
 =============================
 
-A provider is identified by its platform name and region and primary zone. To integrate a provider, you need to create a `ProviderProfile` resource in `skycluster-system` namespace. The following examples show how to configure the a ``ProfileProvider`` for the major cloud providers: AWS, GCP, and Azure.
+A provider is identified by its platform name and region and primary zone. When you create a ``ProviderProfile`` for a (cloud) provider, the SkyCluster operator automatically detects available images and instance types for major cloud providers such as AWS, Azure, and GCP by creating **Image** and **InstanceType** resources and stores the information in a ConfigMap in the ``skycluster-system`` namespace.
+
+.. image:: ../_static/imgs/cloud-provider-profile.jpg
+    :width: 60%
+    :align: center
+    :class: mb-3
+
+The following examples show how to configure the a ``ProfileProvider``, use ``kubectl`` to apply the configuration.
 
 .. tabs::
 
@@ -100,8 +117,6 @@ A provider is identified by its platform name and region and primary zone. To in
               type: cloud  # Optional
 
 
-SkyCluster automatically detects available images and instance types for major cloud providers such as ``AWS``, ``Azure``, and ``GCP``. For ``OpenStack`` and ``baremetal``, these services must be configured manually
-
 After creating a ``ProfileProvider`` resource, the SkyCluster operator generates a ConfigMap in the ``skycluster-system`` namespace containing the available images and instance types for that provider. Verify that the provider profile is ready by checking its status:
 
 .. code-block:: sh
@@ -110,17 +125,30 @@ After creating a ``ProfileProvider`` resource, the SkyCluster operator generates
   # NAME            REGION      READY
   # aws-us-east-1   us-east-1   Ready
 
+  # List the config maps for the provider profile
+  kubectl get cm -n skycluster-system \
+    -l skycluster.io/config-type=provider-profile
+  # NAME                  DATA   AGE
+  # aws-us-east-1-8h8j4   3      8h
+  # gcp-us-east1-lfp95    3      8h
+
+You can also check the status of ProviderProfile resource and its dependency within dashboard:
+
+.. image:: ../_static/imgs/skycluster-system-provider-profiles.png
+    :width: 90%
+    :align: center
+    :class: mb-3
+
+.. _on-premises-openstack:
 
 Setting Up On-premises Providers
 ====================================
 
-
 OpenStack
 ^^^^^^^^^^^^^
 
-Similar to cloud provider, a edge or private provider is identified by its platform name and region 
-and primary zone. In addition to ``ProfileProvider`` resource, you also need to create dependency 
-resources to for the provider. The following example shows how to configure the OpenStack 
+Similar to cloud provider, an on-premises or private cloud (openstack platform) is identified by its platform name and region and primary zone. In contrast to major cloud providers, the SkyCluster operator cannot automatically detect available images and instance types for on-premises providers. Therefore, you need to create dependency 
+resources to for the provider manually. The following example shows how to configure the OpenStack 
 provider for the on-premises ``savi`` edge cluster with ``scinet`` region with primary zone ``default``.
 
 
@@ -233,9 +261,17 @@ To configure the instance types, you need to create an ``InstanceType`` resource
         zoneOfferings:
           - name: m1.small
             nameLabel: 1vCPU-2GB
-            price: "0.0015"
+            generation: m1
+            # we don't consider spot pricing for on-premises providers
+            price: "0.0015" 
             ram: 2GB
             vcpus: 1
+            gpu:
+              count: 1
+              enabled: true
+              manufacturer: NVIDIA
+              model: T4
+              memory: 16GB
           - name: n1.small
             nameLabel: 1vCPU-4GB
             vcpus: 1
@@ -260,11 +296,17 @@ Once all dependency resources are created and ready, the ``ProviderProfile`` sta
     # savi-scinet-default   scinet      True
 
 
+.. _on-premises-edge:
 
-On-premises Custom Providers
+Edge Providers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-On-premises providers can be registered similarly to cloud providers but you must also create ``DeviceNode`` resources in `skycluster-system` namespace to supply on-premises configuration such as the gateway node address, required keys, and edge-device details.
+.. image:: ../_static/imgs/edge-provider-profile.jpg
+    :width: 60%
+    :align: center
+    :class: mb-3
+
+Edge providers can be registered similarly to cloud providers but you must create ``DeviceNode`` resources in ``skycluster-system`` namespace to supply edge device configuration such as the gateway node address, required keys, and edge-device details.
 
 
 Provider Profiles
