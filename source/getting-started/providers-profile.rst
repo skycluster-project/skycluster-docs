@@ -184,7 +184,7 @@ Dependency Resources
 ---------------------------------------
 
 The following dependency resources are needed to 
-ensure ``ProviderProfile`` becomes ready and can be used:
+ensure ``ProviderProfile`` becomes ready and can be used. These resources must be created directly using ``kubectl apply -f <file>.yaml`` within the **skycluster-system** namespace. 
 
 Images 
 ********
@@ -225,7 +225,7 @@ Check the status of ``Image`` resource by running the following command:
 Instance Type
 **************
 
-To configure the instance types, you need to create an ``InstanceType`` resource in `skycluster-system` namespace. The following example shows how to introduce available instance types.
+To configure the instance types, you need to create an ``InstanceType`` resource in `skycluster-system` namespace. The following example shows how to introduce available instance types. Use ``kubectl apply -f <file>.yaml`` to create the resource.
 
 .. code-block:: yaml
 
@@ -273,7 +273,7 @@ Once all dependency resources are created and ready, the ``ProviderProfile`` sta
 
 .. code-block:: sh
 
-    kubectl get providerprofile -n skycluster-system
+    skycluster profile list
     # NAME                  REGION      READY
     # savi-scinet-default   scinet      True
 
@@ -296,31 +296,25 @@ Provider Profiles
 
 .. code-block:: yaml
 
-    apiVersion: core.skycluster.io/v1alpha1
-    kind: ProviderProfile
-    metadata:
-      name: savi-toronto-default
-      namespace: skycluster-system
-    spec:
-      platform: baremetal
-      region: toronto
-      regionAlias: toronto # Optional
-      continent: north-america # Optional
-      enabled: true
-      zones:
-        - name: default
-          locationName: BahenBuilding # Optional
-          defaultZone: true
-          enabled: true
-          type: edge
+    platform: baremetal
+    region: toronto
+    regionAlias: toronto # Optional
+    continent: north-america # Optional
+    enabled: true
+    zones:
+      - name: default
+        locationName: BahenBuilding # Optional
+        defaultZone: true
+        enabled: true
+        type: edge
 
 
 The ``baremetal`` type requires specifying gateway connection and access details, along with worker node data and their capabilities. You must configure this by creating ``DeviceNode`` resources:
 
 Device Nodes
-  -------------
+-------------
 
-The ``DeviceNode`` API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its ``type`` field. By default the gateway node does not run any workload. The ``DeviceNode`` resource are created in the `skycluster-system` namespace.
+The ``DeviceNode`` API represents an edge device that can run workloads. A DeviceNode resource can be defined as either a gateway or a worker node by setting its ``type`` field. By default the gateway node does not run any workload. The ``DeviceNode`` resource are created in the `skycluster-system` namespace. Use ``kubectl apply -f <file>.yaml`` to create the resource. The following examples show how to configure a gateway node and a worker node for the ``savi-toronto-edge`` provider profile defined above.
 
 .. tabs::
 
