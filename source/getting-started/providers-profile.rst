@@ -26,7 +26,7 @@ A provider is identified by its platform name and region and primary zone. When 
     :align: center
     :class: mb-3
 
-The following examples show how to configure the a ``ProfileProvider``, use ``kubectl`` to apply the configuration.
+The following examples show how to configure the a ``ProfileProvider``. Create a YAML file with the content below and use it with ``skycluster profile create -f <file>`` command.
 
 .. tabs::
 
@@ -34,42 +34,30 @@ The following examples show how to configure the a ``ProfileProvider``, use ``ku
 
       .. code-block:: yaml
 
-        apiVersion: core.skycluster.io/v1alpha1
-        kind: ProviderProfile
-        metadata:
-          name: aws-us-east-1
-          namespace: skycluster-system
-        spec:
-          platform: aws # Platform can be aws, azure, gcp
-          region: us-east-1  # Region identifier
-          regionAlias: us-east
-          continent: north-america
-          enabled: true
-          zones:
-            - name: us-east-1a   # Zone identifier
-              locationName: us-east-1a
-              defaultZone: true # Only one zone can be default
-              enabled: true
-              type: cloud  # Optional
-            - name: us-east-1b    # Zone identifier
-              locationName: us-east-1b
-              defaultZone: false
-              enabled: true
-              type: cloud  # Optional
+        platform: aws # Platform can be aws, azure, gcp
+        region: us-east-1  # Region identifier
+        regionAlias: us-east
+        continent: north-america
+        enabled: true
+        zones:
+          - name: us-east-1a   # Zone identifier
+            locationName: us-east-1a
+            defaultZone: true # Only one zone can be default
+            enabled: true
+            type: cloud  # Optional
+          - name: us-east-1b    # Zone identifier
+            locationName: us-east-1b
+            defaultZone: false
+            enabled: true
+            type: cloud  # Optional
 
 
   .. tab:: GCP
 
       .. code-block:: yaml
 
-        apiVersion: core.skycluster.io/v1alpha1
-        kind: ProviderProfile
-        metadata:
-          name: gcp-us-east1
-          namespace: skycluster-system
-        spec:
-          platform: gcp # Platform can be aws, azure, gcp
-          region: us-east1  # Region identifier
+        platform: gcp # Platform can be aws, azure, gcp
+        region: us-east1  # Region identifier
           regionAlias: us-east
           continent: north-america
           enabled: true
@@ -93,14 +81,8 @@ The following examples show how to configure the a ``ProfileProvider``, use ``ku
 
       .. code-block:: yaml
 
-        apiVersion: core.skycluster.io/v1alpha1
-        kind: ProviderProfile
-        metadata:
-          name: azure-eastus
-          namespace: skycluster-system
-        spec:
-          platform: azure # Platform can be aws, azure, gcp
-          region: eastus  # Region identifier
+        platform: azure # Platform can be aws, azure, gcp
+        region: eastus  # Region identifier
           regionAlias: eastus
           continent: north-america
           enabled: true
@@ -116,15 +98,21 @@ The following examples show how to configure the a ``ProfileProvider``, use ``ku
               enabled: true
               type: cloud  # Optional
 
+Then apply the configuration by running the following command:
+
+.. code-block:: sh
+
+  skycluster profile create -f <provider-profile-file>.yaml -n <provider-name>
 
 After creating a ``ProfileProvider`` resource, the SkyCluster operator generates a ConfigMap in the ``skycluster-system`` namespace containing the available images and instance types for that provider. Verify that the provider profile is ready by checking its status:
 
 .. code-block:: sh
 
-  kubectl get providerprofile -n skycluster-system
+  skycluster profile list
   # NAME            REGION      READY
   # aws-us-east-1   us-east-1   Ready
 
+  # optional: You can also verify the created ConfigMap
   # List the config maps for the provider profile
   kubectl get cm -n skycluster-system \
     -l skycluster.io/config-type=provider-profile
@@ -157,23 +145,17 @@ Provider Profiles
 
 .. code-block:: yaml
 
-    apiVersion: core.skycluster.io/v1alpha1
-    kind: ProviderProfile
-    metadata:
-      name: savi-scinet-default
-      namespace: skycluster-system
-    spec:
-      platform: openstack
-      region: scinet
-      regionAlias: scinet # Optional
-      continent: north-america # Optional
-      enabled: true
-      zones:
-        - name: default
-          locationName: default # Optional
-          defaultZone: true
-          enabled: true
-          type: edge
+    platform: openstack
+    region: scinet
+    regionAlias: scinet # Optional
+    continent: north-america # Optional
+    enabled: true
+    zones:
+      - name: default
+        locationName: default # Optional
+        defaultZone: true
+        enabled: true
+        type: edge
 
 
 .. note::
@@ -185,7 +167,7 @@ Provider Profiles
 
   .. code-block:: sh
 
-    kubectl get providerprofile -n skycluster-system
+    skycluster profile list
     # NAME                  REGION      READY
     # savi-scinet-default   scinet      False
 
