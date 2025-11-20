@@ -87,10 +87,11 @@ Before you begin make sure you have followed steps in :doc:`/examples/single-pro
           podCidr: 
             cidr: 172.17.0.0/16
           
-          # There is a default node pool created by GKE with one node
+          # There is a default node pool created with one node
           nodeGroups: 
           - nodeCount: 2
-            instanceType: 2vCPU-4GB
+            instanceTypes: 
+              - 2vCPU-4GB
             publicAccess: false
             autoScaling:
               enabled: true
