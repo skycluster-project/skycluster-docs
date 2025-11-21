@@ -585,6 +585,7 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="installation.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -661,6 +662,178 @@ html[data-mode="dark"] {
 <p>SkyCluster offers a unified plane across multiple providers to support running your applications in a multi-cloud environment. However, you can also use SkyCluster to deploy and manage applications within a single cloud provider or on-premises environment. The following examples demonstrate how to use SkyCluster in different deployment scenarios.</p>
 <section id="single-provider-example">
 <h2>Single-Provider Example<a class="headerlink" href="#single-provider-example" title="Link to this heading">#</a></h2>
+<p>Provision an environment where you can use as development and testing environment within a single cloud provider. When you are ready to deploy your application to production, you can easily migrate your workloads to a multi-cloud setup.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Ensure you have followed the <a class="reference internal" href="installation.html"><span class="doc">installation</span></a> section.</p></li>
+<li><p>Ensure you have set up your cloud provider as described in the <a class="reference internal" href="providers-profile.html"><span class="doc">provider profile</span></a> section.</p></li>
+</ul>
+</div></blockquote>
+<section id="set-up-your-provider">
+<h3>Set up your provider<a class="headerlink" href="#set-up-your-provider" title="Link to this heading">#</a></h3>
+<p>Use yaml file below to prepare your cloud provider:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unique identifier for the setup/application</span>
+<span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single-provider-example</span>
+
+<span class="nt">vpcCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.0.0/16</span>
+<span class="c1"># Subnet CIDRs should be within the VPC CIDR range</span>
+<span class="nt">subnets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">public</span>
+<span class="w">    </span><span class="c1"># must be within the VPC CIDR range</span>
+<span class="w">    </span><span class="c1"># and not have overlap with other subnets</span>
+<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.0.0/19</span>
+<span class="w">    </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
+
+<span class="w">    </span><span class="c1"># Some services such as EKS require multiple availability zones</span>
+<span class="w">    </span><span class="c1"># so we define a secondary zone here</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">private</span>
+<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.32.0/19</span>
+<span class="w">    </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
+
+<span class="c1"># Provider specifications</span>
+<span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">  </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># The provider is identified by the primary zone</span>
+<span class="w">    </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
+<span class="w">    </span><span class="c1"># Secondary zones are used for high availability or services</span>
+<span class="w">    </span><span class="c1"># that require multiple availability zones such as EKS</span>
+<span class="w">    </span><span class="nt">secondary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
+</pre></div>
+</div>
+<p>Create your environment by running the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>single-provider-example.yaml<span class="w"> </span>-n<span class="w"> </span>aws-us-east-1
+
+<span class="c1"># Verify the environment is created,</span>
+<span class="c1"># All fields must be populated</span>
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
+<span class="c1"># NAME            PRIVATE_IP    PUBLIC_IP    CIDR_BLOCK</span>
+<span class="c1"># aws-us-east1                               10.40.0.0/16</span>
+</pre></div>
+</div>
+<p>You can use the dashboard to monitor and manage the resources hierarchy:</p>
+<a class="mb-3 reference internal image-reference" href="../_images/skycluster-dashboard-composition.jpg"><img alt="Provider Dashboard for Compositions" class="mb-3 align-center" src="../_images/skycluster-dashboard-composition.jpg" style="width: 90%;" />
+</a>
+</section>
+<section id="create-a-virtual-machine">
+<h3>Create a virtual machine<a class="headerlink" href="#create-a-virtual-machine" title="Link to this heading">#</a></h3>
+<p>Now let’s deploy a virtual machine with docker runtime to run your containerized application:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east</span>
+<span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+<span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+
+<span class="c1"># You don&#39;t need to specify public IP</span>
+<span class="c1"># since you can access the VM via overlay</span>
+<span class="c1"># publicIp: true</span>
+
+<span class="nt">rootVolumes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20&quot;</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gp2</span><span class="w"> </span><span class="c1"># AWS specific volume type</span>
+
+<span class="c1"># Docker container specifications</span>
+<span class="c1"># All variables must be specified even if empty</span>
+<span class="nt">dockerSpec</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">IMAGE=&quot;nginxdemos/hello:latest&quot;</span>
+<span class="w">  </span><span class="no">NAME=&quot;demo-hello&quot;</span>
+
+<span class="w">  </span><span class="no"># Port mappings as &quot;host:container&quot; separated by space</span>
+<span class="w">  </span><span class="no">PORT_MAPPINGS=&quot;8080:80 9090:90&quot;</span>
+
+<span class="w">  </span><span class="no"># Environment variables as &quot;KEY=value&quot; separated by space</span>
+<span class="w">  </span><span class="no">ENVS=&quot;DEMO=1 ENV=dev&quot;</span>
+
+<span class="w">  </span><span class="no">RESTART=&quot;--restart unless-stopped&quot;</span>
+
+<span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">  </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
+</pre></div>
+</div>
+<p>Check the status using cli or dashboard:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
+<span class="c1"># NAME     PRIVATE_IP    PUBLIC_IP    SPOT    SYNC    READY</span>
+<span class="c1"># awsvm    10.40.34.5    -            True    True    True</span>
+</pre></div>
+</div>
+<p>Connect to the VM using overlay network:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># First ensure ssh is enabled on the provider(s)</span>
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>ssh<span class="w"> </span>--enable
+<span class="c1"># added/updated ssh entry for aws-us-east -&gt; 18.213.192.77</span>
+
+<span class="c1"># Then connect to the VM using provider name as proxy jump host</span>
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
+<span class="c1"># NAME      PROVIDER       PRIVATE_IP     PUBLIC_IP    SPOT    SYNC    READY</span>
+<span class="c1"># awsvm1    aws-us-east    10.40.58.36    -            True    True    True</span>
+
+<span class="c1"># now use the provider as jump host to access the VM</span>
+ssh<span class="w"> </span>-J<span class="w"> </span>aws-us-east<span class="w"> </span>ubuntu@10.40.58.36
+</pre></div>
+</div>
+</section>
+<section id="create-a-kubernetes-cluster">
+<h3>Create a Kubernetes Cluster<a class="headerlink" href="#create-a-kubernetes-cluster" title="Link to this heading">#</a></h3>
+<p>Just like creating a VM, you can create a Kubernetes cluster within the same provider:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unique identifier for the setup/application</span>
+<span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east</span>
+
+<span class="c1"># Service CIDR should be a non overlapping CIDR with the VPC CIDR</span>
+<span class="nt">serviceCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.255.0.0/16</span>
+
+<span class="nt">podCidr</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># AWS requires two zones to deploy an EKS cluster</span>
+<span class="w">  </span><span class="c1"># Each zone requires a non-overlapping subnet</span>
+<span class="w">  </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.128.0/17</span>
+<span class="w">  </span><span class="nt">public</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.128.0/18</span>
+<span class="w">  </span><span class="nt">private</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.192.0/18</span>
+
+<span class="c1"># There is a one node group automatically created to support</span>
+<span class="c1"># the control plane. You can define additional node groups here.</span>
+<span class="c1"># The number of node groups scales with yout workload.</span>
+<span class="nt">nodeGroups</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceTypes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;4vCPU-16GB&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceTypes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;2vCPU-4GB&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="nt">principal</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">servicePrincipal</span><span class="w"> </span><span class="c1"># user | role | serviceAccount | servicePrincipal | managedIdentity</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::885707601199:root&quot;</span><span class="w"> </span><span class="c1"># ARN (AWS) | member (GCP) | principalId (Azure)</span>
+<span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">  </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># The provider is identified by the primary zone</span>
+<span class="w">    </span><span class="c1"># Secondary zones are used for high availability or services</span>
+<span class="w">    </span><span class="c1"># that require multiple availability zones such as EKS</span>
+<span class="w">    </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
+<span class="w">    </span><span class="nt">secondary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
+</pre></div>
+</div>
+<p>Try checking the status of your cluster:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkube<span class="w"> </span>list
+<span class="c1"># NAME                 PLATFORM    POD_CIDR          SERVICE_CIDR     LOCATION      EXTERNAL_NAME</span>
+<span class="c1"># xkube-aws-us-east    aws         10.40.128.0/17    10.255.0.0/16    us-east-1a    xkube-aws-us-east-ghgxd</span>
+</pre></div>
+</div>
+<p>Try accessing the cluster using kubectl:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkube<span class="w"> </span>config<span class="w"> </span>-k<span class="w"> </span>xkube-aws-us-east<span class="w"> </span>-o<span class="w"> </span>/tmp/aws1_kubeconfig
+<span class="c1"># Wrote kubeconfig to /tmp/aws1_kubeconfig</span>
+
+<span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/aws1_kubeconfig<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<span class="c1"># NAME                             STATUS   ROLES    AGE   VERSION</span>
+<span class="c1"># ip-10-40-128-10.ec2.internal     Ready    &lt;none&gt;   10m   v1.24.6-eks-6c8b9f</span>
+<span class="c1"># ip-10-40-192-12.ec2.internal     Ready    &lt;none&gt;   10m   v1.24.6-eks-6c8b9f</span>
+
+<span class="c1"># Use k9s for better kubernetes experience (if installed)</span>
+<span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/aws1_kubeconfig<span class="w"> </span>k9s
+</pre></div>
+</div>
+<p>For some providers such as AWS, you have a flat network between VMs and Kubernetes pods. You can access your pod directly from the VM and vice versa without any additional setup. However, for providers such as GCP, this may not be the case, since the Pod CIDR is not routable from the VM by default.</p>
+<p>For fuether examples on running applications and pipelines automatically on SkyCluster, please refer to the <a class="reference internal" href="../examples/index.html"><span class="doc">examples</span></a> section.</p>
+</section>
 </section>
 <section id="multi-provider-example">
 <h2>Multi-Provider Example<a class="headerlink" href="#multi-provider-example" title="Link to this heading">#</a></h2>
@@ -714,7 +887,12 @@ html[data-mode="dark"] {
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-provider-example">Single-Provider Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-provider-example">Single-Provider Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-your-provider">Set up your provider</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-machine">Create a virtual machine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-kubernetes-cluster">Create a Kubernetes Cluster</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-provider-example">Multi-Provider Example</a></li>
 </ul>
   </nav></div>

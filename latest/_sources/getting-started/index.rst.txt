@@ -6,6 +6,7 @@
   :maxdepth: 2
   :hidden:
 
+  Overview <self>
   installation
   providers-auth
   providers-profile

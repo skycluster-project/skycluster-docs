@@ -5,6 +5,7 @@ Examples
   :hidden:
   :maxdepth: 2
   
+  Overview <self>
   single-provider
   multi-provider
   microservice-deploy

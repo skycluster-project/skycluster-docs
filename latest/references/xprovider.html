@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Virtual Instance &#8212; SkyCluster Docs</title>
+    <title>xProvider Resource &#8212; SkyCluster Docs</title>
   
   
   
@@ -47,13 +47,11 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/xinstance';</script>
-    <link rel="canonical" href="https://skycluster.io/examples/xinstance.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'references/xprovider';</script>
+    <link rel="canonical" href="https://skycluster.io/references/xprovider.html" />
     <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Managed Kubernetes Cluster" href="xkube.html" />
-    <link rel="prev" title="Setup Provider" href="single-provider.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="latest" />
@@ -158,15 +156,15 @@
 </li>
 
 
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
     Examples
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../references/index.html">
+  <a class="nav-link nav-internal" href="index.html">
     References
   </a>
 </li>
@@ -185,7 +183,7 @@
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="xinstance.html" selected>
+        <option value="xprovider.html" selected>
           latest
         </option>
     </select>
@@ -355,7 +353,7 @@ html[data-mode="dark"] {
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="xinstance.html" selected>
+        <option value="xprovider.html" selected>
           latest
         </option>
     </select>
@@ -501,8 +499,10 @@ html[data-mode="dark"] {
       
       
       
+        
+      
       <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -524,15 +524,15 @@ html[data-mode="dark"] {
 </li>
 
 
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
     Examples
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../references/index.html">
+  <a class="nav-link nav-internal" href="index.html">
     References
   </a>
 </li>
@@ -575,33 +575,6 @@ html[data-mode="dark"] {
     
   </div>
   
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-<nav class="bd-docs-nav bd-links"
-     aria-label="Section Navigation">
-  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="single-provider.html">Setup Provider</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Virtual Instance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="xkube.html">Managed Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="multi-provider.html">Multi Provider Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="xkubemesh.html">Multi-cluster Kubernetes Cluster</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
-</ul>
-</details></li>
-</ul>
-</details></li>
-</ul>
-</div>
-</nav></div>
-    </div>
-  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
       <div class="sidebar-primary-item">
@@ -637,13 +610,7 @@ html[data-mode="dark"] {
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
-    
-    
-    <li class="breadcrumb-item"><a href="single-provider.html" class="nav-link">Setup Provider</a></li>
-    
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Virtual Instance</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">xProvider Resource</span></li>
   </ul>
 </nav>
 </div>
@@ -660,92 +627,41 @@ html[data-mode="dark"] {
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="virtual-instance">
-<h1>Virtual Instance<a class="headerlink" href="#virtual-instance" title="Link to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-</div>
-<p><strong>Prerequisites:</strong> To complete this example, you need to have a functional <code class="docutils literal notranslate"><span class="pre">XProvider</span></code> instance as described in <a class="reference internal" href="single-provider.html"><span class="doc">Setup Provider</span></a>.</p>
-<p><strong>Summary:</strong> This example demonstrates how to create and manage virtual instances using SkyCluster. Virtual instances are defined using the <code class="docutils literal notranslate"><span class="pre">XInstance</span></code> custom resource. For on-premises edge providers, you can directly use the physical machines as worker nodes by creating <code class="docutils literal notranslate"><span class="pre">DeviceNode</span></code> resources as described in <a class="reference internal" href="../getting-started/providers-profile.html"><span class="doc">Providers Profiles</span></a>.</p>
-<p>You can create a virtual instance by defining an <code class="docutils literal notranslate"><span class="pre">XInstance</span></code> resource. This resource specifies the configuration details for the instance, including the flavor, image, networking options, and any user data scripts to be executed upon initialization.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster.io/v1alpha1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XInstance</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-instance-us-east</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="c1"># Unique identifier for the setup/application</span>
-<span class="w">  </span><span class="c1"># Must be same as the one used in the provider instance (for AWS)</span>
-<span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east</span>
+  <section id="xprovider-resource">
+<h1>xProvider Resource<a class="headerlink" href="#xprovider-resource" title="Link to this heading">#</a></h1>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unique identifier for the setup/application</span>
+<span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east</span>
 
-<span class="w">  </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
-
-<span class="w">  </span><span class="c1"># Images are defined by images.core.skycluster.io custom resources</span>
-<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
-
-<span class="w">  </span><span class="c1"># publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3...</span>
-<span class="w">  </span><span class="c1"># Optional: the default public key is used if not specified</span>
-
-<span class="w">  </span><span class="c1"># If publicIp set to true, a public IP will be assigned to the instance</span>
-<span class="w">  </span><span class="nt">publicIp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-
-<span class="w">  </span><span class="c1"># Optional: the user data should follow the cloud-init format</span>
-<span class="w">  </span><span class="nt">userData</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">    </span><span class="no">#cloud-config</span>
-<span class="w">    </span><span class="no">write_files:</span>
-<span class="w">      </span><span class="no">- path: /tmp/hello.sh</span>
-<span class="w">        </span><span class="no">owner: root:root</span>
-<span class="w">        </span><span class="no">permissions: &#39;0755&#39;</span>
-<span class="w">        </span><span class="no">content: |</span>
-<span class="w">          </span><span class="no">#!/bin/sh</span>
-<span class="w">          </span><span class="no">echo &quot;Hello, World!&quot; &gt; /tmp/hello.txt</span>
-<span class="w">    </span><span class="no">runcmd:</span>
-<span class="w">      </span><span class="no">- chmod +x /tmp/hello.sh</span>
-<span class="w">      </span><span class="no">- /tmp/hello.sh</span>
-
-<span class="w">  </span><span class="c1"># Optional: security groups can be defined to allow specific ports</span>
-<span class="w">  </span><span class="c1"># securityGroups:</span>
-<span class="w">  </span><span class="c1">#   tcpPorts:</span>
-<span class="w">  </span><span class="c1">#     - fromPort: 22</span>
-<span class="w">  </span><span class="c1">#       toPort: 22</span>
-<span class="w">  </span><span class="c1">#       protocol: tcp</span>
-<span class="w">  </span><span class="c1">#   udpPorts:</span>
-<span class="w">  </span><span class="c1">#     - fromPort: 80</span>
-<span class="w">  </span><span class="c1">#       toPort: 80</span>
-<span class="w">  </span><span class="c1">#       protocol: udp</span>
-
-<span class="w">  </span><span class="c1"># Optional</span>
-<span class="w">  </span><span class="c1"># rootVolumes:</span>
-<span class="w">  </span><span class="c1">#   - size: 20Gi</span>
-<span class="w">  </span><span class="c1">#     type: gp2</span>
-
-<span class="w">  </span><span class="nt">providerRef</span><span class="p">:</span>
-<span class="w">    </span><span class="c1"># Provider reference must match the one used in the provider instance</span>
-<span class="w">    </span><span class="c1"># (for AWS)</span>
-<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
-<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="nt">vpcCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.0.0/16</span>
+<span class="c1"># Subnet CIDRs should be within the VPC CIDR range</span>
+<span class="nt">subnets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">public</span>
+<span class="w">    </span><span class="c1"># Ensure the subnet CIDR range is within the VPC CIDR range</span>
+<span class="w">    </span><span class="c1"># and does not overlap with other subnets and is</span>
+<span class="w">    </span><span class="c1"># appropriately sized for the expected number of resources</span>
+<span class="w">    </span><span class="c1"># in this example, we reserve the half of the IPs</span>
+<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.0.0/19</span>
 <span class="w">    </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Check the status of the <code class="docutils literal notranslate"><span class="pre">XInstance</span></code> resource by running the following command or through <span class="xref std std-doc">/getting-started/skycluster-dashboard</span>.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>xinstances.skycluster.io
-<span class="c1"># NAME                          SYNC     STATUS</span>
-<span class="c1"># example-instance-us-east      Ready    Ready</span>
-</pre></div>
-</div>
-<p>You can also use the SkyCluster cli commadnd:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
-<span class="c1"># NAME                            PUBLIC_IP        PRIVATE_IP</span>
-<span class="c1"># example-kube-os-scinet-nd4qq                     10.16.128.12</span>
-<span class="c1"># example-kube-os-scinet-w4mtz    142.1.174.183    10.16.128.16</span>
-</pre></div>
-</div>
-</div>
-<p>If you enable a public IP for your <code class="docutils literal notranslate"><span class="pre">XInstance</span></code>, you can access it directly from anywhere
-using the instance’s <code class="docutils literal notranslate"><span class="pre">External</span> <span class="pre">IP</span></code>.
-Otherwise, the instance is accessible only via its private IP from the machine running the SkyCluster system.</p>
-<p>You need to use the key described in the SkyCluster Secret configuration section of <a class="reference internal" href="../getting-started/installation.html"><span class="doc">Installation</span></a>.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-i<span class="w"> </span>id_rsa<span class="w"> </span>ubuntu@&lt;instance-ip&gt;
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">private</span>
+<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.40.32.0/19</span>
+<span class="w">    </span><span class="c1"># Some services such as EKS require multiple availability zones</span>
+<span class="w">    </span><span class="c1"># so we define a secondary zone here</span>
+<span class="w">    </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
+<span class="nt">gateway</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Flavor is defined as the number of vCPUs and memory</span>
+<span class="w">  </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
+<span class="w">  </span><span class="nt">volumeType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gp2</span>
+<span class="w">  </span><span class="nt">volumeSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+
+<span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">  </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># The provider is identified by the primary zone</span>
+<span class="w">    </span><span class="c1"># Secondary zones are used for high availability or services</span>
+<span class="w">    </span><span class="c1"># that require multiple availability zones such as EKS</span>
+<span class="w">    </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
+<span class="w">    </span><span class="nt">secondary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
 </pre></div>
 </div>
 </section>
@@ -760,24 +676,6 @@ Otherwise, the instance is accessible only via its private IP from the machine r
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="single-provider.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Setup Provider</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="xkube.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Managed Kubernetes Cluster</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
