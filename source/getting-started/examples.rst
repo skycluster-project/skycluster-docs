@@ -86,14 +86,43 @@ Now let's deploy a virtual machine:
   # publicIp: true
 
   rootVolumes:
-    - size: 20Gi
-      type: gp2
+    - size: "20"
+      type: gp2 # AWS specific volume type
   
   providerRef:
     platform: aws
     region: us-east-1
     zone: us-east-1a
 
+Check the status using cli or dashboard:
+
+.. code-block:: bash
+
+  skycluster xinstance list
+  # NAME     PRIVATE_IP    PUBLIC_IP    SPOT    SYNC    READY
+  # awsvm    10.40.34.5    -            True    True    True
+
+
+Create a Kubernetes Cluster
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Just like creating a VM, you can create a Kubernetes cluster within the same provider:
+
+.. code-block:: yaml
+
+  applicationId: aws-eks-cluster
+  version: "1.24"
+  nodeGroups:
+    - name: ng-1
+      instanceType: t3.medium
+      desiredCapacity: 2
+      minSize: 2
+      maxSize: 4
+
+  providerRef:
+    platform: aws
+    region: us-east-1
+    zone: us-east-1a
 
 Multi-Provider Example
 -----------------------------------
