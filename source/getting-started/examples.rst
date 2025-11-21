@@ -73,7 +73,7 @@ You can use the dashboard to monitor and manage the resources hierarchy:
 Create a virtual machine
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now let's deploy a virtual machine:
+Now let's deploy a virtual machine with docker runtime to run your containerized application:
 
 .. code-block:: yaml
 
@@ -88,6 +88,20 @@ Now let's deploy a virtual machine:
   rootVolumes:
     - size: "20"
       type: gp2 # AWS specific volume type
+
+  # Docker container specifications
+  # All variables must be specified even if empty
+  dockerSpec: |
+    IMAGE="nginxdemos/hello:latest"
+    NAME="demo-hello"
+
+    # Port mappings as "host:container" separated by space
+    PORT_MAPPINGS="8080:80 9090:90"
+
+    # Environment variables as "KEY=value" separated by space
+    ENVS="DEMO=1 ENV=dev"
+
+    RESTART="--restart unless-stopped"
   
   providerRef:
     platform: aws
@@ -102,6 +116,22 @@ Check the status using cli or dashboard:
   # NAME     PRIVATE_IP    PUBLIC_IP    SPOT    SYNC    READY
   # awsvm    10.40.34.5    -            True    True    True
 
+Connect to the VM using overlay network:
+
+.. code-block:: sh
+
+  # First ensure ssh is enabled on the provider(s)
+  skycluster xprovider ssh --enable
+  # added/updated ssh entry for aws-us-east -> 18.213.192.77
+
+  # Then connect to the VM using provider name as proxy jump host
+  skycluster xinstance list
+  # NAME      PROVIDER       PRIVATE_IP     PUBLIC_IP    SPOT    SYNC    READY
+  # awsvm1    aws-us-east    10.40.58.36    -            True    True    True
+
+  # now use the provider as jump host to access the VM
+  ssh -J aws-us-east ubuntu@10.40.58.36
+
 
 Create a Kubernetes Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -110,19 +140,68 @@ Just like creating a VM, you can create a Kubernetes cluster within the same pro
 
 .. code-block:: yaml
 
-  applicationId: aws-eks-cluster
-  version: "1.24"
+  # Unique identifier for the setup/application
+  applicationId: aws-us-east
+  
+  # Service CIDR should be a non overlapping CIDR with the VPC CIDR
+  serviceCidr: 10.255.0.0/16
+  
+  podCidr: 
+    # AWS requires two zones to deploy an EKS cluster
+    # Each zone requires a non-overlapping subnet 
+    cidr: 10.40.128.0/17 
+    public: 10.40.128.0/18
+    private: 10.40.192.0/18
+  
+  # There is a one node group automatically created to support
+  # the control plane. You can define additional node groups here.
+  # The number of node groups scales with yout workload.
   nodeGroups:
-    - name: ng-1
-      instanceType: t3.medium
-      desiredCapacity: 2
-      minSize: 2
-      maxSize: 4
-
+  - instanceTypes: ["4vCPU-16GB"]
+    publicAccess: false
+    
+  - instanceTypes: ["2vCPU-4GB"]
+    publicAccess: false
+    
+  principal:
+    type: servicePrincipal # user | role | serviceAccount | servicePrincipal | managedIdentity
+    id: "arn:aws:iam::885707601199:root" # ARN (AWS) | member (GCP) | principalId (Azure)
   providerRef:
     platform: aws
     region: us-east-1
-    zone: us-east-1a
+    zones:
+      # The provider is identified by the primary zone
+      # Secondary zones are used for high availability or services
+      # that require multiple availability zones such as EKS
+      primary: us-east-1a
+      secondary: us-east-1b
+
+Try checking the status of your cluster:
+
+.. code-block:: sh
+
+  skycluster xkube list
+  # NAME                 PLATFORM    POD_CIDR          SERVICE_CIDR     LOCATION      EXTERNAL_NAME
+  # xkube-aws-us-east    aws         10.40.128.0/17    10.255.0.0/16    us-east-1a    xkube-aws-us-east-ghgxd
+
+Try accessing the cluster using kubectl:
+
+.. code-block:: sh
+
+  skycluster xkube config -k xkube-aws-us-east -o /tmp/aws1_kubeconfig
+  # Wrote kubeconfig to /tmp/aws1_kubeconfig
+
+  KUBECONFIG=/tmp/aws1_kubeconfig kubectl get nodes
+  # NAME                             STATUS   ROLES    AGE   VERSION
+  # ip-10-40-128-10.ec2.internal     Ready    <none>   10m   v1.24.6-eks-6c8b9f
+  # ip-10-40-192-12.ec2.internal     Ready    <none>   10m   v1.24.6-eks-6c8b9f
+
+  # Use k9s for better kubernetes experience (if installed)
+  KUBECONFIG=/tmp/aws1_kubeconfig k9s
+
+For some providers such as AWS, you have a flat network between VMs and Kubernetes pods. You can access your pod directly from the VM and vice versa without any additional setup. However, for providers such as GCP, this may not be the case, since the Pod CIDR is not routable from the VM by default. 
+
+For fuether examples on running applications and pipelines automatically on SkyCluster, please refer to the :doc:`examples </examples/index>` section.
 
 Multi-Provider Example
 -----------------------------------
