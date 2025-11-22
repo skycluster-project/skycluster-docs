@@ -136,45 +136,83 @@ Connect to the VM using overlay network:
 Create a Kubernetes Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Just like creating a VM, you can create a Kubernetes cluster within the same provider:
+Just like creating a VM, you can create a Kubernetes cluster within the same provider. There are subtle differences in the configuration depending on the cloud provider. Please refer to the :doc:`reference </references/index>` section for more details. Below is an example for AWS EKS and GCP GKE. 
 
-.. code-block:: yaml
+.. tabs::
 
-  # Unique identifier for the setup/application
-  applicationId: aws-us-east
-  
-  # Service CIDR should be a non overlapping CIDR with the VPC CIDR
-  serviceCidr: 10.255.0.0/16
-  
-  podCidr: 
-    # AWS requires two zones to deploy an EKS cluster
-    # Each zone requires a non-overlapping subnet 
-    cidr: 10.40.128.0/17 
-    public: 10.40.128.0/18
-    private: 10.40.192.0/18
-  
-  # There is a one node group automatically created to support
-  # the control plane. You can define additional node groups here.
-  # The number of node groups scales with yout workload.
-  nodeGroups:
-  - instanceTypes: ["4vCPU-16GB"]
-    publicAccess: false
-    
-  - instanceTypes: ["2vCPU-4GB"]
-    publicAccess: false
-    
-  principal:
-    type: servicePrincipal # user | role | serviceAccount | servicePrincipal | managedIdentity
-    id: "arn:aws:iam::885707601199:root" # ARN (AWS) | member (GCP) | principalId (Azure)
-  providerRef:
-    platform: aws
-    region: us-east-1
-    zones:
-      # The provider is identified by the primary zone
-      # Secondary zones are used for high availability or services
-      # that require multiple availability zones such as EKS
-      primary: us-east-1a
-      secondary: us-east-1b
+  .. tab:: AWS EKS
+
+    .. code-block:: yaml
+
+      # Unique identifier for the setup/application
+      applicationId: aws-us-east
+      
+      # Service CIDR should be a non overlapping CIDR with the VPC CIDR
+      serviceCidr: 10.255.0.0/16
+      
+      podCidr: 
+        # AWS requires two zones to deploy an EKS cluster
+        # Each zone requires a non-overlapping subnet 
+        cidr: 10.40.128.0/17 
+        public: 10.40.128.0/18
+        private: 10.40.192.0/18
+      
+      # There is a one node group automatically created to support
+      # the control plane. You can define additional node groups here.
+      # The number of node groups scales with yout workload.
+      nodeGroups:
+      - instanceTypes: ["4vCPU-16GB"]
+        publicAccess: false
+        
+      - instanceTypes: ["2vCPU-4GB"]
+        publicAccess: false
+        
+      principal:
+        type: servicePrincipal # user | role | serviceAccount | servicePrincipal | managedIdentity
+        id: "arn:aws:iam::885707601199:root" # ARN (AWS) | member (GCP) | principalId (Azure)
+      providerRef:
+        platform: aws
+        region: us-east-1
+        zones:
+          # The provider is identified by the primary zone
+          # Secondary zones are used for high availability or services
+          # that require multiple availability zones such as EKS
+          primary: us-east-1a
+          secondary: us-east-1b
+
+  .. tab:: GCP GKE
+
+    .. code-block:: yaml
+
+      # Unique identifier for the setup/application
+      applicationId: gcp-us-central1
+
+      # The node CIDR should be a non overlapping CIDR 
+      # within 10.0.0.0/8 range
+      nodeCidr: 10.18.128.0/18 
+      
+      # Pod adn services CIDR are specified in one block
+      # within 172.16.0.0/12 range. Generally, /20 blocks within
+      # this range are used for services.
+      podCidr: 
+        cidr: 172.20.0.0/16
+      
+      nodeGroups: 
+      - instanceTypes: [4vCPU-16GB]
+        publicAccess: false
+        # Optionally specify auto scaling parameters
+        autoScaling:
+          minSize: 1
+          maxSize: 4
+
+      # - instanceTypes: "4vCPU-4GB"
+      #   publicAccess: false
+        
+      providerRef:
+        platform: gcp
+        region: us-central1
+        zones:
+          primary: us-central1-b
 
 Try checking the status of your cluster:
 
@@ -201,7 +239,33 @@ Try accessing the cluster using kubectl:
 
 For some providers such as AWS, you have a flat network between VMs and Kubernetes pods. You can access your pod directly from the VM and vice versa without any additional setup. However, for providers such as GCP, this may not be the case, since the Pod CIDR is not routable from the VM by default. 
 
-For fuether examples on running applications and pipelines automatically on SkyCluster, please refer to the :doc:`examples </examples/index>` section.
+For more examples on running applications and pipelines automatically on SkyCluster, please refer to the :doc:`examples </examples/index>` section.
 
 Multi-Provider Example
 -----------------------------------
+
+Now let's look at an example of setting up a multi-cloud environment using SkyCluster. In this example, we will provision resources across AWS and GCP providers with inter-cluster connectivity.
+
+Virtual machines
+^^^^^^^^^^^^^^^^^^^^^^
+
+You can create virtual machines across multiple providers as described above. There is no additional configuration needed since SkyCluster automatically sets up the overlay network across all providers. You have reachability between VMs across different providers using the private IPs.
+
+Kubernetes clusters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can create Kubernetes clusters across multiple providers as described above. To enable reachability between pods and services across different providers, you need to follow these additional steps.
+
+  **Prerequisites:**
+
+  - Ensure there are at least two providers set up in your SkyCluster environment.
+  - Ensure you have created Kubernetes clusters on each provider as described above.
+
+Once you have at least two Kubernetes clusters, try activate the inter-cluster connectivity feature:
+
+.. code-block:: bash
+
+  skycluster xkube interconnect --enable
+  # Inter-cluster connectivity enabled between clusters:
+  # - xkube-aws-us-east
+  # - xkube-gcp-us-central1
