@@ -19,7 +19,7 @@ Getting Started
 What is SkyCluster?
 =====================
 
-SkyCluster is a Kubernetes-based platform designed to simplify the deployment, management, and scaling of applications in a cloud-native environment. It provides a robust architecture that leverages Kubernetes' capabilities to support deploying and managing containerized applications across multiple cloud providers and on-premises environments.
+SkyCluster is a Kubernetes-based platform designed to simplify the deployment, management, and scaling of applications in a cloud-native environment. It provides a robust architecture that leverages Kubernetes' capabilities to support deploying and managing containerized applications and AI pipelines across multiple cloud providers and on-premises environments.
 
 With SkyCluster, users can easily create and manage Kubernetes clusters across cloud providers, with built-in support for inter-cluster networking, service discovery and traffic management while minimizing the cost and complexity typically associated with multi-provider deployments.
 

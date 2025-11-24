@@ -587,7 +587,6 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-cli.html">SkyCluster CLI</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -597,6 +596,7 @@ html[data-mode="dark"] {
 <li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="resource-configuration.html">Resource Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -665,10 +665,10 @@ html[data-mode="dark"] {
 <div class="toctree-wrapper compound">
 </div>
 <p>The SkyCluster dashboard is a web-based user interface that allows you to manage and monitor your SkyCluster deployments. Please refer to the project github repository for issues and updates related to the dashboard. To install the dashboard, follow these steps:</p>
-<section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Prerequisites:</strong></p>
 <p>If you use <code class="docutils literal notranslate"><span class="pre">kind</span></code> to run your Kubernetes cluster, make sure you have a load balancer such as <a class="reference external" href="https://kind.sigs.k8s.io/docs/user/loadbalancer/">Kind LoadBalancer</a> configured. This is necessary for the SkyCluster dashboard to be accessible via a LoadBalancer service.</p>
-</section>
+</div></blockquote>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
 <p>The SkyCluster dashboard is automatically deployed with the SkyCluster operator. If you have already installed the operator, you can skip the installation steps below. Check the status of
@@ -688,6 +688,10 @@ kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </
 <section id="manual-installation">
 <h3>Manual Installation<a class="headerlink" href="#manual-installation" title="Link to this heading">#</a></h3>
 <p>To manually install the SkyCluster dashboard, apply the following configuration to your Kubernetes cluster. This configuration creates a deployment and a service for the dashboard:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p><strong>dashboard.yaml</strong></p>
+</div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
 <span class="nt">metadata</span><span class="p">:</span>
@@ -724,6 +728,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </
 <span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8090</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
 </pre></div>
+</div>
 </div>
 <p>Apply the above configuration to your Kubernetes cluster using kubectl and once the dashboard is running, you can access it via the LoadBalancer IP address.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>skycluster-dashboard.yaml
@@ -781,7 +786,6 @@ kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-installation">Manual Installation</a></li>
 </ul>

@@ -7,10 +7,9 @@ SkyCluster Dashboard
 The SkyCluster dashboard is a web-based user interface that allows you to manage and monitor your SkyCluster deployments. Please refer to the project github repository for issues and updates related to the dashboard. To install the dashboard, follow these steps:
 
 
-Prerequisites
-=============
+  **Prerequisites:**
 
-If you use ``kind`` to run your Kubernetes cluster, make sure you have a load balancer such as `Kind LoadBalancer <https://kind.sigs.k8s.io/docs/user/loadbalancer/>`_ configured. This is necessary for the SkyCluster dashboard to be accessible via a LoadBalancer service.
+  If you use ``kind`` to run your Kubernetes cluster, make sure you have a load balancer such as `Kind LoadBalancer <https://kind.sigs.k8s.io/docs/user/loadbalancer/>`_ configured. This is necessary for the SkyCluster dashboard to be accessible via a LoadBalancer service.
 
 Installation
 ===============
@@ -37,43 +36,49 @@ Manual Installation
 
 To manually install the SkyCluster dashboard, apply the following configuration to your Kubernetes cluster. This configuration creates a deployment and a service for the dashboard:
 
-.. code-block:: yaml
+.. container:: toggle
 
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: skycluster-dashboard
-      namespace: skycluster-system
-    spec:
-      replicas: 1
-      selector:
-        matchLabels:
-          app: skycluster-dashboard
-      template:
-        metadata:
-          labels:
+  .. container:: header
+
+    **dashboard.yaml**
+
+  .. code-block:: yaml
+
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: skycluster-dashboard
+        namespace: skycluster-system
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
             app: skycluster-dashboard
-        spec:
-          serviceAccountName: skycluster-sva
-          containers:
-          - name: skycluster-dashboard
-            image: etesami/skycluster-dashboard:latest
-            ports:
-            - containerPort: 8090
-    ---
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: skycluster-dashboard
-      namespace: skycluster-system
-    spec:
-      selector:
-        app: skycluster-dashboard
-      ports:
-      - protocol: TCP
-        port: 80
-        targetPort: 8090
-      type: LoadBalancer
+        template:
+          metadata:
+            labels:
+              app: skycluster-dashboard
+          spec:
+            serviceAccountName: skycluster-sva
+            containers:
+            - name: skycluster-dashboard
+              image: etesami/skycluster-dashboard:latest
+              ports:
+              - containerPort: 8090
+      ---
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: skycluster-dashboard
+        namespace: skycluster-system
+      spec:
+        selector:
+          app: skycluster-dashboard
+        ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 8090
+        type: LoadBalancer
 
     
 Apply the above configuration to your Kubernetes cluster using kubectl and once the dashboard is running, you can access it via the LoadBalancer IP address.

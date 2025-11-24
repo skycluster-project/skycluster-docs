@@ -21,7 +21,7 @@ You can create Kubernetes clusters across multiple providers as described above.
 
 Once you have at least two Kubernetes clusters, try activate the inter-cluster connectivity feature:
 
-.. code-block:: bash
+.. code-block:: sh
 
   # Start by cleaning up any previous inter-cluster setup 
   skycluster cleanup

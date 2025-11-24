@@ -587,7 +587,6 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">SkyCluster CLI</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -597,6 +596,7 @@ html[data-mode="dark"] {
 <li class="toctree-l1 has-children"><a class="reference internal" href="skycluster-configs.html">SkyCluster Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="resource-configuration.html">Resource Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
@@ -674,33 +674,86 @@ html[data-mode="dark"] {
 <p>Create a configuration file in your home directory named <code class="docutils literal notranslate"><span class="pre">.skycluster</span></code>. The configuration file should look like this:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kubeconfig</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/ubuntu/.kube/config</span>
 <span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skycluster-system</span>
+
+<span class="c1"># Show help and usage message</span>
+<span class="l l-Scalar l-Scalar-Plain">skycluster --help</span>
 </pre></div>
 </div>
 </section>
 <section id="available-commands">
 <h2>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading">#</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show help and usage message</span>
-skycluster<span class="w"> </span>--help
-
-<span class="c1"># List all gateway nodes</span>
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
-
-<span class="c1"># List all xinstance instances across all providers</span>
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
-
-<span class="c1"># List all xkube instances across all providers</span>
-skycluster<span class="w"> </span>xkube<span class="w"> </span>list
-skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--all
-skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>--platform<span class="w"> </span>aws
-
-<span class="c1"># Print the kubeconfig of a specific xkube</span>
-skycluster<span class="w"> </span>xkube<span class="w"> </span>config<span class="w"> </span>-k<span class="w"> </span>&lt;xkube-name&gt;
+<section id="profile">
+<h3><code class="docutils literal notranslate"><span class="pre">profile</span></code><a class="headerlink" href="#profile" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all provider profiles</span>
+skycluster<span class="w"> </span>profile<span class="w"> </span>list
+skycluster<span class="w"> </span>profile<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>&lt;provider-config-file&gt;.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;provider-name&gt;
+skycluster<span class="w"> </span>profile<span class="w"> </span>delete<span class="w"> </span>-n<span class="w"> </span>&lt;provider-name&gt;
 </pre></div>
 </div>
+</section>
+<section id="xprovider">
+<h3><code class="docutils literal notranslate"><span class="pre">xprovider</span></code><a class="headerlink" href="#xprovider" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all gateway nodes</span>
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>&lt;provider-config-file&gt;.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;provider-name&gt;
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>delete<span class="w"> </span>-n<span class="w"> </span>&lt;provider-name&gt;
+</pre></div>
+</div>
+</section>
+<section id="xprovider-ssh">
+<h3><code class="docutils literal notranslate"><span class="pre">xprovider</span> <span class="pre">ssh</span></code><a class="headerlink" href="#xprovider-ssh" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable ssh for selected provider(s)</span>
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>ssh<span class="w"> </span>--enable
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>ssh<span class="w"> </span>--disable
+
+<span class="c1"># Enable ssh for a specific provider</span>
+skycluster<span class="w"> </span>xprovider<span class="w"> </span>ssh<span class="w"> </span>-n<span class="w"> </span>&lt;provider-name&gt;<span class="w"> </span>--enable
+</pre></div>
+</div>
+</section>
+<section id="xinstance">
+<h3><code class="docutils literal notranslate"><span class="pre">xinstance</span></code><a class="headerlink" href="#xinstance" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all xinstance instances across all providers</span>
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>list
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>&lt;instance-config-file&gt;.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;instance-name&gt;
+skycluster<span class="w"> </span>xinstance<span class="w"> </span>delete<span class="w"> </span>-n<span class="w"> </span>&lt;instance-name&gt;
+</pre></div>
+</div>
+</section>
+<section id="xkube">
+<h3><code class="docutils literal notranslate"><span class="pre">xkube</span></code><a class="headerlink" href="#xkube" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all xkube instances across all providers</span>
+skycluster<span class="w"> </span>xkube<span class="w"> </span>list
+skycluster<span class="w"> </span>xkube<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>&lt;xkube-config-file&gt;.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;xkube-name&gt;
+skycluster<span class="w"> </span>xkube<span class="w"> </span>delete<span class="w"> </span>-n<span class="w"> </span>&lt;xkube-name&gt;
+</pre></div>
+</div>
+</section>
+<section id="xkube-config">
+<h3><code class="docutils literal notranslate"><span class="pre">xkube</span> <span class="pre">config</span></code><a class="headerlink" href="#xkube-config" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write kubeconfig file for all xkubes</span>
+skycluster<span class="w"> </span>xkube<span class="w"> </span>config<span class="w"> </span>-o<span class="w"> </span>&lt;output-file&gt;.kubeconfig
+
+<span class="c1"># Write kubeconfig file for a specific xkube</span>
+skycluster<span class="w"> </span>xkube<span class="w"> </span>config<span class="w"> </span>-k<span class="w"> </span>&lt;xkube-name&gt;<span class="w"> </span>-o<span class="w"> </span>&lt;output-file&gt;.kubeconfig
+</pre></div>
+</div>
+</section>
+<section id="xkube-mesh">
+<h3><code class="docutils literal notranslate"><span class="pre">xkube</span> <span class="pre">mesh</span></code><a class="headerlink" href="#xkube-mesh" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable inter-cluster connectivity between all existing Kubernetes clusters</span>
+skycluster<span class="w"> </span>xkube<span class="w"> </span>mesh<span class="w"> </span>--enable
+skycluster<span class="w"> </span>xkube<span class="w"> </span>mesh<span class="w"> </span>--disable
+</pre></div>
+</div>
+</section>
+<section id="cleanup">
+<h3><code class="docutils literal notranslate"><span class="pre">cleanup</span></code><a class="headerlink" href="#cleanup" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cleanup overlay and service mesh configurations</span>
+skycluster<span class="w"> </span>cleanup
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
@@ -753,7 +806,17 @@ skycluster<span class="w"> </span>xkube<span class="w"> </span>config<span class
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-commands">Available Commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-commands">Available Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profile"><code class="docutils literal notranslate"><span class="pre">profile</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xprovider"><code class="docutils literal notranslate"><span class="pre">xprovider</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xprovider-ssh"><code class="docutils literal notranslate"><span class="pre">xprovider</span> <span class="pre">ssh</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xinstance"><code class="docutils literal notranslate"><span class="pre">xinstance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xkube"><code class="docutils literal notranslate"><span class="pre">xkube</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xkube-config"><code class="docutils literal notranslate"><span class="pre">xkube</span> <span class="pre">config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xkube-mesh"><code class="docutils literal notranslate"><span class="pre">xkube</span> <span class="pre">mesh</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup"><code class="docutils literal notranslate"><span class="pre">cleanup</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
