@@ -47,8 +47,6 @@ You need to open the following ports on your firewall to allow communication cro
   - **41641/UDP**: Required for overlay setup (tailscale)
   - **8000/TCP**: Required for SkyCluster dashboard
   - **8080/TCP**: Required for overlay setup (headscale)
-
-  ----
   
   - **3000/TCP**: Required for Grafana dashboard (optional)
   - **9090/TCP**: Required for Prometheus monitoring (optional)

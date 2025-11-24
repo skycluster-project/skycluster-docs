@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=bc219c3d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=5f7ef147" />
   
   <!-- So that users can add custom icons -->
@@ -48,6 +49,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../_static/tabs.js?v=3030b3cb"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/single-provider';</script>
     <link rel="canonical" href="https://skycluster.io/examples/single-provider.html" />
@@ -746,12 +748,15 @@ as services are provisioned, and when the Provider is deleted, SkyCluster automa
 <span class="w">  </span><span class="c1"># Unique identifier for the setup/application</span>
 <span class="w">  </span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp-us-east1</span>
 
-<span class="w">  </span><span class="c1"># Subnet CIDRs should be within the VPC CIDR range</span>
 <span class="w">  </span><span class="nt">subnets</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.17.224.0/19</span>
-<span class="w">      </span><span class="c1"># The subnet CIDR range must be within the VPC CIDR range</span>
-<span class="w">      </span><span class="c1"># and does not overlap with other subnets and is</span>
-<span class="w">      </span><span class="c1"># appropriately sized for the expected number of resources</span>
+<span class="w">      </span><span class="c1"># For subnets in GCP, you only need to specify</span>
+<span class="w">      </span><span class="c1"># the subnet CIDR range and there is no need to define the</span>
+<span class="w">      </span><span class="c1"># VPC CIDR separately as in other providers.</span>
+<span class="w">      </span><span class="c1">#</span>
+<span class="w">      </span><span class="c1"># It must be appropriately sized for the expected number</span>
+<span class="w">      </span><span class="c1"># of resources</span>
+
 <span class="w">      </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east1-b</span>
 
 <span class="w">  </span><span class="nt">gateway</span><span class="p">:</span>

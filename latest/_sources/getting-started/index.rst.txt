@@ -10,7 +10,7 @@
   installation
   providers-auth
   providers-profile
-  examples
+  examples/index
   
   
 Getting Started

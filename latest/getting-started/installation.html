@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=bc219c3d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -47,6 +48,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/installation';</script>
     <link rel="canonical" href="https://skycluster.io/getting-started/installation.html" />
     <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
@@ -595,7 +597,11 @@ html[data-mode="dark"] {
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers-profile.html">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Quick Start Examples</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Quick Start Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/single-provider.html">Single-Provider Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/multi-provider.html">Multi-Provider Example</a></li>
+</ul>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -690,8 +696,6 @@ including a local cluster created using <a class="reference external" href="http
 <li><p><strong>41641/UDP</strong>: Required for overlay setup (tailscale)</p></li>
 <li><p><strong>8000/TCP</strong>: Required for SkyCluster dashboard</p></li>
 <li><p><strong>8080/TCP</strong>: Required for overlay setup (headscale)</p></li>
-</ul>
-<ul class="simple">
 <li><p><strong>3000/TCP</strong>: Required for Grafana dashboard (optional)</p></li>
 <li><p><strong>9090/TCP</strong>: Required for Prometheus monitoring (optional)</p></li>
 <li><p><strong>6443/TCP</strong>: Required for Kubernetes API server (optional)</p></li>

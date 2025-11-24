@@ -102,12 +102,15 @@ Then create a ``XProvider`` resource:
           # Unique identifier for the setup/application
           applicationId: gcp-us-east1
           
-          # Subnet CIDRs should be within the VPC CIDR range
           subnets:
             - cidr: 10.17.224.0/19
-              # The subnet CIDR range must be within the VPC CIDR range
-              # and does not overlap with other subnets and is
-              # appropriately sized for the expected number of resources
+              # For subnets in GCP, you only need to specify 
+              # the subnet CIDR range and there is no need to define the 
+              # VPC CIDR separately as in other providers.
+              #
+              # It must be appropriately sized for the expected number 
+              # of resources
+
               zone: us-east1-b
 
           gateway:

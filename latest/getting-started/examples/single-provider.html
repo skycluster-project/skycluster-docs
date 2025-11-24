@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="../" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quick Start Examples &#8212; SkyCluster Docs</title>
+    <title>Single-Provider Example &#8212; SkyCluster Docs</title>
   
   
   
@@ -27,33 +27,37 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=bc219c3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=bc219c3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=5f7ef147" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=c6e86fd7"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/documentation_options.js?v=c6e86fd7"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/examples';</script>
-    <link rel="canonical" href="https://skycluster.io/getting-started/examples.html" />
-    <link rel="icon" href="../_static/skycluster-logo1-enhanced-favicon.png"/>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Examples" href="../examples/index.html" />
-    <link rel="prev" title="Providers Profiles" href="providers-profile.html" />
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/tabs.js?v=3030b3cb"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/examples/single-provider';</script>
+    <link rel="canonical" href="https://skycluster.io/getting-started/examples/single-provider.html" />
+    <link rel="icon" href="../../_static/skycluster-logo1-enhanced-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multi-Provider Example" href="multi-provider.html" />
+    <link rel="prev" title="Quick Start Examples" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="latest" />
@@ -86,7 +90,7 @@
   <dialog id="pst-search-dialog">
     
 <form class="bd-search d-flex align-items-center"
-      action="../search.html"
+      action="../../search.html"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -122,7 +126,7 @@
     
   
 
-<a class="navbar-brand logo" href="../index.html">
+<a class="navbar-brand logo" href="../../index.html">
   
   
   
@@ -133,8 +137,8 @@
       
     
     
-    <img src="../_static/skycluster-logo1-enhanced-icon-small.png" class="logo__image only-light" alt=""/>
-    <img src="../_static/skycluster-logo1-enhanced-dark-icon-small.png" class="logo__image only-dark pst-js-only" alt=""/>
+    <img src="../../_static/skycluster-logo1-enhanced-icon-small.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/skycluster-logo1-enhanced-dark-icon-small.png" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">SkyCluster</p>
@@ -152,21 +156,21 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+  <a class="nav-link nav-internal" href="../index.html">
     Getting Started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
     Examples
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../references/index.html">
+  <a class="nav-link nav-internal" href="../../references/index.html">
     References
   </a>
 </li>
@@ -185,7 +189,7 @@
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="examples.html" selected>
+        <option value="single-provider.html" selected>
           latest
         </option>
     </select>
@@ -355,7 +359,7 @@ html[data-mode="dark"] {
   <label class="pd-version-label" for="pd-version-select">Version:</label>
   <div class="pd-version-select-wrap">
     <select id="pd-version-select" onchange="if(this.value) location.href=this.value">
-        <option value="examples.html" selected>
+        <option value="single-provider.html" selected>
           latest
         </option>
     </select>
@@ -522,21 +526,21 @@ html[data-mode="dark"] {
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+  <a class="nav-link nav-internal" href="../index.html">
     Getting Started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
     Examples
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../references/index.html">
+  <a class="nav-link nav-internal" href="../../references/index.html">
     References
   </a>
 </li>
@@ -585,17 +589,21 @@ html[data-mode="dark"] {
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="installation.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installation.html">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-auth.html">Providers Authentication</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../providers-auth.html">Providers Authentication</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="providers-profile.html">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../providers-profile.html">Providers Profiles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Quick Start Examples</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Quick Start Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Single-Provider Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi-provider.html">Multi-Provider Example</a></li>
+</ul>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -632,14 +640,17 @@ html[data-mode="dark"] {
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
-      <a href="../index.html" class="nav-link" aria-label="Home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Getting Started</a></li>
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting Started</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Quick Start Examples</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Quick Start Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Single-Provider Example</span></li>
   </ul>
 </nav>
 </div>
@@ -656,21 +667,17 @@ html[data-mode="dark"] {
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="quick-start-examples">
-<h1>Quick Start Examples<a class="headerlink" href="#quick-start-examples" title="Link to this heading">#</a></h1>
-<p>This section provides quick start examples to help you get up and running with the SkyCluster.</p>
-<p>SkyCluster offers a unified plane across multiple providers to support running your applications in a multi-cloud environment. However, you can also use SkyCluster to deploy and manage applications within a single cloud provider or on-premises environment. The following examples demonstrate how to use SkyCluster in different deployment scenarios.</p>
-<section id="single-provider-example">
-<h2>Single-Provider Example<a class="headerlink" href="#single-provider-example" title="Link to this heading">#</a></h2>
+  <section id="single-provider-example">
+<h1>Single-Provider Example<a class="headerlink" href="#single-provider-example" title="Link to this heading">#</a></h1>
 <p>Provision an environment where you can use as development and testing environment within a single cloud provider. When you are ready to deploy your application to production, you can easily migrate your workloads to a multi-cloud setup.</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Ensure you have followed the <a class="reference internal" href="installation.html"><span class="doc">installation</span></a> section.</p></li>
-<li><p>Ensure you have set up your cloud provider as described in the <a class="reference internal" href="providers-profile.html"><span class="doc">provider profile</span></a> section.</p></li>
+<li><p>Ensure you have followed the <a class="reference internal" href="../installation.html"><span class="doc">installation</span></a> section.</p></li>
+<li><p>Ensure you have set up your cloud provider as described in the <a class="reference internal" href="../providers-profile.html"><span class="doc">provider profile</span></a> section.</p></li>
 </ul>
 </div></blockquote>
 <section id="set-up-your-provider">
-<h3>Set up your provider<a class="headerlink" href="#set-up-your-provider" title="Link to this heading">#</a></h3>
+<h2>Set up your provider<a class="headerlink" href="#set-up-your-provider" title="Link to this heading">#</a></h2>
 <p>Use yaml file below to prepare your cloud provider:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unique identifier for the setup/application</span>
 <span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single-provider-example</span>
@@ -713,11 +720,11 @@ skycluster<span class="w"> </span>xprovider<span class="w"> </span>list
 </pre></div>
 </div>
 <p>You can use the dashboard to monitor and manage the resources hierarchy:</p>
-<a class="mb-3 reference internal image-reference" href="../_images/skycluster-dashboard-composition.jpg"><img alt="Provider Dashboard for Compositions" class="mb-3 align-center" src="../_images/skycluster-dashboard-composition.jpg" style="width: 90%;" />
+<a class="mb-3 reference internal image-reference" href="getting-started/_static/imgs/skycluster-dashboard-composition.jpg"><img alt="Provider Dashboard for Compositions" class="mb-3 align-center" src="getting-started/_static/imgs/skycluster-dashboard-composition.jpg" style="width: 90%;" />
 </a>
 </section>
 <section id="create-a-virtual-machine">
-<h3>Create a virtual machine<a class="headerlink" href="#create-a-virtual-machine" title="Link to this heading">#</a></h3>
+<h2>Create a virtual machine<a class="headerlink" href="#create-a-virtual-machine" title="Link to this heading">#</a></h2>
 <p>Now let’s deploy a virtual machine with docker runtime to run your containerized application:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east</span>
 <span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2vCPU-4GB</span>
@@ -773,9 +780,10 @@ ssh<span class="w"> </span>-J<span class="w"> </span>aws-us-east<span class="w">
 </div>
 </section>
 <section id="create-a-kubernetes-cluster">
-<h3>Create a Kubernetes Cluster<a class="headerlink" href="#create-a-kubernetes-cluster" title="Link to this heading">#</a></h3>
-<p>Just like creating a VM, you can create a Kubernetes cluster within the same provider:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unique identifier for the setup/application</span>
+<h2>Create a Kubernetes Cluster<a class="headerlink" href="#create-a-kubernetes-cluster" title="Link to this heading">#</a></h2>
+<p>Just like creating a VM, you can create a Kubernetes cluster within the same provider. There are subtle differences in the configuration depending on the cloud provider. Please refer to the <a class="reference internal" href="../../references/index.html"><span class="doc">reference</span></a> section for more details. Below is an example for AWS EKS and GCP GKE.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">AWS EKS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">GCP GKE</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unique identifier for the setup/application</span>
 <span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-us-east</span>
 
 <span class="c1"># Service CIDR should be a non overlapping CIDR with the VPC CIDR</span>
@@ -812,6 +820,38 @@ ssh<span class="w"> </span>-J<span class="w"> </span>aws-us-east<span class="w">
 <span class="w">    </span><span class="nt">secondary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1b</span>
 </pre></div>
 </div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unique identifier for the setup/application</span>
+<span class="nt">applicationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp-us-central1</span>
+
+<span class="c1"># The node CIDR should be a non overlapping CIDR</span>
+<span class="c1"># within 10.0.0.0/8 range</span>
+<span class="nt">nodeCidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.18.128.0/18</span>
+
+<span class="c1"># Pod adn services CIDR are specified in one block</span>
+<span class="c1"># within 172.16.0.0/12 range. Generally, /20 blocks within</span>
+<span class="c1"># this range are used for services.</span>
+<span class="nt">podCidr</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.20.0.0/16</span>
+
+<span class="nt">nodeGroups</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">instanceTypes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4vCPU-16GB</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">publicAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="c1"># Optionally specify auto scaling parameters</span>
+<span class="w">  </span><span class="nt">autoScaling</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">minSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+
+<span class="c1"># - instanceTypes: &quot;4vCPU-4GB&quot;</span>
+<span class="c1">#   publicAccess: false</span>
+
+<span class="nt">providerRef</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1</span>
+<span class="w">  </span><span class="nt">zones</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">primary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1-b</span>
+</pre></div>
+</div>
+</div></div>
 <p>Try checking the status of your cluster:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>skycluster<span class="w"> </span>xkube<span class="w"> </span>list
 <span class="c1"># NAME                 PLATFORM    POD_CIDR          SERVICE_CIDR     LOCATION      EXTERNAL_NAME</span>
@@ -832,11 +872,7 @@ ssh<span class="w"> </span>-J<span class="w"> </span>aws-us-east<span class="w">
 </pre></div>
 </div>
 <p>For some providers such as AWS, you have a flat network between VMs and Kubernetes pods. You can access your pod directly from the VM and vice versa without any additional setup. However, for providers such as GCP, this may not be the case, since the Pod CIDR is not routable from the VM by default.</p>
-<p>For fuether examples on running applications and pipelines automatically on SkyCluster, please refer to the <a class="reference internal" href="../examples/index.html"><span class="doc">examples</span></a> section.</p>
-</section>
-</section>
-<section id="multi-provider-example">
-<h2>Multi-Provider Example<a class="headerlink" href="#multi-provider-example" title="Link to this heading">#</a></h2>
+<p>For more examples on running applications and pipelines automatically on SkyCluster, please refer to the <a class="reference internal" href="../../examples/index.html"><span class="doc">examples</span></a> section.</p>
 </section>
 </section>
 
@@ -851,20 +887,20 @@ ssh<span class="w"> </span>-J<span class="w"> </span>aws-us-east<span class="w">
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="providers-profile.html"
+       href="index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Providers Profiles</p>
+        <p class="prev-next-title">Quick Start Examples</p>
       </div>
     </a>
     <a class="right-next"
-       href="../examples/index.html"
+       href="multi-provider.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Examples</p>
+        <p class="prev-next-title">Multi-Provider Example</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -887,13 +923,9 @@ ssh<span class="w"> </span>-J<span class="w"> </span>aws-us-east<span class="w">
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-provider-example">Single-Provider Example</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-your-provider">Set up your provider</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-machine">Create a virtual machine</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-kubernetes-cluster">Create a Kubernetes Cluster</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-provider-example">Multi-Provider Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-your-provider">Set up your provider</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-machine">Create a virtual machine</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-kubernetes-cluster">Create a Kubernetes Cluster</a></li>
 </ul>
   </nav></div>
 
@@ -910,8 +942,8 @@ ssh<span class="w"> </span>-J<span class="w"> </span>aws-us-east<span class="w">
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
  <script type="text/javascript">
     $(document).ready(function() {
