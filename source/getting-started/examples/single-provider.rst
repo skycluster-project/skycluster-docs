@@ -1,10 +1,3 @@
-Quick Start Examples
-============================
-
-
-This section provides quick start examples to help you get up and running with the SkyCluster. 
-
-SkyCluster offers a unified plane across multiple providers to support running your applications in a multi-cloud environment. However, you can also use SkyCluster to deploy and manage applications within a single cloud provider or on-premises environment. The following examples demonstrate how to use SkyCluster in different deployment scenarios.
 
 Single-Provider Example
 -----------------------------------
@@ -240,32 +233,3 @@ Try accessing the cluster using kubectl:
 For some providers such as AWS, you have a flat network between VMs and Kubernetes pods. You can access your pod directly from the VM and vice versa without any additional setup. However, for providers such as GCP, this may not be the case, since the Pod CIDR is not routable from the VM by default. 
 
 For more examples on running applications and pipelines automatically on SkyCluster, please refer to the :doc:`examples </examples/index>` section.
-
-Multi-Provider Example
------------------------------------
-
-Now let's look at an example of setting up a multi-cloud environment using SkyCluster. In this example, we will provision resources across AWS and GCP providers with inter-cluster connectivity.
-
-Virtual machines
-^^^^^^^^^^^^^^^^^^^^^^
-
-You can create virtual machines across multiple providers as described above. There is no additional configuration needed since SkyCluster automatically sets up the overlay network across all providers. You have reachability between VMs across different providers using the private IPs.
-
-Kubernetes clusters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-You can create Kubernetes clusters across multiple providers as described above. To enable reachability between pods and services across different providers, you need to follow these additional steps.
-
-  **Prerequisites:**
-
-  - Ensure there are at least two providers set up in your SkyCluster environment.
-  - Ensure you have created Kubernetes clusters on each provider as described above.
-
-Once you have at least two Kubernetes clusters, try activate the inter-cluster connectivity feature:
-
-.. code-block:: bash
-
-  skycluster xkube interconnect --enable
-  # Inter-cluster connectivity enabled between clusters:
-  # - xkube-aws-us-east
-  # - xkube-gcp-us-central1
