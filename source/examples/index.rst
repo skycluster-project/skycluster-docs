@@ -12,6 +12,11 @@ Examples
 
 We introduce several examples to demonstrate how to use SkyCluster to create and manage services across multiple cloud providers. The examples cover various scenarios, from single-provider deployments to multi-provider configurations and setup and deployment of microservices automatically while minimizing total cost.
 
+.. warning::
+
+  This is a Work In Progress (WIP). The examples are still being developed and refined. 
+
+
 Prerequisites
 =================
 
