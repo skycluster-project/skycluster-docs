@@ -3,7 +3,17 @@ entries:
   skycluster:
   - apiVersion: v2
     appVersion: 0.1.1
-    created: "2025-09-15T19:11:10.300855748Z"
+    created: "2025-11-25T15:10:06.446085947Z"
+    description: SkyCluster Main Helm Chart
+    digest: d511e604c38c2c20eb878132780a39bdc315110285a296b9b10396bac0b5c283
+    name: skycluster
+    type: application
+    urls:
+    - https://skycluster.io/charts/skycluster-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2025-11-25T15:10:06.443660948Z"
     description: SkyCluster Main Helm Chart
     digest: bb2ac24d9db9b2bb05f7c66fb73423e5911a3b2aa335b17e2b1b3fdc5e448265
     name: skycluster
@@ -14,7 +24,17 @@ entries:
   skycluster-crds:
   - apiVersion: v2
     appVersion: 0.1.1
-    created: "2025-09-15T19:11:10.307409503Z"
+    created: "2025-11-25T15:10:06.453062158Z"
+    description: SkyCluster CRDs Helm Chart
+    digest: 53baf1e0692e900430fe30864de5ec42d1879df65c750565ee2df4ea407d7622
+    name: skycluster-crds
+    type: application
+    urls:
+    - https://skycluster.io/charts/skycluster-crds-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2025-11-25T15:10:06.449405782Z"
     description: SkyCluster CRDs Helm Chart
     digest: 1f0f9377dee6e9dc9e4472dfa156f30087c79ca74d41aee431eaef6235d5e05b
     name: skycluster-crds
@@ -22,4 +42,4 @@ entries:
     urls:
     - https://skycluster.io/charts/skycluster-crds-0.1.1.tgz
     version: 0.1.1
-generated: "2025-09-15T19:11:10.298493835Z"
+generated: "2025-11-25T15:10:06.438234915Z"
