@@ -27,7 +27,8 @@ extensions = [
     'sphinx_reredirects',
     'sphinx_sitemap',
     'sphinx_tabs.tabs',
-    'sphinx_multiversion'
+    'sphinx_multiversion',
+    'sphinx_design',
 ]
 
 sphinx_tabs_disable_tab_closing = True
@@ -98,3 +99,6 @@ def setup(app):
     
 # smv_branch_whitelist = '^(dev|latest)$'
 smv_branch_whitelist = '^latest$'
+
+# This allows us to use ::: to denote directives, useful for admonitions
+myst_enable_extensions = ["colon_fence", "linkify", "substitution"]

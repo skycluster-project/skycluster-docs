@@ -24,6 +24,7 @@ RUN pip install --prefix=/install --no-cache-dir \
     sphinx-copybutton \
     sphinx-reredirects \
     sphinx-sitemap \
+    sphinx-design \
     git+https://github.com/etesami/sphinx-tabs.git@robuster_dark_mode_detection \
     sphinx-multiversion
 

@@ -5,7 +5,11 @@ Virtual Instance
 .. toctree::
   :hidden:
 
-Now let's create a virtual instance using the provider instance we just created. Virtual instances are defined using the ``XInstance`` custom resource and is only supported for cloud providers such as AWS, GCP, and Azure and OpenStack. For on-premises edge providers, you can directly use the physical machines as worker nodes by creating ``DeviceNode`` resources as described in :doc:`/getting-started/providers-profile`.
+**Prerequisites:** To complete this example, you need to have a functional ``XProvider`` instance as described in :doc:`/examples/single-provider`.
+
+**Summary:** This example demonstrates how to create and manage virtual instances using SkyCluster. Virtual instances are defined using the ``XInstance`` custom resource. For on-premises edge providers, you can directly use the physical machines as worker nodes by creating ``DeviceNode`` resources as described in :doc:`/getting-started/providers-profile`.
+
+You can create a virtual instance by defining an ``XInstance`` resource. This resource specifies the configuration details for the instance, including the flavor, image, networking options, and any user data scripts to be executed upon initialization.
 
 .. code-block:: yaml
 

@@ -12,13 +12,13 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Pull prebuilt Sphinx Docker image
-      run: docker pull etesami/sphinx-thin:v1.0.2
+      run: docker pull etesami/sphinx-thin:v1.0.3
 
     - name: Build Sphinx docs with multiversion
       run: |
         docker run --rm -v ${{ github.workspace }}:/skycluster \
         -e GIT_CONFIG_GLOBAL=/tmp/gitconfig \
-        etesami/sphinx-thin:v1.0.2 \
+        etesami/sphinx-thin:v1.0.3 \
         /skycluster/source /skycluster/_build/html  
 
     - name: Deploy

@@ -5,8 +5,16 @@ Multi Provider Setup
   :hidden:
 
   xkubemesh
+  connectivity-check
 
-Make sure you have followed steps in :doc:`/getting-started/index` and ensure all  
+**Summary:** In the examples presented here we demonstrate how to set up and manage multiple Kubernetes clusters across different cloud providers and deploy microservice applications across them.
+
+Prerequisites
+-----------------
+
+.. In this section, we will create multiple providers and deploy managed kubernetes clusters on each of them and connect them using SkyCluster's multi-cluster management capabilities.
+
+Before you begin make sure you have followed steps in :doc:`/getting-started/index` and ensure all  
 prerequisites installed and configured, including:
 
 - :doc:`/getting-started/providers-auth`
@@ -19,9 +27,13 @@ At this stage, you should have multiple providers created and ready for use. Che
 .. code-block:: sh
 
     skycluster xprovider list
-    # NAME                  PRIVATE_IP      PUBLIC_IP        CIDR_BLOCK
-    # os-provider-scinet    10.16.128.11    142.1.174.185    10.16.0.0/16
+    # NAME                     PRIVATE_IP      PUBLIC_IP       CIDR_BLOCK
+    # os-provider-scinet       10.16.128.11    142.w.s.185     10.16.0.0/16
+    # xp-aws-us-east--vjpob    10.89.29.168    13.x.y.167      10.89.0.0/16
+    # xp-aws-us-west--s0k84    10.58.3.98      13.z.w.222      10.58.0.0/16
 
 
-From the SkyCluster controller and across all providers, you should be able to reach the services and resources created within the CIDR block of each provider. This resembles a flat network setup created by SkyCluster. Try pinging the private gateway address of each provider from the SkyCluster controller to verify connectivity. Check the :doc:`/getting-started/troubleshooting` page if you encounter any issues.
+If you have enabled the overlay setup for your local machine you should be able to reach the private IP addresses of each provider from your local machine. Try pinging the private gateway address of each provider to verify connectivity. This resembles a flat network setup created by SkyCluster. 
+
+Check the :doc:`/getting-started/troubleshooting` page if you encounter any issues.
 

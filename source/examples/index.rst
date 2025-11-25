@@ -5,8 +5,20 @@ Examples
   :hidden:
   :maxdepth: 2
   
+  Overview <self>
   single-provider
   multi-provider
+  microservice-deploy
+
+We introduce several examples to demonstrate how to use SkyCluster to create and manage services across multiple cloud providers. The examples cover various scenarios, from single-provider deployments to multi-provider configurations and setup and deployment of microservices automatically while minimizing total cost.
+
+.. warning::
+
+  This is a Work In Progress (WIP). The examples are still being developed and refined. 
+
+
+Prerequisites
+=================
 
 To run the examples, you must follow steps in :doc:`/getting-started/index` and setup providers 
 profiles and SkyCluster before creating resources and services.
@@ -30,7 +42,7 @@ In addition, ensure that the XSetup object is configured and ready in your envir
 
   .. code-block:: sh
 
-    kubectl get providerprofiles
+    kubectl get providerprofiles -n skycluster-system
     # NAME                  REGION      READY
     # aws-us-east-1         us-east-1   True
 
@@ -40,7 +52,11 @@ In addition, ensure that the XSetup object is configured and ready in your envir
 List of examples:
 ------------------
 
+Prepare and setup cloud resources and services:
+
 - :doc:`single-provider`
 - :doc:`multi-provider`
 
+Running and deploying microservices:
 
+- :doc:`microservice-deploy`

@@ -1,4 +1,4 @@
-Setup Provider Setup
+Setup Provider
 #######################
 
 .. toctree::
@@ -7,7 +7,11 @@ Setup Provider Setup
   xinstance
   xkube
 
-Make sure you have followed steps in :doc:`/getting-started/index` and ensure all  
+**Summary:** This example demonstrates how to setup and configure a single cloud provider using SkyCluster by defining an ``XProvider`` resource. The ``XProvider`` is a foundational resource that enables the creation and management of other cloud resources and services within the specified provider. 
+
+Once you complete this example, you will have a functional cloud provider setup that can be used to deploy virtual machines, Kubernetes clusters, databases, and other services and you can access to any services inside this provider's VPC through your local machine.
+
+Before you begin make sure you have followed steps in :doc:`/getting-started/index` and ensure all  
 prerequisites installed and configured, including:
 
 - :doc:`/getting-started/providers-auth`
@@ -27,7 +31,7 @@ Before creating a ``XProvider`` resource, ensure you have a ``ProviderProfile`` 
 
 .. code-block:: sh
 
-  kubectl get providerprofile
+  kubectl get providerprofile -n skycluster-system
   # NAME                  PLATFORM    REGION      READY
   # aws-us-east-1         aws         us-east-1   True
 
@@ -69,7 +73,7 @@ Then create a ``XProvider`` resource:
         
           gateway:
             # Flavor is defined as the number of vCPUs and memory
-            flavor: 2vCPU-4GB
+            flavor: 4vCPU-16GB
             volumeType: gp2
             volumeSize: 20
 
@@ -98,12 +102,15 @@ Then create a ``XProvider`` resource:
           # Unique identifier for the setup/application
           applicationId: gcp-us-east1
           
-          # Subnet CIDRs should be within the VPC CIDR range
           subnets:
             - cidr: 10.17.224.0/19
-              # The subnet CIDR range must be within the VPC CIDR range
-              # and does not overlap with other subnets and is
-              # appropriately sized for the expected number of resources
+              # For subnets in GCP, you only need to specify 
+              # the subnet CIDR range and there is no need to define the 
+              # VPC CIDR separately as in other providers.
+              #
+              # It must be appropriately sized for the expected number 
+              # of resources
+
               zone: us-east1-b
 
           gateway:
@@ -236,7 +243,7 @@ The above example creates multiple resources in your project, including a VPC, s
 
   .. code-block:: sh
 
-    kubectl get xproviderd.skycluster.io
+    kubectl get xproviders.skycluster.io
     # NAME                      SYNC     STATUS
     # aws-provider-us-east      Ready    Ready
 
