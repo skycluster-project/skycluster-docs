@@ -13,7 +13,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   namespace: ${NAMESPACE}
-  name: public-private-key
+  name: skycluster-keys
   labels:
     skycluster.io/managed-by: skycluster
     skycluster.io/secret-type: default-keypair
@@ -29,11 +29,11 @@ apiVersion: v1
 kind: Secret
 metadata:
   namespace: ${NAMESPACE}
-  name: k8s-skycluster-management
+  name: skycluster-kubeconfig
   labels:
     skycluster.io/managed-by: skycluster
-    skycluster.io/secret-type: k8s-connection-data
-    skycluster.io/cluster-name: k8s-skycluster-management
+    skycluster.io/secret-type: skycluster-kubeconfig
+    skycluster.io/cluster-name: skycluster-management
 type: Opaque
 data:
   kubeconfig: "${KUBECONFIG_B64}"

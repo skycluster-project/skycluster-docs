@@ -47,7 +47,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: credentials-aws
+  name: secret-aws-credentials
   namespace: ${NAMESPACE}
   labels:
     skycluster.io/managed-by: skycluster
