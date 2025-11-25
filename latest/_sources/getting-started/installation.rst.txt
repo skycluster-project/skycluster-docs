@@ -60,18 +60,33 @@ GCP you need to ensure ``gcloud`` is installed (`installation guide <GCLOUD_>`_)
 
 .. _create-local-cluster:
 
-Create a Local Cluster
+Create a local cluster
 ========================
  
 A local cluster is required to run the ``skycluster-operator`` and act as the point of 
 contact for submitting your application. You can create a local management Kubernetes cluster using ``kind`` with the following command for testing purposes. If your machine has a public IP address you can bound the cluster to it by using the ``--advertise-address`` flag. If you plan to use the cluster for production purposes, you should consider using a more robust solution such as `kubeadm <https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/>`_ or `Rancher <https://rancher.com/docs/rancher/v2.5/quick-start/>`_.
 
+
+.. tip::
+
+  It is recommended to create a kind network with network CIDR within ``192.168.x.0/24`` range to avoid conflicts with cloud provider networks.
+
+  .. code-block:: sh
+
+    # Delete existing kind network if any
+    docker network rm kind
+    
+    # Create a new kind network
+    docker network create kind --subnet=192.168.0.0/24
+
+Create the kind cluster using the following command:
+
 .. code-block:: sh
 
-   kind create cluster --name skycluster --config skycluster-kind.yaml
+  kind create cluster --name skycluster --config skycluster-kind.yaml
 
 
-and the ``skycluster-kind.yaml`` file should contain the following content:
+and the ``skycluster-kind.yaml`` file should contain the following content. Replace ``a.b.c.d`` and ``e.f.g.h`` with your machine's internal and public IP addresses respectively:
 
 .. code-block:: yaml
   :linenos:

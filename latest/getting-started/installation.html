@@ -670,7 +670,7 @@ html[data-mode="dark"] {
 <p>Quick jump links:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#pre-requisites"><span class="std std-ref">Pre-requisites</span></a></p></li>
-<li><p><a class="reference internal" href="#create-local-cluster"><span class="std std-ref">Create a Local Cluster</span></a></p></li>
+<li><p><a class="reference internal" href="#create-local-cluster"><span class="std std-ref">Create a local cluster</span></a></p></li>
 <li><p><a class="reference internal" href="#install-crossplane"><span class="std std-ref">Install Crossplane</span></a></p></li>
 <li><p><a class="reference internal" href="#install-skycluster"><span class="std std-ref">Install SkyCluster</span></a></p></li>
 <li><p><a class="reference internal" href="#skycluster-cli"><span class="std std-ref">SkyCluster CLI</span></a></p></li>
@@ -707,13 +707,25 @@ GCP you need to ensure <code class="docutils literal notranslate"><span class="p
 <hr class="docutils" />
 </section>
 <section id="create-a-local-cluster">
-<span id="create-local-cluster"></span><h2>Create a Local Cluster<a class="headerlink" href="#create-a-local-cluster" title="Link to this heading">#</a></h2>
+<span id="create-local-cluster"></span><h2>Create a local cluster<a class="headerlink" href="#create-a-local-cluster" title="Link to this heading">#</a></h2>
 <p>A local cluster is required to run the <code class="docutils literal notranslate"><span class="pre">skycluster-operator</span></code> and act as the point of
 contact for submitting your application. You can create a local management Kubernetes cluster using <code class="docutils literal notranslate"><span class="pre">kind</span></code> with the following command for testing purposes. If your machine has a public IP address you can bound the cluster to it by using the <code class="docutils literal notranslate"><span class="pre">--advertise-address</span></code> flag. If you plan to use the cluster for production purposes, you should consider using a more robust solution such as <a class="reference external" href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">kubeadm</a> or <a class="reference external" href="https://rancher.com/docs/rancher/v2.5/quick-start/">Rancher</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It is recommended to create a kind network with network CIDR within <code class="docutils literal notranslate"><span class="pre">192.168.x.0/24</span></code> range to avoid conflicts with cloud provider networks.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete existing kind network if any</span>
+docker<span class="w"> </span>network<span class="w"> </span>rm<span class="w"> </span>kind
+
+<span class="c1"># Create a new kind network</span>
+docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>kind<span class="w"> </span>--subnet<span class="o">=</span><span class="m">192</span>.168.0.0/24
+</pre></div>
+</div>
+</div>
+<p>Create the kind cluster using the following command:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kind<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>skycluster<span class="w"> </span>--config<span class="w"> </span>skycluster-kind.yaml
 </pre></div>
 </div>
-<p>and the <code class="docutils literal notranslate"><span class="pre">skycluster-kind.yaml</span></code> file should contain the following content:</p>
+<p>and the <code class="docutils literal notranslate"><span class="pre">skycluster-kind.yaml</span></code> file should contain the following content. Replace <code class="docutils literal notranslate"><span class="pre">a.b.c.d</span></code> and <code class="docutils literal notranslate"><span class="pre">e.f.g.h</span></code> with your machine’s internal and public IP addresses respectively:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cluster</span>
 <span class="linenos"> 2</span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kind.x-k8s.io/v1alpha4</span>
 <span class="linenos"> 3</span><span class="nt">networking</span><span class="p">:</span>
@@ -905,7 +917,7 @@ skycluster<span class="w"> </span>setup<span class="w"> </span><span class="se">
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisites">Pre-requisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-local-cluster">Create a Local Cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-local-cluster">Create a local cluster</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-crossplane">Install Crossplane</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-skycluster">Install SkyCluster</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skycluster-main-chart">SkyCluster Main Chart</a></li>
