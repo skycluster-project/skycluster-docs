@@ -5,45 +5,11 @@ SkyCluster Configuration
   :hidden:
 
 
-SkyCluster Setup
-=================
-
-Create an object of type ``XSetup`` to configure the SkyCluster operator. This object is used to configure the SkyCluster operator and its components, including the provider configs objects for ``provider-helm`` and ``provider-kubernetes`` operator. Make sure the labels are set correctly to ensure the operator can manage the resources.
-
-.. code-block:: yaml
-
-    apiVersion: skycluster.io/v1alpha1
-    kind: XSetup
-    metadata:
-      name: mycluster
-      labels:
-        skycluster.io/managed-by: skycluster
-    spec: 
-      # The public IP of the api server running SkyCluster controller
-      apiServer: A.B.C.D:6443
-      # If set to true, the SkyCluster operator will deploy submariner 
-      # to enable cross-cluster communication
-      submariner:
-        enabled: true
-
-    
-Check the status of the SkyCluster operator:
-
-.. code-block:: bash
-
-    kubectl get xsetup.skycluster.io
-    # NAME              SYNCED   READY   COMPOSITION             AGE
-    # skycluster-mgmt   True     True    xsetups.skycluster.io   21h
-
-Once ready, you can follow the examples in the SkyCluster documentation to deploy applications.
-
-----
-
-Join SkyCluster Overlay
-========================
+Join SkyCluster Overlay (optional)
+===============================================
 
 SkyCluster uses an overlay network to enable communication between private networks across different 
-providers. The overlay network is created using open source ``tailscale`` for client and ``headscale`` as the server, which provides a secure mesh network. The headscale server is deployed in the SkyCluster namespace and is responsible for managing the overlay network. SkyCluster automatically configures the headscale server and the tailscale clients within each provider. However to enabled access to the overlay network from this machine, you need to install the ``tailscale`` client and authenticate it with the headscale server.
+providers. The overlay network is created using open source ``tailscale`` for client and ``headscale`` as the server. The headscale server is deployed in the SkyCluster namespace and is responsible for managing the overlay network. SkyCluster automatically configures the headscale server and the tailscale clients within each provider. However to enabled access to the overlay network from your local machine, you need to install the ``tailscale`` client and authenticate it with the headscale server.
 
 .. note::
 
